@@ -1,0 +1,8 @@
+{
+  "name": "ELIXR",
+  "description": "A social network for coffee enthusiasts. Log your morning session, share your gear, and track your brewing.",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation"
+  ]
+}

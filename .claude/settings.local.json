@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install)",
+      "Bash(npm cache clean:*)",
+      "Bash(npm install:*)",
+      "Bash(npm start)",
+      "Bash(git clone:*)",
+      "Bash(gh repo view:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(npm run dev:*)",
+      "WebSearch",
+      "WebFetch(domain:bluebottlecoffee.com)",
+      "WebFetch(domain:onyxcoffeelab.com)",
+      "WebFetch(domain:www.substancecafe.com)",
+      "WebFetch(domain:timwendelboe.no)",
+      "WebFetch(domain:www.arabica.coffee)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}
