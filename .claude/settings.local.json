@@ -32,7 +32,8 @@
       "WebFetch(domain:doc-04-ac-sheets.googleusercontent.com)",
       "Bash(pbcopy)",
       "Bash(git pull:*)",
-      "Bash(git merge:*)"
+      "Bash(git merge:*)",
+      "Bash(git config:*)"
     ]
   }
 }
