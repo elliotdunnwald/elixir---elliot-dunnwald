@@ -113,15 +113,6 @@
     "offerings": []
   },
   {
-    "id": "13",
-    "name": "Big Shoulders Coffee",
-    "city": "Chicago",
-    "state": "IL",
-    "country": "USA",
-    "website": "https://bigshoulderscoffee.com",
-    "offerings": []
-  },
-  {
     "id": "14",
     "name": "Devoción",
     "city": "New York",
@@ -255,22 +246,6 @@
     "name": "Placer Roasting Company",
     "city": "Rocklin",
     "state": "CA",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "31",
-    "name": "Archer & Co. Roasters",
-    "city": "Hebron",
-    "state": "KY",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "32",
-    "name": "Cielo Coffee Roasters",
-    "city": "Kansas City",
-    "state": "MO",
     "country": "USA",
     "offerings": []
   },
@@ -527,14 +502,6 @@
     "offerings": []
   },
   {
-    "id": "64",
-    "name": "Climpson & Sons",
-    "city": "London",
-    "country": "UK",
-    "website": "https://climpsonandsons.com",
-    "offerings": []
-  },
-  {
     "id": "65",
     "name": "Onibus Coffee",
     "city": "Tokyo",
@@ -581,21 +548,6 @@
     "offerings": []
   },
   {
-    "id": "71",
-    "name": "Coffee Supreme",
-    "city": "Wellington",
-    "country": "New Zealand",
-    "website": "https://coffeesupreme.com",
-    "offerings": []
-  },
-  {
-    "id": "72",
-    "name": "Caffeine Control Coffee",
-    "city": "Melbourne",
-    "country": "Australia",
-    "offerings": []
-  },
-  {
     "id": "73",
     "name": "Market Lane Coffee",
     "city": "Melbourne",
@@ -632,13 +584,6 @@
     "city": "Helsingborg",
     "country": "Sweden",
     "website": "https://www.koppi.se",
-    "offerings": []
-  },
-  {
-    "id": "78",
-    "name": "The Coffee Collective",
-    "city": "Copenhagen",
-    "country": "Denmark",
     "offerings": []
   },
   {
@@ -757,15 +702,6 @@
     "offerings": []
   },
   {
-    "id": "92",
-    "name": "49th Parallel Coffee Roasters",
-    "city": "Vancouver",
-    "state": "BC",
-    "country": "Canada",
-    "website": "https://49thcoffee.com",
-    "offerings": []
-  },
-  {
     "id": "93",
     "name": "Pilot Coffee Roasters",
     "city": "Toronto",
@@ -820,15 +756,6 @@
     "offerings": []
   },
   {
-    "id": "99",
-    "name": "Onyx Coffee Lab",
-    "city": "Bentonville",
-    "state": "AR",
-    "country": "USA",
-    "website": "https://onyxcoffeelab.com",
-    "offerings": []
-  },
-  {
     "id": "100",
     "name": "SEY Coffee",
     "city": "Brooklyn",
@@ -867,13 +794,6 @@
     "offerings": []
   },
   {
-    "id": "105",
-    "name": "Cafe Rider",
-    "city": "Dubai",
-    "country": "UAE",
-    "offerings": []
-  },
-  {
     "id": "106",
     "name": "Genio Roasters",
     "city": "Muscat",
@@ -902,13 +822,6 @@
     "offerings": []
   },
   {
-    "id": "110",
-    "name": "Click Coffee",
-    "city": "Riyadh",
-    "country": "Saudi Arabia",
-    "offerings": []
-  },
-  {
     "id": "111",
     "name": "Archers Coffee",
     "city": "Dubai",
@@ -926,13 +839,6 @@
     "id": "113",
     "name": "Mazboot Coffee Roasters",
     "city": "Cairo",
-    "country": "Egypt",
-    "offerings": []
-  },
-  {
-    "id": "114",
-    "name": "Alexandria Coffee Roasters",
-    "city": "Alexandria",
     "country": "Egypt",
     "offerings": []
   },
@@ -1005,14 +911,6 @@
     "offerings": []
   },
   {
-    "id": "124",
-    "name": "Café Lomi",
-    "city": "Paris",
-    "country": "France",
-    "website": "https://www.cafelomi.com",
-    "offerings": []
-  },
-  {
     "id": "125",
     "name": "Terres de Café",
     "city": "Paris",
@@ -1050,14 +948,6 @@
     "city": "Amsterdam",
     "country": "Netherlands",
     "website": "https://www.whitelabelcoffee.com",
-    "offerings": []
-  },
-  {
-    "id": "130",
-    "name": "Caffènation",
-    "city": "Antwerp",
-    "country": "Belgium",
-    "website": "https://www.caffenation.com",
     "offerings": []
   },
   {
@@ -1138,21 +1028,6 @@
     "offerings": []
   },
   {
-    "id": "141",
-    "name": "% Arabica",
-    "city": "Kyoto",
-    "country": "Japan",
-    "website": "https://www.arabica.coffee",
-    "offerings": []
-  },
-  {
-    "id": "142",
-    "name": "Bear Pond Espresso",
-    "city": "Tokyo",
-    "country": "Japan",
-    "offerings": []
-  },
-  {
     "id": "143",
     "name": "Streamer Coffee Company",
     "city": "Tokyo",
@@ -1201,19 +1076,18 @@
     "offerings": []
   },
   {
-    "id": "149",
-    "name": "Allpress Espresso",
-    "city": "Auckland",
-    "country": "New Zealand",
-    "website": "https://www.allpressespresso.com",
-    "offerings": []
-  },
-  {
     "id": "150",
     "name": "Ozone Coffee Roasters",
     "city": "Auckland",
     "country": "New Zealand",
     "website": "https://www.ozonecoffee.co.nz",
+    "offerings": []
+  },
+  {
+    "id": "151",
+    "name": "Tanat",
+    "city": "Paris",
+    "country": "France",
     "offerings": []
   }
 ]

@@ -38,6 +38,57 @@
             background: #27272a;
             border-radius: 10px;
         }
+        /* Range slider styling for image crop zoom */
+        input[type="range"].slider {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+        }
+        input[type="range"].slider::-webkit-slider-track {
+            background: #27272a;
+            height: 8px;
+            border-radius: 4px;
+        }
+        input[type="range"].slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            margin-top: -6px;
+        }
+        input[type="range"].slider::-moz-range-track {
+            background: #27272a;
+            height: 8px;
+            border-radius: 4px;
+        }
+        input[type="range"].slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            border: none;
+        }
+        /* Better contrast utilities */
+        .icon-button {
+            transition: all 0.2s ease;
+        }
+        .icon-button:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+        }
+        .text-glow {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        .border-glow {
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2), 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+        .border-glow:hover {
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.2);
+        }
     </style>
 </head>
 <body>

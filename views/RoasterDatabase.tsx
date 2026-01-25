@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Search, Plus, X, ExternalLink, Coffee, MapPin, Calendar } from 'lucide-react';
 import Fuse from 'fuse.js';
 import { Roaster, CoffeeOffering } from '../types';
+import { getCoffeeOfferings, getRoasters as getSupabaseRoasters } from '../lib/database';
 
 const RoasterDatabase: React.FC = () => {
   const [roasters, setRoasters] = useState<Roaster[]>([]);
@@ -20,17 +21,74 @@ const RoasterDatabase: React.FC = () => {
         const response = await fetch('/data/roasters.json');
         const data = await response.json();
 
+        // Fetch coffee offerings from Supabase
+        const [supabaseOfferings, supabaseRoasters] = await Promise.all([
+          getCoffeeOfferings(),
+          getSupabaseRoasters()
+        ]);
+
+        // Create a map of roaster names to Supabase roaster IDs
+        const roasterNameToId = new Map(
+          supabaseRoasters.map(r => [r.name.toLowerCase(), r.id])
+        );
+
+        // Group offerings by roaster ID
+        const offeringsByRoaster = new Map<string, typeof supabaseOfferings>();
+        supabaseOfferings.forEach(offering => {
+          const roasterOfferings = offeringsByRoaster.get(offering.roaster_id) || [];
+          roasterOfferings.push(offering);
+          offeringsByRoaster.set(offering.roaster_id, roasterOfferings);
+        });
+
+        // Merge Supabase offerings into local roasters
+        const enrichedData = data.map((localRoaster: Roaster) => {
+          const supabaseRoasterId = roasterNameToId.get(localRoaster.name.toLowerCase());
+          if (supabaseRoasterId) {
+            const supabaseOfferingsForRoaster = offeringsByRoaster.get(supabaseRoasterId) || [];
+
+            // Convert Supabase offerings to local format
+            const convertedOfferings = supabaseOfferingsForRoaster.map(so => ({
+              id: so.id,
+              name: so.name,
+              lot: so.lot,
+              origin: so.origin,
+              region: so.region,
+              estate: so.estate,
+              varietals: so.varietals,
+              processing: so.processing,
+              roastLevel: so.roast_level,
+              tastingNotes: so.tasting_notes,
+              elevation: so.elevation,
+              available: so.available,
+              price: so.price,
+              size: so.size,
+              harvestDate: undefined
+            }));
+
+            return {
+              ...localRoaster,
+              offerings: [...localRoaster.offerings, ...convertedOfferings]
+            };
+          }
+          return localRoaster;
+        });
+
         // Check if user has custom additions in localStorage
         const saved = localStorage.getItem('elixr_roasters_custom');
+        let allRoasters: Roaster[];
         if (saved) {
           const customRoasters = JSON.parse(saved);
           // Merge: keep custom roasters that aren't in the base data
-          const baseIds = new Set(data.map((r: Roaster) => r.id));
+          const baseIds = new Set(enrichedData.map((r: Roaster) => r.id));
           const customOnly = customRoasters.filter((r: Roaster) => !baseIds.has(r.id));
-          setRoasters([...data, ...customOnly]);
+          allRoasters = [...enrichedData, ...customOnly];
         } else {
-          setRoasters(data);
+          allRoasters = enrichedData;
         }
+
+        // Sort roasters alphabetically by name
+        allRoasters.sort((a, b) => a.name.localeCompare(b.name));
+        setRoasters(allRoasters);
       } catch (error) {
         console.error('Failed to load roasters:', error);
         setRoasters([]);
@@ -106,7 +164,7 @@ const RoasterDatabase: React.FC = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-4xl font-black tracking-tighter">ROASTER DATABASE</h1>
-          <p className="text-xs text-zinc-500 mt-2 tracking-wider">{roasters.length} ROASTERS • {roasters.reduce((sum, r) => sum + r.offerings.length, 0)} OFFERINGS</p>
+          <p className="text-xs text-zinc-100 mt-2 tracking-wider">{roasters.length} ROASTERS • {roasters.reduce((sum, r) => sum + r.offerings.length, 0)} OFFERINGS</p>
         </div>
         <button
           onClick={() => setIsAddingRoaster(true)}
@@ -117,14 +175,22 @@ const RoasterDatabase: React.FC = () => {
       </div>
 
       <div className="relative">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-600" />
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-200" />
         <input
           type="text"
           value={searchQuery}
           onChange={e => setSearchQuery(e.target.value)}
           placeholder="SEARCH ROASTERS, ORIGINS, VARIETALS, PROCESSING..."
-          className="w-full bg-zinc-950 border-2 border-zinc-900 rounded-2xl py-4 pl-12 pr-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+          className="w-full bg-zinc-950 border-2 border-zinc-900 rounded-2xl py-4 pl-12 pr-12 text-sm font-black text-white outline-none focus:border-white uppercase"
         />
+        {searchQuery && (
+          <button
+            onClick={() => setSearchQuery('')}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-200 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-lg p-1"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -137,13 +203,13 @@ const RoasterDatabase: React.FC = () => {
             <div className="space-y-3">
               <div>
                 <h3 className="text-xl font-black tracking-tighter">{roaster.name}</h3>
-                <div className="flex items-center gap-2 mt-1 text-xs text-zinc-500">
+                <div className="flex items-center gap-2 mt-1 text-xs text-zinc-100">
                   <MapPin className="w-3 h-3" />
                   <span>{roaster.city}, {roaster.country}</span>
                 </div>
               </div>
               {roaster.foundedYear && (
-                <div className="flex items-center gap-2 text-xs text-zinc-600">
+                <div className="flex items-center gap-2 text-xs text-zinc-200">
                   <Calendar className="w-3 h-3" />
                   <span>EST. {roaster.foundedYear}</span>
                 </div>
@@ -161,7 +227,7 @@ const RoasterDatabase: React.FC = () => {
 
       {searchResults.length === 0 && (
         <div className="text-center py-20">
-          <p className="text-zinc-600 text-sm font-black uppercase tracking-wider">NO RESULTS FOUND</p>
+          <p className="text-zinc-200 text-sm font-black uppercase tracking-wider">NO RESULTS FOUND</p>
         </div>
       )}
 
@@ -196,13 +262,29 @@ const RoasterDetailModal: React.FC<{
   onClose: () => void;
   onAddOffering: () => void;
 }> = ({ roaster, onClose, onAddOffering }) => {
+  // ESC key to close
+  React.useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
+
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6 overflow-y-auto">
-      <div className="max-w-4xl w-full bg-zinc-950 border-2 border-zinc-800 rounded-3xl p-8 space-y-6">
+    <div
+      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm overflow-y-auto p-6"
+      onClick={onClose}
+    >
+      <div className="min-h-full flex items-center justify-center py-10">
+        <div
+          className="max-w-4xl w-full bg-zinc-950 border-2 border-zinc-800 rounded-3xl p-8 space-y-6"
+          onClick={(e) => e.stopPropagation()}
+        >
         <div className="flex items-start justify-between">
           <div className="space-y-2">
-            <h2 className="text-4xl font-black tracking-tighter">{roaster.name}</h2>
-            <div className="flex items-center gap-4 text-sm text-zinc-400">
+            <h2 className="text-4xl font-black tracking-tighter text-white">{roaster.name}</h2>
+            <div className="flex items-center gap-4 text-sm text-zinc-100">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
                 <span>{roaster.city}, {roaster.country}</span>
@@ -226,24 +308,27 @@ const RoasterDetailModal: React.FC<{
               </a>
             )}
           </div>
-          <button onClick={onClose} className="text-zinc-500 hover:text-white transition-colors">
+          <button
+            onClick={onClose}
+            className="text-zinc-100 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-xl p-2"
+          >
             <X className="w-6 h-6" />
           </button>
         </div>
 
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-xl font-black tracking-tighter">CURRENT OFFERINGS</h3>
+            <h3 className="text-xl font-black tracking-tighter text-white">CURRENT OFFERINGS</h3>
             <button
               onClick={onAddOffering}
-              className="bg-white text-black px-4 py-2 rounded-xl flex items-center gap-2 font-black text-xs uppercase tracking-wider active:scale-95 transition-all"
+              className="bg-white text-black px-4 py-2 rounded-xl flex items-center gap-2 font-black text-xs uppercase tracking-wider active:scale-95 transition-all border-2 border-white"
             >
               <Plus className="w-3 h-3" /> ADD OFFERING
             </button>
           </div>
 
           {roaster.offerings.length === 0 ? (
-            <div className="text-center py-10 text-zinc-600 text-sm font-black uppercase">
+            <div className="text-center py-10 text-white text-sm font-black uppercase">
               NO OFFERINGS YET
             </div>
           ) : (
@@ -255,36 +340,36 @@ const RoasterDetailModal: React.FC<{
                 >
                   <div>
                     <h4 className="text-lg font-black tracking-tighter">{offering.name}</h4>
-                    <p className="text-xs text-zinc-500 mt-1">{offering.lot}</p>
+                    <p className="text-xs text-zinc-100 mt-1">{offering.lot}</p>
                   </div>
                   <div className="space-y-2 text-xs">
                     <div className="flex justify-between">
-                      <span className="text-zinc-600">ORIGIN:</span>
+                      <span className="text-zinc-200">ORIGIN:</span>
                       <span className="text-white font-black">{offering.origin} {offering.region && `• ${offering.region}`}</span>
                     </div>
                     {offering.estate && (
                       <div className="flex justify-between">
-                        <span className="text-zinc-600">ESTATE:</span>
+                        <span className="text-zinc-200">ESTATE:</span>
                         <span className="text-white font-black">{offering.estate}</span>
                       </div>
                     )}
                     <div className="flex justify-between">
-                      <span className="text-zinc-600">VARIETALS:</span>
+                      <span className="text-zinc-200">VARIETALS:</span>
                       <span className="text-white font-black">{offering.varietals.join(', ')}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-zinc-600">PROCESSING:</span>
+                      <span className="text-zinc-200">PROCESSING:</span>
                       <span className="text-white font-black">{offering.processing}</span>
                     </div>
                     {offering.elevation && (
                       <div className="flex justify-between">
-                        <span className="text-zinc-600">ELEVATION:</span>
+                        <span className="text-zinc-200">ELEVATION:</span>
                         <span className="text-white font-black">{offering.elevation}</span>
                       </div>
                     )}
                     {offering.tastingNotes && offering.tastingNotes.length > 0 && (
                       <div className="pt-2 border-t border-zinc-900">
-                        <span className="text-zinc-600">NOTES:</span>
+                        <span className="text-zinc-200">NOTES:</span>
                         <div className="flex flex-wrap gap-2 mt-2">
                           {offering.tastingNotes.map((note, i) => (
                             <span key={i} className="bg-zinc-900 px-2 py-1 rounded text-white font-black text-[10px]">
@@ -297,7 +382,7 @@ const RoasterDetailModal: React.FC<{
                   </div>
                   {offering.price && (
                     <div className="pt-3 border-t border-zinc-900 flex justify-between items-center">
-                      <span className="text-zinc-600 text-xs">PRICE:</span>
+                      <span className="text-zinc-200 text-xs">PRICE:</span>
                       <span className="text-white font-black">${offering.price} / {offering.size}</span>
                     </div>
                   )}
@@ -306,7 +391,18 @@ const RoasterDetailModal: React.FC<{
             </div>
           )}
         </div>
+
+        {/* Close button at bottom */}
+        <div className="pt-6 border-t-2 border-zinc-800">
+          <button
+            onClick={onClose}
+            className="w-full bg-white text-black px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all border-2 border-white"
+          >
+            BACK TO ROASTERS
+          </button>
+        </div>
       </div>
+    </div>
     </div>
   );
 };
@@ -324,6 +420,15 @@ const AddRoasterModal: React.FC<{
     foundedYear: ''
   });
 
+  // ESC key to close
+  React.useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
+
   const handleSubmit = () => {
     if (!formData.name || !formData.city || !formData.country) return;
 
@@ -339,11 +444,20 @@ const AddRoasterModal: React.FC<{
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6">
-      <div className="max-w-md w-full bg-zinc-950 border-2 border-zinc-800 rounded-3xl p-8 space-y-6">
+    <div
+      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-6"
+      onClick={onClose}
+    >
+      <div
+        className="max-w-md w-full bg-zinc-950 border-2 border-zinc-800 rounded-3xl p-8 space-y-6"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-black tracking-tighter">ADD ROASTER</h2>
-          <button onClick={onClose} className="text-zinc-500 hover:text-white transition-colors">
+          <h2 className="text-2xl font-black tracking-tighter text-white">ADD ROASTER</h2>
+          <button
+            onClick={onClose}
+            className="text-zinc-100 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-xl p-2"
+          >
             <X className="w-6 h-6" />
           </button>
         </div>
@@ -428,6 +542,15 @@ const AddOfferingModal: React.FC<{
     harvestDate: ''
   });
 
+  // ESC key to close
+  React.useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
+
   const handleSubmit = () => {
     if (!formData.name || !formData.lot || !formData.origin || !formData.varietals || !formData.processing) return;
 
@@ -450,14 +573,23 @@ const AddOfferingModal: React.FC<{
   };
 
   return (
-    <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-6 overflow-y-auto">
-      <div className="max-w-2xl w-full bg-zinc-950 border-2 border-zinc-800 rounded-3xl p-8 space-y-6 my-10">
+    <div
+      className="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm flex items-center justify-center p-6 overflow-y-auto"
+      onClick={onClose}
+    >
+      <div
+        className="max-w-2xl w-full bg-zinc-950 border-2 border-zinc-800 rounded-3xl p-8 space-y-6 my-10"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-black tracking-tighter">ADD OFFERING</h2>
-            <p className="text-xs text-zinc-500 mt-1">{roaster.name}</p>
+            <h2 className="text-2xl font-black tracking-tighter text-white">ADD OFFERING</h2>
+            <p className="text-xs text-zinc-100 mt-1">{roaster.name}</p>
           </div>
-          <button onClick={onClose} className="text-zinc-500 hover:text-white transition-colors">
+          <button
+            onClick={onClose}
+            className="text-zinc-100 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-xl p-2"
+          >
             <X className="w-6 h-6" />
           </button>
         </div>

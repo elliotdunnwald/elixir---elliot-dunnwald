@@ -21,7 +21,16 @@
       "Bash(git branch:*)",
       "Bash(git remote add:*)",
       "Bash(git push:*)",
-      "Bash(git remote set-url:*)"
+      "Bash(git remote set-url:*)",
+      "Bash(npm run build:*)",
+      "Bash(pkill:*)",
+      "Bash(find:*)",
+      "WebFetch(domain:www.slowpoursupply.co)",
+      "Bash(curl:*)",
+      "Bash(open -a \"Google Chrome\" \"https://supabase.com/dashboard/project/wgjnfhnwqqropkfxegyk/storage/buckets\")",
+      "WebFetch(domain:docs.google.com)",
+      "WebFetch(domain:doc-04-ac-sheets.googleusercontent.com)",
+      "Bash(pbcopy)"
     ]
   }
 }

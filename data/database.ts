@@ -1,3 +1,4 @@
+import brewingEquipmentData from './brewing-equipment.json';
 
 export const PEERS = [];
 
@@ -12,10 +13,10 @@ export const ROASTERS = [
 ];
 
 export const COFFEES = [
-  { 
-    coffeeName: 'KIRU KAMAGOGO AA', 
-    origin: 'KENYA', 
-    roasters: ['SQUARE MILE'], 
+  {
+    coffeeName: 'KIRU KAMAGOGO AA',
+    origin: 'KENYA',
+    roasters: ['SQUARE MILE'],
     ratingAvg: 4.9,
     varietals: ['SL28', 'SL34'],
     processing: 'WASHED',
@@ -27,18 +28,9 @@ export const CAFES = [];
 
 export const CLUBS = [];
 
-export const BREWING_DEVICES = [
-  { name: 'V60 02', brand: 'HARIO', type: 'DRIPPER' },
-  { name: 'AEROPRESS', brand: 'AEROPRESS', type: 'IMMERSION' },
-  { name: 'FLAIR 58', brand: 'FLAIR', type: 'ESPRESSO' },
-  { name: 'KALITA WAVE 185', brand: 'KALITA', type: 'DRIPPER' },
-  { name: 'CHEMEX', brand: 'CHEMEX', type: 'DRIPPER' },
-  { name: 'FRENCH PRESS', brand: 'BODUM', type: 'IMMERSION' },
-  { name: 'VERTUO', brand: 'NESPRESSO', type: 'POD' },
-  { name: 'ORIGINAL', brand: 'NESPRESSO', type: 'POD' },
-  { name: 'LINEA MICRA', brand: 'LA MARZOCCO', type: 'ESPRESSO' },
-  { name: 'GAGGIA CLASSIC', brand: 'GAGGIA', type: 'ESPRESSO' },
-  { name: 'MOKA POT', brand: 'BIALETTI', type: 'STOVETOP' },
-  { name: 'CLEVER DRIPPER', brand: 'CLEVER', type: 'IMMERSION' },
-  { name: 'ORIGAMI DRIPPER', brand: 'ORIGAMI', type: 'DRIPPER' }
-];
+// Import brewing devices from JSON file for easier editing
+export const BREWING_DEVICES = brewingEquipmentData.brewers;
+
+// Available for future use
+export const GRINDERS = brewingEquipmentData.grinders;
+export const ACCESSORIES = brewingEquipmentData.accessories;

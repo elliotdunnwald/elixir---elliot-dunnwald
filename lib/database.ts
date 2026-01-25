@@ -1,0 +1,826 @@
+import { supabase } from './supabase';
+import type { BrewActivity, User, GearItem } from '../types';
+
+// =====================================================
+// PROFILE FUNCTIONS
+// =====================================================
+
+export interface Profile {
+  id: string;
+  auth_user_id: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone?: string;
+  pronouns?: string;
+  city: string;
+  country: string;
+  avatar_url?: string;
+  bio?: string;
+  is_private: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ProfileWithStats extends Profile {
+  follower_count?: number;
+  following_count?: number;
+  brew_count?: number;
+}
+
+export async function getProfile(userId: string): Promise<Profile | null> {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('auth_user_id', userId)
+    .single();
+
+  if (error) {
+    console.error('Error fetching profile:', error);
+    return null;
+  }
+
+  return data;
+}
+
+export async function getProfileById(profileId: string): Promise<Profile | null> {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', profileId)
+    .single();
+
+  if (error) {
+    console.error('Error fetching profile by ID:', error);
+    return null;
+  }
+
+  return data;
+}
+
+export async function getProfileByUsername(username: string): Promise<ProfileWithStats | null> {
+  const { data: profile, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('username', username)
+    .single();
+
+  if (error) {
+    console.error('Error fetching profile by username:', error);
+    return null;
+  }
+
+  // Get stats
+  const [followerCount, followingCount, brewCount] = await Promise.all([
+    getFollowerCount(profile.id),
+    getFollowingCount(profile.id),
+    getBrewCount(profile.id)
+  ]);
+
+  return {
+    ...profile,
+    follower_count: followerCount,
+    following_count: followingCount,
+    brew_count: brewCount
+  };
+}
+
+export async function createProfile(userId: string, data: {
+  username: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone?: string;
+  pronouns?: string;
+  city: string;
+  country: string;
+  avatar_url?: string;
+  bio?: string;
+  is_private?: boolean;
+}): Promise<Profile | null> {
+  const { data: profile, error } = await supabase
+    .from('profiles')
+    .insert({
+      auth_user_id: userId,
+      ...data
+    })
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error creating profile:', error);
+    return null;
+  }
+
+  return profile;
+}
+
+export async function updateProfile(userId: string, updates: Partial<Profile>): Promise<Profile | null> {
+  const { data, error } = await supabase
+    .from('profiles')
+    .update(updates)
+    .eq('auth_user_id', userId)
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error updating profile:', error);
+    return null;
+  }
+
+  return data;
+}
+
+// =====================================================
+// BREW ACTIVITY FUNCTIONS
+// =====================================================
+
+export interface DbBrewActivity {
+  id: string;
+  profile_id: string;
+  title: string;
+  description?: string;
+  image_url?: string;
+  location_name: string;
+  roaster: string;
+  bean_origin: string;
+  estate?: string;
+  varietal?: string;
+  process?: string;
+  brewer: string;
+  grinder?: string;
+  grind_setting?: string;
+  ratio: string;
+  grams_in: number;
+  grams_out: number;
+  brew_weight?: number;
+  temperature: number;
+  temp_unit: 'C' | 'F';
+  brew_time: string;
+  rating: number;
+  tds?: number;
+  ey_percentage?: number;
+  show_parameters: boolean;
+  is_private: boolean;
+  is_cafe_log: boolean;
+  cafe_name?: string;
+  created_at: string;
+  updated_at: string;
+  profiles?: Profile;
+  likes?: { profile_id: string }[];
+  comments?: {
+    id: string;
+    profile_id: string;
+    text: string;
+    created_at: string;
+    profiles?: Profile;
+  }[];
+}
+
+export async function createActivity(profileId: string, data: Partial<DbBrewActivity>): Promise<DbBrewActivity | null> {
+  const { data: activity, error } = await supabase
+    .from('brew_activities')
+    .insert({
+      profile_id: profileId,
+      ...data
+    })
+    .select(`
+      *,
+      profiles(*),
+      likes(profile_id),
+      comments(*, profiles(*))
+    `)
+    .single();
+
+  if (error) {
+    console.error('Error creating activity:', error);
+    return null;
+  }
+
+  return activity;
+}
+
+export async function getActivitiesFeed(userId: string, limit = 20, offset = 0): Promise<DbBrewActivity[]> {
+  // Get the user's profile ID
+  const profile = await getProfile(userId);
+  if (!profile) return [];
+
+  // Get list of users the current user follows
+  const { data: following } = await supabase
+    .from('follows')
+    .select('following_id')
+    .eq('follower_id', profile.id);
+
+  const followingIds = following?.map(f => f.following_id) || [];
+
+  // Include user's own profile ID to see their own posts
+  const profileIds = [profile.id, ...followingIds];
+
+  // Fetch activities from followed users + own activities
+  const { data, error } = await supabase
+    .from('brew_activities')
+    .select(`
+      *,
+      profiles(*),
+      likes(profile_id),
+      comments(*, profiles(*))
+    `)
+    .in('profile_id', profileIds)
+    .order('created_at', { ascending: false })
+    .range(offset, offset + limit - 1);
+
+  if (error) {
+    console.error('Error fetching feed:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+export async function getUserActivities(profileId: string, limit = 20, offset = 0): Promise<DbBrewActivity[]> {
+  const { data, error } = await supabase
+    .from('brew_activities')
+    .select(`
+      *,
+      profiles(*),
+      likes(profile_id),
+      comments(*, profiles(*))
+    `)
+    .eq('profile_id', profileId)
+    .order('created_at', { ascending: false })
+    .range(offset, offset + limit - 1);
+
+  if (error) {
+    console.error('Error fetching user activities:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+export async function updateActivity(activityId: string, updates: Partial<DbBrewActivity>): Promise<DbBrewActivity | null> {
+  const { data, error } = await supabase
+    .from('brew_activities')
+    .update(updates)
+    .eq('id', activityId)
+    .select(`
+      *,
+      profiles(*),
+      likes(profile_id),
+      comments(*, profiles(*))
+    `)
+    .single();
+
+  if (error) {
+    console.error('Error updating activity:', error);
+    return null;
+  }
+
+  return data;
+}
+
+export async function deleteActivity(activityId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('brew_activities')
+    .delete()
+    .eq('id', activityId);
+
+  if (error) {
+    console.error('Error deleting activity:', error);
+    return false;
+  }
+
+  return true;
+}
+
+// =====================================================
+// LIKE FUNCTIONS
+// =====================================================
+
+export async function toggleLike(activityId: string, profileId: string): Promise<boolean> {
+  // Check if already liked
+  const { data: existingLike } = await supabase
+    .from('likes')
+    .select('id')
+    .eq('activity_id', activityId)
+    .eq('profile_id', profileId)
+    .single();
+
+  if (existingLike) {
+    // Unlike
+    const { error } = await supabase
+      .from('likes')
+      .delete()
+      .eq('activity_id', activityId)
+      .eq('profile_id', profileId);
+
+    if (error) {
+      console.error('Error removing like:', error);
+      return false;
+    }
+    return true;
+  } else {
+    // Like
+    const { error } = await supabase
+      .from('likes')
+      .insert({
+        activity_id: activityId,
+        profile_id: profileId
+      });
+
+    if (error) {
+      console.error('Error adding like:', error);
+      return false;
+    }
+    return true;
+  }
+}
+
+export async function getLikeCount(activityId: string): Promise<number> {
+  const { count, error } = await supabase
+    .from('likes')
+    .select('*', { count: 'exact', head: true })
+    .eq('activity_id', activityId);
+
+  if (error) {
+    console.error('Error getting like count:', error);
+    return 0;
+  }
+
+  return count || 0;
+}
+
+export async function hasUserLiked(activityId: string, profileId: string): Promise<boolean> {
+  const { data, error } = await supabase
+    .from('likes')
+    .select('id')
+    .eq('activity_id', activityId)
+    .eq('profile_id', profileId)
+    .single();
+
+  return !!data && !error;
+}
+
+// =====================================================
+// COMMENT FUNCTIONS
+// =====================================================
+
+export async function addComment(activityId: string, profileId: string, text: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('comments')
+    .insert({
+      activity_id: activityId,
+      profile_id: profileId,
+      text
+    });
+
+  if (error) {
+    console.error('Error adding comment:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function deleteComment(commentId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('comments')
+    .delete()
+    .eq('id', commentId);
+
+  if (error) {
+    console.error('Error deleting comment:', error);
+    return false;
+  }
+
+  return true;
+}
+
+// =====================================================
+// FOLLOW FUNCTIONS
+// =====================================================
+
+export async function followUser(followerId: string, followingId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('follows')
+    .insert({
+      follower_id: followerId,
+      following_id: followingId
+    });
+
+  if (error) {
+    console.error('Error following user:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function unfollowUser(followerId: string, followingId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('follows')
+    .delete()
+    .eq('follower_id', followerId)
+    .eq('following_id', followingId);
+
+  if (error) {
+    console.error('Error unfollowing user:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function isFollowing(followerId: string, followingId: string): Promise<boolean> {
+  const { data, error } = await supabase
+    .from('follows')
+    .select('id')
+    .eq('follower_id', followerId)
+    .eq('following_id', followingId)
+    .single();
+
+  return !!data && !error;
+}
+
+export async function getFollowerCount(profileId: string): Promise<number> {
+  const { count, error } = await supabase
+    .from('follows')
+    .select('*', { count: 'exact', head: true })
+    .eq('following_id', profileId);
+
+  if (error) {
+    console.error('Error getting follower count:', error);
+    return 0;
+  }
+
+  return count || 0;
+}
+
+export async function getFollowingCount(profileId: string): Promise<number> {
+  const { count, error } = await supabase
+    .from('follows')
+    .select('*', { count: 'exact', head: true })
+    .eq('follower_id', profileId);
+
+  if (error) {
+    console.error('Error getting following count:', error);
+    return 0;
+  }
+
+  return count || 0;
+}
+
+export async function getFollowers(profileId: string): Promise<Profile[]> {
+  const { data, error } = await supabase
+    .from('follows')
+    .select('follower_id, profiles!follows_follower_id_fkey(*)')
+    .eq('following_id', profileId);
+
+  if (error) {
+    console.error('Error getting followers:', error);
+    return [];
+  }
+
+  return data?.map(f => f.profiles).filter(Boolean) as Profile[] || [];
+}
+
+export async function getFollowing(profileId: string): Promise<Profile[]> {
+  const { data, error } = await supabase
+    .from('follows')
+    .select('following_id, profiles!follows_following_id_fkey(*)')
+    .eq('follower_id', profileId);
+
+  if (error) {
+    console.error('Error getting following:', error);
+    return [];
+  }
+
+  return data?.map(f => f.profiles).filter(Boolean) as Profile[] || [];
+}
+
+// =====================================================
+// SEARCH FUNCTIONS
+// =====================================================
+
+export async function searchProfiles(query: string, limit = 20): Promise<Profile[]> {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .or(`username.ilike.%${query}%,first_name.ilike.%${query}%,last_name.ilike.%${query}%,city.ilike.%${query}%,country.ilike.%${query}%`)
+    .limit(limit);
+
+  if (error) {
+    console.error('Error searching profiles:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+// =====================================================
+// GEAR FUNCTIONS
+// =====================================================
+
+export async function getGearItems(profileId: string): Promise<GearItem[]> {
+  const { data, error } = await supabase
+    .from('gear_items')
+    .select('*')
+    .eq('profile_id', profileId);
+
+  if (error) {
+    console.error('Error fetching gear items:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+export async function addGearItem(profileId: string, gear: Omit<GearItem, 'id'>): Promise<GearItem | null> {
+  const { data, error } = await supabase
+    .from('gear_items')
+    .insert({
+      profile_id: profileId,
+      ...gear
+    })
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error adding gear item:', error);
+    return null;
+  }
+
+  return data;
+}
+
+export async function deleteGearItem(gearId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('gear_items')
+    .delete()
+    .eq('id', gearId);
+
+  if (error) {
+    console.error('Error deleting gear item:', error);
+    return false;
+  }
+
+  return true;
+}
+
+// =====================================================
+// STATS FUNCTIONS
+// =====================================================
+
+export async function getBrewCount(profileId: string): Promise<number> {
+  const { count, error } = await supabase
+    .from('brew_activities')
+    .select('*', { count: 'exact', head: true })
+    .eq('profile_id', profileId);
+
+  if (error) {
+    console.error('Error getting brew count:', error);
+    return 0;
+  }
+
+  return count || 0;
+}
+
+// =====================================================
+// STORAGE FUNCTIONS
+// =====================================================
+
+export async function uploadBrewImage(userId: string, file: File): Promise<string | null> {
+  const fileExt = file.name.split('.').pop();
+  const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+  const filePath = `${userId}/${fileName}`;
+
+  const { error: uploadError } = await supabase.storage
+    .from('brew-images')
+    .upload(filePath, file, {
+      cacheControl: '3600',
+      upsert: false
+    });
+
+  if (uploadError) {
+    console.error('Error uploading image:', uploadError);
+    return null;
+  }
+
+  const { data } = supabase.storage
+    .from('brew-images')
+    .getPublicUrl(filePath);
+
+  return data.publicUrl;
+}
+
+export async function deleteBrewImage(imageUrl: string): Promise<boolean> {
+  try {
+    // Extract path from URL
+    const url = new URL(imageUrl);
+    const pathParts = url.pathname.split('/');
+    const filePath = pathParts.slice(pathParts.indexOf('brew-images') + 1).join('/');
+
+    const { error } = await supabase.storage
+      .from('brew-images')
+      .remove([filePath]);
+
+    if (error) {
+      console.error('Error deleting image:', error);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error('Error parsing image URL:', err);
+    return false;
+  }
+}
+
+// =====================================================
+// HELPER FUNCTIONS TO CONVERT BETWEEN DB AND APP TYPES
+// =====================================================
+
+export function dbActivityToBrewActivity(dbActivity: DbBrewActivity): BrewActivity {
+  const profile = dbActivity.profiles;
+
+  return {
+    id: dbActivity.id,
+    userId: dbActivity.profile_id,
+    userName: profile ? `${profile.first_name} ${profile.last_name}` : 'Unknown',
+    userAvatar: profile?.avatar_url || '',
+    title: dbActivity.title,
+    description: dbActivity.description || '',
+    timestamp: dbActivity.created_at,
+    locationName: dbActivity.location_name,
+    imageUrl: dbActivity.image_url,
+    roaster: dbActivity.roaster,
+    beanOrigin: dbActivity.bean_origin,
+    estate: dbActivity.estate,
+    varietal: dbActivity.varietal,
+    process: dbActivity.process,
+    brewer: dbActivity.brewer,
+    grinder: dbActivity.grinder,
+    grindSetting: dbActivity.grind_setting,
+    ratio: dbActivity.ratio,
+    gramsIn: dbActivity.grams_in,
+    gramsOut: dbActivity.grams_out,
+    brewWeight: dbActivity.brew_weight,
+    temperature: dbActivity.temperature,
+    tempUnit: dbActivity.temp_unit,
+    brewTime: dbActivity.brew_time,
+    rating: dbActivity.rating,
+    tds: dbActivity.tds,
+    eyPercentage: dbActivity.ey_percentage,
+    showParameters: dbActivity.show_parameters,
+    isPrivate: dbActivity.is_private,
+    isCafeLog: dbActivity.is_cafe_log,
+    cafeName: dbActivity.cafe_name,
+    likeCount: dbActivity.likes?.length || 0,
+    likedBy: dbActivity.likes?.map(l => l.profile_id) || [],
+    comments: dbActivity.comments?.map(c => ({
+      id: c.id,
+      userId: c.profile_id,
+      userName: c.profiles ? `${c.profiles.first_name} ${c.profiles.last_name}` : 'Unknown',
+      text: c.text,
+      timestamp: c.created_at
+    })) || []
+  };
+}
+
+export function dbProfileToUser(profile: Profile, gear?: GearItem[], stats?: { totalBrews: number; followerCount: number }): User {
+  const brewers = gear?.filter(g => g.type === 'brewer') || [];
+  const grinders = gear?.filter(g => g.type === 'grinder') || [];
+
+  return {
+    id: profile.id,
+    name: `${profile.first_name} ${profile.last_name}`,
+    avatar: profile.avatar_url || '',
+    username: profile.username,
+    location: `${profile.city}, ${profile.country}`,
+    email: profile.email,
+    phoneNumber: profile.phone,
+    stats: {
+      totalBrews: stats?.totalBrews || 0,
+      streak: 0, // TODO: Calculate streak
+      countriesVisited: 0 // TODO: Calculate from activities
+    },
+    gear: {
+      brewers,
+      grinders
+    }
+  };
+}
+
+// =====================================================
+// COFFEE OFFERINGS FUNCTIONS
+// =====================================================
+
+export interface Roaster {
+  id: string;
+  name: string;
+  city: string;
+  state?: string;
+  country: string;
+  website?: string;
+  founded_year?: number;
+  created_at: string;
+}
+
+export interface CoffeeOffering {
+  id: string;
+  roaster_id: string;
+  name: string;
+  lot: string;
+  origin: string;
+  region?: string;
+  estate?: string;
+  varietals: string[];
+  processing: string;
+  roast_level?: string;
+  tasting_notes: string[];
+  elevation?: string;
+  price?: number;
+  size?: string;
+  available: boolean;
+  created_at: string;
+  roaster?: Roaster;
+}
+
+export async function getRoasters(): Promise<Roaster[]> {
+  const { data, error } = await supabase
+    .from('roasters')
+    .select('*')
+    .order('name');
+
+  if (error) {
+    console.error('Error fetching roasters:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+export async function getCoffeeOfferings(filters?: {
+  roasterId?: string;
+  origin?: string;
+  search?: string;
+  minPrice?: number;
+  maxPrice?: number;
+}): Promise<CoffeeOffering[]> {
+  let query = supabase
+    .from('coffee_offerings')
+    .select(`
+      *,
+      roaster:roasters(*)
+    `)
+    .eq('available', true)
+    .order('name');
+
+  if (filters?.roasterId) {
+    query = query.eq('roaster_id', filters.roasterId);
+  }
+
+  if (filters?.origin) {
+    query = query.ilike('origin', `%${filters.origin}%`);
+  }
+
+  if (filters?.search) {
+    query = query.or(`name.ilike.%${filters.search}%,origin.ilike.%${filters.search}%,region.ilike.%${filters.search}%`);
+  }
+
+  if (filters?.minPrice !== undefined) {
+    query = query.gte('price', filters.minPrice);
+  }
+
+  if (filters?.maxPrice !== undefined) {
+    query = query.lte('price', filters.maxPrice);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error('Error fetching coffee offerings:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+export async function getCoffeeOfferingById(id: string): Promise<CoffeeOffering | null> {
+  const { data, error } = await supabase
+    .from('coffee_offerings')
+    .select(`
+      *,
+      roaster:roasters(*)
+    `)
+    .eq('id', id)
+    .single();
+
+  if (error) {
+    console.error('Error fetching coffee offering:', error);
+    return null;
+  }
+
+  return data;
+}
