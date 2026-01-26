@@ -257,28 +257,28 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
 
             {formData.showParameters && (
               <div className="space-y-6 animate-in fade-in duration-300">
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-black border-2 border-zinc-800 p-8 rounded-[2.5rem]">
-                  <div className="space-y-2">
-                    <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest text-center">Dose (g)</p>
-                    <input type="number" step="0.1" value={formData.gramsIn} onChange={e => setFormData({...formData, gramsIn: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-center text-sm outline-none focus:border-white disabled:opacity-50" />
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 bg-black border-2 border-zinc-800 p-8 rounded-[2.5rem]">
+                  <div className="space-y-3">
+                    <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest text-center">DOSE (G)</p>
+                    <input type="number" step="0.1" value={formData.gramsIn} onChange={e => setFormData({...formData, gramsIn: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-center text-lg outline-none focus:border-white disabled:opacity-50" />
                   </div>
-                  <div className="space-y-2">
-                    <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest text-center">Water (g)</p>
-                    <input type="number" step="1" value={formData.gramsOut} onChange={e => setFormData({...formData, gramsOut: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-center text-sm outline-none focus:border-white disabled:opacity-50" />
+                  <div className="space-y-3">
+                    <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest text-center">WATER (G)</p>
+                    <input type="number" step="1" value={formData.gramsOut} onChange={e => setFormData({...formData, gramsOut: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-center text-lg outline-none focus:border-white disabled:opacity-50" />
                   </div>
-                  <div className="space-y-2">
-                    <div className="flex flex-col items-center">
-                      <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest mb-1">Temp</p>
-                      <div className="flex bg-zinc-900 rounded-lg p-0.5 border border-zinc-800 mb-2">
-                        <button type="button" onClick={() => handleTempUnitToggle('C')} disabled={uploading} className={`px-2 py-0.5 rounded-md text-[7px] font-black transition-all disabled:opacity-50 ${tempUnit === 'C' ? 'bg-white text-black' : 'text-zinc-200 hover:text-zinc-400'}`}>°C</button>
-                        <button type="button" onClick={() => handleTempUnitToggle('F')} disabled={uploading} className={`px-2 py-0.5 rounded-md text-[7px] font-black transition-all disabled:opacity-50 ${tempUnit === 'F' ? 'bg-white text-black' : 'text-zinc-200 hover:text-zinc-400'}`}>°F</button>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-center gap-1 mb-1">
+                      <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest">TEMP</p>
+                      <div className="flex bg-zinc-900 rounded p-0.5 border border-zinc-800">
+                        <button type="button" onClick={() => handleTempUnitToggle('C')} disabled={uploading} className={`px-1.5 py-0.5 rounded text-[6px] font-black transition-all disabled:opacity-50 ${tempUnit === 'C' ? 'bg-white text-black' : 'text-zinc-200'}`}>°C</button>
+                        <button type="button" onClick={() => handleTempUnitToggle('F')} disabled={uploading} className={`px-1.5 py-0.5 rounded text-[6px] font-black transition-all disabled:opacity-50 ${tempUnit === 'F' ? 'bg-white text-black' : 'text-zinc-200'}`}>°F</button>
                       </div>
                     </div>
-                    <input type="number" value={formData.temp} onChange={e => setFormData({...formData, temp: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-center text-sm outline-none focus:border-white disabled:opacity-50" />
+                    <input type="number" value={formData.temp} onChange={e => setFormData({...formData, temp: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-center text-lg outline-none focus:border-white disabled:opacity-50" />
                   </div>
-                  <div className="space-y-2">
-                    <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest text-center">Ratio</p>
-                    <div className="w-full py-2 text-zinc-100 font-black text-center text-xs">{formData.ratio}</div>
+                  <div className="space-y-3">
+                    <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest text-center">RATIO</p>
+                    <div className="w-full py-2 text-white font-black text-center text-lg">{formData.ratio}</div>
                   </div>
                 </div>
 
