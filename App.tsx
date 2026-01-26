@@ -208,8 +208,8 @@ const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-      <div className="max-w-md w-full space-y-8 sm:space-y-12 py-6 sm:py-10 my-auto">
+    <div className="min-h-screen w-full bg-black flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      <div className="max-w-md w-full space-y-8 sm:space-y-12 py-6 sm:py-10">
         <div className="text-center">
           <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tighter uppercase leading-none">ELIXR</h1>
           <div className="flex justify-center gap-1 mt-4 sm:mt-6">

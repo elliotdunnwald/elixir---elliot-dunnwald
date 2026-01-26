@@ -38,10 +38,15 @@
             --accent-text: #ffffff;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
+        html, body {
             margin: 0;
             padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             background-color: var(--bg-primary);
@@ -52,6 +57,11 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             touch-action: manipulation;
+            position: relative;
+        }
+        #root {
+            min-height: 100vh;
+            width: 100%;
         }
         h1, h2, h3, h4, button, input, textarea, .font-caps {
             font-family: 'Inter', sans-serif;

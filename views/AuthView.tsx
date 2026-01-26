@@ -59,8 +59,8 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-      <div className="max-w-md w-full space-y-8 sm:space-y-12 py-6 sm:py-10 my-auto">
+    <div className="min-h-screen w-full bg-black flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      <div className="max-w-md w-full space-y-8 sm:space-y-12 py-6 sm:py-10">
         <div className="text-center space-y-3 sm:space-y-4">
           <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tighter uppercase leading-none">ELIXR</h1>
           <p className="text-[10px] sm:text-[11px] font-black text-zinc-100 uppercase tracking-[0.3em]">
