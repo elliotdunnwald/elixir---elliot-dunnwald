@@ -303,7 +303,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
           <h2 className="text-xl font-black text-white tracking-tighter uppercase">EDIT PROFILE</h2>
           <button onClick={onClose} className="text-zinc-400 hover:text-white transition-all"><X className="w-6 h-6" /></button>
         </div>
-        <form className="overflow-y-auto px-6 sm:px-10 py-10 space-y-12 pb-32 custom-scrollbar bg-zinc-900">
+        <form className="overflow-y-auto px-6 sm:px-10 py-10 pb-40 space-y-12 custom-scrollbar bg-zinc-900 relative">
           <section className="flex flex-col items-center gap-6">
             <div onClick={() => !uploading && mediaInputRef.current?.click()} className={`w-32 h-32 rounded-3xl border-4 border-zinc-800 bg-black flex items-center justify-center overflow-hidden ${uploading ? 'cursor-wait' : 'cursor-pointer hover:border-white'} transition-all group relative`}>
               {formData.avatar ? <img src={formData.avatar} className="w-full h-full object-cover" alt="" /> : <UserIcon className="w-12 h-12 text-zinc-800" />}
@@ -377,8 +377,10 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
             </div>
             <ThemeToggleSection />
           </section>
-          <div className="sticky bottom-0 pt-10 pb-12 bg-gradient-to-t from-zinc-900 via-zinc-900 to-transparent"><button type="button" onClick={handleSave} className="w-full bg-white text-black font-black text-sm uppercase tracking-[0.4em] py-7 rounded-[2.5rem] shadow-2xl transition-all active:scale-[0.98]">SAVE CHANGES</button></div>
         </form>
+        <div className="absolute bottom-0 left-0 right-0 px-6 sm:px-10 py-6 bg-zinc-900 border-t-2 border-zinc-800">
+          <button type="button" onClick={handleSave} className="w-full bg-white text-black font-black text-sm uppercase tracking-[0.4em] py-7 rounded-[2.5rem] shadow-2xl transition-all active:scale-[0.98]">SAVE CHANGES</button>
+        </div>
       </div>
       <ImageCropModal
         isOpen={cropModalOpen}
