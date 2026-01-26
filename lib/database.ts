@@ -669,20 +669,6 @@ export async function addGearItem(profileId: string, gear: Omit<GearItem, 'id'>)
   return data;
 }
 
-export async function deleteGearItem(gearId: string): Promise<boolean> {
-  const { error } = await supabase
-    .from('gear_items')
-    .delete()
-    .eq('id', gearId);
-
-  if (error) {
-    console.error('Error deleting gear item:', error);
-    return false;
-  }
-
-  return true;
-}
-
 // =====================================================
 // STATS FUNCTIONS
 // =====================================================
