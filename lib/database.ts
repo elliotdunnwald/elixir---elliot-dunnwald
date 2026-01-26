@@ -99,6 +99,35 @@ export async function createProfile(userId: string, data: {
   bio?: string;
   is_private?: boolean;
 }): Promise<Profile | null> {
+  // First check if profile already exists
+  const { data: existing } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('auth_user_id', userId)
+    .maybeSingle();
+
+  if (existing) {
+    console.log('Profile already exists, updating instead:', existing);
+    // Update existing profile
+    const { data: updated, error: updateError } = await supabase
+      .from('profiles')
+      .update({
+        ...data,
+        updated_at: new Date().toISOString()
+      })
+      .eq('auth_user_id', userId)
+      .select()
+      .single();
+
+    if (updateError) {
+      console.error('Error updating existing profile:', updateError);
+      return null;
+    }
+
+    return updated;
+  }
+
+  // Create new profile
   const { data: profile, error } = await supabase
     .from('profiles')
     .insert({
@@ -110,6 +139,7 @@ export async function createProfile(userId: string, data: {
 
   if (error) {
     console.error('Error creating profile:', error);
+    console.error('Error details:', JSON.stringify(error, null, 2));
     return null;
   }
 
