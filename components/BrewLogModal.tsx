@@ -68,6 +68,9 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
       if (savedDraft) {
         try {
           const parsed = JSON.parse(savedDraft);
+          // Validate and cap rating to 0-5 range
+          if (parsed.rating > 5) parsed.rating = 5;
+          if (parsed.rating < 0) parsed.rating = 0;
           setFormData({ ...parsed, location: parsed.location || defaultLocation });
           if (parsed.mediaPreview) {
             setMediaPreview(parsed.mediaPreview);
