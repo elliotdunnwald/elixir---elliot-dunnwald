@@ -100,6 +100,81 @@
             cursor: pointer;
             border: none;
         }
+        /* Rating slider styling - black dot on black line with white center */
+        input[type="range"]:not(.slider) {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+        }
+        input[type="range"]:not(.slider)::-webkit-slider-track {
+            background: linear-gradient(to right,
+                #000000 0%,
+                #000000 45%,
+                #ffffff 48%,
+                #ffffff 52%,
+                #000000 55%,
+                #000000 100%);
+            height: 4px;
+            border-radius: 2px;
+        }
+        input[type="range"]:not(.slider)::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #000000;
+            border: 2px solid #000000;
+            cursor: pointer;
+            margin-top: -10px;
+        }
+        input[type="range"]:not(.slider)::-moz-range-track {
+            background: linear-gradient(to right,
+                #000000 0%,
+                #000000 45%,
+                #ffffff 48%,
+                #ffffff 52%,
+                #000000 55%,
+                #000000 100%);
+            height: 4px;
+            border-radius: 2px;
+        }
+        input[type="range"]:not(.slider)::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #000000;
+            border: 2px solid #000000;
+            cursor: pointer;
+            border: none;
+        }
+        /* Light theme rating slider - white dot on white line with black center */
+        .light-theme input[type="range"]:not(.slider)::-webkit-slider-track {
+            background: linear-gradient(to right,
+                #ffffff 0%,
+                #ffffff 45%,
+                #000000 48%,
+                #000000 52%,
+                #ffffff 55%,
+                #ffffff 100%);
+        }
+        .light-theme input[type="range"]:not(.slider)::-webkit-slider-thumb {
+            background: #ffffff;
+            border: 2px solid #000000;
+        }
+        .light-theme input[type="range"]:not(.slider)::-moz-range-track {
+            background: linear-gradient(to right,
+                #ffffff 0%,
+                #ffffff 45%,
+                #000000 48%,
+                #000000 52%,
+                #ffffff 55%,
+                #ffffff 100%);
+        }
+        .light-theme input[type="range"]:not(.slider)::-moz-range-thumb {
+            background: #ffffff;
+            border: 2px solid #000000;
+        }
         /* Better contrast utilities */
         .icon-button {
             transition: all 0.2s ease;
@@ -168,6 +243,9 @@
         .light-theme .divide-zinc-800 { border-color: #000000 !important; }
         .light-theme .shadow-white\/5 { box-shadow: none !important; }
         .light-theme .shadow-white\/10 { box-shadow: none !important; }
+        /* Toggle button visibility in light theme */
+        .light-theme .bg-transparent { background-color: rgba(0, 0, 0, 0.03) !important; }
+        .light-theme button.bg-transparent:hover { background-color: rgba(0, 0, 0, 0.08) !important; }
     </style>
 </head>
 <body>
