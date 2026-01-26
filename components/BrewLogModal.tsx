@@ -282,7 +282,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative bg-zinc-900 w-full max-w-2xl h-full sm:h-auto sm:rounded-[2.5rem] shadow-2xl border border-zinc-800 overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95">
 
-        <div className="px-8 py-6 border-b border-zinc-800 bg-zinc-900/90 backdrop-blur-md sticky top-0 z-20">
+        <div className="px-8 py-6 border-b border-zinc-800 bg-zinc-900 sticky top-0 z-20">
           <div className="flex justify-between items-center mb-3">
             <h2 className="text-xl font-black text-white tracking-tighter uppercase">Log Brew</h2>
             <button onClick={onClose} className="text-zinc-100 hover:text-white transition-all" disabled={uploading}><X className="w-6 h-6" /></button>
