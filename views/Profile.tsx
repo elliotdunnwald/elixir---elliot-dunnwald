@@ -298,8 +298,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-300">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-2xl h-full sm:h-auto flex flex-col sm:max-h-[90vh] animate-in zoom-in-95 bg-black" style={{ borderRadius: '2rem', overflow: 'hidden', boxShadow: 'none' }}>
-        <div className="px-8 py-6 border-b-2 border-zinc-800 flex justify-between items-center bg-black">
+      <div className="relative bg-zinc-900 w-full max-w-2xl h-full sm:h-auto sm:rounded-[2.5rem] shadow-2xl border border-zinc-800 overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95">
+        <div className="px-8 py-6 border-b border-zinc-800 flex justify-between items-center bg-zinc-900">
           <h2 className="text-xl font-black text-white tracking-tighter uppercase">EDIT PROFILE</h2>
           <button onClick={onClose} className="text-zinc-400 hover:text-white transition-all"><X className="w-6 h-6" /></button>
         </div>

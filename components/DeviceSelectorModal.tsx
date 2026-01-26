@@ -92,7 +92,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
       <div className="relative bg-zinc-900 w-full max-w-2xl max-h-[80vh] rounded-[2.5rem] shadow-2xl border border-zinc-800 overflow-hidden flex flex-col">
 
         {/* Header */}
-        <div className="px-8 py-6 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/90 backdrop-blur-md">
+        <div className="px-8 py-6 border-b border-zinc-800 flex justify-between items-center bg-zinc-900">
           <h2 className="text-xl font-black text-white tracking-tighter uppercase">Select Brewing Device</h2>
           <button onClick={onClose} className="text-zinc-100 hover:text-white transition-all">
             <X className="w-6 h-6" />

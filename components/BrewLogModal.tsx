@@ -589,7 +589,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
 
           <section className="space-y-4">
             <div className="flex justify-between items-center px-1"><p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Overall Score</p><p className="text-2xl font-black">{formData.rating.toFixed(1)}</p></div>
-            <input type="range" min="1" max="10" step="0.1" value={formData.rating} onChange={e => setFormData({...formData, rating: parseFloat(e.target.value)})} disabled={uploading} className="w-full accent-white h-2 bg-black rounded-lg appearance-none cursor-pointer disabled:opacity-50" />
+            <input type="range" min="1" max="10" step="0.1" value={formData.rating} onChange={e => setFormData({...formData, rating: parseFloat(e.target.value)})} disabled={uploading} className="w-full accent-white h-2 bg-zinc-800 border-2 border-zinc-800 rounded-lg appearance-none cursor-pointer disabled:opacity-50" />
           </section>
 
           <section className="space-y-4">
