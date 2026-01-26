@@ -27,13 +27,13 @@
 
         :root.light-theme {
             --bg-primary: #ffffff;
-            --bg-secondary: #f4f4f5;
-            --bg-tertiary: #e4e4e7;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #ffffff;
             --text-primary: #000000;
-            --text-secondary: #18181b;
+            --text-secondary: #000000;
             --text-tertiary: #52525b;
-            --border-primary: #e4e4e7;
-            --border-secondary: #d4d4d8;
+            --border-primary: #000000;
+            --border-secondary: #000000;
             --accent: #000000;
             --accent-text: #ffffff;
         }
@@ -130,30 +130,30 @@
             border: 0;
         }
 
-        /* Theme-aware Tailwind overrides */
-        .light-theme .bg-black { background-color: var(--bg-primary) !important; }
-        .light-theme .bg-zinc-900 { background-color: var(--bg-secondary) !important; }
-        .light-theme .bg-zinc-950 { background-color: var(--bg-secondary) !important; }
-        .light-theme .bg-zinc-800 { background-color: var(--bg-tertiary) !important; }
-        .light-theme .text-white { color: var(--text-primary) !important; }
-        .light-theme .text-zinc-100 { color: var(--text-secondary) !important; }
-        .light-theme .text-zinc-200 { color: var(--text-tertiary) !important; }
-        .light-theme .text-zinc-400 { color: var(--text-tertiary) !important; }
-        .light-theme .text-zinc-500 { color: var(--text-tertiary) !important; }
-        .light-theme .text-zinc-700 { color: var(--text-tertiary) !important; }
-        .light-theme .text-zinc-800 { color: var(--text-tertiary) !important; }
-        .light-theme .border-zinc-800 { border-color: var(--border-primary) !important; }
-        .light-theme .border-zinc-700 { border-color: var(--border-secondary) !important; }
-        .light-theme .border-zinc-600 { border-color: var(--border-secondary) !important; }
-        .light-theme .bg-white { background-color: var(--accent) !important; }
-        .light-theme .text-black { color: var(--accent-text) !important; }
-        .light-theme .border-white { border-color: var(--accent) !important; }
-        .light-theme .placeholder\:text-zinc-700::placeholder { color: var(--text-tertiary) !important; }
-        .light-theme .placeholder\:text-zinc-800::placeholder { color: var(--text-tertiary) !important; }
-
-        /* Inverse for originally white/black elements in light mode */
-        .light-theme .bg-white { background-color: var(--accent) !important; }
-        .light-theme .text-white { color: var(--text-primary) !important; }
+        /* Theme-aware Tailwind overrides for LIGHT theme */
+        .light-theme .bg-black { background-color: #ffffff !important; }
+        .light-theme .bg-zinc-900 { background-color: #ffffff !important; }
+        .light-theme .bg-zinc-950 { background-color: #ffffff !important; }
+        .light-theme .bg-zinc-800 { background-color: #ffffff !important; }
+        .light-theme .text-white { color: #000000 !important; }
+        .light-theme .text-zinc-100 { color: #000000 !important; }
+        .light-theme .text-zinc-200 { color: #52525b !important; }
+        .light-theme .text-zinc-400 { color: #52525b !important; }
+        .light-theme .text-zinc-500 { color: #52525b !important; }
+        .light-theme .text-zinc-700 { color: #52525b !important; }
+        .light-theme .text-zinc-800 { color: #52525b !important; }
+        .light-theme .border-zinc-800 { border-color: #000000 !important; }
+        .light-theme .border-zinc-700 { border-color: #000000 !important; }
+        .light-theme .border-zinc-600 { border-color: #000000 !important; }
+        .light-theme .bg-white { background-color: #000000 !important; }
+        .light-theme .text-black { color: #ffffff !important; }
+        .light-theme .border-white { border-color: #000000 !important; }
+        .light-theme .placeholder\:text-zinc-700::placeholder { color: #52525b !important; }
+        .light-theme .placeholder\:text-zinc-800::placeholder { color: #52525b !important; }
+        .light-theme .hover\:bg-zinc-100:hover { background-color: #f4f4f5 !important; }
+        .light-theme .hover\:bg-zinc-800:hover { background-color: #e4e4e7 !important; }
+        .light-theme .hover\:text-white:hover { color: #000000 !important; }
+        .light-theme .hover\:border-white:hover { border-color: #000000 !important; }
     </style>
 </head>
 <body>
