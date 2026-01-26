@@ -16,17 +16,30 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     return (saved as Theme) || 'light';
   });
 
+  // Apply theme immediately on mount
   useEffect(() => {
-    localStorage.setItem('elixr_theme', theme);
+    const applyTheme = (themeToApply: Theme) => {
+      const root = document.documentElement;
+      const body = document.body;
 
-    // Apply theme class to document
-    if (theme === 'light') {
-      document.documentElement.classList.add('light-theme');
-      document.documentElement.classList.remove('dark-theme');
-    } else {
-      document.documentElement.classList.add('dark-theme');
-      document.documentElement.classList.remove('light-theme');
-    }
+      if (themeToApply === 'light') {
+        root.classList.add('light-theme');
+        root.classList.remove('dark-theme');
+        body.classList.add('light-theme');
+        body.classList.remove('dark-theme');
+        root.setAttribute('data-theme', 'light');
+      } else {
+        root.classList.add('dark-theme');
+        root.classList.remove('light-theme');
+        body.classList.add('dark-theme');
+        body.classList.remove('light-theme');
+        root.setAttribute('data-theme', 'dark');
+      }
+    };
+
+    // Apply immediately
+    applyTheme(theme);
+    localStorage.setItem('elixr_theme', theme);
 
     // Update favicon for theme
     const favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement;

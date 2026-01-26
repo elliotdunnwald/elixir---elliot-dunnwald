@@ -1,10 +1,18 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light-theme" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ELIXR</title>
+    <script>
+        // Apply theme immediately to prevent flash
+        (function() {
+            const saved = localStorage.getItem('elixr_theme') || 'light';
+            document.documentElement.classList.add(saved + '-theme');
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -236,46 +244,85 @@
         }
 
         /* Theme-aware Tailwind overrides for LIGHT theme */
-        .light-theme .bg-black { background-color: #ffffff !important; }
-        .light-theme .bg-zinc-900 { background-color: #ffffff !important; }
-        .light-theme .bg-zinc-950 { background-color: #ffffff !important; }
-        .light-theme .bg-zinc-800 { background-color: #ffffff !important; }
-        .light-theme .text-white { color: #000000 !important; }
-        .light-theme .text-zinc-100 { color: #000000 !important; }
-        .light-theme .text-zinc-200 { color: #52525b !important; }
-        .light-theme .text-zinc-400 { color: #52525b !important; }
-        .light-theme .text-zinc-500 { color: #52525b !important; }
-        .light-theme .text-zinc-700 { color: #52525b !important; }
-        .light-theme .text-zinc-800 { color: #52525b !important; }
-        .light-theme .border-zinc-800 { border-color: #000000 !important; }
-        .light-theme .border-zinc-700 { border-color: #000000 !important; }
-        .light-theme .border-zinc-600 { border-color: #000000 !important; }
-        .light-theme .border-zinc-900 { border-color: #000000 !important; }
-        .light-theme .border-zinc-950 { border-color: #000000 !important; }
-        .light-theme .border-black { border-color: #000000 !important; }
-        .light-theme .border-t-zinc-800 { border-top-color: #000000 !important; }
-        .light-theme .border-b-zinc-800 { border-bottom-color: #000000 !important; }
-        .light-theme .border-l-zinc-800 { border-left-color: #000000 !important; }
-        .light-theme .border-r-zinc-800 { border-right-color: #000000 !important; }
-        .light-theme .bg-white { background-color: #000000 !important; }
-        .light-theme .text-black { color: #ffffff !important; }
-        .light-theme .border-white { border-color: #000000 !important; }
-        .light-theme .placeholder\:text-zinc-700::placeholder { color: #52525b !important; }
-        .light-theme .placeholder\:text-zinc-800::placeholder { color: #52525b !important; }
-        .light-theme .hover\:bg-zinc-100:hover { background-color: #f4f4f5 !important; }
-        .light-theme .hover\:bg-zinc-800:hover { background-color: #e4e4e7 !important; }
-        .light-theme .hover\:text-white:hover { color: #000000 !important; }
-        .light-theme .hover\:border-white:hover { border-color: #000000 !important; }
-        .light-theme .hover\:border-zinc-600:hover { border-color: #000000 !important; }
-        .light-theme .hover\:border-zinc-700:hover { border-color: #000000 !important; }
-        .light-theme .hover\:border-zinc-800:hover { border-color: #000000 !important; }
-        .light-theme .hover\:border-zinc-900:hover { border-color: #000000 !important; }
-        .light-theme .divide-zinc-800 { border-color: #000000 !important; }
-        .light-theme .shadow-white\/5 { box-shadow: none !important; }
-        .light-theme .shadow-white\/10 { box-shadow: none !important; }
+        html.light-theme .bg-black,
+        body.light-theme .bg-black { background-color: #ffffff !important; }
+        html.light-theme .bg-zinc-900,
+        body.light-theme .bg-zinc-900 { background-color: #ffffff !important; }
+        html.light-theme .bg-zinc-950,
+        body.light-theme .bg-zinc-950 { background-color: #ffffff !important; }
+        html.light-theme .bg-zinc-800,
+        body.light-theme .bg-zinc-800 { background-color: #ffffff !important; }
+        html.light-theme .text-white,
+        body.light-theme .text-white { color: #000000 !important; }
+        html.light-theme .text-zinc-100,
+        body.light-theme .text-zinc-100 { color: #000000 !important; }
+        html.light-theme .text-zinc-200,
+        body.light-theme .text-zinc-200 { color: #52525b !important; }
+        html.light-theme .text-zinc-400,
+        body.light-theme .text-zinc-400 { color: #52525b !important; }
+        html.light-theme .text-zinc-500,
+        body.light-theme .text-zinc-500 { color: #52525b !important; }
+        html.light-theme .text-zinc-700,
+        body.light-theme .text-zinc-700 { color: #52525b !important; }
+        html.light-theme .text-zinc-800,
+        body.light-theme .text-zinc-800 { color: #52525b !important; }
+        html.light-theme .border-zinc-800,
+        body.light-theme .border-zinc-800 { border-color: #000000 !important; }
+        html.light-theme .border-zinc-700,
+        body.light-theme .border-zinc-700 { border-color: #000000 !important; }
+        html.light-theme .border-zinc-600,
+        body.light-theme .border-zinc-600 { border-color: #000000 !important; }
+        html.light-theme .border-zinc-900,
+        body.light-theme .border-zinc-900 { border-color: #000000 !important; }
+        html.light-theme .border-zinc-950,
+        body.light-theme .border-zinc-950 { border-color: #000000 !important; }
+        html.light-theme .border-black,
+        body.light-theme .border-black { border-color: #000000 !important; }
+        html.light-theme .border-t-zinc-800,
+        body.light-theme .border-t-zinc-800 { border-top-color: #000000 !important; }
+        html.light-theme .border-b-zinc-800,
+        body.light-theme .border-b-zinc-800 { border-bottom-color: #000000 !important; }
+        html.light-theme .border-l-zinc-800,
+        body.light-theme .border-l-zinc-800 { border-left-color: #000000 !important; }
+        html.light-theme .border-r-zinc-800,
+        body.light-theme .border-r-zinc-800 { border-right-color: #000000 !important; }
+        html.light-theme .bg-white,
+        body.light-theme .bg-white { background-color: #000000 !important; }
+        html.light-theme .text-black,
+        body.light-theme .text-black { color: #ffffff !important; }
+        html.light-theme .border-white,
+        body.light-theme .border-white { border-color: #000000 !important; }
+        html.light-theme .placeholder\:text-zinc-700::placeholder,
+        body.light-theme .placeholder\:text-zinc-700::placeholder { color: #52525b !important; }
+        html.light-theme .placeholder\:text-zinc-800::placeholder,
+        body.light-theme .placeholder\:text-zinc-800::placeholder { color: #52525b !important; }
+        html.light-theme .hover\:bg-zinc-100:hover,
+        body.light-theme .hover\:bg-zinc-100:hover { background-color: #f4f4f5 !important; }
+        html.light-theme .hover\:bg-zinc-800:hover,
+        body.light-theme .hover\:bg-zinc-800:hover { background-color: #e4e4e7 !important; }
+        html.light-theme .hover\:text-white:hover,
+        body.light-theme .hover\:text-white:hover { color: #000000 !important; }
+        html.light-theme .hover\:border-white:hover,
+        body.light-theme .hover\:border-white:hover { border-color: #000000 !important; }
+        html.light-theme .hover\:border-zinc-600:hover,
+        body.light-theme .hover\:border-zinc-600:hover { border-color: #000000 !important; }
+        html.light-theme .hover\:border-zinc-700:hover,
+        body.light-theme .hover\:border-zinc-700:hover { border-color: #000000 !important; }
+        html.light-theme .hover\:border-zinc-800:hover,
+        body.light-theme .hover\:border-zinc-800:hover { border-color: #000000 !important; }
+        html.light-theme .hover\:border-zinc-900:hover,
+        body.light-theme .hover\:border-zinc-900:hover { border-color: #000000 !important; }
+        html.light-theme .divide-zinc-800,
+        body.light-theme .divide-zinc-800 { border-color: #000000 !important; }
+        html.light-theme .shadow-white\/5,
+        body.light-theme .shadow-white\/5 { box-shadow: none !important; }
+        html.light-theme .shadow-white\/10,
+        body.light-theme .shadow-white\/10 { box-shadow: none !important; }
         /* Toggle button visibility in light theme */
-        .light-theme .bg-transparent { background-color: rgba(0, 0, 0, 0.03) !important; }
-        .light-theme button.bg-transparent:hover { background-color: rgba(0, 0, 0, 0.08) !important; }
+        html.light-theme .bg-transparent,
+        body.light-theme .bg-transparent { background-color: rgba(0, 0, 0, 0.03) !important; }
+        html.light-theme button.bg-transparent:hover,
+        body.light-theme button.bg-transparent:hover { background-color: rgba(0, 0, 0, 0.08) !important; }
     </style>
 </head>
 <body>
