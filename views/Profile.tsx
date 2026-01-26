@@ -194,8 +194,6 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   const [checkingUsername, setCheckingUsername] = useState(false);
   const mediaInputRef = useRef<HTMLInputElement>(null);
 
-  if (!isOpen) return null;
-
   const handleAvatarSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -294,6 +292,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   };
 
   const filteredDevices = BREWING_DEVICES.filter(d => d.name.toUpperCase().includes(searchQuery.toUpperCase()) || d.brand.toUpperCase().includes(searchQuery.toUpperCase()));
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-300">
@@ -432,7 +432,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
           ...currentProfile,
           follower_count: followerCount,
           following_count: followingCount,
-          brew_count: activities.length
+          brew_count: 0 // Will be updated separately
         });
         setGear(gearData);
       } else if (userId) {
@@ -459,7 +459,14 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
     }
 
     loadProfile();
-  }, [isMe, userId, currentProfile]);
+  }, [isMe, userId, currentProfile?.id]);
+
+  // Update brew count when activities change
+  useEffect(() => {
+    if (profileData) {
+      setProfileData(prev => prev ? { ...prev, brew_count: activities.length } : null);
+    }
+  }, [activities.length]);
 
   const handleUpdateProfile = async (updates: any) => {
     if (!user || !currentProfile) return;
