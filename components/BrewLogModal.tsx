@@ -180,11 +180,12 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
         setMediaPreview(null);
         onClose();
       } else {
-        alert('Failed to create brew log');
+        console.error('Failed to create brew log - no activity returned');
+        alert('Failed to create brew log. Please check console for details.');
       }
     } catch (err) {
       console.error('Error creating brew log:', err);
-      alert('Failed to create brew log');
+      alert('Failed to create brew log. Please check console for details.');
     } finally {
       setUploading(false);
     }

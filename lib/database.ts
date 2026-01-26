@@ -178,6 +178,7 @@ export interface DbBrewActivity {
   estate?: string;
   varietal?: string;
   process?: string;
+  brew_type?: 'espresso' | 'filter';
   brewer: string;
   grinder?: string;
   grind_setting?: string;
