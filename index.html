@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ELIXR</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -49,6 +49,9 @@
             transition: background-color 0.3s ease, color 0.3s ease;
             user-select: auto;
             -webkit-user-select: auto;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            touch-action: manipulation;
         }
         h1, h2, h3, h4, button, input, textarea, .font-caps {
             font-family: 'Inter', sans-serif;
@@ -57,6 +60,17 @@
         input, textarea {
             user-select: text;
             -webkit-user-select: text;
+            font-size: 16px !important;
+        }
+        /* Prevent iOS zoom on input focus by ensuring 16px font minimum */
+        @media screen and (max-width: 640px) {
+            input[type="text"],
+            input[type="email"],
+            input[type="password"],
+            input[type="tel"],
+            textarea {
+                font-size: 16px !important;
+            }
         }
         input::placeholder, textarea::placeholder {
             text-transform: uppercase;
