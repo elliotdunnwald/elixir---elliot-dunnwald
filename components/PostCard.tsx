@@ -172,7 +172,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete }) => {
             </div>
             <div className="space-y-2">
               <p className="text-[9px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><Thermometer className="w-4 h-4" /> TEMP</p>
-              <p className="text-sm font-black text-white">{activity.temperature}°{activity.tempUnit || 'C'}</p>
+              <p className="text-sm font-black text-white whitespace-nowrap">{activity.temperature}°{activity.tempUnit || 'C'}</p>
             </div>
           </div>
         )}

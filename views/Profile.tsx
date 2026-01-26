@@ -149,6 +149,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   const [formData, setFormData] = useState({
     firstName: initialFirstName,
     lastName: initialLastName,
+    email: userData.email || '',
+    phone: userData.phone || '',
     pronouns: userData.pronouns || '',
     city: userData.city || '',
     country: userData.country || '',
@@ -266,6 +268,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
                 <input type="text" value={formData.lastName} onChange={e => setFormData({ ...formData, lastName: e.target.value.toUpperCase() })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase" />
               </div>
             </div>
+            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">EMAIL</label><input type="email" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white" /></div>
+            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">PHONE</label><input type="tel" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white" placeholder="OPTIONAL" /></div>
             <div className="space-y-2"><label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">PRONOUNS</label><input type="text" value={formData.pronouns} onChange={e => setFormData({ ...formData, pronouns: e.target.value.toUpperCase() })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase" /></div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2"><label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">CITY</label><input type="text" value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value.toUpperCase() })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase" /></div>
@@ -369,6 +373,8 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
     const result = await updateProfile(user.id, {
       first_name: updates.firstName,
       last_name: updates.lastName,
+      email: updates.email,
+      phone: updates.phone,
       pronouns: updates.pronouns,
       city: updates.city,
       country: updates.country,
