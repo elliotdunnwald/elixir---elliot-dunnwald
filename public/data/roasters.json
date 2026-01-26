@@ -1,0 +1,1093 @@
+[
+  {
+    "id": "1",
+    "name": "Blue Bottle Coffee",
+    "city": "Oakland",
+    "state": "CA",
+    "country": "USA",
+    "website": "https://bluebottlecoffee.com",
+    "foundedYear": 2002,
+    "offerings": []
+  },
+  {
+    "id": "2",
+    "name": "Onyx Coffee Lab",
+    "city": "Rogers",
+    "state": "AR",
+    "country": "USA",
+    "website": "https://onyxcoffeelab.com",
+    "foundedYear": 2012,
+    "offerings": []
+  },
+  {
+    "id": "3",
+    "name": "Counter Culture Coffee",
+    "city": "Durham",
+    "state": "NC",
+    "country": "USA",
+    "website": "https://counterculturecoffee.com",
+    "foundedYear": 1995,
+    "offerings": []
+  },
+  {
+    "id": "4",
+    "name": "Intelligentsia Coffee",
+    "city": "Chicago",
+    "state": "IL",
+    "country": "USA",
+    "website": "https://intelligentsiacoffee.com",
+    "foundedYear": 1995,
+    "offerings": []
+  },
+  {
+    "id": "5",
+    "name": "Stumptown Coffee Roasters",
+    "city": "Portland",
+    "state": "OR",
+    "country": "USA",
+    "website": "https://stumptowncoffee.com",
+    "foundedYear": 1999,
+    "offerings": []
+  },
+  {
+    "id": "6",
+    "name": "Novo Coffee",
+    "city": "Denver",
+    "state": "CO",
+    "country": "USA",
+    "website": "https://novocoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "7",
+    "name": "Heart Coffee Roasters",
+    "city": "Portland",
+    "state": "OR",
+    "country": "USA",
+    "website": "https://heartroasters.com",
+    "offerings": []
+  },
+  {
+    "id": "8",
+    "name": "Deeper Roots Coffee",
+    "city": "Cincinnati",
+    "state": "OH",
+    "country": "USA",
+    "website": "https://deeperrootscoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "9",
+    "name": "Ritual Coffee Roasters",
+    "city": "San Francisco",
+    "state": "CA",
+    "country": "USA",
+    "website": "https://ritualcoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "10",
+    "name": "Gracenote Coffee Roasters",
+    "city": "Boston",
+    "state": "MA",
+    "country": "USA",
+    "website": "https://gracenotecoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "11",
+    "name": "JBC Coffee Roasters",
+    "city": "Madison",
+    "state": "WI",
+    "country": "USA",
+    "website": "https://jbccoffeeroasters.com",
+    "offerings": []
+  },
+  {
+    "id": "12",
+    "name": "Chromatic Coffee",
+    "city": "San Jose",
+    "state": "CA",
+    "country": "USA",
+    "website": "https://chromaticcoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "14",
+    "name": "Devoción",
+    "city": "New York",
+    "state": "NY",
+    "country": "USA",
+    "website": "https://devocion.com",
+    "offerings": []
+  },
+  {
+    "id": "15",
+    "name": "Common Roots Coffee",
+    "city": "Adirondacks",
+    "state": "NY",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "16",
+    "name": "Stray Cat Coffee",
+    "city": "Baker City",
+    "state": "OR",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "17",
+    "name": "Musa Coffee",
+    "city": "Miami",
+    "state": "FL",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "18",
+    "name": "Peristyle Coffee",
+    "city": "Cleveland",
+    "state": "OH",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "19",
+    "name": "West Lou Coffee",
+    "city": "Louisville",
+    "state": "KY",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "20",
+    "name": "Dekáf Coffee Roasters",
+    "city": "Portland",
+    "state": "OR",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "21",
+    "name": "Dito Coffee",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "22",
+    "name": "Katï Coffee",
+    "city": "Georgetown",
+    "state": "TX",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "23",
+    "name": "Frequent Coffee",
+    "city": "San Diego",
+    "state": "CA",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "24",
+    "name": "Wavelength Coffee",
+    "city": "Boston",
+    "state": "MA",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "25",
+    "name": "Sugar Leaf Coffee Roasterie",
+    "city": "Milwaukee",
+    "state": "WI",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "26",
+    "name": "The Breaks Coffee Roasting",
+    "city": "Sioux Falls",
+    "state": "SD",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "27",
+    "name": "First Light Coffee",
+    "city": "Baltimore",
+    "state": "MD",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "28",
+    "name": "Compass Point Coffee",
+    "city": "Philadelphia",
+    "state": "PA",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "29",
+    "name": "Tracer Coffee",
+    "city": "Charleston",
+    "state": "SC",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "30",
+    "name": "Placer Roasting Company",
+    "city": "Rocklin",
+    "state": "CA",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "33",
+    "name": "NūStory Coffee",
+    "city": "Springfield",
+    "state": "MO",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "34",
+    "name": "Paul John Indian Caffeine Co.",
+    "city": "Tampa",
+    "state": "FL",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "35",
+    "name": "Untold Coffee Lab",
+    "city": "Rochester",
+    "state": "NY",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "36",
+    "name": "Fable Roasters",
+    "city": "St. Cloud",
+    "state": "MN",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "37",
+    "name": "Standing Wave Coffee",
+    "city": "Pittsburgh",
+    "state": "PA",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "38",
+    "name": "Caffe Ladro",
+    "city": "Seattle",
+    "state": "WA",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "39",
+    "name": "Elm Coffee Roasters",
+    "city": "Seattle",
+    "state": "WA",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "40",
+    "name": "Herkimer Coffee",
+    "city": "Seattle",
+    "state": "WA",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "41",
+    "name": "Conscious Cup Coffee",
+    "city": "Chicago",
+    "state": "IL",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "42",
+    "name": "Water Avenue Coffee",
+    "city": "Portland",
+    "state": "OR",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "43",
+    "name": "Deadstock Coffee",
+    "city": "Portland",
+    "state": "OR",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "44",
+    "name": "Coava Coffee Roasters",
+    "city": "Portland",
+    "state": "OR",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "45",
+    "name": "Huckleberry Roasters",
+    "city": "Denver",
+    "state": "CO",
+    "country": "USA",
+    "website": "https://huckleberryroasters.com",
+    "offerings": []
+  },
+  {
+    "id": "46",
+    "name": "Method Coffee Roasters",
+    "city": "Denver",
+    "state": "CO",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "47",
+    "name": "LAMill Coffee",
+    "city": "Los Angeles",
+    "state": "CA",
+    "country": "USA",
+    "website": "https://lamillcoffee.com",
+    "foundedYear": 1991,
+    "offerings": []
+  },
+  {
+    "id": "48",
+    "name": "Cognoscenti Coffee",
+    "city": "Los Angeles",
+    "state": "CA",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "49",
+    "name": "Reborn Coffee",
+    "city": "Los Angeles",
+    "state": "CA",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "50",
+    "name": "Mozart's Coffee Roasters",
+    "city": "Austin",
+    "state": "TX",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "51",
+    "name": "Civil Goat Coffee Co.",
+    "city": "Austin",
+    "state": "TX",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "52",
+    "name": "Greater Goods Coffee",
+    "city": "Austin",
+    "state": "TX",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "53",
+    "name": "Red Bird Roasting",
+    "city": "Kelowna",
+    "state": "BC",
+    "country": "Canada",
+    "offerings": []
+  },
+  {
+    "id": "54",
+    "name": "Tim Wendelboe",
+    "city": "Oslo",
+    "country": "Norway",
+    "website": "https://timwendelboe.no",
+    "offerings": []
+  },
+  {
+    "id": "55",
+    "name": "Coffee Collective",
+    "city": "Copenhagen",
+    "country": "Denmark",
+    "website": "https://coffeecollective.dk",
+    "offerings": []
+  },
+  {
+    "id": "56",
+    "name": "La Cabra Coffee",
+    "city": "Aarhus",
+    "country": "Denmark",
+    "website": "https://lacabra.dk",
+    "offerings": []
+  },
+  {
+    "id": "57",
+    "name": "Drop Coffee Roasters",
+    "city": "Stockholm",
+    "country": "Sweden",
+    "website": "https://dropcoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "58",
+    "name": "April Coffee Roasters",
+    "city": "Copenhagen",
+    "country": "Denmark",
+    "website": "https://aprilcoffeeroasters.com",
+    "offerings": []
+  },
+  {
+    "id": "59",
+    "name": "The Barn",
+    "city": "Berlin",
+    "country": "Germany",
+    "website": "https://thebarn.de",
+    "offerings": []
+  },
+  {
+    "id": "60",
+    "name": "Bonanza Coffee",
+    "city": "Berlin",
+    "country": "Germany",
+    "website": "https://bonanzacoffee.de",
+    "offerings": []
+  },
+  {
+    "id": "61",
+    "name": "Workshop Coffee",
+    "city": "London",
+    "country": "UK",
+    "website": "https://workshopcoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "62",
+    "name": "Origin Coffee Roasters",
+    "city": "Cornwall",
+    "country": "UK",
+    "website": "https://origincoffee.co.uk",
+    "foundedYear": 2004,
+    "offerings": []
+  },
+  {
+    "id": "63",
+    "name": "Kiss the Hippo",
+    "city": "London",
+    "country": "UK",
+    "website": "https://kissthehippo.com",
+    "offerings": []
+  },
+  {
+    "id": "65",
+    "name": "Onibus Coffee",
+    "city": "Tokyo",
+    "country": "Japan",
+    "website": "https://onibuscoffee.com",
+    "foundedYear": 2012,
+    "offerings": []
+  },
+  {
+    "id": "66",
+    "name": "Glitch Coffee Roasters",
+    "city": "Tokyo",
+    "country": "Japan",
+    "offerings": []
+  },
+  {
+    "id": "67",
+    "name": "Fuglen Coffee Roasters",
+    "city": "Tokyo",
+    "country": "Japan",
+    "website": "https://fuglen.com",
+    "offerings": []
+  },
+  {
+    "id": "68",
+    "name": "Switch Coffee",
+    "city": "Tokyo",
+    "country": "Japan",
+    "offerings": []
+  },
+  {
+    "id": "69",
+    "name": "Takamura Coffee Roasters",
+    "city": "Osaka",
+    "country": "Japan",
+    "website": "https://takamura-coffee.com",
+    "offerings": []
+  },
+  {
+    "id": "70",
+    "name": "Koffee Mameya",
+    "city": "Tokyo",
+    "country": "Japan",
+    "offerings": []
+  },
+  {
+    "id": "73",
+    "name": "Market Lane Coffee",
+    "city": "Melbourne",
+    "country": "Australia",
+    "website": "https://marketlane.com.au",
+    "offerings": []
+  },
+  {
+    "id": "74",
+    "name": "Seesaw Coffee",
+    "city": "Shanghai",
+    "country": "China",
+    "offerings": []
+  },
+  {
+    "id": "75",
+    "name": "Square Mile Coffee Roasters",
+    "city": "London",
+    "country": "UK",
+    "website": "https://shop.squaremilecoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "76",
+    "name": "Has Bean Coffee",
+    "city": "Staffordshire",
+    "country": "UK",
+    "website": "https://www.hasbean.co.uk",
+    "offerings": []
+  },
+  {
+    "id": "77",
+    "name": "Koppi Coffee Roasters",
+    "city": "Helsingborg",
+    "country": "Sweden",
+    "website": "https://www.koppi.se",
+    "offerings": []
+  },
+  {
+    "id": "79",
+    "name": "Five Elephant",
+    "city": "Berlin",
+    "country": "Germany",
+    "website": "https://fiveelephant.com",
+    "offerings": []
+  },
+  {
+    "id": "80",
+    "name": "Verve Coffee Roasters",
+    "city": "Santa Cruz",
+    "state": "CA",
+    "country": "USA",
+    "website": "https://vervecoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "81",
+    "name": "Equator Coffees",
+    "city": "San Rafael",
+    "state": "CA",
+    "country": "USA",
+    "website": "https://equatorcoffees.com",
+    "offerings": []
+  },
+  {
+    "id": "82",
+    "name": "Four Barrel Coffee",
+    "city": "San Francisco",
+    "state": "CA",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "83",
+    "name": "Sightglass Coffee",
+    "city": "San Francisco",
+    "state": "CA",
+    "country": "USA",
+    "website": "https://sightglasscoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "84",
+    "name": "George Howell Coffee",
+    "city": "Boston",
+    "state": "MA",
+    "country": "USA",
+    "website": "https://georgehowellcoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "85",
+    "name": "Irving Farm Coffee Roasters",
+    "city": "New York",
+    "state": "NY",
+    "country": "USA",
+    "website": "https://irvingfarm.com",
+    "offerings": []
+  },
+  {
+    "id": "86",
+    "name": "Tandem Coffee Roasters",
+    "city": "Portland",
+    "state": "ME",
+    "country": "USA",
+    "website": "https://tandemcoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "87",
+    "name": "PT's Coffee Roasting Co.",
+    "city": "Topeka",
+    "state": "KS",
+    "country": "USA",
+    "website": "https://ptscoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "88",
+    "name": "Madcap Coffee",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "country": "USA",
+    "website": "https://madcapcoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "89",
+    "name": "Cat & Cloud Coffee",
+    "city": "Santa Cruz",
+    "state": "CA",
+    "country": "USA",
+    "website": "https://catandcloud.com",
+    "offerings": []
+  },
+  {
+    "id": "90",
+    "name": "Phil & Sebastian",
+    "city": "Calgary",
+    "state": "AB",
+    "country": "Canada",
+    "website": "https://philsebastian.com",
+    "offerings": []
+  },
+  {
+    "id": "91",
+    "name": "Prototype Coffee",
+    "city": "Vancouver",
+    "state": "BC",
+    "country": "Canada",
+    "website": "https://prototypecoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "93",
+    "name": "Pilot Coffee Roasters",
+    "city": "Toronto",
+    "state": "ON",
+    "country": "Canada",
+    "website": "https://pilotcoffeeroasters.com",
+    "offerings": []
+  },
+  {
+    "id": "94",
+    "name": "Parlor Coffee",
+    "city": "Brooklyn",
+    "state": "NY",
+    "country": "USA",
+    "website": "https://parlorcoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "95",
+    "name": "Olympia Coffee Roasting",
+    "city": "Olympia",
+    "state": "WA",
+    "country": "USA",
+    "website": "https://olympiacoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "96",
+    "name": "Slate Coffee Roasters",
+    "city": "Seattle",
+    "state": "WA",
+    "country": "USA",
+    "website": "https://slatecoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "97",
+    "name": "Brandywine Coffee Roasters",
+    "city": "Wilmington",
+    "state": "DE",
+    "country": "USA",
+    "website": "https://brandywinecoffeeroasters.com",
+    "offerings": []
+  },
+  {
+    "id": "98",
+    "name": "Spyhouse Coffee",
+    "city": "Minneapolis",
+    "state": "MN",
+    "country": "USA",
+    "website": "https://spyhousecoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "100",
+    "name": "SEY Coffee",
+    "city": "Brooklyn",
+    "state": "NY",
+    "country": "USA",
+    "website": "https://seycoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "101",
+    "name": "Substance Café",
+    "city": "Paris",
+    "country": "France",
+    "website": "https://www.substancecafe.com",
+    "offerings": []
+  },
+  {
+    "id": "102",
+    "name": "Gold Box Roastery",
+    "city": "Dubai",
+    "country": "UAE",
+    "offerings": []
+  },
+  {
+    "id": "103",
+    "name": "Alba Coffee Roasters",
+    "city": "Dubai",
+    "country": "UAE",
+    "offerings": []
+  },
+  {
+    "id": "104",
+    "name": "Limited Coffee",
+    "city": "Dubai",
+    "country": "UAE",
+    "offerings": []
+  },
+  {
+    "id": "106",
+    "name": "Genio Roasters",
+    "city": "Muscat",
+    "country": "Oman",
+    "offerings": []
+  },
+  {
+    "id": "107",
+    "name": "Profiles Roastery",
+    "city": "Dubai",
+    "country": "UAE",
+    "offerings": []
+  },
+  {
+    "id": "108",
+    "name": "Nightjar Roastery",
+    "city": "Dubai",
+    "country": "UAE",
+    "offerings": []
+  },
+  {
+    "id": "109",
+    "name": "Section Coffee Roasters",
+    "city": "Dubai",
+    "country": "UAE",
+    "offerings": []
+  },
+  {
+    "id": "111",
+    "name": "Archers Coffee",
+    "city": "Dubai",
+    "country": "UAE",
+    "offerings": []
+  },
+  {
+    "id": "112",
+    "name": "Cairo Coffee Collective",
+    "city": "Cairo",
+    "country": "Egypt",
+    "offerings": []
+  },
+  {
+    "id": "113",
+    "name": "Mazboot Coffee Roasters",
+    "city": "Cairo",
+    "country": "Egypt",
+    "offerings": []
+  },
+  {
+    "id": "115",
+    "name": "Qahwa Roastery",
+    "city": "Cairo",
+    "country": "Egypt",
+    "offerings": []
+  },
+  {
+    "id": "116",
+    "name": "Origin Roasters Egypt",
+    "city": "Cairo",
+    "country": "Egypt",
+    "offerings": []
+  },
+  {
+    "id": "117",
+    "name": "Third Wave Roasters Egypt",
+    "city": "Cairo",
+    "country": "Egypt",
+    "offerings": []
+  },
+  {
+    "id": "118",
+    "name": "Egyptian Brew Masters",
+    "city": "Cairo",
+    "country": "Egypt",
+    "offerings": []
+  },
+  {
+    "id": "119",
+    "name": "Praxis Coffee Roasters",
+    "city": "Austin",
+    "state": "TX",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "120",
+    "name": "Colipse Coffee Roasters",
+    "city": "Albuquerque",
+    "state": "NM",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "121",
+    "name": "Perkatory Coffee Roasters",
+    "city": "Hartford",
+    "state": "CT",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "122",
+    "name": "Kafiex Roasters",
+    "city": "Portland",
+    "state": "OR",
+    "country": "USA",
+    "offerings": []
+  },
+  {
+    "id": "123",
+    "name": "Belleville Brûlerie",
+    "city": "Paris",
+    "country": "France",
+    "website": "https://www.bellevillebrulerie.com",
+    "offerings": []
+  },
+  {
+    "id": "125",
+    "name": "Terres de Café",
+    "city": "Paris",
+    "country": "France",
+    "website": "https://www.terresdecafe.com",
+    "offerings": []
+  },
+  {
+    "id": "126",
+    "name": "Coutume Café",
+    "city": "Paris",
+    "country": "France",
+    "website": "https://coutumecafe.com",
+    "offerings": []
+  },
+  {
+    "id": "127",
+    "name": "KB CoffeeRoasters",
+    "city": "Amsterdam",
+    "country": "Netherlands",
+    "website": "https://www.kbcoffeeroasters.com",
+    "offerings": []
+  },
+  {
+    "id": "128",
+    "name": "Lot Sixty One Coffee Roasters",
+    "city": "Amsterdam",
+    "country": "Netherlands",
+    "website": "https://www.lotsixtyone.com",
+    "offerings": []
+  },
+  {
+    "id": "129",
+    "name": "White Label Coffee",
+    "city": "Amsterdam",
+    "country": "Netherlands",
+    "website": "https://www.whitelabelcoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "131",
+    "name": "OR Coffee Roasters",
+    "city": "Antwerp",
+    "country": "Belgium",
+    "offerings": []
+  },
+  {
+    "id": "132",
+    "name": "Gardelli Specialty Coffees",
+    "city": "Forlì",
+    "country": "Italy",
+    "website": "https://www.gardellicoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "133",
+    "name": "Ditta Artigianale",
+    "city": "Florence",
+    "country": "Italy",
+    "website": "https://www.dittaartigianale.it",
+    "offerings": []
+  },
+  {
+    "id": "134",
+    "name": "Torrefazione Cannaregio",
+    "city": "Venice",
+    "country": "Italy",
+    "offerings": []
+  },
+  {
+    "id": "135",
+    "name": "Right Side Coffee Roasters",
+    "city": "Barcelona",
+    "country": "Spain",
+    "website": "https://www.rightsideroasters.com",
+    "offerings": []
+  },
+  {
+    "id": "136",
+    "name": "Nomad Coffee",
+    "city": "Barcelona",
+    "country": "Spain",
+    "website": "https://www.nomadcoffee.es",
+    "offerings": []
+  },
+  {
+    "id": "137",
+    "name": "Satan's Coffee Corner",
+    "city": "Barcelona",
+    "country": "Spain",
+    "offerings": []
+  },
+  {
+    "id": "138",
+    "name": "Fábrica Coffee Roasters",
+    "city": "Lisbon",
+    "country": "Portugal",
+    "website": "https://www.fabricacoffeeroasters.com",
+    "offerings": []
+  },
+  {
+    "id": "139",
+    "name": "Copenhagen Coffee Lab",
+    "city": "Copenhagen",
+    "country": "Denmark",
+    "website": "https://www.copenhagencoffeelab.com",
+    "offerings": []
+  },
+  {
+    "id": "140",
+    "name": "The Coffee Academics",
+    "city": "Hong Kong",
+    "country": "Hong Kong",
+    "website": "https://www.thecoffeeacademics.com",
+    "offerings": []
+  },
+  {
+    "id": "143",
+    "name": "Streamer Coffee Company",
+    "city": "Tokyo",
+    "country": "Japan",
+    "website": "https://www.streamercoffee.com",
+    "offerings": []
+  },
+  {
+    "id": "144",
+    "name": "Toby's Estate Coffee",
+    "city": "Sydney",
+    "country": "Australia",
+    "website": "https://www.tobysestate.com.au",
+    "offerings": []
+  },
+  {
+    "id": "145",
+    "name": "Industry Beans",
+    "city": "Melbourne",
+    "country": "Australia",
+    "website": "https://www.industrybeans.com",
+    "offerings": []
+  },
+  {
+    "id": "146",
+    "name": "Seven Seeds Coffee Roasters",
+    "city": "Melbourne",
+    "country": "Australia",
+    "website": "https://www.sevenseeds.com.au",
+    "offerings": []
+  },
+  {
+    "id": "147",
+    "name": "Proud Mary Coffee",
+    "city": "Melbourne",
+    "country": "Australia",
+    "website": "https://proudmarycoffee.com.au",
+    "offerings": []
+  },
+  {
+    "id": "148",
+    "name": "Flight Coffee Co.",
+    "city": "Wellington",
+    "country": "New Zealand",
+    "website": "https://www.flightcoffee.co.nz",
+    "offerings": []
+  },
+  {
+    "id": "150",
+    "name": "Ozone Coffee Roasters",
+    "city": "Auckland",
+    "country": "New Zealand",
+    "website": "https://www.ozonecoffee.co.nz",
+    "offerings": []
+  },
+  {
+    "id": "151",
+    "name": "Tanat",
+    "city": "Paris",
+    "country": "France",
+    "offerings": []
+  }
+]

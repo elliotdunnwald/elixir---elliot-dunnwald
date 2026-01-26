@@ -1,0 +1,618 @@
+{
+  "brewers": [
+    {
+      "name": "V60 01",
+      "brand": "HARIO",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "V60 02",
+      "brand": "HARIO",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "V60 03",
+      "brand": "HARIO",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "SWITCH",
+      "brand": "HARIO",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "MUGEN",
+      "brand": "HARIO",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "WAVE 155",
+      "brand": "KALITA",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "WAVE 185",
+      "brand": "KALITA",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "TSUBAME",
+      "brand": "KALITA",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "STAGG X",
+      "brand": "FELLOW",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "STAGG XF",
+      "brand": "FELLOW",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "APRIL BREWER",
+      "brand": "APRIL",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "PLASTIC BREWER",
+      "brand": "APRIL",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "DRIPPER SMALL",
+      "brand": "ORIGAMI",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "DRIPPER MEDIUM",
+      "brand": "ORIGAMI",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "AIR S",
+      "brand": "ORIGAMI",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "AIR M",
+      "brand": "ORIGAMI",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "SD-1",
+      "brand": "SUPRIMA",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "SD-1R",
+      "brand": "SUPRIMA",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "V3",
+      "brand": "OREA",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "V4",
+      "brand": "OREA",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "Z1",
+      "brand": "OREA",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "V3",
+      "brand": "TRICOLATE",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "DRIPPER",
+      "brand": "DECEMBER",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "BREWER",
+      "brand": "graycano",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "DRIPPER V2",
+      "brand": "UFO",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "CERAMIC DRIPPER",
+      "brand": "UFO",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "SOLO DRIPPER",
+      "brand": "MAZELAB",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "CLASSIC 3 CUP",
+      "brand": "CHEMEX",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "CLASSIC 6 CUP",
+      "brand": "CHEMEX",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "CLASSIC 8 CUP",
+      "brand": "CHEMEX",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "CLASSIC 10 CUP",
+      "brand": "CHEMEX",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "AEROPRESS",
+      "brand": "AEROPRESS",
+      "type": "IMMERSION",
+      "category": "immersion"
+    },
+    {
+      "name": "AEROPRESS GO",
+      "brand": "AEROPRESS",
+      "type": "IMMERSION",
+      "category": "immersion"
+    },
+    {
+      "name": "AEROPRESS CLEAR",
+      "brand": "AEROPRESS",
+      "type": "IMMERSION",
+      "category": "immersion"
+    },
+    {
+      "name": "CLEVER DRIPPER",
+      "brand": "CLEVER",
+      "type": "IMMERSION",
+      "category": "immersion"
+    },
+    {
+      "name": "FRENCH PRESS",
+      "brand": "BODUM",
+      "type": "IMMERSION",
+      "category": "immersion"
+    },
+    {
+      "name": "FRENCH PRESS",
+      "brand": "ESPRO",
+      "type": "IMMERSION",
+      "category": "immersion"
+    },
+    {
+      "name": "CLASSIC",
+      "brand": "FLAIR",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "PRO 2",
+      "brand": "FLAIR",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "SIGNATURE",
+      "brand": "FLAIR",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "58",
+      "brand": "FLAIR",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "58+",
+      "brand": "FLAIR",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "ROBOT",
+      "brand": "CAFELAT",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "PICOPRESSO",
+      "brand": "WACACO",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "NANOPRESSO",
+      "brand": "WACACO",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "CLASSIC PRO",
+      "brand": "GAGGIA",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "CLASSIC EVO",
+      "brand": "GAGGIA",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "BAMBINO",
+      "brand": "BREVILLE",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "BAMBINO PLUS",
+      "brand": "BREVILLE",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "BARISTA EXPRESS",
+      "brand": "BREVILLE",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "BARISTA PRO",
+      "brand": "BREVILLE",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "BARISTA TOUCH",
+      "brand": "BREVILLE",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "DUAL BOILER",
+      "brand": "BREVILLE",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "ORACLE",
+      "brand": "BREVILLE",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "SILVIA",
+      "brand": "RANCILIO",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "SILVIA PRO X",
+      "brand": "RANCILIO",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "DEDICA",
+      "brand": "DELONGHI",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "LA SPECIALISTA",
+      "brand": "DELONGHI",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "LINEA MINI",
+      "brand": "LA MARZOCCO",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "LINEA MICRA",
+      "brand": "LA MARZOCCO",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "GS3",
+      "brand": "LA MARZOCCO",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "APPARTAMENTO",
+      "brand": "ROCKET",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "MOZZAFIATO",
+      "brand": "ROCKET",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "R CINQUANTOTTO",
+      "brand": "ROCKET",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "DUAL BOILER",
+      "brand": "PROFITEC",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "PRO 700",
+      "brand": "PROFITEC",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "SYNCHRONIKA",
+      "brand": "ECM",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "MECHANIKA",
+      "brand": "ECM",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "BARISTA",
+      "brand": "LELIT",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "BIANCA",
+      "brand": "LELIT",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "ELIZABETH",
+      "brand": "LELIT",
+      "type": "ESPRESSO",
+      "category": "espresso"
+    },
+    {
+      "name": "KBGV SELECT",
+      "brand": "MOCCAMASTER",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "KBT",
+      "brand": "MOCCAMASTER",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "KBG",
+      "brand": "MOCCAMASTER",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "CUP-ONE",
+      "brand": "MOCCAMASTER",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "PRECISION BREWER",
+      "brand": "BREVILLE",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "PRECISION BREWER THERMAL",
+      "brand": "BREVILLE",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "GRIND CONTROL",
+      "brand": "BREVILLE",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "BEHMOR BRAZEN",
+      "brand": "BEHMOR",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "RATIO SIX",
+      "brand": "RATIO",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "RATIO EIGHT",
+      "brand": "RATIO",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "OXO BREW 9 CUP",
+      "brand": "OXO",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "OXO BREW 8 CUP",
+      "brand": "OXO",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "CAFE SPECIALTY",
+      "brand": "BONAVITA",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "CONNOISSEUR",
+      "brand": "BONAVITA",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "VERTUO",
+      "brand": "NESPRESSO",
+      "type": "POD",
+      "category": "pod"
+    },
+    {
+      "name": "VERTUO NEXT",
+      "brand": "NESPRESSO",
+      "type": "POD",
+      "category": "pod"
+    },
+    {
+      "name": "VERTUO PLUS",
+      "brand": "NESPRESSO",
+      "type": "POD",
+      "category": "pod"
+    },
+    {
+      "name": "ORIGINAL",
+      "brand": "NESPRESSO",
+      "type": "POD",
+      "category": "pod"
+    },
+    {
+      "name": "CITIZ",
+      "brand": "NESPRESSO",
+      "type": "POD",
+      "category": "pod"
+    },
+    {
+      "name": "PIXIE",
+      "brand": "NESPRESSO",
+      "type": "POD",
+      "category": "pod"
+    },
+    {
+      "name": "CREATISTA",
+      "brand": "NESPRESSO",
+      "type": "POD",
+      "category": "pod"
+    },
+    {
+      "name": "MOKA EXPRESS",
+      "brand": "BIALETTI",
+      "type": "STOVETOP",
+      "category": "stovetop"
+    },
+    {
+      "name": "MOKA POT",
+      "brand": "BIALETTI",
+      "type": "STOVETOP",
+      "category": "stovetop"
+    },
+    {
+      "name": "VENUS",
+      "brand": "BIALETTI",
+      "type": "STOVETOP",
+      "category": "stovetop"
+    },
+    {
+      "name": "BRIKKA",
+      "brand": "BIALETTI",
+      "type": "STOVETOP",
+      "category": "stovetop"
+    },
+    {
+      "name": "SYPHON",
+      "brand": "HARIO",
+      "type": "SIPHON",
+      "category": "siphon"
+    },
+    {
+      "name": "SYPHON NCA-3",
+      "brand": "HARIO",
+      "type": "SIPHON",
+      "category": "siphon"
+    },
+    {
+      "name": "SYPHON TCA-3",
+      "brand": "HARIO",
+      "type": "SIPHON",
+      "category": "siphon"
+    },
+    {
+      "name": "COLD BREW",
+      "brand": "TODDY",
+      "type": "COLD BREW",
+      "category": "cold-brew"
+    },
+    {
+      "name": "COLD BREW JUG",
+      "brand": "HARIO",
+      "type": "COLD BREW",
+      "category": "cold-brew"
+    },
+    {
+      "name": "COLD BREW",
+      "brand": "OXO",
+      "type": "COLD BREW",
+      "category": "cold-brew"
+    }
+  ],
+  "grinders": [],
+  "accessories": []
+}
