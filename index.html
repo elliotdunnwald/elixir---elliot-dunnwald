@@ -89,6 +89,18 @@
         .border-glow:hover {
             box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.2);
         }
+        /* Remove black outline on focus */
+        *:focus {
+            outline: none !important;
+        }
+        input:focus, textarea:focus, button:focus, select:focus {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        /* Remove default button focus */
+        button::-moz-focus-inner {
+            border: 0;
+        }
     </style>
 </head>
 <body>

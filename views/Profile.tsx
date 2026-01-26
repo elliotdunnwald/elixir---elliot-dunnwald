@@ -21,6 +21,7 @@ import {
   deleteActivity as deleteActivityDb,
   createFollowRequest,
   getExistingFollowRequest,
+  checkUsernameAvailability,
   type ProfileWithStats
 } from '../lib/database';
 import PostCard from '../components/PostCard';
@@ -147,6 +148,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   const initialLastName = userData.lastName || userData.last_name || '';
 
   const [formData, setFormData] = useState({
+    username: userData.username || '',
     firstName: initialFirstName,
     lastName: initialLastName,
     email: userData.email || '',
@@ -162,6 +164,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   const [uploading, setUploading] = useState(false);
   const [cropModalOpen, setCropModalOpen] = useState(false);
   const [imageToCrop, setImageToCrop] = useState<string>('');
+  const [usernameAvailable, setUsernameAvailable] = useState<boolean | null>(null);
+  const [checkingUsername, setCheckingUsername] = useState(false);
   const mediaInputRef = useRef<HTMLInputElement>(null);
 
   if (!isOpen) return null;
@@ -225,7 +229,40 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
     }
   };
 
+  // Check username availability with debouncing
+  useEffect(() => {
+    const checkUsername = async () => {
+      const username = formData.username.trim().toLowerCase();
+
+      // Reset if empty or same as current username
+      if (!username || username === (userData.username || '').toLowerCase()) {
+        setUsernameAvailable(null);
+        return;
+      }
+
+      // Check if valid format
+      if (!/^[a-z0-9_-]+$/.test(username)) {
+        setUsernameAvailable(false);
+        return;
+      }
+
+      setCheckingUsername(true);
+      const available = await checkUsernameAvailability(username, userData.id);
+      setUsernameAvailable(available);
+      setCheckingUsername(false);
+    };
+
+    const timeoutId = setTimeout(checkUsername, 500);
+    return () => clearTimeout(timeoutId);
+  }, [formData.username, userData.username, userData.id]);
+
   const handleSave = () => {
+    // Don't save if username is taken
+    if (usernameAvailable === false) {
+      alert('Username is already taken. Please choose another.');
+      return;
+    }
+
     onSave(formData);
     onClose();
   };
@@ -267,6 +304,36 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
                 <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">LAST NAME</label>
                 <input type="text" value={formData.lastName} onChange={e => setFormData({ ...formData, lastName: e.target.value.toUpperCase() })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase" />
               </div>
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">USERNAME</label>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={formData.username}
+                  onChange={e => setFormData({ ...formData, username: e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, '') })}
+                  className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 pr-12 text-white font-black text-sm outline-none focus:border-white lowercase"
+                  placeholder="choose your username"
+                />
+                <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                  {checkingUsername && (
+                    <Loader2 className="w-5 h-5 text-zinc-400 animate-spin" />
+                  )}
+                  {!checkingUsername && usernameAvailable === true && (
+                    <Check className="w-5 h-5 text-green-500" />
+                  )}
+                  {!checkingUsername && usernameAvailable === false && (
+                    <X className="w-5 h-5 text-red-500" />
+                  )}
+                </div>
+              </div>
+              {formData.username && !checkingUsername && usernameAvailable === false && (
+                <p className="text-[9px] font-black text-red-500 uppercase tracking-wider px-1">Username taken</p>
+              )}
+              {formData.username && formData.username.length < 3 && (
+                <p className="text-[9px] font-black text-zinc-500 uppercase tracking-wider px-1">Minimum 3 characters</p>
+              )}
+              <p className="text-[9px] font-black text-zinc-500 uppercase tracking-wider px-1">Letters, numbers, _ and - only</p>
             </div>
             <div className="space-y-2"><label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">EMAIL</label><input type="email" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white" /></div>
             <div className="space-y-2"><label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">PHONE</label><input type="tel" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white" placeholder="OPTIONAL" /></div>
@@ -371,6 +438,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
     if (!user || !currentProfile) return;
 
     const result = await updateProfile(user.id, {
+      username: updates.username,
       first_name: updates.firstName,
       last_name: updates.lastName,
       email: updates.email,

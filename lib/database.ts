@@ -548,6 +548,29 @@ export async function searchProfiles(query: string, limit = 20): Promise<Profile
   return data || [];
 }
 
+export async function checkUsernameAvailability(username: string, currentProfileId?: string): Promise<boolean> {
+  const normalizedUsername = username.toLowerCase().trim();
+
+  // Check if username is valid format (alphanumeric, underscore, hyphen only)
+  if (!/^[a-z0-9_-]+$/.test(normalizedUsername)) {
+    return false;
+  }
+
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('username', normalizedUsername)
+    .maybeSingle();
+
+  if (error) {
+    console.error('Error checking username:', error);
+    return false;
+  }
+
+  // Username is available if no one has it, or if it's the current user's username
+  return !data || (currentProfileId && data.id === currentProfileId);
+}
+
 // =====================================================
 // GEAR FUNCTIONS
 // =====================================================
