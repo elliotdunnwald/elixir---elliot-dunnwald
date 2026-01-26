@@ -101,6 +101,12 @@ export interface BrewActivity {
   tds?: number;
   eyPercentage?: number;
   showParameters: boolean;
+  milkType?: 'none' | 'steamed' | 'cold';
+  steamedDrink?: 'macchiato' | 'cortado' | 'flatwhite' | 'cappuccino' | 'latte';
+  drinkSize?: number;
+  coldMilkOz?: number;
+  podSize?: 'small' | 'medium' | 'large';
+  podName?: string;
   likeCount: number;
   likedBy: string[];
 }

@@ -32,6 +32,13 @@ const INITIAL_FORM_DATA = {
   showVarietal: false,
   showProcess: false,
   showEY: false,
+  showMilk: false,
+  milkType: 'none' as 'none' | 'steamed' | 'cold',
+  steamedDrink: 'latte' as 'macchiato' | 'cortado' | 'flatwhite' | 'cappuccino' | 'latte',
+  drinkSize: 12,
+  coldMilkOz: 2,
+  podSize: 'medium' as 'small' | 'medium' | 'large',
+  podName: '',
   location: ''
 };
 
@@ -49,7 +56,10 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
   const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [showDeviceSelector, setShowDeviceSelector] = useState(false);
+  const [deviceCategory, setDeviceCategory] = useState<string>('');
   const mediaInputRef = useRef<HTMLInputElement>(null);
+
+  const isPodMachine = deviceCategory === 'pod';
 
   // Load saved draft from localStorage on open
   useEffect(() => {
@@ -61,6 +71,9 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
           setFormData({ ...parsed, location: parsed.location || defaultLocation });
           if (parsed.mediaPreview) {
             setMediaPreview(parsed.mediaPreview);
+          }
+          if (parsed.deviceCategory) {
+            setDeviceCategory(parsed.deviceCategory);
           }
         } catch (err) {
           console.error('Error loading draft:', err);
@@ -75,10 +88,10 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
   // Save draft to localStorage when form data changes
   useEffect(() => {
     if (isOpen) {
-      const draftData = { ...formData, mediaPreview };
+      const draftData = { ...formData, mediaPreview, deviceCategory };
       localStorage.setItem('elixr_brew_log_draft', JSON.stringify(draftData));
     }
-  }, [formData, mediaPreview, isOpen]);
+  }, [formData, mediaPreview, deviceCategory, isOpen]);
 
   // Handle Temp Conversion when unit changes
   const handleTempUnitToggle = (newUnit: 'C' | 'F') => {
@@ -123,15 +136,27 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
   const handleInputChange = (field: string, value: string) => setFormData(prev => ({ ...prev, [field]: value.toUpperCase() }));
 
   const handleDeviceSelect = (deviceName: string, category: string) => {
+    setDeviceCategory(category);
+
     // Auto-detect brew type based on category
     const brewType = category === 'espresso' ? 'espresso' : 'filter';
+    const isPod = category === 'pod';
 
     // Set default values based on brew type
-    if (brewType === 'espresso') {
+    if (isPod) {
+      // Pod machines don't show parameters
+      setFormData(prev => ({
+        ...prev,
+        brewer: deviceName,
+        brewType: 'espresso',
+        showParameters: false
+      }));
+    } else if (brewType === 'espresso') {
       setFormData(prev => ({
         ...prev,
         brewer: deviceName,
         brewType,
+        showParameters: true,
         gramsIn: '18.0',
         gramsOut: '36.0',
         ratio: '1:2.0',
@@ -143,6 +168,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
         ...prev,
         brewer: deviceName,
         brewType,
+        showParameters: true,
         gramsIn: '15.0',
         gramsOut: '225.0',
         ratio: '1:15',
@@ -157,6 +183,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
       setFormData({ ...INITIAL_FORM_DATA, location: defaultLocation });
       setMediaFile(null);
       setMediaPreview(null);
+      setDeviceCategory('');
       localStorage.removeItem('elixr_brew_log_draft');
     }
   };
@@ -200,7 +227,13 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
         ey_percentage: formData.eyPercentage || undefined,
         show_parameters: formData.showParameters,
         is_private: formData.isPrivate,
-        is_cafe_log: false
+        is_cafe_log: false,
+        milk_type: formData.showMilk ? formData.milkType : undefined,
+        steamed_drink: formData.showMilk && formData.milkType === 'steamed' ? formData.steamedDrink : undefined,
+        drink_size: formData.showMilk && formData.milkType === 'steamed' ? formData.drinkSize : undefined,
+        cold_milk_oz: formData.showMilk && formData.milkType === 'cold' ? formData.coldMilkOz : undefined,
+        pod_size: isPodMachine ? formData.podSize : undefined,
+        pod_name: isPodMachine ? formData.podName : undefined
       });
 
       if (activity) {
@@ -404,6 +437,146 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
                     <div className="col-span-full bg-white text-black p-4 rounded-xl flex justify-between items-center">
                       <p className="text-[10px] font-black uppercase tracking-widest">Calculated EY%</p>
                       <p className="text-2xl font-black">{formData.eyPercentage}%</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Pod Machine Section */}
+            {isPodMachine && (
+              <div className="space-y-6 animate-in fade-in duration-300">
+                <div className="grid grid-cols-1 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">Pod Name</label>
+                    <input type="text" value={formData.podName} onChange={e => handleInputChange('podName', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="STARBUCKS PIKE PLACE" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">Cup Size</label>
+                    <div className="grid grid-cols-3 gap-3">
+                      {(['small', 'medium', 'large'] as const).map(size => (
+                        <button
+                          key={size}
+                          type="button"
+                          onClick={() => setFormData(p => ({ ...p, podSize: size }))}
+                          disabled={uploading}
+                          className={`px-4 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-wider transition-all disabled:opacity-50 ${formData.podSize === size ? 'bg-white text-black border-white' : 'bg-black text-zinc-200 border-zinc-800 hover:border-zinc-600'}`}
+                        >
+                          {size}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </section>
+
+          {/* Milk Section */}
+          <section className="space-y-6">
+            <div className="flex justify-between items-center border-b-2 border-zinc-800 pb-2">
+              <h3 className="text-[10px] font-black text-white uppercase tracking-[0.3em] flex items-center gap-2"><Coffee className="w-4 h-4" /> Milk</h3>
+              <div onClick={() => setFormData(p => ({...p, showMilk: !p.showMilk}))} className={`w-10 h-5 rounded-full relative cursor-pointer transition-all ${formData.showMilk ? 'bg-white' : 'bg-zinc-800'}`}>
+                <div className={`absolute top-1 w-3 h-3 rounded-full transition-all ${formData.showMilk ? 'left-6 bg-black' : 'left-1 bg-white'}`} />
+              </div>
+            </div>
+
+            {formData.showMilk && (
+              <div className="space-y-6 animate-in fade-in duration-300">
+                {/* Milk Type Selection */}
+                <div className="space-y-3">
+                  <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest px-1">Milk Type</p>
+                  <div className="grid grid-cols-3 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setFormData(p => ({ ...p, milkType: 'none' }))}
+                      disabled={uploading}
+                      className={`px-4 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-wider transition-all disabled:opacity-50 ${formData.milkType === 'none' ? 'bg-white text-black border-white' : 'bg-black text-zinc-200 border-zinc-800 hover:border-zinc-600'}`}
+                    >
+                      None
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setFormData(p => ({ ...p, milkType: 'steamed' }))}
+                      disabled={uploading}
+                      className={`px-4 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-wider transition-all disabled:opacity-50 ${formData.milkType === 'steamed' ? 'bg-white text-black border-white' : 'bg-black text-zinc-200 border-zinc-800 hover:border-zinc-600'}`}
+                    >
+                      Steamed
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setFormData(p => ({ ...p, milkType: 'cold' }))}
+                      disabled={uploading}
+                      className={`px-4 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-wider transition-all disabled:opacity-50 ${formData.milkType === 'cold' ? 'bg-white text-black border-white' : 'bg-black text-zinc-200 border-zinc-800 hover:border-zinc-600'}`}
+                    >
+                      Cold
+                    </button>
+                  </div>
+                </div>
+
+                {/* Steamed Milk Options */}
+                {formData.milkType === 'steamed' && (
+                  <div className="space-y-6 animate-in slide-in-from-top-1">
+                    <div className="space-y-3">
+                      <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest px-1">Drink Style</p>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        {(['macchiato', 'cortado', 'flatwhite', 'cappuccino', 'latte'] as const).map(drink => (
+                          <button
+                            key={drink}
+                            type="button"
+                            onClick={() => setFormData(p => ({ ...p, steamedDrink: drink }))}
+                            disabled={uploading}
+                            className={`px-4 py-3 rounded-xl border-2 text-[9px] font-black uppercase tracking-wider transition-all disabled:opacity-50 ${formData.steamedDrink === drink ? 'bg-white text-black border-white' : 'bg-black text-zinc-200 border-zinc-800 hover:border-zinc-600'}`}
+                          >
+                            {drink === 'flatwhite' ? 'Flat White' : drink}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center px-1">
+                        <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest">Drink Size</p>
+                        <p className="text-lg font-black text-white">{formData.drinkSize} OZ</p>
+                      </div>
+                      <input
+                        type="range"
+                        min="4"
+                        max="20"
+                        step="1"
+                        value={formData.drinkSize}
+                        onChange={e => setFormData({...formData, drinkSize: parseInt(e.target.value)})}
+                        disabled={uploading}
+                        className="w-full slider h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer disabled:opacity-50"
+                      />
+                      <div className="flex justify-between text-[8px] font-black text-zinc-500 uppercase tracking-widest px-1">
+                        <span>4 oz</span>
+                        <span>20 oz</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Cold Milk Options */}
+                {formData.milkType === 'cold' && (
+                  <div className="space-y-3 animate-in slide-in-from-top-1">
+                    <div className="flex justify-between items-center px-1">
+                      <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest">Cold Milk Amount</p>
+                      <p className="text-lg font-black text-white">{formData.coldMilkOz} OZ</p>
+                    </div>
+                    <input
+                      type="range"
+                      min="0.5"
+                      max="8"
+                      step="0.5"
+                      value={formData.coldMilkOz}
+                      onChange={e => setFormData({...formData, coldMilkOz: parseFloat(e.target.value)})}
+                      disabled={uploading}
+                      className="w-full slider h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer disabled:opacity-50"
+                    />
+                    <div className="flex justify-between text-[8px] font-black text-zinc-500 uppercase tracking-widest px-1">
+                      <span>0.5 oz</span>
+                      <span>8 oz</span>
                     </div>
                   </div>
                 )}

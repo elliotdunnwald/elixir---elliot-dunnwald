@@ -257,6 +257,12 @@ export interface DbBrewActivity {
   is_private: boolean;
   is_cafe_log: boolean;
   cafe_name?: string;
+  milk_type?: 'none' | 'steamed' | 'cold';
+  steamed_drink?: 'macchiato' | 'cortado' | 'flatwhite' | 'cappuccino' | 'latte';
+  drink_size?: number;
+  cold_milk_oz?: number;
+  pod_size?: 'small' | 'medium' | 'large';
+  pod_name?: string;
   created_at: string;
   updated_at: string;
   profiles?: Profile;
