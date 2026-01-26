@@ -298,7 +298,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-300">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative bg-black w-full max-w-2xl h-full sm:h-auto sm:rounded-[3rem] shadow-2xl border-2 border-zinc-800 flex flex-col sm:max-h-[90vh] animate-in zoom-in-95 overflow-hidden">
+      <div className="relative bg-black w-full max-w-2xl h-full sm:h-auto sm:rounded-[3rem] border-2 border-zinc-800 flex flex-col sm:max-h-[90vh] animate-in zoom-in-95 overflow-hidden">
         <div className="px-8 py-6 border-b-2 border-zinc-800 flex justify-between items-center bg-black">
           <h2 className="text-xl font-black text-white tracking-tighter uppercase">EDIT PROFILE</h2>
           <button onClick={onClose} className="text-zinc-400 hover:text-white transition-all"><X className="w-6 h-6" /></button>
@@ -378,8 +378,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
             <ThemeToggleSection />
           </section>
         </div>
-        <div className="px-6 sm:px-10 py-6 bg-black border-t-2 border-zinc-800">
-          <button type="button" onClick={handleSave} className="w-full bg-white text-black font-black text-sm uppercase tracking-[0.4em] py-7 rounded-[2.5rem] shadow-2xl transition-all active:scale-[0.98]">SAVE CHANGES</button>
+        <div className="px-6 sm:px-10 py-6 bg-black border-t-2 border-zinc-800 shrink-0">
+          <button type="button" onClick={handleSave} className="w-full bg-white text-black font-black text-sm uppercase tracking-[0.4em] py-7 rounded-[2.5rem] transition-all active:scale-[0.98]">SAVE CHANGES</button>
         </div>
       </div>
       <ImageCropModal
