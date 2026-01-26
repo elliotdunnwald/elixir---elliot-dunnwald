@@ -23,7 +23,7 @@ const INITIAL_FORM_DATA = {
   brewWeight: '200.0',
   temp: '94',
   brewTime: '02:30',
-  rating: 8.5,
+  rating: 4.0,
   tds: '0',
   eyPercentage: 0,
   isPrivate: false,
@@ -589,7 +589,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
 
           <section className="space-y-4">
             <div className="flex justify-between items-center px-1"><p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Overall Score</p><p className="text-2xl font-black">{formData.rating.toFixed(1)}</p></div>
-            <input type="range" min="1" max="10" step="0.1" value={formData.rating} onChange={e => setFormData({...formData, rating: parseFloat(e.target.value)})} disabled={uploading} className="w-full cursor-pointer disabled:opacity-50" />
+            <input type="range" min="0" max="5" step="0.1" value={formData.rating} onChange={e => setFormData({...formData, rating: parseFloat(e.target.value)})} disabled={uploading} className="w-full cursor-pointer disabled:opacity-50" />
           </section>
 
           <section className="space-y-4">
