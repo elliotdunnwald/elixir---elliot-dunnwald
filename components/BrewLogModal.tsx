@@ -154,6 +154,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
         estate: formData.showEstate ? formData.estate : undefined,
         varietal: formData.showVarietal ? formData.varietal : undefined,
         process: formData.showProcess ? formData.process : undefined,
+        brew_type: formData.brewType,
         brewer: formData.brewer,
         grinder: undefined,
         grind_setting: formData.grindSetting || undefined,
