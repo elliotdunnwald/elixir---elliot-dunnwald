@@ -293,6 +293,9 @@ export async function createActivity(profileId: string, data: Partial<DbBrewActi
 
   if (error) {
     console.error('Error creating activity:', error);
+    console.error('Error details:', JSON.stringify(error, null, 2));
+    console.error('Profile ID:', profileId);
+    console.error('Data being inserted:', JSON.stringify(data, null, 2));
     return null;
   }
 

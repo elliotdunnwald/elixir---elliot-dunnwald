@@ -202,7 +202,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
 
       // Create activity in database
       const activity = await createActivity(profile.id, {
-        title: formData.title,
+        title: formData.title || 'BREW SESSION',
         description: formData.description || undefined,
         image_url: imageUrl,
         location_name: formData.location || defaultLocation,
