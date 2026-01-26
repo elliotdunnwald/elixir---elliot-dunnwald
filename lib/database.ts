@@ -163,6 +163,67 @@ export async function updateProfile(userId: string, updates: Partial<Profile>): 
 }
 
 // =====================================================
+// GEAR FUNCTIONS
+// =====================================================
+
+export interface DbGearItem {
+  id: string;
+  profile_id: string;
+  name: string;
+  brand: string;
+  type: string;
+  notes?: string;
+  created_at: string;
+}
+
+export async function getUserGear(profileId: string): Promise<DbGearItem[]> {
+  const { data, error } = await supabase
+    .from('gear_items')
+    .select('*')
+    .eq('profile_id', profileId)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching gear:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+export async function addGearItem(profileId: string, item: Partial<DbGearItem>): Promise<DbGearItem | null> {
+  const { data, error } = await supabase
+    .from('gear_items')
+    .insert({
+      profile_id: profileId,
+      ...item
+    })
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error adding gear item:', error);
+    return null;
+  }
+
+  return data;
+}
+
+export async function deleteGearItem(gearId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('gear_items')
+    .delete()
+    .eq('id', gearId);
+
+  if (error) {
+    console.error('Error deleting gear item:', error);
+    return false;
+  }
+
+  return true;
+}
+
+// =====================================================
 // BREW ACTIVITY FUNCTIONS
 // =====================================================
 

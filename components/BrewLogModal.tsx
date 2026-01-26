@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, MapPin, Coffee, Award, Eye, EyeOff, Settings2, Calculator, Plus, Image as ImageIcon, MessageSquare, ArrowRight, RotateCcw, FlaskConical, Beaker, Loader2 } from 'lucide-react';
+import { X, MapPin, Coffee, Award, Eye, EyeOff, Settings2, Calculator, Plus, Image as ImageIcon, MessageSquare, ArrowRight, RotateCcw, FlaskConical, Beaker, Loader2, ChevronRight } from 'lucide-react';
 import { BrewActivity } from '../types';
 import { useSettings } from '../context/SettingsContext';
 import { useAuth } from '../hooks/useAuth';
 import { createActivity, uploadBrewImage } from '../lib/database';
+import DeviceSelectorModal from './DeviceSelectorModal';
 
 const INITIAL_FORM_DATA = {
   title: '',
@@ -14,7 +15,7 @@ const INITIAL_FORM_DATA = {
   varietal: '',
   process: '',
   brewType: 'filter' as 'espresso' | 'filter',
-  brewer: 'V60',
+  brewer: '',
   grindSetting: '',
   ratio: '1:15',
   gramsIn: '15.0',
@@ -34,10 +35,6 @@ const INITIAL_FORM_DATA = {
   location: ''
 };
 
-// Brew device categorization
-const ESPRESSO_DEVICES = ['Espresso Machine', 'Flair', 'Robot', 'Cafelat', 'Decent', 'La Pavoni'];
-const FILTER_DEVICES = ['V60', 'Chemex', 'Aeropress', 'Kalita Wave', 'Clever Dripper', 'French Press', 'Origami', 'Tricolate'];
-
 interface BrewLogModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -51,6 +48,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [showDeviceSelector, setShowDeviceSelector] = useState(false);
   const mediaInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -101,15 +99,15 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
 
   const handleInputChange = (field: string, value: string) => setFormData(prev => ({ ...prev, [field]: value.toUpperCase() }));
 
-  const handleBrewerChange = (brewer: string) => {
-    // Auto-detect brew type based on device
-    const brewType = ESPRESSO_DEVICES.includes(brewer) ? 'espresso' : 'filter';
+  const handleDeviceSelect = (deviceName: string, category: string) => {
+    // Auto-detect brew type based on category
+    const brewType = category === 'espresso' ? 'espresso' : 'filter';
 
     // Set default values based on brew type
     if (brewType === 'espresso') {
       setFormData(prev => ({
         ...prev,
-        brewer,
+        brewer: deviceName,
         brewType,
         gramsIn: '18.0',
         gramsOut: '36.0',
@@ -120,7 +118,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
     } else {
       setFormData(prev => ({
         ...prev,
-        brewer,
+        brewer: deviceName,
         brewType,
         gramsIn: '15.0',
         gramsOut: '225.0',
@@ -249,19 +247,21 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
                 {formData.brewType === 'espresso' ? 'ESPRESSO' : 'FILTER'}
               </div>
             </div>
-            <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
-              {[...FILTER_DEVICES, ...ESPRESSO_DEVICES].map(device => (
-                <button
-                  key={device}
-                  type="button"
-                  onClick={() => handleBrewerChange(device)}
-                  disabled={uploading}
-                  className={`px-4 py-3 rounded-xl border-2 text-[9px] font-black uppercase tracking-wider transition-all disabled:opacity-50 ${formData.brewer === device ? 'bg-white text-black border-white' : 'bg-black text-zinc-200 border-zinc-800 hover:border-zinc-600'}`}
-                >
-                  {device}
-                </button>
-              ))}
-            </div>
+            <button
+              type="button"
+              onClick={() => setShowDeviceSelector(true)}
+              disabled={uploading}
+              className="w-full bg-black border-2 border-zinc-800 hover:border-zinc-600 rounded-2xl px-5 py-4 text-left flex items-center justify-between transition-all disabled:opacity-50"
+            >
+              <div>
+                {formData.brewer ? (
+                  <p className="text-white font-black text-sm uppercase">{formData.brewer}</p>
+                ) : (
+                  <p className="text-zinc-700 font-black text-sm uppercase">Select Device</p>
+                )}
+              </div>
+              <ChevronRight className="w-5 h-5 text-zinc-500" />
+            </button>
           </section>
 
           <section className="space-y-6">
@@ -415,6 +415,13 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
           </div>
         </form>
       </div>
+
+      <DeviceSelectorModal
+        isOpen={showDeviceSelector}
+        onClose={() => setShowDeviceSelector(false)}
+        onSelect={handleDeviceSelect}
+        currentDevice={formData.brewer}
+      />
     </div>
   );
 };
