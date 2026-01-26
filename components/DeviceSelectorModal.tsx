@@ -99,27 +99,13 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
           </button>
         </div>
 
-        {/* Search */}
-        <div className="px-8 py-4 border-b border-zinc-800">
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              placeholder="SEARCH DEVICES..."
-              className="w-full bg-black border-2 border-zinc-800 rounded-2xl pl-12 pr-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase placeholder:text-zinc-700"
-            />
-          </div>
-        </div>
-
         {/* Content */}
         <div className="overflow-y-auto p-8 space-y-8 custom-scrollbar">
           {/* User's Gear */}
           {userGear.length > 0 && (
             <div className="space-y-4">
               <h3 className="text-[10px] font-black text-zinc-200 uppercase tracking-[0.3em]">Your Gear</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {userGear.map(item => {
                   const deviceName = `${item.brand} ${item.name}`.trim();
                   const isSelected = currentDevice === deviceName;
@@ -142,16 +128,30 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
             </div>
           )}
 
-          {/* All Devices Database */}
+          {/* Search */}
           <div className="space-y-4">
-            <h3 className="text-[10px] font-black text-zinc-200 uppercase tracking-[0.3em]">
-              {searchQuery ? 'Search Results' : 'All Devices'}
-            </h3>
-            {loading ? (
-              <p className="text-zinc-500 text-sm uppercase tracking-widest">Loading...</p>
-            ) : filteredDevices.length === 0 ? (
-              <p className="text-zinc-500 text-sm uppercase tracking-widest">No devices found</p>
-            ) : (
+            <h3 className="text-[10px] font-black text-zinc-200 uppercase tracking-[0.3em]">Search All Devices</h3>
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                placeholder="SEARCH DEVICES..."
+                className="w-full bg-black border-2 border-zinc-800 rounded-2xl pl-12 pr-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase placeholder:text-zinc-700"
+              />
+            </div>
+          </div>
+
+          {/* Search Results */}
+          {searchQuery && (
+            <div className="space-y-4">
+              <h3 className="text-[10px] font-black text-zinc-200 uppercase tracking-[0.3em]">Search Results</h3>
+              {loading ? (
+                <p className="text-zinc-500 text-sm uppercase tracking-widest">Loading...</p>
+              ) : filteredDevices.length === 0 ? (
+                <p className="text-zinc-500 text-sm uppercase tracking-widest">No devices found</p>
+              ) : (
               <div className="grid grid-cols-1 gap-2">
                 {filteredDevices.slice(0, 50).map((device, idx) => {
                   const deviceName = `${device.brand} ${device.name}`.trim();
@@ -188,8 +188,9 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
                   );
                 })}
               </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

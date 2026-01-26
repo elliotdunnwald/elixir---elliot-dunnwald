@@ -51,11 +51,34 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
   const [showDeviceSelector, setShowDeviceSelector] = useState(false);
   const mediaInputRef = useRef<HTMLInputElement>(null);
 
+  // Load saved draft from localStorage on open
   useEffect(() => {
     if (isOpen && profile) {
-      setFormData(prev => ({ ...prev, location: defaultLocation }));
+      const savedDraft = localStorage.getItem('elixr_brew_log_draft');
+      if (savedDraft) {
+        try {
+          const parsed = JSON.parse(savedDraft);
+          setFormData({ ...parsed, location: parsed.location || defaultLocation });
+          if (parsed.mediaPreview) {
+            setMediaPreview(parsed.mediaPreview);
+          }
+        } catch (err) {
+          console.error('Error loading draft:', err);
+          setFormData(prev => ({ ...prev, location: defaultLocation }));
+        }
+      } else {
+        setFormData(prev => ({ ...prev, location: defaultLocation }));
+      }
     }
-  }, [isOpen, defaultLocation]);
+  }, [isOpen, defaultLocation, profile]);
+
+  // Save draft to localStorage when form data changes
+  useEffect(() => {
+    if (isOpen) {
+      const draftData = { ...formData, mediaPreview };
+      localStorage.setItem('elixr_brew_log_draft', JSON.stringify(draftData));
+    }
+  }, [formData, mediaPreview, isOpen]);
 
   // Handle Temp Conversion when unit changes
   const handleTempUnitToggle = (newUnit: 'C' | 'F') => {
@@ -129,6 +152,15 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
+  const handleClearForm = () => {
+    if (confirm('Clear all entries? This will reset the entire form.')) {
+      setFormData({ ...INITIAL_FORM_DATA, location: defaultLocation });
+      setMediaFile(null);
+      setMediaPreview(null);
+      localStorage.removeItem('elixr_brew_log_draft');
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user || !profile) return;
@@ -172,10 +204,11 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
       });
 
       if (activity) {
-        // Reset form
+        // Reset form and clear draft
         setFormData({ ...INITIAL_FORM_DATA, location: defaultLocation });
         setMediaFile(null);
         setMediaPreview(null);
+        localStorage.removeItem('elixr_brew_log_draft');
         onClose();
       } else {
         console.error('Failed to create brew log - no activity returned');
@@ -216,12 +249,32 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative bg-zinc-900 w-full max-w-2xl h-full sm:h-auto sm:rounded-[2.5rem] shadow-2xl border border-zinc-800 overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95">
 
-        <div className="px-8 py-6 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/90 backdrop-blur-md sticky top-0 z-20">
-          <h2 className="text-xl font-black text-white tracking-tighter uppercase">Log Brew</h2>
-          <button onClick={onClose} className="text-zinc-100 hover:text-white transition-all" disabled={uploading}><X className="w-6 h-6" /></button>
+        <div className="px-8 py-6 border-b border-zinc-800 bg-zinc-900/90 backdrop-blur-md sticky top-0 z-20">
+          <div className="flex justify-between items-center mb-3">
+            <h2 className="text-xl font-black text-white tracking-tighter uppercase">Log Brew</h2>
+            <button onClick={onClose} className="text-zinc-100 hover:text-white transition-all" disabled={uploading}><X className="w-6 h-6" /></button>
+          </div>
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              onClick={handleClearForm}
+              disabled={uploading}
+              className="text-[8px] font-black text-zinc-400 hover:text-white uppercase tracking-widest transition-all disabled:opacity-50"
+            >
+              Clear All
+            </button>
+            <button
+              type="button"
+              onClick={() => setFormData(p => ({...p, isPrivate: !p.isPrivate}))}
+              disabled={uploading}
+              className={`px-3 py-1 rounded-lg border text-[8px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.isPrivate ? 'bg-zinc-800 border-zinc-700 text-zinc-400' : 'bg-white text-black border-white'}`}
+            >
+              {formData.isPrivate ? <><EyeOff className="inline w-2.5 h-2.5 mr-1" /> Private</> : <><Eye className="inline w-2.5 h-2.5 mr-1" /> Global</>}
+            </button>
+          </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="overflow-y-auto px-6 sm:px-10 py-8 space-y-10 pb-32 custom-scrollbar">
+        <form onSubmit={handleSubmit} className="overflow-y-auto px-6 sm:px-10 py-8 space-y-10 custom-scrollbar">
 
           <section className="space-y-4">
             <p className="text-[10px] font-black text-zinc-200 uppercase tracking-[0.3em] px-1">Session Title</p>
@@ -232,13 +285,6 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
               placeholder="NAME THIS SESSION"
             />
           </section>
-
-          <div className="flex justify-between items-center px-1">
-            <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Visibility</p>
-            <button type="button" onClick={() => setFormData(p => ({...p, isPrivate: !p.isPrivate}))} disabled={uploading} className={`px-4 py-2 rounded-xl border-2 font-black text-[10px] uppercase tracking-widest transition-all disabled:opacity-50 ${formData.isPrivate ? 'bg-zinc-800 border-zinc-700 text-zinc-400' : 'bg-white text-black border-white'}`}>
-              {formData.isPrivate ? <><EyeOff className="inline w-3 h-3 mr-2" /> Private</> : <><Eye className="inline w-3 h-3 mr-2" /> Global</>}
-            </button>
-          </div>
 
           <section className="space-y-4">
             <div className="flex justify-between items-center px-1">
@@ -400,7 +446,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
             <input type="file" ref={mediaInputRef} onChange={handleMediaUpload} className="hidden" accept="image/*" disabled={uploading} />
           </section>
 
-          <div className="sticky bottom-0 pt-10 pb-12 bg-gradient-to-t from-zinc-900 via-zinc-900 to-transparent">
+          <section className="pt-6 pb-8">
             <button type="submit" disabled={uploading} className="w-full bg-white text-black font-black text-sm uppercase tracking-[0.4em] py-7 rounded-[2.5rem] shadow-2xl transition-all active:scale-[0.98] flex items-center justify-center gap-3 disabled:bg-zinc-800 disabled:text-zinc-700">
               {uploading ? (
                 <>
@@ -412,7 +458,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
                 </>
               )}
             </button>
-          </div>
+          </section>
         </form>
       </div>
 
