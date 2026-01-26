@@ -208,25 +208,25 @@ const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center p-6 overflow-y-auto">
-      <div className="max-w-md w-full space-y-12 py-10">
+    <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      <div className="max-w-md w-full space-y-8 sm:space-y-12 py-6 sm:py-10 my-auto">
         <div className="text-center">
-          <h1 className="text-5xl font-black text-white tracking-tighter uppercase leading-none">ELIXR</h1>
-          <div className="flex justify-center gap-1 mt-6">
+          <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tighter uppercase leading-none">ELIXR</h1>
+          <div className="flex justify-center gap-1 mt-4 sm:mt-6">
             {[1, 2, 3].map(s => (
               <div key={s} className={`h-1 w-8 rounded-full ${step >= s ? 'bg-white' : 'bg-zinc-800'}`} />
             ))}
           </div>
         </div>
 
-        <div className="space-y-10">
+        <div className="space-y-8 sm:space-y-10">
           {step === 1 && (
-            <div className="space-y-8 text-center animate-in fade-in slide-in-from-bottom-4">
-              <div className="space-y-6">
-                <p className="text-[12px] font-black text-zinc-100 uppercase tracking-[0.3em]">IDENTITY</p>
-                <div className="space-y-4">
-                  <input autoFocus type="text" value={formData.firstName} onChange={e => setFormData(p => ({...p, firstName: e.target.value.toUpperCase()}))} placeholder="FIRST NAME" className="w-full bg-transparent border-b-4 border-zinc-800 focus:border-white outline-none text-3xl font-black text-white text-center uppercase tracking-tighter py-4" />
-                  <input type="text" value={formData.lastName} onChange={e => setFormData(p => ({...p, lastName: e.target.value.toUpperCase()}))} placeholder="LAST NAME" className="w-full bg-transparent border-b-4 border-zinc-800 focus:border-white outline-none text-3xl font-black text-white text-center uppercase tracking-tighter py-4" />
+            <div className="space-y-6 sm:space-y-8 text-center animate-in fade-in slide-in-from-bottom-4">
+              <div className="space-y-5 sm:space-y-6">
+                <p className="text-[11px] sm:text-[12px] font-black text-zinc-100 uppercase tracking-[0.3em]">IDENTITY</p>
+                <div className="space-y-3 sm:space-y-4">
+                  <input type="text" value={formData.firstName} onChange={e => setFormData(p => ({...p, firstName: e.target.value.toUpperCase()}))} placeholder="FIRST NAME" autoCapitalize="words" className="w-full bg-transparent border-b-4 border-zinc-800 focus:border-white outline-none text-xl sm:text-3xl font-black text-white text-center uppercase tracking-tighter py-3 sm:py-4" />
+                  <input type="text" value={formData.lastName} onChange={e => setFormData(p => ({...p, lastName: e.target.value.toUpperCase()}))} placeholder="LAST NAME" autoCapitalize="words" className="w-full bg-transparent border-b-4 border-zinc-800 focus:border-white outline-none text-xl sm:text-3xl font-black text-white text-center uppercase tracking-tighter py-3 sm:py-4" />
                 </div>
               </div>
               <div className="space-y-4">
