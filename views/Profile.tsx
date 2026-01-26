@@ -65,8 +65,8 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({ isOpen, imageSrc, onCom
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 animate-in fade-in duration-300">
       <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={onCancel} />
-      <div className="relative w-full max-w-2xl rounded-[2rem]" style={{ backgroundColor: '#18181b', overflow: 'hidden' }}>
-        <div className="px-8 py-6 border-b border-zinc-800 flex justify-between items-center" style={{ backgroundColor: '#18181b' }}>
+      <div className="relative w-full max-w-2xl bg-zinc-900" style={{ borderRadius: '2rem', overflow: 'hidden', boxShadow: 'none' }}>
+        <div className="px-8 py-6 border-b border-zinc-800 flex justify-between items-center bg-zinc-900">
           <h2 className="text-xl font-black text-white tracking-tighter uppercase">CROP AVATAR</h2>
           <button onClick={onCancel} className="text-zinc-100 hover:text-white transition-all">
             <X className="w-6 h-6" />
@@ -298,8 +298,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-300">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-2xl h-full sm:h-auto sm:rounded-[2rem] flex flex-col sm:max-h-[90vh] animate-in zoom-in-95" style={{ backgroundColor: '#000000', overflow: 'hidden' }}>
-        <div className="px-8 py-6 border-b-2 border-zinc-800 flex justify-between items-center" style={{ backgroundColor: '#000000' }}>
+      <div className="relative w-full max-w-2xl h-full sm:h-auto flex flex-col sm:max-h-[90vh] animate-in zoom-in-95 bg-black" style={{ borderRadius: '2rem', overflow: 'hidden', boxShadow: 'none' }}>
+        <div className="px-8 py-6 border-b-2 border-zinc-800 flex justify-between items-center bg-black">
           <h2 className="text-xl font-black text-white tracking-tighter uppercase">EDIT PROFILE</h2>
           <button onClick={onClose} className="text-zinc-400 hover:text-white transition-all"><X className="w-6 h-6" /></button>
         </div>
