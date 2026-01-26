@@ -308,7 +308,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
 
           <section className="space-y-6">
             <div className="flex justify-between items-center border-b-2 border-zinc-800 pb-2">
-              <h3 className="text-[10px] font-black text-white uppercase tracking-[0.3em] flex items-center gap-2"><Settings2 className="w-4 h-4" /> Extraction</h3>
+              <h3 className="text-[10px] font-black text-white uppercase tracking-[0.3em] flex items-center gap-2"><Settings2 className="w-4 h-4" /> Brew Parameters</h3>
               <div onClick={() => setFormData(p => ({...p, showParameters: !p.showParameters}))} className={`w-10 h-5 rounded-full relative cursor-pointer transition-all ${formData.showParameters ? 'bg-white' : 'bg-zinc-800'}`}>
                 <div className={`absolute top-1 w-3 h-3 rounded-full transition-all ${formData.showParameters ? 'left-6 bg-black' : 'left-1 bg-white'}`} />
               </div>
