@@ -19,6 +19,8 @@ import {
   isFollowing,
   uploadBrewImage,
   deleteActivity as deleteActivityDb,
+  createFollowRequest,
+  getExistingFollowRequest,
   type ProfileWithStats
 } from '../lib/database';
 import PostCard from '../components/PostCard';
@@ -305,6 +307,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
   const [loading, setLoading] = useState(true);
   const [following, setFollowing] = useState(false);
   const [followLoading, setFollowLoading] = useState(false);
+  const [hasPendingRequest, setHasPendingRequest] = useState(false);
   const [isAddingGear, setIsAddingGear] = useState(false);
   const [newGearSearch, setNewGearSearch] = useState('');
   const [deletingGearId, setDeletingGearId] = useState<string | null>(null);
@@ -342,10 +345,14 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
           const gearData = await getGearItems(profile.id);
           setGear(gearData);
 
-          // Check if following
+          // Check if following or has pending request
           if (currentProfile) {
-            const isFollowingUser = await isFollowing(currentProfile.id, profile.id);
+            const [isFollowingUser, pendingRequest] = await Promise.all([
+              isFollowing(currentProfile.id, profile.id),
+              getExistingFollowRequest(currentProfile.id, profile.id)
+            ]);
             setFollowing(isFollowingUser);
+            setHasPendingRequest(!!pendingRequest);
           }
         }
       }
@@ -402,11 +409,24 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
     setFollowLoading(true);
     try {
       if (following) {
+        // Unfollow
         await unfollowUser(currentProfile.id, profileData.id);
         setFollowing(false);
+      } else if (hasPendingRequest) {
+        // If there's already a pending request, don't do anything
+        // (user should wait for it to be accepted/rejected)
+        return;
       } else {
-        await followUser(currentProfile.id, profileData.id);
-        setFollowing(true);
+        // Check if profile is private
+        if (profileData.is_private) {
+          // Create follow request for private profile
+          await createFollowRequest(currentProfile.id, profileData.id);
+          setHasPendingRequest(true);
+        } else {
+          // Direct follow for public profile
+          await followUser(currentProfile.id, profileData.id);
+          setFollowing(true);
+        }
       }
 
       // Update follower count
@@ -510,14 +530,16 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
           <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
             <button
               onClick={handleFollowToggle}
-              disabled={followLoading}
+              disabled={followLoading || hasPendingRequest}
               className={`px-6 py-3 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all shadow-xl ${
                 following
                   ? 'bg-zinc-800 text-zinc-400 border-2 border-zinc-700 hover:border-red-900 hover:text-red-400'
+                  : hasPendingRequest
+                  ? 'bg-yellow-900 text-yellow-400 border-2 border-yellow-700 cursor-not-allowed'
                   : 'bg-white text-black border-2 border-white hover:bg-zinc-100'
               }`}
             >
-              {followLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : following ? 'UNFOLLOW' : 'FOLLOW'}
+              {followLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : following ? 'UNFOLLOW' : hasPendingRequest ? 'REQUESTED' : 'FOLLOW'}
             </button>
           </div>
         )}

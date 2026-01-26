@@ -824,3 +824,229 @@ export async function getCoffeeOfferingById(id: string): Promise<CoffeeOffering 
 
   return data;
 }
+
+// =====================================================
+// NOTIFICATION FUNCTIONS
+// =====================================================
+
+export interface Notification {
+  id: string;
+  profile_id: string;
+  type: 'like' | 'comment' | 'follow_request' | 'follow_accepted' | 'follow';
+  from_profile_id: string;
+  from_profile?: Profile;
+  activity_id?: string;
+  follow_request_id?: string;
+  comment_text?: string;
+  read: boolean;
+  created_at: string;
+}
+
+export async function getNotifications(profileId: string): Promise<Notification[]> {
+  const { data, error } = await supabase
+    .from('notifications')
+    .select(`
+      *,
+      from_profile:profiles!notifications_from_profile_id_fkey(*)
+    `)
+    .eq('profile_id', profileId)
+    .order('created_at', { ascending: false })
+    .limit(50);
+
+  if (error) {
+    console.error('Error fetching notifications:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+export async function getUnreadNotificationCount(profileId: string): Promise<number> {
+  const { count, error } = await supabase
+    .from('notifications')
+    .select('*', { count: 'exact', head: true })
+    .eq('profile_id', profileId)
+    .eq('read', false);
+
+  if (error) {
+    console.error('Error fetching unread count:', error);
+    return 0;
+  }
+
+  return count || 0;
+}
+
+export async function markNotificationAsRead(notificationId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('notifications')
+    .update({ read: true })
+    .eq('id', notificationId);
+
+  if (error) {
+    console.error('Error marking notification as read:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function markAllNotificationsAsRead(profileId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('notifications')
+    .update({ read: true })
+    .eq('profile_id', profileId)
+    .eq('read', false);
+
+  if (error) {
+    console.error('Error marking all notifications as read:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function deleteNotification(notificationId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('notifications')
+    .delete()
+    .eq('id', notificationId);
+
+  if (error) {
+    console.error('Error deleting notification:', error);
+    return false;
+  }
+
+  return true;
+}
+
+// =====================================================
+// FOLLOW REQUEST FUNCTIONS
+// =====================================================
+
+export interface FollowRequest {
+  id: string;
+  requester_id: string;
+  requested_id: string;
+  requester?: Profile;
+  requested?: Profile;
+  status: 'pending' | 'accepted' | 'rejected';
+  created_at: string;
+  updated_at: string;
+}
+
+export async function createFollowRequest(requesterId: string, requestedId: string): Promise<FollowRequest | null> {
+  const { data, error } = await supabase
+    .from('follow_requests')
+    .insert({
+      requester_id: requesterId,
+      requested_id: requestedId,
+      status: 'pending'
+    })
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error creating follow request:', error);
+    return null;
+  }
+
+  return data;
+}
+
+export async function getFollowRequests(profileId: string): Promise<FollowRequest[]> {
+  const { data, error } = await supabase
+    .from('follow_requests')
+    .select(`
+      *,
+      requester:profiles!follow_requests_requester_id_fkey(*)
+    `)
+    .eq('requested_id', profileId)
+    .eq('status', 'pending')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching follow requests:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+export async function getPendingFollowRequestCount(profileId: string): Promise<number> {
+  const { count, error } = await supabase
+    .from('follow_requests')
+    .select('*', { count: 'exact', head: true })
+    .eq('requested_id', profileId)
+    .eq('status', 'pending');
+
+  if (error) {
+    console.error('Error fetching pending request count:', error);
+    return 0;
+  }
+
+  return count || 0;
+}
+
+export async function acceptFollowRequest(requestId: string): Promise<boolean> {
+  // Update request status
+  const { data: request, error: updateError } = await supabase
+    .from('follow_requests')
+    .update({ status: 'accepted', updated_at: new Date().toISOString() })
+    .eq('id', requestId)
+    .select()
+    .single();
+
+  if (updateError || !request) {
+    console.error('Error accepting follow request:', updateError);
+    return false;
+  }
+
+  // Create the actual follow relationship
+  const { error: followError } = await supabase
+    .from('follows')
+    .insert({
+      follower_id: request.requester_id,
+      following_id: request.requested_id
+    });
+
+  if (followError) {
+    console.error('Error creating follow relationship:', followError);
+    return false;
+  }
+
+  return true;
+}
+
+export async function rejectFollowRequest(requestId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('follow_requests')
+    .update({ status: 'rejected', updated_at: new Date().toISOString() })
+    .eq('id', requestId);
+
+  if (error) {
+    console.error('Error rejecting follow request:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function getExistingFollowRequest(
+  requesterId: string,
+  requestedId: string
+): Promise<FollowRequest | null> {
+  const { data, error } = await supabase
+    .from('follow_requests')
+    .select('*')
+    .eq('requester_id', requesterId)
+    .eq('requested_id', requestedId)
+    .eq('status', 'pending')
+    .maybeSingle();
+
+  if (error) {
+    console.error('Error checking existing follow request:', error);
+    return null;
+  }
+
+  return data;
+}

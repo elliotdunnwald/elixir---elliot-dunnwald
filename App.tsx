@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { User, Plus, Search, ChevronRight, Check, X, MapPin, Loader2, Eye, EyeOff, Home, Mail, Phone, Coffee, ShoppingBag } from 'lucide-react';
+import { User, Plus, Search, ChevronRight, Check, X, MapPin, Loader2, Eye, EyeOff, Home, Mail, Phone, Coffee, ShoppingBag, Bell } from 'lucide-react';
 import FeedView from './views/Feed';
 import ProfileView from './views/Profile';
 import ExploreView from './views/Search';
@@ -8,11 +8,13 @@ import RoasterDatabase from './views/RoasterDatabase';
 import CoffeeShopView from './views/CoffeeShop';
 import AuthView from './views/AuthView';
 import BrewLogModal from './components/BrewLogModal';
+import NotificationsPanel from './components/NotificationsPanel';
 import { BrewActivity } from './types';
 import { SettingsProvider } from './context/SettingsContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import { createProfile, createActivity, deleteActivity } from './lib/database';
+import { createProfile, createActivity, deleteActivity, getUnreadNotificationCount, getPendingFollowRequestCount } from './lib/database';
 import { BREWING_DEVICES } from './data/database';
+import { supabase } from './lib/supabase';
 // Migration utility removed - not needed for new installations
 
 const PageTitle: React.FC = () => {
@@ -306,7 +308,7 @@ const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
   );
 };
 
-const Navbar: React.FC<{ onLogBrew: () => void }> = ({ onLogBrew }) => {
+const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void; notificationCount: number }> = ({ onLogBrew, onOpenNotifications, notificationCount }) => {
   const location = useLocation();
   const { signOut } = useAuth();
   const navItems = [
@@ -328,6 +330,14 @@ const Navbar: React.FC<{ onLogBrew: () => void }> = ({ onLogBrew }) => {
                 <Link key={item.label} to={item.path} className={`text-[11px] font-black uppercase tracking-[0.2em] transition-all ${location.pathname === item.path ? 'text-white underline underline-offset-8 decoration-4' : 'text-zinc-100 hover:text-white'}`}>{item.label}</Link>
               ))}
             </div>
+            <button onClick={onOpenNotifications} className="relative p-3 rounded-xl border-2 border-zinc-800 text-zinc-100 hover:text-white hover:border-zinc-600 transition-all">
+              <Bell className="w-5 h-5" />
+              {notificationCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center">
+                  {notificationCount > 9 ? '9+' : notificationCount}
+                </span>
+              )}
+            </button>
             <button onClick={onLogBrew} className="bg-white text-black px-8 py-3 rounded-2xl flex items-center gap-2 font-black text-[11px] uppercase tracking-[0.2em] active:scale-95 transition-all shadow-xl shadow-white/10 border-2 border-white hover:bg-zinc-100"><Plus className="w-4 h-4" /> <span>LOG BREW</span></button>
             <button onClick={signOut} className="px-5 py-2 rounded-xl border-2 border-zinc-800 text-[11px] font-black uppercase tracking-[0.2em] text-zinc-100 hover:text-white hover:border-zinc-600 transition-all">SIGN OUT</button>
           </div>
@@ -337,12 +347,20 @@ const Navbar: React.FC<{ onLogBrew: () => void }> = ({ onLogBrew }) => {
   );
 };
 
-const MobileHeader: React.FC = () => {
+const MobileHeader: React.FC<{ onOpenNotifications: () => void; notificationCount: number }> = ({ onOpenNotifications, notificationCount }) => {
   return (
-    <div className="sm:hidden sticky top-0 z-40 bg-black/80 backdrop-blur-xl border-b border-zinc-900 h-16 flex items-center px-6">
+    <div className="sm:hidden sticky top-0 z-40 bg-black/80 backdrop-blur-xl border-b border-zinc-900 h-16 flex items-center justify-between px-6">
       <Link to="/" className="flex items-center">
         <span className="text-xl font-black text-white tracking-tighter uppercase leading-none">ELIXR</span>
       </Link>
+      <button onClick={onOpenNotifications} className="relative p-2 rounded-xl border-2 border-zinc-800 text-zinc-100">
+        <Bell className="w-5 h-5" />
+        {notificationCount > 0 && (
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center">
+            {notificationCount > 9 ? '9+' : notificationCount}
+          </span>
+        )}
+      </button>
     </div>
   );
 };
@@ -379,8 +397,50 @@ const MobileNav: React.FC = () => {
 const AppContent: React.FC = () => {
   const { user, profile, loading, refreshProfile } = useAuth();
   const [isLogModalOpen, setIsLogModalOpen] = useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [notificationCount, setNotificationCount] = useState(0);
 
+  // Load notification count
+  useEffect(() => {
+    if (!profile) return;
 
+    const loadNotificationCount = async () => {
+      const unreadCount = await getUnreadNotificationCount(profile.id);
+      const pendingRequests = await getPendingFollowRequestCount(profile.id);
+      setNotificationCount(unreadCount + pendingRequests);
+    };
+
+    loadNotificationCount();
+
+    // Subscribe to notification changes
+    const notifChannel = supabase
+      .channel('notification_count_updates')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'notifications',
+          filter: `profile_id=eq.${profile.id}`
+        },
+        loadNotificationCount
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'follow_requests',
+          filter: `requested_id=eq.${profile.id}`
+        },
+        loadNotificationCount
+      )
+      .subscribe();
+
+    return () => {
+      notifChannel.unsubscribe();
+    };
+  }, [profile]);
 
   // Debug logging
   console.log('AppContent state:', { loading, hasUser: !!user, hasProfile: !!profile });
@@ -413,8 +473,15 @@ const AppContent: React.FC = () => {
     <Router>
       <PageTitle />
       <div className="min-h-screen flex flex-col bg-black text-white selection:bg-white selection:text-black pb-24 sm:pb-0">
-        <Navbar onLogBrew={() => setIsLogModalOpen(true)} />
-        <MobileHeader />
+        <Navbar
+          onLogBrew={() => setIsLogModalOpen(true)}
+          onOpenNotifications={() => setIsNotificationsOpen(true)}
+          notificationCount={notificationCount}
+        />
+        <MobileHeader
+          onOpenNotifications={() => setIsNotificationsOpen(true)}
+          notificationCount={notificationCount}
+        />
         <main className="flex-grow max-w-6xl mx-auto w-full px-4 py-8 sm:py-12">
           <Routes>
             <Route path="/" element={<FeedView />} />
@@ -430,6 +497,7 @@ const AppContent: React.FC = () => {
           <Plus className="w-8 h-8" />
         </button>
         <BrewLogModal isOpen={isLogModalOpen} onClose={() => setIsLogModalOpen(false)} />
+        <NotificationsPanel isOpen={isNotificationsOpen} onClose={() => setIsNotificationsOpen(false)} />
       </div>
     </Router>
   );
