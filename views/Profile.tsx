@@ -9,7 +9,7 @@ import { useActivities } from '../hooks/useActivities';
 import {
   getProfileByUsername,
   updateProfile,
-  getGearItems,
+  getUserGear,
   addGearItem,
   deleteGearItem,
   getFollowerCount,
@@ -396,7 +396,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
       if (isMe && currentProfile) {
         // Load own profile
         const [gearData, followerCount, followingCount] = await Promise.all([
-          getGearItems(currentProfile.id),
+          getUserGear(currentProfile.id),
           getFollowerCount(currentProfile.id),
           getFollowingCount(currentProfile.id)
         ]);
@@ -413,7 +413,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
         const profile = await getProfileByUsername(userId);
         if (profile) {
           setProfileData(profile);
-          const gearData = await getGearItems(profile.id);
+          const gearData = await getUserGear(profile.id);
           setGear(gearData);
 
           // Check if following or has pending request
