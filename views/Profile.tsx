@@ -65,15 +65,15 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({ isOpen, imageSrc, onCom
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 animate-in fade-in duration-300">
       <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={onCancel} />
-      <div className="relative bg-zinc-900 w-full max-w-2xl rounded-[3rem] shadow-2xl border border-zinc-800 overflow-hidden">
-        <div className="px-8 py-6 border-b border-zinc-800 flex justify-between items-center">
-          <h2 className="text-xl font-black text-white tracking-tighter uppercase">CROP AVATAR</h2>
-          <button onClick={onCancel} className="text-zinc-100 hover:text-white transition-all">
+      <div className="relative bg-white w-full max-w-2xl rounded-[3rem] shadow-2xl border-2 border-black overflow-hidden">
+        <div className="px-8 py-6 border-b-2 border-black flex justify-between items-center">
+          <h2 className="text-xl font-black text-black tracking-tighter uppercase">CROP AVATAR</h2>
+          <button onClick={onCancel} className="text-zinc-700 hover:text-black transition-all">
             <X className="w-6 h-6" />
           </button>
         </div>
 
-        <div className="relative h-[400px] bg-black">
+        <div className="relative h-[400px] bg-zinc-900">
           <Cropper
             image={imageSrc}
             crop={crop}
@@ -87,14 +87,14 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({ isOpen, imageSrc, onCom
           />
         </div>
 
-        <div className="px-8 py-6 space-y-6">
+        <div className="px-8 py-6 space-y-6 bg-white">
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">ZOOM</label>
+              <label className="text-[10px] font-black text-zinc-700 uppercase tracking-widest">ZOOM</label>
               <div className="flex items-center gap-2">
-                <ZoomOut className="w-4 h-4 text-zinc-200" />
-                <span className="text-xs font-black text-white">{Math.round(zoom * 100)}%</span>
-                <ZoomIn className="w-4 h-4 text-zinc-200" />
+                <ZoomOut className="w-4 h-4 text-zinc-700" />
+                <span className="text-xs font-black text-black">{Math.round(zoom * 100)}%</span>
+                <ZoomIn className="w-4 h-4 text-zinc-700" />
               </div>
             </div>
             <input
@@ -104,21 +104,21 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({ isOpen, imageSrc, onCom
               step={0.1}
               value={zoom}
               onChange={(e) => setZoom(Number(e.target.value))}
-              className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer slider"
+              className="w-full h-2 bg-zinc-300 rounded-lg appearance-none cursor-pointer slider"
             />
           </div>
 
           <div className="flex gap-3">
             <button
               onClick={onCancel}
-              className="flex-1 bg-zinc-800 text-zinc-400 py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all hover:text-white"
+              className="flex-1 bg-zinc-100 text-zinc-700 py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all hover:text-black border-2 border-zinc-300"
             >
               CANCEL
             </button>
             <button
               onClick={handleComplete}
               disabled={processing}
-              className="flex-1 bg-white text-black py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
+              className="flex-1 bg-black text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2 border-2 border-black"
             >
               {processing ? (
                 <>
@@ -142,11 +142,11 @@ const ThemeToggleSection: React.FC = () => {
 
   return (
     <div className="space-y-2">
-      <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">THEME</label>
+      <label className="text-[10px] font-black text-zinc-700 uppercase tracking-widest px-1">THEME</label>
       <button
         type="button"
         onClick={toggleTheme}
-        className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${theme === 'light' ? 'bg-white text-black border-black' : 'bg-zinc-900 border-zinc-700 text-white'}`}
+        className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${theme === 'light' ? 'bg-black text-white border-black' : 'bg-zinc-100 border-zinc-300 text-zinc-700'}`}
       >
         {theme === 'light' ? (
           <>
@@ -297,19 +297,19 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-300">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative bg-zinc-900 w-full max-w-2xl h-full sm:h-auto sm:rounded-[3rem] shadow-2xl border border-zinc-800 overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95">
-        <div className="px-8 py-6 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/90 backdrop-blur-md sticky top-0 z-20">
-          <h2 className="text-xl font-black text-white tracking-tighter uppercase">EDIT PROFILE</h2>
-          <button onClick={onClose} className="text-zinc-100 hover:text-white transition-all"><X className="w-6 h-6" /></button>
+      <div className="absolute inset-0 bg-black/60 dark:bg-black/60 light:bg-white/60 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative bg-white border-2 border-black w-full max-w-2xl h-full sm:h-auto sm:rounded-[3rem] shadow-2xl overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95">
+        <div className="px-8 py-6 border-b-2 border-black flex justify-between items-center bg-white/90 backdrop-blur-md sticky top-0 z-20">
+          <h2 className="text-xl font-black text-black tracking-tighter uppercase">EDIT PROFILE</h2>
+          <button onClick={onClose} className="text-zinc-700 hover:text-black transition-all"><X className="w-6 h-6" /></button>
         </div>
-        <form className="overflow-y-auto px-6 sm:px-10 py-10 space-y-12 pb-32 custom-scrollbar">
+        <form className="overflow-y-auto px-6 sm:px-10 py-10 space-y-12 pb-32 custom-scrollbar bg-white">
           <section className="flex flex-col items-center gap-6">
-            <div onClick={() => !uploading && mediaInputRef.current?.click()} className={`w-32 h-32 rounded-3xl border-4 border-zinc-800 bg-black flex items-center justify-center overflow-hidden ${uploading ? 'cursor-wait' : 'cursor-pointer hover:border-white'} transition-all group relative`}>
-              {formData.avatar ? <img src={formData.avatar} className="w-full h-full object-cover" alt="" /> : <UserIcon className="w-12 h-12 text-zinc-800" />}
+            <div onClick={() => !uploading && mediaInputRef.current?.click()} className={`w-32 h-32 rounded-3xl border-4 border-zinc-300 bg-white flex items-center justify-center overflow-hidden ${uploading ? 'cursor-wait' : 'cursor-pointer hover:border-black'} transition-all group relative`}>
+              {formData.avatar ? <img src={formData.avatar} className="w-full h-full object-cover" alt="" /> : <UserIcon className="w-12 h-12 text-zinc-300" />}
               {uploading ? (
-                <div className="absolute inset-0 bg-black/80 flex items-center justify-center">
-                  <Loader2 className="w-8 h-8 text-white animate-spin" />
+                <div className="absolute inset-0 bg-white/90 flex items-center justify-center">
+                  <Loader2 className="w-8 h-8 text-black animate-spin" />
                 </div>
               ) : (
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
@@ -318,27 +318,27 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
               )}
             </div>
             <input type="file" ref={mediaInputRef} onChange={handleAvatarSelect} className="hidden" accept="image/*" />
-            <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">TAP TO CHANGE PHOTO</p>
+            <p className="text-[10px] font-black text-zinc-700 uppercase tracking-widest">TAP TO CHANGE PHOTO</p>
           </section>
           <section className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">FIRST NAME</label>
-                <input type="text" value={formData.firstName} onChange={e => setFormData({ ...formData, firstName: e.target.value.toUpperCase() })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase" />
+                <label className="text-[10px] font-black text-zinc-700 uppercase tracking-widest px-1">FIRST NAME</label>
+                <input type="text" value={formData.firstName} onChange={e => setFormData({ ...formData, firstName: e.target.value.toUpperCase() })} className="w-full bg-white border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-black uppercase" />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">LAST NAME</label>
-                <input type="text" value={formData.lastName} onChange={e => setFormData({ ...formData, lastName: e.target.value.toUpperCase() })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase" />
+                <label className="text-[10px] font-black text-zinc-700 uppercase tracking-widest px-1">LAST NAME</label>
+                <input type="text" value={formData.lastName} onChange={e => setFormData({ ...formData, lastName: e.target.value.toUpperCase() })} className="w-full bg-white border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-black uppercase" />
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">USERNAME</label>
+              <label className="text-[10px] font-black text-zinc-700 uppercase tracking-widest px-1">USERNAME</label>
               <div className="relative">
                 <input
                   type="text"
                   value={formData.username}
                   onChange={e => setFormData({ ...formData, username: e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, '') })}
-                  className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 pr-12 text-white font-black text-sm outline-none focus:border-white lowercase"
+                  className="w-full bg-white border-2 border-zinc-300 rounded-2xl px-5 py-4 pr-12 text-black font-black text-sm outline-none focus:border-black lowercase"
                   placeholder="choose your username"
                 />
                 <div className="absolute right-4 top-1/2 -translate-y-1/2">
@@ -361,23 +361,23 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
               )}
               <p className="text-[9px] font-black text-zinc-500 uppercase tracking-wider px-1">Letters, numbers, _ and - only</p>
             </div>
-            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">EMAIL</label><input type="email" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white" /></div>
-            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">PHONE</label><input type="tel" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white" placeholder="OPTIONAL" /></div>
-            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">PRONOUNS</label><input type="text" value={formData.pronouns} onChange={e => setFormData({ ...formData, pronouns: e.target.value.toUpperCase() })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase" /></div>
+            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-700 uppercase tracking-widest px-1">EMAIL</label><input type="email" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-white border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-black" /></div>
+            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-700 uppercase tracking-widest px-1">PHONE</label><input type="tel" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-full bg-white border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-black" placeholder="OPTIONAL" /></div>
+            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-700 uppercase tracking-widest px-1">PRONOUNS</label><input type="text" value={formData.pronouns} onChange={e => setFormData({ ...formData, pronouns: e.target.value.toUpperCase() })} className="w-full bg-white border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-black uppercase" /></div>
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2"><label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">CITY</label><input type="text" value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value.toUpperCase() })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase" /></div>
-              <div className="space-y-2"><label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">COUNTRY</label><input type="text" value={formData.country} onChange={e => setFormData({ ...formData, country: e.target.value.toUpperCase() })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase" /></div>
+              <div className="space-y-2"><label className="text-[10px] font-black text-zinc-700 uppercase tracking-widest px-1">CITY</label><input type="text" value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value.toUpperCase() })} className="w-full bg-white border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-black uppercase" /></div>
+              <div className="space-y-2"><label className="text-[10px] font-black text-zinc-700 uppercase tracking-widest px-1">COUNTRY</label><input type="text" value={formData.country} onChange={e => setFormData({ ...formData, country: e.target.value.toUpperCase() })} className="w-full bg-white border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-black uppercase" /></div>
             </div>
-            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">BIO</label><textarea value={formData.bio} onChange={e => setFormData({ ...formData, bio: e.target.value.toUpperCase() })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase min-h-[100px] resize-none" placeholder="SHARE YOUR BREW PHILOSOPHY..." /></div>
+            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-700 uppercase tracking-widest px-1">BIO</label><textarea value={formData.bio} onChange={e => setFormData({ ...formData, bio: e.target.value.toUpperCase() })} className="w-full bg-white border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-black uppercase min-h-[100px] resize-none" placeholder="SHARE YOUR BREW PHILOSOPHY..." /></div>
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">PRIVACY</label>
-              <button type="button" onClick={() => setFormData({ ...formData, isPrivate: !formData.isPrivate })} className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${formData.isPrivate ? 'bg-zinc-900 border-zinc-700 text-zinc-400' : 'bg-white text-black border-white'}`}>
+              <label className="text-[10px] font-black text-zinc-700 uppercase tracking-widest px-1">PRIVACY</label>
+              <button type="button" onClick={() => setFormData({ ...formData, isPrivate: !formData.isPrivate })} className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${formData.isPrivate ? 'bg-zinc-100 border-zinc-300 text-zinc-700' : 'bg-black text-white border-black'}`}>
                 {formData.isPrivate ? <><EyeOff className="w-4 h-4" /> PRIVATE PROFILE</> : <><Eye className="w-4 h-4" /> PUBLIC PROFILE</>}
               </button>
             </div>
             <ThemeToggleSection />
           </section>
-          <div className="sticky bottom-0 pt-10 pb-12 bg-gradient-to-t from-zinc-900 via-zinc-900 to-transparent"><button type="button" onClick={handleSave} className="w-full bg-white text-black font-black text-sm uppercase tracking-[0.4em] py-7 rounded-[2.5rem] shadow-2xl transition-all active:scale-[0.98]">SAVE CHANGES</button></div>
+          <div className="sticky bottom-0 pt-10 pb-12 bg-gradient-to-t from-white via-white to-transparent"><button type="button" onClick={handleSave} className="w-full bg-black text-white font-black text-sm uppercase tracking-[0.4em] py-7 rounded-[2.5rem] shadow-2xl transition-all active:scale-[0.98]">SAVE CHANGES</button></div>
         </form>
       </div>
       <ImageCropModal

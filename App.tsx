@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { User, Plus, Search, ChevronRight, Check, X, MapPin, Loader2, Eye, EyeOff, Home, Mail, Phone, Coffee, ShoppingBag, Bell } from 'lucide-react';
+import { User, Plus, Search, ChevronRight, Check, X, MapPin, Loader2, Eye, EyeOff, Home, Mail, Phone, Coffee, ShoppingBag, Bell, Sun, Moon } from 'lucide-react';
 import FeedView from './views/Feed';
 import ProfileView from './views/Profile';
 import ExploreView from './views/Search';
@@ -12,7 +12,7 @@ import NotificationsPanel from './components/NotificationsPanel';
 import { BrewActivity } from './types';
 import { SettingsProvider } from './context/SettingsContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import { ThemeProvider } from './context/ThemeContext';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { createProfile, createActivity, deleteActivity, getUnreadNotificationCount, getPendingFollowRequestCount } from './lib/database';
 import { BREWING_DEVICES } from './data/database';
 import { supabase } from './lib/supabase';
@@ -63,6 +63,7 @@ interface ProfileSetupProps {
 
 const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
   const { user, refreshProfile } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [step, setStep] = useState(1);
   const [isDetecting, setIsDetecting] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -255,6 +256,9 @@ const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
                 <button onClick={() => setFormData(p => ({...p, isPrivate: !p.isPrivate}))} className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${formData.isPrivate ? 'bg-zinc-900 border-zinc-700 text-zinc-400' : 'bg-white text-black border-white'}`}>
                   {formData.isPrivate ? <><EyeOff className="w-4 h-4" /> PRIVATE PROFILE</> : <><Eye className="w-4 h-4" /> PUBLIC PROFILE</>}
                 </button>
+                <button onClick={toggleTheme} className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${theme === 'light' ? 'bg-white text-black border-white' : 'bg-zinc-900 border-zinc-700 text-white'}`}>
+                  {theme === 'light' ? <><Sun className="w-4 h-4" /> LIGHT MODE</> : <><Moon className="w-4 h-4" /> DARK MODE</>}
+                </button>
               </div>
             </div>
           )}
@@ -321,17 +325,17 @@ const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void;
   ];
 
   return (
-    <nav className="sticky top-0 z-40 bg-black/80 backdrop-blur-xl border-b border-zinc-900 hidden sm:block">
+    <nav className="sticky top-0 z-40 bg-white border-b-2 border-black hidden sm:block">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between h-20">
-          <Link to="/" className="flex items-center"><span className="text-2xl font-black text-white tracking-tighter uppercase leading-none">ELIXR</span></Link>
+          <Link to="/" className="flex items-center"><span className="text-2xl font-black text-black tracking-tighter uppercase leading-none">ELIXR</span></Link>
           <div className="flex items-center space-x-8">
             <div className="flex space-x-8">
               {navItems.map((item) => (
-                <Link key={item.label} to={item.path} className={`text-[11px] font-black uppercase tracking-[0.2em] transition-all ${location.pathname === item.path ? 'text-white underline underline-offset-8 decoration-4' : 'text-zinc-100 hover:text-white'}`}>{item.label}</Link>
+                <Link key={item.label} to={item.path} className={`text-[11px] font-black uppercase tracking-[0.2em] transition-all ${location.pathname === item.path ? 'text-black underline underline-offset-8 decoration-4' : 'text-zinc-700 hover:text-black'}`}>{item.label}</Link>
               ))}
             </div>
-            <button onClick={onOpenNotifications} className="relative p-3 rounded-xl border-2 border-zinc-800 text-zinc-100 hover:text-white hover:border-zinc-600 transition-all">
+            <button onClick={onOpenNotifications} className="relative p-3 rounded-xl border-2 border-zinc-300 text-zinc-700 hover:text-black hover:border-black transition-all">
               <Bell className="w-5 h-5" />
               {notificationCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center">
@@ -339,8 +343,8 @@ const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void;
                 </span>
               )}
             </button>
-            <button onClick={onLogBrew} className="bg-white text-black px-8 py-3 rounded-2xl flex items-center gap-2 font-black text-[11px] uppercase tracking-[0.2em] active:scale-95 transition-all shadow-xl shadow-white/10 border-2 border-white hover:bg-zinc-100"><Plus className="w-4 h-4" /> <span>LOG BREW</span></button>
-            <button onClick={signOut} className="px-5 py-2 rounded-xl border-2 border-zinc-800 text-[11px] font-black uppercase tracking-[0.2em] text-zinc-100 hover:text-white hover:border-zinc-600 transition-all">SIGN OUT</button>
+            <button onClick={onLogBrew} className="bg-black text-white px-8 py-3 rounded-2xl flex items-center gap-2 font-black text-[11px] uppercase tracking-[0.2em] active:scale-95 transition-all shadow-xl border-2 border-black hover:bg-zinc-800"><Plus className="w-4 h-4" /> <span>LOG BREW</span></button>
+            <button onClick={signOut} className="px-5 py-2 rounded-xl border-2 border-zinc-300 text-[11px] font-black uppercase tracking-[0.2em] text-zinc-700 hover:text-black hover:border-black transition-all">SIGN OUT</button>
           </div>
         </div>
       </div>
@@ -350,11 +354,11 @@ const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void;
 
 const MobileHeader: React.FC<{ onOpenNotifications: () => void; notificationCount: number }> = ({ onOpenNotifications, notificationCount }) => {
   return (
-    <div className="sm:hidden sticky top-0 z-40 bg-black/80 backdrop-blur-xl border-b border-zinc-900 h-16 flex items-center justify-between px-6">
+    <div className="sm:hidden sticky top-0 z-40 bg-white border-b-2 border-black h-16 flex items-center justify-between px-6">
       <Link to="/" className="flex items-center">
-        <span className="text-xl font-black text-white tracking-tighter uppercase leading-none">ELIXR</span>
+        <span className="text-xl font-black text-black tracking-tighter uppercase leading-none">ELIXR</span>
       </Link>
-      <button onClick={onOpenNotifications} className="relative p-2 rounded-xl border-2 border-zinc-800 text-zinc-100">
+      <button onClick={onOpenNotifications} className="relative p-2 rounded-xl border-2 border-zinc-300 text-zinc-700">
         <Bell className="w-5 h-5" />
         {notificationCount > 0 && (
           <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center">

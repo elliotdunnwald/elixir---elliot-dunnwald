@@ -27,6 +27,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       document.documentElement.classList.add('dark-theme');
       document.documentElement.classList.remove('light-theme');
     }
+
+    // Update favicon for theme
   }, [theme]);
 
   const toggleTheme = () => {
