@@ -13,6 +13,7 @@ const INITIAL_FORM_DATA = {
   estate: '',
   varietal: '',
   process: '',
+  brewType: 'filter' as 'espresso' | 'filter',
   brewer: 'V60',
   grindSetting: '',
   ratio: '1:15',
@@ -32,6 +33,10 @@ const INITIAL_FORM_DATA = {
   showEY: false,
   location: ''
 };
+
+// Brew device categorization
+const ESPRESSO_DEVICES = ['Espresso Machine', 'Flair', 'Robot', 'Cafelat', 'Decent', 'La Pavoni'];
+const FILTER_DEVICES = ['V60', 'Chemex', 'Aeropress', 'Kalita Wave', 'Clever Dripper', 'French Press', 'Origami', 'Tricolate'];
 
 interface BrewLogModalProps {
   isOpen: boolean;
@@ -95,6 +100,36 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
   }, [formData.gramsIn, formData.gramsOut, formData.tds, formData.brewWeight]);
 
   const handleInputChange = (field: string, value: string) => setFormData(prev => ({ ...prev, [field]: value.toUpperCase() }));
+
+  const handleBrewerChange = (brewer: string) => {
+    // Auto-detect brew type based on device
+    const brewType = ESPRESSO_DEVICES.includes(brewer) ? 'espresso' : 'filter';
+
+    // Set default values based on brew type
+    if (brewType === 'espresso') {
+      setFormData(prev => ({
+        ...prev,
+        brewer,
+        brewType,
+        gramsIn: '18.0',
+        gramsOut: '36.0',
+        ratio: '1:2.0',
+        temp: '93',
+        brewTime: '00:28'
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        brewer,
+        brewType,
+        gramsIn: '15.0',
+        gramsOut: '225.0',
+        ratio: '1:15',
+        temp: '94',
+        brewTime: '02:30'
+      }));
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -205,6 +240,28 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
             </button>
           </div>
 
+          <section className="space-y-4">
+            <div className="flex justify-between items-center px-1">
+              <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Brewing Device</p>
+              <div className={`px-3 py-1.5 rounded-lg border-2 text-[8px] font-black uppercase tracking-widest ${formData.brewType === 'espresso' ? 'bg-white text-black border-white' : 'bg-zinc-800 text-zinc-200 border-zinc-700'}`}>
+                {formData.brewType === 'espresso' ? 'ESPRESSO' : 'FILTER'}
+              </div>
+            </div>
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+              {[...FILTER_DEVICES, ...ESPRESSO_DEVICES].map(device => (
+                <button
+                  key={device}
+                  type="button"
+                  onClick={() => handleBrewerChange(device)}
+                  disabled={uploading}
+                  className={`px-4 py-3 rounded-xl border-2 text-[9px] font-black uppercase tracking-wider transition-all disabled:opacity-50 ${formData.brewer === device ? 'bg-white text-black border-white' : 'bg-black text-zinc-200 border-zinc-800 hover:border-zinc-600'}`}
+                >
+                  {device}
+                </button>
+              ))}
+            </div>
+          </section>
+
           <section className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -258,16 +315,16 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
             {formData.showParameters && (
               <div className="space-y-6 animate-in fade-in duration-300">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 bg-black border-2 border-zinc-800 p-8 rounded-[2.5rem]">
-                  <div className="space-y-3">
-                    <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest text-center">DOSE (G)</p>
+                  <div className="flex flex-col items-center">
+                    <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest mb-3">DOSE (G)</p>
                     <input type="number" step="0.1" value={formData.gramsIn} onChange={e => setFormData({...formData, gramsIn: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-center text-lg outline-none focus:border-white disabled:opacity-50" />
                   </div>
-                  <div className="space-y-3">
-                    <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest text-center">WATER (G)</p>
+                  <div className="flex flex-col items-center">
+                    <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest mb-3">WATER (G)</p>
                     <input type="number" step="1" value={formData.gramsOut} onChange={e => setFormData({...formData, gramsOut: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-center text-lg outline-none focus:border-white disabled:opacity-50" />
                   </div>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-center gap-1 mb-1">
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center gap-2 mb-3">
                       <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest">TEMP</p>
                       <div className="flex bg-zinc-900 rounded p-0.5 border border-zinc-800">
                         <button type="button" onClick={() => handleTempUnitToggle('C')} disabled={uploading} className={`px-1.5 py-0.5 rounded text-[6px] font-black transition-all disabled:opacity-50 ${tempUnit === 'C' ? 'bg-white text-black' : 'text-zinc-200'}`}>°C</button>
@@ -276,9 +333,9 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
                     </div>
                     <input type="number" value={formData.temp} onChange={e => setFormData({...formData, temp: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-center text-lg outline-none focus:border-white disabled:opacity-50" />
                   </div>
-                  <div className="space-y-3">
-                    <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest text-center">RATIO</p>
-                    <div className="w-full py-2 text-white font-black text-center text-lg">{formData.ratio}</div>
+                  <div className="flex flex-col items-center">
+                    <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest mb-3">RATIO</p>
+                    <div className="w-full py-2 text-white font-black text-center text-lg border-b-2 border-transparent">{formData.ratio}</div>
                   </div>
                 </div>
 
