@@ -11,14 +11,42 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        /* Theme Variables */
+        :root.dark-theme {
+            --bg-primary: #000000;
+            --bg-secondary: #18181b;
+            --bg-tertiary: #27272a;
+            --text-primary: #ffffff;
+            --text-secondary: #e4e4e7;
+            --text-tertiary: #a1a1aa;
+            --border-primary: #27272a;
+            --border-secondary: #3f3f46;
+            --accent: #ffffff;
+            --accent-text: #000000;
+        }
+
+        :root.light-theme {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f4f4f5;
+            --bg-tertiary: #e4e4e7;
+            --text-primary: #000000;
+            --text-secondary: #18181b;
+            --text-tertiary: #52525b;
+            --border-primary: #e4e4e7;
+            --border-secondary: #d4d4d8;
+            --accent: #000000;
+            --accent-text: #ffffff;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            background-color: black;
-            color: white;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         h1, h2, h3, h4, button, input, textarea, .font-caps {
             font-family: 'Inter', sans-serif;
@@ -32,10 +60,10 @@
             width: 4px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-            background: #000;
+            background: var(--bg-primary);
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #27272a;
+            background: var(--border-primary);
             border-radius: 10px;
         }
         /* Range slider styling for image crop zoom */
@@ -45,7 +73,7 @@
             background: transparent;
         }
         input[type="range"].slider::-webkit-slider-track {
-            background: #27272a;
+            background: var(--border-primary);
             height: 8px;
             border-radius: 4px;
         }
@@ -55,12 +83,12 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: white;
+            background: var(--accent);
             cursor: pointer;
             margin-top: -6px;
         }
         input[type="range"].slider::-moz-range-track {
-            background: #27272a;
+            background: var(--border-primary);
             height: 8px;
             border-radius: 4px;
         }
@@ -68,7 +96,7 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: white;
+            background: var(--accent);
             cursor: pointer;
             border: none;
         }
@@ -101,6 +129,31 @@
         button::-moz-focus-inner {
             border: 0;
         }
+
+        /* Theme-aware Tailwind overrides */
+        .light-theme .bg-black { background-color: var(--bg-primary) !important; }
+        .light-theme .bg-zinc-900 { background-color: var(--bg-secondary) !important; }
+        .light-theme .bg-zinc-950 { background-color: var(--bg-secondary) !important; }
+        .light-theme .bg-zinc-800 { background-color: var(--bg-tertiary) !important; }
+        .light-theme .text-white { color: var(--text-primary) !important; }
+        .light-theme .text-zinc-100 { color: var(--text-secondary) !important; }
+        .light-theme .text-zinc-200 { color: var(--text-tertiary) !important; }
+        .light-theme .text-zinc-400 { color: var(--text-tertiary) !important; }
+        .light-theme .text-zinc-500 { color: var(--text-tertiary) !important; }
+        .light-theme .text-zinc-700 { color: var(--text-tertiary) !important; }
+        .light-theme .text-zinc-800 { color: var(--text-tertiary) !important; }
+        .light-theme .border-zinc-800 { border-color: var(--border-primary) !important; }
+        .light-theme .border-zinc-700 { border-color: var(--border-secondary) !important; }
+        .light-theme .border-zinc-600 { border-color: var(--border-secondary) !important; }
+        .light-theme .bg-white { background-color: var(--accent) !important; }
+        .light-theme .text-black { color: var(--accent-text) !important; }
+        .light-theme .border-white { border-color: var(--accent) !important; }
+        .light-theme .placeholder\:text-zinc-700::placeholder { color: var(--text-tertiary) !important; }
+        .light-theme .placeholder\:text-zinc-800::placeholder { color: var(--text-tertiary) !important; }
+
+        /* Inverse for originally white/black elements in light mode */
+        .light-theme .bg-white { background-color: var(--accent) !important; }
+        .light-theme .text-white { color: var(--text-primary) !important; }
     </style>
 </head>
 <body>

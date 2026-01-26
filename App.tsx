@@ -12,6 +12,7 @@ import NotificationsPanel from './components/NotificationsPanel';
 import { BrewActivity } from './types';
 import { SettingsProvider } from './context/SettingsContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { createProfile, createActivity, deleteActivity, getUnreadNotificationCount, getPendingFollowRequestCount } from './lib/database';
 import { BREWING_DEVICES } from './data/database';
 import { supabase } from './lib/supabase';
@@ -505,11 +506,13 @@ const AppContent: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <SettingsProvider>
-      <AuthProvider>
-        <AppContent />
-      </AuthProvider>
-    </SettingsProvider>
+    <ThemeProvider>
+      <SettingsProvider>
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
+      </SettingsProvider>
+    </ThemeProvider>
   );
 };
 
