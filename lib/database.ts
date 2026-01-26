@@ -637,38 +637,6 @@ export async function checkUsernameAvailability(username: string, currentProfile
 // GEAR FUNCTIONS
 // =====================================================
 
-export async function getGearItems(profileId: string): Promise<GearItem[]> {
-  const { data, error } = await supabase
-    .from('gear_items')
-    .select('*')
-    .eq('profile_id', profileId);
-
-  if (error) {
-    console.error('Error fetching gear items:', error);
-    return [];
-  }
-
-  return data || [];
-}
-
-export async function addGearItem(profileId: string, gear: Omit<GearItem, 'id'>): Promise<GearItem | null> {
-  const { data, error } = await supabase
-    .from('gear_items')
-    .insert({
-      profile_id: profileId,
-      ...gear
-    })
-    .select()
-    .single();
-
-  if (error) {
-    console.error('Error adding gear item:', error);
-    return null;
-  }
-
-  return data;
-}
-
 // =====================================================
 // STATS FUNCTIONS
 // =====================================================
