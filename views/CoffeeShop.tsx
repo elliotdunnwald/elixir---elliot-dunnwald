@@ -197,88 +197,87 @@ const CoffeeShopView: React.FC = () => {
     );
   }
 
-  // Main view with 2 placards
-  if (activeView === 'main') {
-    return (
-      <div className="max-w-7xl mx-auto space-y-8">
-        {/* Header */}
-        <div>
-          <h1 className="text-5xl font-black tracking-tighter uppercase">MARKETPLACE</h1>
-          <p className="text-xs text-zinc-100 mt-2 tracking-wider uppercase">
-            EXPLORE ROASTERS & EQUIPMENT
-          </p>
-        </div>
+  return (
+    <>
+      {/* Main view with 2 placards */}
+      {activeView === 'main' && (
+        <div className="max-w-7xl mx-auto space-y-8">
+          {/* Header */}
+          <div>
+            <h1 className="text-5xl font-black tracking-tighter uppercase">MARKETPLACE</h1>
+            <p className="text-xs text-zinc-100 mt-2 tracking-wider uppercase">
+              EXPLORE ROASTERS & EQUIPMENT
+            </p>
+          </div>
 
-        {/* Placards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8">
-          {/* Roasters Placard */}
-          <div
-            onClick={() => setActiveView('roasters')}
-            className="bg-zinc-950 border-2 border-zinc-900 rounded-3xl p-16 hover:border-white transition-all cursor-pointer group"
-          >
-            <div className="space-y-6 text-center">
-              <div className="flex justify-center">
-                <Coffee className="w-20 h-20 text-white group-hover:scale-110 transition-transform" />
+          {/* Placards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8">
+            {/* Roasters Placard */}
+            <div
+              onClick={() => setActiveView('roasters')}
+              className="bg-zinc-950 border-2 border-zinc-900 rounded-3xl p-16 hover:border-white transition-all cursor-pointer group"
+            >
+              <div className="space-y-6 text-center">
+                <div className="flex justify-center">
+                  <Coffee className="w-20 h-20 text-white group-hover:scale-110 transition-transform" />
+                </div>
+                <div>
+                  <h2 className="text-5xl font-black tracking-tighter uppercase mb-3 group-hover:text-white transition-colors">ROASTERS</h2>
+                  <p className="text-lg text-zinc-400 uppercase tracking-wider font-black">
+                    {roastersWithOfferings.length} ROASTERS • {totalOfferings} OFFERINGS
+                  </p>
+                </div>
+                <div className="pt-6">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowRoasterSubmit(true);
+                    }}
+                    className="bg-white text-black px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all inline-flex items-center gap-2"
+                  >
+                    <Plus className="w-4 h-4" />
+                    SUBMIT ROASTER
+                  </button>
+                </div>
               </div>
-              <div>
-                <h2 className="text-5xl font-black tracking-tighter uppercase mb-3 group-hover:text-white transition-colors">ROASTERS</h2>
-                <p className="text-lg text-zinc-400 uppercase tracking-wider font-black">
-                  {roastersWithOfferings.length} ROASTERS • {totalOfferings} OFFERINGS
-                </p>
-              </div>
-              <div className="pt-6">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowRoasterSubmit(true);
-                  }}
-                  className="bg-white text-black px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all inline-flex items-center gap-2"
-                >
-                  <Plus className="w-4 h-4" />
-                  SUBMIT ROASTER
-                </button>
+            </div>
+
+            {/* Equipment Placard */}
+            <div
+              onClick={() => setActiveView('equipment')}
+              className="bg-zinc-950 border-2 border-zinc-900 rounded-3xl p-16 hover:border-white transition-all cursor-pointer group"
+            >
+              <div className="space-y-6 text-center">
+                <div className="flex justify-center">
+                  <Package className="w-20 h-20 text-white group-hover:scale-110 transition-transform" />
+                </div>
+                <div>
+                  <h2 className="text-5xl font-black tracking-tighter uppercase mb-3 group-hover:text-white transition-colors">EQUIPMENT</h2>
+                  <p className="text-lg text-zinc-400 uppercase tracking-wider font-black">
+                    BREWERS • GRINDERS • ACCESSORIES
+                  </p>
+                </div>
+                <div className="pt-6">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowEquipmentSubmit(true);
+                    }}
+                    className="bg-white text-black px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all inline-flex items-center gap-2"
+                  >
+                    <Plus className="w-4 h-4" />
+                    SUBMIT EQUIPMENT
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-
-          {/* Equipment Placard */}
-          <div
-            onClick={() => setActiveView('equipment')}
-            className="bg-zinc-950 border-2 border-zinc-900 rounded-3xl p-16 hover:border-white transition-all cursor-pointer group"
-          >
-            <div className="space-y-6 text-center">
-              <div className="flex justify-center">
-                <Package className="w-20 h-20 text-white group-hover:scale-110 transition-transform" />
-              </div>
-              <div>
-                <h2 className="text-5xl font-black tracking-tighter uppercase mb-3 group-hover:text-white transition-colors">EQUIPMENT</h2>
-                <p className="text-lg text-zinc-400 uppercase tracking-wider font-black">
-                  BREWERS • GRINDERS • ACCESSORIES
-                </p>
-              </div>
-              <div className="pt-6">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowEquipmentSubmit(true);
-                  }}
-                  className="bg-white text-black px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all inline-flex items-center gap-2"
-                >
-                  <Plus className="w-4 h-4" />
-                  SUBMIT EQUIPMENT
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-    );
-  }
+      )}
 
-  // Roasters view
-  if (activeView === 'roasters') {
-    return (
-      <div className="max-w-7xl mx-auto space-y-8">
+      {/* Roasters view */}
+      {activeView === 'roasters' && (
+        <div className="max-w-7xl mx-auto space-y-8">
         {/* Header with back button */}
         <div className="flex items-center gap-4">
           <button
@@ -421,13 +420,11 @@ const CoffeeShopView: React.FC = () => {
           </div>
         )}
       </div>
-    );
-  }
+      )}
 
-  // Equipment view
-  if (activeView === 'equipment') {
-    return (
-      <div className="max-w-7xl mx-auto space-y-8">
+      {/* Equipment view */}
+      {activeView === 'equipment' && (
+        <div className="max-w-7xl mx-auto space-y-8">
         {/* Header with back button */}
         <div className="flex items-center gap-4">
           <button
@@ -462,10 +459,7 @@ const CoffeeShopView: React.FC = () => {
           </div>
         </div>
       </div>
-    );
-  }
-
-  return null;
+      )}
 
       {/* Roaster Detail Modal */}
       {selectedRoaster && (
@@ -515,7 +509,7 @@ const CoffeeShopView: React.FC = () => {
           }}
         />
       )}
-    </div>
+    </>
   );
 };
 
