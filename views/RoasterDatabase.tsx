@@ -11,6 +11,23 @@ const RoasterDatabase: React.FC = () => {
   const [isAddingRoaster, setIsAddingRoaster] = useState(false);
   const [isAddingOffering, setIsAddingOffering] = useState(false);
 
+  // Quick filter suggestions
+  const quickFilters = [
+    { label: 'Ethiopia', icon: '🇪🇹' },
+    { label: 'Kenya', icon: '🇰🇪' },
+    { label: 'Colombia', icon: '🇨🇴' },
+    { label: 'Natural', icon: '☀️' },
+    { label: 'Washed', icon: '💧' },
+    { label: 'Anaerobic', icon: '🔬' },
+    { label: 'Gesha', icon: '✨' },
+    { label: 'SL-28', icon: '🌱' },
+    { label: 'Bourbon', icon: '🍒' }
+  ];
+
+  const handleQuickFilter = (filter: string) => {
+    setSearchQuery(filter);
+  };
+
   useEffect(() => {
     const loadRoasters = async () => {
       // Clean up old localStorage key
@@ -116,16 +133,22 @@ const RoasterDatabase: React.FC = () => {
   const fuse = useMemo(() => {
     return new Fuse(roasters, {
       keys: [
-        'name',
+        { name: 'name', weight: 2 },
         'city',
         'country',
-        'offerings.name',
-        'offerings.origin',
-        'offerings.varietals',
-        'offerings.processing'
+        { name: 'offerings.name', weight: 1.5 },
+        { name: 'offerings.origin', weight: 2 },
+        { name: 'offerings.region', weight: 1.5 },
+        { name: 'offerings.estate', weight: 1 },
+        { name: 'offerings.varietals', weight: 2 },
+        { name: 'offerings.processing', weight: 2 },
+        { name: 'offerings.tastingNotes', weight: 1 },
+        'offerings.roastLevel'
       ],
-      threshold: 0.3,
-      includeScore: true
+      threshold: 0.4,
+      includeScore: true,
+      ignoreLocation: true,
+      useExtendedSearch: true
     });
   }, [roasters]);
 
@@ -174,60 +197,135 @@ const RoasterDatabase: React.FC = () => {
         </button>
       </div>
 
-      <div className="relative">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-200" />
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={e => setSearchQuery(e.target.value)}
-          placeholder="SEARCH ROASTERS, ORIGINS, VARIETALS, PROCESSING..."
-          className="w-full bg-zinc-950 border-2 border-zinc-900 rounded-2xl py-4 pl-12 pr-12 text-sm font-black text-white outline-none focus:border-white uppercase"
-        />
-        {searchQuery && (
-          <button
-            onClick={() => setSearchQuery('')}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-200 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-lg p-1"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        )}
+      <div className="space-y-4">
+        <div className="relative">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-200" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            placeholder="SEARCH BY ROASTER, ORIGIN, VARIETAL, PROCESS, OR ESTATE..."
+            className="w-full bg-zinc-950 border-2 border-zinc-900 rounded-2xl py-4 pl-12 pr-12 text-sm font-black text-white outline-none focus:border-white uppercase placeholder:text-zinc-700"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-200 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-lg p-1"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+
+        {/* Quick Filters */}
+        <div className="flex flex-wrap gap-2">
+          <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest flex items-center px-2">
+            Quick Search:
+          </span>
+          {quickFilters.map((filter) => (
+            <button
+              key={filter.label}
+              onClick={() => handleQuickFilter(filter.label)}
+              className={`px-3 py-1.5 rounded-xl border-2 text-[10px] font-black uppercase tracking-wider transition-all ${
+                searchQuery.toLowerCase() === filter.label.toLowerCase()
+                  ? 'bg-white text-black border-white'
+                  : 'bg-transparent border-zinc-800 text-zinc-200 hover:border-zinc-600'
+              }`}
+            >
+              <span className="mr-1">{filter.icon}</span>
+              {filter.label}
+            </button>
+          ))}
+        </div>
       </div>
 
+      {searchQuery && searchResults.length > 0 && (
+        <div className="flex items-center gap-3 text-sm">
+          <span className="text-zinc-400 font-black uppercase tracking-wider">
+            {searchResults.length} roaster{searchResults.length !== 1 ? 's' : ''} found
+          </span>
+          <span className="text-zinc-600">•</span>
+          <span className="text-zinc-400 font-black uppercase tracking-wider">
+            {searchResults.reduce((sum, r) => sum + r.offerings.length, 0)} total offerings
+          </span>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {searchResults.map(roaster => (
-          <div
-            key={roaster.id}
-            onClick={() => setSelectedRoaster(roaster)}
-            className="bg-zinc-950 border-2 border-zinc-900 rounded-2xl p-6 hover:border-white transition-all cursor-pointer"
-          >
-            <div className="space-y-3">
-              <div>
-                <h3 className="text-xl font-black tracking-tighter">{roaster.name}</h3>
-                <div className="flex items-center gap-2 mt-1 text-xs text-zinc-100">
-                  <MapPin className="w-3 h-3" />
-                  <span>{roaster.city}, {roaster.country}</span>
+        {searchResults.map(roaster => {
+          // Show matching offerings preview if searching
+          const matchingOfferings = searchQuery
+            ? roaster.offerings.filter(o =>
+                o.origin.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                o.varietals.some(v => v.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                o.processing.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                o.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                (o.region && o.region.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                (o.estate && o.estate.toLowerCase().includes(searchQuery.toLowerCase()))
+              ).slice(0, 3)
+            : [];
+
+          return (
+            <div
+              key={roaster.id}
+              onClick={() => setSelectedRoaster(roaster)}
+              className="bg-zinc-950 border-2 border-zinc-900 rounded-2xl p-6 hover:border-white transition-all cursor-pointer group"
+            >
+              <div className="space-y-3">
+                <div>
+                  <h3 className="text-xl font-black tracking-tighter group-hover:text-white transition-colors">{roaster.name}</h3>
+                  <div className="flex items-center gap-2 mt-1 text-xs text-zinc-100">
+                    <MapPin className="w-3 h-3" />
+                    <span>{roaster.city}, {roaster.country}</span>
+                  </div>
                 </div>
-              </div>
-              {roaster.foundedYear && (
-                <div className="flex items-center gap-2 text-xs text-zinc-200">
-                  <Calendar className="w-3 h-3" />
-                  <span>EST. {roaster.foundedYear}</span>
-                </div>
-              )}
-              <div className="pt-3 border-t border-zinc-800">
-                <div className="flex items-center gap-2 text-xs text-zinc-400">
-                  <Coffee className="w-3 h-3" />
-                  <span>{roaster.offerings.length} OFFERING{roaster.offerings.length !== 1 ? 'S' : ''}</span>
+                {roaster.foundedYear && (
+                  <div className="flex items-center gap-2 text-xs text-zinc-200">
+                    <Calendar className="w-3 h-3" />
+                    <span>EST. {roaster.foundedYear}</span>
+                  </div>
+                )}
+                <div className="pt-3 border-t border-zinc-800">
+                  <div className="flex items-center gap-2 text-xs text-zinc-400 mb-2">
+                    <Coffee className="w-3 h-3" />
+                    <span>{roaster.offerings.length} OFFERING{roaster.offerings.length !== 1 ? 'S' : ''}</span>
+                  </div>
+
+                  {/* Show matching offerings preview */}
+                  {matchingOfferings.length > 0 && (
+                    <div className="space-y-1 mt-3 pt-3 border-t border-zinc-800">
+                      <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest mb-2">Matches:</p>
+                      {matchingOfferings.map(offering => (
+                        <div key={offering.id} className="text-[10px] text-zinc-300 font-black uppercase tracking-wide">
+                          • {offering.name} - {offering.origin}
+                        </div>
+                      ))}
+                      {roaster.offerings.length > matchingOfferings.length && (
+                        <p className="text-[9px] text-zinc-500 font-black uppercase mt-1">
+                          +{roaster.offerings.length - matchingOfferings.length} more
+                        </p>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      {searchResults.length === 0 && (
-        <div className="text-center py-20">
-          <p className="text-zinc-200 text-sm font-black uppercase tracking-wider">NO RESULTS FOUND</p>
+      {searchResults.length === 0 && searchQuery && (
+        <div className="text-center py-20 space-y-4">
+          <p className="text-zinc-200 text-lg font-black uppercase tracking-wider">NO RESULTS FOUND</p>
+          <p className="text-zinc-400 text-xs font-black uppercase tracking-wider">
+            Try searching for: Ethiopia, Kenya, Gesha, Natural, Washed, or a roaster name
+          </p>
+          <button
+            onClick={() => setSearchQuery('')}
+            className="mt-4 px-6 py-3 bg-zinc-900 border-2 border-zinc-800 rounded-xl text-xs font-black uppercase tracking-wider hover:border-white transition-all"
+          >
+            Clear Search
+          </button>
         </div>
       )}
 
