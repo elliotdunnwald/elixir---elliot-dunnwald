@@ -2,17 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PostCard from '../components/PostCard';
 import BrewLogModal from '../components/BrewLogModal';
+import BrewLogDetailModal from '../components/BrewLogDetailModal';
 import { useActivities } from '../hooks/useActivities';
 import { useAuth } from '../hooks/useAuth';
+import { deleteActivity } from '../lib/database';
 import { Users, ArrowRight, Loader2 } from 'lucide-react';
 import type { BrewActivity } from '../types';
 
 const FeedView: React.FC = () => {
   const { profile } = useAuth();
-  const { activities, loading, error, loadMore } = useActivities({ realtime: true });
+  const { activities, loading, error, loadMore, removeActivity } = useActivities({ realtime: true });
   const [editActivity, setEditActivity] = useState<BrewActivity | null>(null);
+  const [selectedActivityId, setSelectedActivityId] = useState<string | null>(null);
 
   console.log('FeedView render:', { profile, activitiesCount: activities.length, loading, error });
+
+  const handleDelete = async (activityId: string) => {
+    const success = await deleteActivity(activityId);
+    if (success) {
+      removeActivity(activityId);
+    }
+  };
 
   // Infinite scroll handler
   useEffect(() => {
@@ -74,6 +84,8 @@ const FeedView: React.FC = () => {
                 key={activity.id}
                 activity={activity}
                 onEdit={setEditActivity}
+                onDelete={handleDelete}
+                onClick={() => setSelectedActivityId(activity.id)}
               />
             ))}
             {loading && (
@@ -84,11 +96,21 @@ const FeedView: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Modals */}
       <BrewLogModal
         isOpen={!!editActivity}
         onClose={() => setEditActivity(null)}
         editActivity={editActivity}
       />
+      {selectedActivityId && (
+        <BrewLogDetailModal
+          activityId={selectedActivityId}
+          onClose={() => setSelectedActivityId(null)}
+          onEdit={setEditActivity}
+          onDelete={handleDelete}
+        />
+      )}
     </div>
   );
 };

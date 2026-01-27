@@ -9,6 +9,7 @@ interface PostCardProps {
   activity: BrewActivity;
   onDelete?: (activityId: string) => void;
   onEdit?: (activity: BrewActivity) => void;
+  onClick?: () => void;
 }
 
 const formatTimestamp = (timestamp: string) => {
@@ -34,7 +35,7 @@ const formatTimestamp = (timestamp: string) => {
   return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
 };
 
-const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit }) => {
+const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick }) => {
   const { profile } = useAuth();
   const isMe = profile?.id === activity.userId;
   const isDefaultWhite = !activity.userAvatar;
@@ -95,10 +96,13 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit }) => {
   };
 
   return (
-    <div className="bg-zinc-900 rounded-[3.5rem] border-2 border-zinc-800 transition-all hover:border-zinc-600 overflow-hidden shadow-2xl shadow-white/5 animate-in fade-in duration-500">
+    <div
+      className="bg-zinc-900 rounded-[3.5rem] border-2 border-zinc-800 transition-all hover:border-zinc-600 overflow-hidden shadow-2xl shadow-white/5 animate-in fade-in duration-500 cursor-pointer"
+      onClick={onClick}
+    >
       <div className="p-10 flex justify-between items-start">
         <div className="flex gap-5 items-start">
-          <Link to={`/profile/${activity.userUsername || activity.userId}`} className="block shrink-0">
+          <Link to={`/profile/${activity.userUsername || activity.userId}`} className="block shrink-0" onClick={(e) => e.stopPropagation()}>
             <div className={`w-16 h-16 rounded-2xl border-2 transition-all hover:border-white overflow-hidden ${isDefaultWhite ? 'bg-white text-black border-white' : 'bg-black border-zinc-700'}`}>
               <div className="w-full h-full flex items-center justify-center">
                 {isDefaultWhite ? <Zap className="w-8 h-8" /> : <img src={activity.userAvatar} className="w-full h-full object-cover" alt="" />}
@@ -107,7 +111,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit }) => {
           </Link>
           <div className="min-w-0">
             <div className="flex items-center gap-3">
-              <Link to={`/profile/${activity.userUsername || activity.userId}`} className="block group">
+              <Link to={`/profile/${activity.userUsername || activity.userId}`} className="block group" onClick={(e) => e.stopPropagation()}>
                 <h3 className="font-black text-white uppercase tracking-tight text-xl group-hover:underline transition-colors truncate">{activity.userName}</h3>
               </Link>
               {activity.isPrivate && (
@@ -199,9 +203,9 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit }) => {
 
         {activity.description && <p className="text-zinc-400 text-base mb-10 font-black uppercase tracking-widest leading-relaxed border-l-4 border-zinc-800 pl-6 italic">"{activity.description}"</p>}
 
-        <div className="flex items-center gap-3 pt-8 border-t-2 border-zinc-800">
+        <div className="flex items-center gap-3 pt-8 border-t-2 border-zinc-800" onClick={(e) => e.stopPropagation()}>
           <button
-            onClick={handleLike}
+            onClick={(e) => { e.stopPropagation(); handleLike(); }}
             disabled={isMe}
             className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all ${isMe ? 'text-zinc-700 border-zinc-800 cursor-not-allowed' : (hasLiked ? 'text-white border-white bg-white/10' : 'text-zinc-100 border-zinc-800 hover:text-white hover:border-zinc-600')}`}
           >
@@ -209,19 +213,19 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit }) => {
             <span className="text-[11px] font-black uppercase tracking-widest">{likes}</span>
           </button>
           <button
-            onClick={() => setShowComments(!showComments)}
+            onClick={(e) => { e.stopPropagation(); setShowComments(!showComments); }}
             className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all ${showComments ? 'text-white border-white bg-white/10' : 'text-zinc-100 border-zinc-800 hover:text-white hover:border-zinc-600'}`}
           >
             <MessageCircle className="w-5 h-5" />
             <span className="text-[11px] font-black uppercase tracking-widest">{activity.comments.length}</span>
           </button>
-          <button className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-100 border-zinc-800 hover:text-white hover:border-zinc-600 transition-all ml-auto">
+          <button onClick={(e) => e.stopPropagation()} className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-100 border-zinc-800 hover:text-white hover:border-zinc-600 transition-all ml-auto">
             <Share2 className="w-5 h-5" />
             <span className="text-[11px] font-black uppercase tracking-widest hidden sm:inline">SHARE</span>
           </button>
           {isMe && onEdit && (
             <button
-              onClick={() => onEdit(activity)}
+              onClick={(e) => { e.stopPropagation(); onEdit(activity); }}
               className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-100 border-zinc-800 hover:text-white hover:border-zinc-600 transition-all"
               title="Edit this post"
             >
@@ -231,7 +235,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit }) => {
           )}
           {isMe && onDelete && (
             <button
-              onClick={handleDelete}
+              onClick={(e) => { e.stopPropagation(); handleDelete(); }}
               className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-100 border-zinc-800 hover:text-red-500 hover:border-red-900 transition-all"
               title="Delete this post"
             >

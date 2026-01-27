@@ -366,6 +366,69 @@ export async function getUserActivities(profileId: string, limit = 20, offset = 
   return data || [];
 }
 
+export async function getActivityById(activityId: string): Promise<BrewActivity | null> {
+  const { data, error } = await supabase
+    .from('brew_activities')
+    .select(`
+      *,
+      profiles(*),
+      likes(profile_id),
+      comments(*, profiles(*))
+    `)
+    .eq('id', activityId)
+    .single();
+
+  if (error) {
+    console.error('Error fetching activity:', error);
+    return null;
+  }
+
+  if (!data) return null;
+
+  // Transform to BrewActivity format
+  return {
+    id: data.id,
+    userId: data.profile_id,
+    userName: data.profiles ? `${data.profiles.first_name} ${data.profiles.last_name}` : 'Unknown',
+    userUsername: data.profiles?.username,
+    userAvatar: data.profiles?.avatar_url,
+    title: data.title,
+    description: data.description || '',
+    imageUrl: data.image_url || '',
+    locationName: data.location_name,
+    roaster: data.roaster,
+    beanOrigin: data.bean_origin,
+    estate: data.estate || '',
+    varietal: data.varietal || '',
+    process: data.process || '',
+    brewer: data.brewer,
+    grinder: data.grinder || '',
+    grindSetting: data.grind_setting || '',
+    ratio: data.ratio,
+    gramsIn: data.grams_in,
+    gramsOut: data.grams_out,
+    brewWeight: data.brew_weight,
+    temperature: data.temperature,
+    tempUnit: data.temp_unit || 'C',
+    brewTime: data.brew_time,
+    rating: data.rating,
+    tds: data.tds,
+    eyPercentage: data.ey_percentage,
+    showParameters: data.show_parameters,
+    isPrivate: data.is_private,
+    timestamp: data.created_at,
+    likeCount: data.likes?.length || 0,
+    likedBy: data.likes?.map((l: any) => l.profile_id) || [],
+    comments: data.comments?.map((c: any) => ({
+      id: c.id,
+      userId: c.profile_id,
+      userName: c.profiles ? `${c.profiles.first_name} ${c.profiles.last_name}` : 'Unknown',
+      text: c.text,
+      timestamp: c.created_at
+    })) || []
+  };
+}
+
 export async function updateActivity(activityId: string, updates: Partial<DbBrewActivity>): Promise<DbBrewActivity | null> {
   console.log('updateActivity called with:', { activityId, updates });
 

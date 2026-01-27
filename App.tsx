@@ -9,6 +9,7 @@ import AuthView from './views/AuthView';
 import AdminRoasters from './views/AdminRoasters';
 import AdminEquipment from './views/AdminEquipment';
 import BrewLogModal from './components/BrewLogModal';
+import BrewLogDetailModal from './components/BrewLogDetailModal';
 import NotificationsPanel from './components/NotificationsPanel';
 import { BrewActivity } from './types';
 import { SettingsProvider } from './context/SettingsContext';
@@ -404,6 +405,7 @@ const AppContent: React.FC = () => {
   const [isLogModalOpen, setIsLogModalOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [notificationCount, setNotificationCount] = useState(0);
+  const [selectedActivityId, setSelectedActivityId] = useState<string | null>(null);
 
   // Load notification count
   useEffect(() => {
@@ -503,7 +505,21 @@ const AppContent: React.FC = () => {
           <Plus className="w-8 h-8" />
         </button>
         <BrewLogModal isOpen={isLogModalOpen} onClose={() => setIsLogModalOpen(false)} />
-        <NotificationsPanel isOpen={isNotificationsOpen} onClose={() => setIsNotificationsOpen(false)} />
+        <NotificationsPanel
+          isOpen={isNotificationsOpen}
+          onClose={() => setIsNotificationsOpen(false)}
+          onActivityClick={(activityId) => setSelectedActivityId(activityId)}
+        />
+        {selectedActivityId && (
+          <BrewLogDetailModal
+            activityId={selectedActivityId}
+            onClose={() => setSelectedActivityId(null)}
+            onDelete={async (activityId) => {
+              await deleteActivity(activityId);
+              setSelectedActivityId(null);
+            }}
+          />
+        )}
       </div>
     </Router>
   );

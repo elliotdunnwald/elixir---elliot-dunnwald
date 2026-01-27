@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Bell, X, Heart, MessageCircle, UserPlus, UserCheck, Check } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import {
   getNotifications,
@@ -16,10 +17,12 @@ import { supabase } from '../lib/supabase';
 interface NotificationsPanelProps {
   isOpen: boolean;
   onClose: () => void;
+  onActivityClick?: (activityId: string) => void;
 }
 
-const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose }) => {
+const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose, onActivityClick }) => {
   const { profile } = useAuth();
+  const navigate = useNavigate();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [followRequests, setFollowRequests] = useState<FollowRequest[]>([]);
   const [loading, setLoading] = useState(true);
@@ -94,6 +97,27 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
     if (!profile) return;
     await markAllNotificationsAsRead(profile.id);
     setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+  };
+
+  const handleNotificationClick = async (notif: Notification) => {
+    // Mark as read
+    if (!notif.read) {
+      await handleMarkAsRead(notif.id);
+    }
+
+    // Navigate based on notification type
+    if (notif.type === 'follow' || notif.type === 'follow_accepted' || notif.type === 'follow_request') {
+      // Navigate to the follower's profile
+      const username = notif.from_profile?.username || notif.from_profile_id;
+      navigate(`/profile/${username}`);
+      onClose();
+    } else if ((notif.type === 'like' || notif.type === 'comment') && notif.activity_id) {
+      // Open brew log detail
+      if (onActivityClick) {
+        onActivityClick(notif.activity_id);
+      }
+      onClose();
+    }
   };
 
   const handleAcceptRequest = async (requestId: string) => {
@@ -283,10 +307,10 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
                       {notifications.map(notif => (
                         <div
                           key={notif.id}
-                          onClick={() => !notif.read && handleMarkAsRead(notif.id)}
+                          onClick={() => handleNotificationClick(notif)}
                           className={`border-2 rounded-xl p-4 cursor-pointer transition-all ${
                             notif.read
-                              ? 'bg-zinc-950 border-zinc-900'
+                              ? 'bg-zinc-950 border-zinc-900 hover:border-zinc-800'
                               : 'bg-zinc-900 border-zinc-800 hover:border-white'
                           }`}
                         >
