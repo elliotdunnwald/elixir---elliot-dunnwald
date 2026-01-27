@@ -150,9 +150,9 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit }) => {
           </div>
           {(activity.estate || activity.varietal || activity.process) && (
             <div className="flex flex-wrap gap-3 mt-4">
-              {activity.estate && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest bg-zinc-800/50 px-2 py-1 rounded">ESTATE: {activity.estate}</span>}
-              {activity.varietal && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest bg-zinc-800/50 px-2 py-1 rounded">VARIETAL: {activity.varietal}</span>}
-              {activity.process && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest bg-zinc-800/50 px-2 py-1 rounded">PROCESS: {activity.process}</span>}
+              {activity.estate && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg">ESTATE: {activity.estate}</span>}
+              {activity.varietal && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg">VARIETAL: {activity.varietal}</span>}
+              {activity.process && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg">PROCESS: {activity.process}</span>}
             </div>
           )}
         </div>
