@@ -144,52 +144,49 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
           className="max-w-4xl w-full bg-zinc-900 rounded-[3.5rem] border-2 border-zinc-800 shadow-2xl shadow-white/5 animate-in fade-in duration-300"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Close button */}
-          <div className="flex justify-end p-6">
-            <button
-              onClick={onClose}
-              className="text-zinc-100 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-xl p-2"
-            >
-              <X className="w-6 h-6" />
-            </button>
-          </div>
-
-          <div className="px-10 pb-10 pt-0">
-            {/* User info and rating */}
+          <div className="px-10 pt-10 pb-10">
+            {/* Header with rating and close button */}
             <div className="flex justify-between items-start mb-8">
-              <div className="flex gap-5 items-start">
-                <Link to={`/profile/${activity.userUsername || activity.userId}`} className="block shrink-0">
-                  <div className={`w-16 h-16 rounded-2xl border-2 transition-all hover:border-white overflow-hidden ${isDefaultWhite ? 'bg-white text-black border-white' : 'bg-black border-zinc-700'}`}>
-                    <div className="w-full h-full flex items-center justify-center">
-                      {isDefaultWhite ? <Zap className="w-8 h-8" /> : <img src={activity.userAvatar} className="w-full h-full object-cover" alt="" />}
-                    </div>
-                  </div>
-                </Link>
-                <div className="min-w-0">
-                  <div className="flex items-center gap-3">
-                    <Link to={`/profile/${activity.userUsername || activity.userId}`} className="block group">
-                      <h3 className="font-black text-white uppercase tracking-tight text-xl group-hover:underline transition-colors truncate">{activity.userName}</h3>
-                    </Link>
-                    {activity.isPrivate && (
-                      <span title="Private">
-                        <Lock className="w-4 h-4 text-zinc-200" />
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex flex-col gap-1 mt-1">
-                    <p className="text-[11px] text-zinc-100 uppercase font-black tracking-widest flex items-center gap-2">
-                      <MapPin className="w-4 h-4" /> {activity.locationName}
-                    </p>
-                    <p className="text-[9px] text-zinc-200 uppercase font-black tracking-[0.25em]">
-                      {formatTimestamp(activity.timestamp)}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
               <div className="bg-white text-black px-6 py-3 rounded-2xl flex items-center gap-3 shadow-2xl">
                 <Award className="w-6 h-6 fill-black" />
                 <span className="text-3xl font-black tracking-tighter leading-none">{activity.rating.toFixed(1)}</span>
+              </div>
+              <button
+                onClick={onClose}
+                className="text-zinc-100 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-xl p-2"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* User info */}
+            <div className="flex gap-5 items-start mb-8">
+              <Link to={`/profile/${activity.userUsername || activity.userId}`} className="block shrink-0">
+                <div className={`w-16 h-16 rounded-2xl border-2 transition-all hover:border-white overflow-hidden ${isDefaultWhite ? 'bg-white text-black border-white' : 'bg-black border-zinc-700'}`}>
+                  <div className="w-full h-full flex items-center justify-center">
+                    {isDefaultWhite ? <Zap className="w-8 h-8" /> : <img src={activity.userAvatar} className="w-full h-full object-cover" alt="" />}
+                  </div>
+                </div>
+              </Link>
+              <div className="min-w-0">
+                <div className="flex items-center gap-3">
+                  <Link to={`/profile/${activity.userUsername || activity.userId}`} className="block group">
+                    <h3 className="font-black text-white uppercase tracking-tight text-xl group-hover:underline transition-colors truncate">{activity.userName}</h3>
+                  </Link>
+                  {activity.isPrivate && (
+                    <span title="Private">
+                      <Lock className="w-4 h-4 text-zinc-200" />
+                    </span>
+                  )}
+                </div>
+                <div className="flex flex-col gap-1 mt-1">
+                  <p className="text-[11px] text-zinc-100 uppercase font-black tracking-widest flex items-center gap-2">
+                    <MapPin className="w-4 h-4" /> {activity.locationName}
+                  </p>
+                  <p className="text-[9px] text-zinc-200 uppercase font-black tracking-[0.25em]">
+                    {formatTimestamp(activity.timestamp)}
+                  </p>
+                </div>
               </div>
             </div>
 
