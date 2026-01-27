@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MessageCircle, Share2, MapPin, Award, FlaskConical, Timer, Thermometer, Zap, Lock, Calculator, Heart, Beaker, Trash2, Send, X } from 'lucide-react';
+import { MessageCircle, Share2, MapPin, Award, FlaskConical, Timer, Thermometer, Zap, Lock, Calculator, Heart, Beaker, Trash2, Send, X, Edit3 } from 'lucide-react';
 import { BrewActivity } from '../types';
 import { useAuth } from '../hooks/useAuth';
 import { toggleLike, addComment } from '../lib/database';
@@ -8,6 +8,7 @@ import { toggleLike, addComment } from '../lib/database';
 interface PostCardProps {
   activity: BrewActivity;
   onDelete?: (activityId: string) => void;
+  onEdit?: (activity: BrewActivity) => void;
 }
 
 const formatTimestamp = (timestamp: string) => {
@@ -33,7 +34,7 @@ const formatTimestamp = (timestamp: string) => {
   return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
 };
 
-const PostCard: React.FC<PostCardProps> = ({ activity, onDelete }) => {
+const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit }) => {
   const { profile } = useAuth();
   const isMe = profile?.id === activity.userId;
   const isDefaultWhite = !activity.userAvatar;
@@ -222,6 +223,16 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete }) => {
             <Share2 className="w-5 h-5" />
             <span className="text-[11px] font-black uppercase tracking-widest hidden sm:inline">SHARE</span>
           </button>
+          {isMe && onEdit && (
+            <button
+              onClick={() => onEdit(activity)}
+              className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-100 border-zinc-800 hover:text-white hover:border-zinc-600 transition-all"
+              title="Edit this post"
+            >
+              <Edit3 className="w-5 h-5" />
+              <span className="text-[12px] font-black uppercase tracking-widest">EDIT</span>
+            </button>
+          )}
           {isMe && onDelete && (
             <button
               onClick={handleDelete}

@@ -3,7 +3,7 @@ import { X, MapPin, Coffee, Award, Eye, EyeOff, Settings2, Calculator, Plus, Ima
 import { BrewActivity } from '../types';
 import { useSettings } from '../context/SettingsContext';
 import { useAuth } from '../hooks/useAuth';
-import { createActivity, uploadBrewImage } from '../lib/database';
+import { createActivity, uploadBrewImage, updateActivity } from '../lib/database';
 import DeviceSelectorModal from './DeviceSelectorModal';
 
 const INITIAL_FORM_DATA = {
@@ -23,7 +23,7 @@ const INITIAL_FORM_DATA = {
   brewWeight: '',
   temp: '94',
   brewTime: '02:30',
-  rating: 4.0,
+  rating: 8.0,
   tds: '0',
   eyPercentage: 0,
   isPrivate: false,
@@ -45,9 +45,10 @@ const INITIAL_FORM_DATA = {
 interface BrewLogModalProps {
   isOpen: boolean;
   onClose: () => void;
+  editActivity?: BrewActivity | null;
 }
 
-const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
+const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivity = null }) => {
   const { tempUnit, setTempUnit } = useSettings();
   const { user, profile } = useAuth();
   const defaultLocation = profile ? `${profile.city}, ${profile.country}`.toUpperCase() : '';
@@ -61,32 +62,75 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
 
   const isPodMachine = deviceCategory === 'pod';
 
-  // Load saved draft from localStorage on open
+  // Load saved draft or edit activity data on open
   useEffect(() => {
     if (isOpen && profile) {
-      const savedDraft = localStorage.getItem('elixr_brew_log_draft');
-      if (savedDraft) {
-        try {
-          const parsed = JSON.parse(savedDraft);
-          // Validate and cap rating to 0-5 range
-          if (parsed.rating > 5) parsed.rating = 5;
-          if (parsed.rating < 0) parsed.rating = 0;
-          setFormData({ ...parsed, location: parsed.location || defaultLocation });
-          if (parsed.mediaPreview) {
-            setMediaPreview(parsed.mediaPreview);
-          }
-          if (parsed.deviceCategory) {
-            setDeviceCategory(parsed.deviceCategory);
-          }
-        } catch (err) {
-          console.error('Error loading draft:', err);
-          setFormData(prev => ({ ...prev, location: defaultLocation }));
+      if (editActivity) {
+        // Load activity data for editing
+        setFormData({
+          title: editActivity.title || '',
+          description: editActivity.description || '',
+          roaster: editActivity.roaster || '',
+          origin: editActivity.beanOrigin || '',
+          estate: editActivity.estate || '',
+          varietal: editActivity.varietal || '',
+          process: editActivity.process || '',
+          brewType: (editActivity.brewType as 'espresso' | 'filter') || 'filter',
+          brewer: editActivity.brewer || '',
+          grindSetting: editActivity.grindSetting || '',
+          ratio: editActivity.ratio || '1:15',
+          gramsIn: editActivity.gramsIn?.toString() || '15.0',
+          gramsOut: editActivity.gramsOut?.toString() || '225.0',
+          brewWeight: editActivity.brewWeight?.toString() || '',
+          temp: editActivity.temperature?.toString() || '94',
+          brewTime: editActivity.brewTime || '02:30',
+          rating: editActivity.rating || 8.0,
+          tds: editActivity.tds?.toString() || '0',
+          eyPercentage: editActivity.eyPercentage || 0,
+          isPrivate: editActivity.isPrivate || false,
+          showParameters: editActivity.showParameters !== false,
+          showEstate: !!editActivity.estate,
+          showVarietal: !!editActivity.varietal,
+          showProcess: !!editActivity.process,
+          showEY: !!(editActivity.tds || editActivity.eyPercentage),
+          showMilk: false,
+          milkType: 'none' as 'none' | 'steamed' | 'cold',
+          steamedDrink: 'latte' as 'macchiato' | 'cortado' | 'flatwhite' | 'cappuccino' | 'latte',
+          drinkSize: 12,
+          coldMilkOz: 2,
+          podSize: 'medium' as 'small' | 'medium' | 'large',
+          podName: '',
+          location: editActivity.locationName || defaultLocation
+        });
+        if (editActivity.imageUrl) {
+          setMediaPreview(editActivity.imageUrl);
         }
       } else {
-        setFormData(prev => ({ ...prev, location: defaultLocation }));
+        // Load draft from localStorage
+        const savedDraft = localStorage.getItem('elixr_brew_log_draft');
+        if (savedDraft) {
+          try {
+            const parsed = JSON.parse(savedDraft);
+            // Validate and cap rating to 0-10 range
+            if (parsed.rating > 10) parsed.rating = 10;
+            if (parsed.rating < 0) parsed.rating = 0;
+            setFormData({ ...parsed, location: parsed.location || defaultLocation });
+            if (parsed.mediaPreview) {
+              setMediaPreview(parsed.mediaPreview);
+            }
+            if (parsed.deviceCategory) {
+              setDeviceCategory(parsed.deviceCategory);
+            }
+          } catch (err) {
+            console.error('Error loading draft:', err);
+            setFormData(prev => ({ ...prev, location: defaultLocation }));
+          }
+        } else {
+          setFormData(prev => ({ ...prev, location: defaultLocation }));
+        }
       }
     }
-  }, [isOpen, defaultLocation, profile]);
+  }, [isOpen, defaultLocation, profile, editActivity]);
 
   // Save draft to localStorage when form data changes
   useEffect(() => {
@@ -197,14 +241,13 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
 
     setUploading(true);
     try {
-      // Upload image if exists
-      let imageUrl: string | undefined;
+      // Upload image if new file exists
+      let imageUrl: string | undefined = editActivity?.imageUrl;
       if (mediaFile) {
         imageUrl = await uploadBrewImage(user.id, mediaFile) || undefined;
       }
 
-      // Create activity in database
-      const activity = await createActivity(profile.id, {
+      const activityData = {
         title: formData.title || 'BREW SESSION',
         description: formData.description || undefined,
         image_url: imageUrl,
@@ -237,7 +280,16 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
         cold_milk_oz: formData.showMilk && formData.milkType === 'cold' ? formData.coldMilkOz : undefined,
         pod_size: isPodMachine ? formData.podSize : undefined,
         pod_name: isPodMachine ? formData.podName : undefined
-      });
+      };
+
+      let activity;
+      if (editActivity) {
+        // Update existing activity
+        activity = await updateActivity(editActivity.id, activityData);
+      } else {
+        // Create new activity
+        activity = await createActivity(profile.id, activityData);
+      }
 
       if (activity) {
         // Reset form and clear draft
@@ -247,12 +299,12 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
         localStorage.removeItem('elixr_brew_log_draft');
         onClose();
       } else {
-        console.error('Failed to create brew log - no activity returned');
-        alert('Failed to create brew log. Please check console for details.');
+        console.error(`Failed to ${editActivity ? 'update' : 'create'} brew log - no activity returned`);
+        alert(`Failed to ${editActivity ? 'update' : 'create'} brew log. Please check console for details.`);
       }
     } catch (err) {
-      console.error('Error creating brew log:', err);
-      alert('Failed to create brew log. Please check console for details.');
+      console.error(`Error ${editActivity ? 'updating' : 'creating'} brew log:`, err);
+      alert(`Failed to ${editActivity ? 'update' : 'create'} brew log. Please check console for details.`);
     } finally {
       setUploading(false);
     }
@@ -287,7 +339,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
 
         <div className="px-8 py-6 border-b border-zinc-800 bg-zinc-900 sticky top-0 z-20">
           <div className="flex justify-between items-center mb-3">
-            <h2 className="text-xl font-black text-white tracking-tighter uppercase">Log Brew</h2>
+            <h2 className="text-xl font-black text-white tracking-tighter uppercase">{editActivity ? 'Edit Brew' : 'Log Brew'}</h2>
             <button onClick={onClose} className="text-zinc-100 hover:text-white transition-all" disabled={uploading}><X className="w-6 h-6" /></button>
           </div>
           <div className="flex items-center justify-between">
@@ -603,7 +655,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
 
           <section className="space-y-4">
             <div className="flex justify-between items-center px-1"><p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Overall Score</p><p className="text-2xl font-black">{formData.rating.toFixed(1)}</p></div>
-            <input type="range" min="0" max="5" step="0.1" value={formData.rating} onChange={e => setFormData({...formData, rating: parseFloat(e.target.value)})} disabled={uploading} className="w-full cursor-pointer disabled:opacity-50" />
+            <input type="range" min="0" max="10" step="0.1" value={formData.rating} onChange={e => setFormData({...formData, rating: parseFloat(e.target.value)})} disabled={uploading} className="w-full cursor-pointer disabled:opacity-50" />
           </section>
 
           <section className="space-y-4">
@@ -640,11 +692,11 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
             <button type="submit" disabled={uploading} className="w-full bg-white text-black font-black text-sm uppercase tracking-[0.4em] py-7 rounded-[2.5rem] shadow-2xl transition-all active:scale-[0.98] flex items-center justify-center gap-3 disabled:bg-zinc-800 disabled:text-zinc-700">
               {uploading ? (
                 <>
-                  <Loader2 className="w-5 h-5 animate-spin" /> UPLOADING...
+                  <Loader2 className="w-5 h-5 animate-spin" /> {editActivity ? 'UPDATING...' : 'UPLOADING...'}
                 </>
               ) : (
                 <>
-                  SHARE <ArrowRight className="w-5 h-5" />
+                  {editActivity ? 'UPDATE' : 'SHARE'} <ArrowRight className="w-5 h-5" />
                 </>
               )}
             </button>
