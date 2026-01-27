@@ -26,7 +26,9 @@ import {
   type ProfileWithStats
 } from '../lib/database';
 import PostCard from '../components/PostCard';
+import BrewLogModal from '../components/BrewLogModal';
 import { getCroppedImg } from '../utils/cropImage';
+import type { BrewActivity } from '../types';
 
 interface ImageCropModalProps {
   isOpen: boolean;
@@ -411,6 +413,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
   const [isAddingGear, setIsAddingGear] = useState(false);
   const [newGearSearch, setNewGearSearch] = useState('');
   const [deletingGearId, setDeletingGearId] = useState<string | null>(null);
+  const [editActivity, setEditActivity] = useState<BrewActivity | null>(null);
 
   // Fetch activities for this profile
   const { activities, loading: activitiesLoading } = useActivities({
@@ -703,6 +706,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                 <PostCard
                   key={a.id}
                   activity={a}
+                  onEdit={isMe ? setEditActivity : undefined}
                   onDelete={isMe ? handleDeleteActivity : undefined}
                 />
               ))
