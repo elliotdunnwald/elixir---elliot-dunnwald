@@ -20,7 +20,7 @@ const INITIAL_FORM_DATA = {
   ratio: '1:15',
   gramsIn: '15.0',
   gramsOut: '225.0',
-  brewWeight: '200.0',
+  brewWeight: '',
   temp: '94',
   brewTime: '02:30',
   rating: 4.0,
@@ -423,6 +423,17 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose }) => {
                   <div className="flex flex-col items-center">
                     <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest mb-3">RATIO</p>
                     <div className="w-full py-2 text-white font-black text-center text-lg border-b-2 border-transparent">{formData.ratio}</div>
+                  </div>
+                  <div className="flex flex-col items-center col-span-2 sm:col-span-4">
+                    <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest mb-3">TBT (MM:SS)</p>
+                    <input
+                      type="text"
+                      value={formData.brewTime}
+                      onChange={e => setFormData({...formData, brewTime: e.target.value})}
+                      disabled={uploading}
+                      placeholder="02:30"
+                      className="w-full sm:w-32 bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-center text-lg outline-none focus:border-white disabled:opacity-50"
+                    />
                   </div>
                 </div>
 
