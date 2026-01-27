@@ -144,9 +144,8 @@ const CoffeeShopView: React.FC = () => {
         }
       });
 
-      // Filter out roasters with no offerings and sort
+      // Sort roasters alphabetically (show all roasters, even without offerings)
       const roastersArray = Array.from(roasterMap.values())
-        .filter(r => r.offerings.length > 0)
         .sort((a, b) => a.name.localeCompare(b.name));
 
       setRoastersWithOfferings(roastersArray);
