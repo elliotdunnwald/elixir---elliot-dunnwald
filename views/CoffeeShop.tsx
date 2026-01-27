@@ -92,6 +92,7 @@ const CoffeeShopView: React.FC = () => {
   const [selectedRoaster, setSelectedRoaster] = useState<RoasterWithOfferings | null>(null);
   const [showRoasterSubmit, setShowRoasterSubmit] = useState(false);
   const [showEquipmentSubmit, setShowEquipmentSubmit] = useState(false);
+  const [activeView, setActiveView] = useState<'main' | 'roasters' | 'equipment'>('main');
 
   // Quick filter suggestions
   const quickFilters = [
@@ -196,24 +197,251 @@ const CoffeeShopView: React.FC = () => {
     );
   }
 
-  return (
-    <div className="max-w-7xl mx-auto space-y-8">
-      {/* Header */}
-      <div className="flex items-center justify-between">
+  // Main view with 2 placards
+  if (activeView === 'main') {
+    return (
+      <div className="max-w-7xl mx-auto space-y-8">
+        {/* Header */}
         <div>
           <h1 className="text-5xl font-black tracking-tighter uppercase">MARKETPLACE</h1>
           <p className="text-xs text-zinc-100 mt-2 tracking-wider uppercase">
-            {roastersWithOfferings.length} ROASTERS • {totalOfferings} OFFERINGS
+            EXPLORE ROASTERS & EQUIPMENT
           </p>
         </div>
-        <div className="flex gap-3">
+
+        {/* Placards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8">
+          {/* Roasters Placard */}
+          <div
+            onClick={() => setActiveView('roasters')}
+            className="bg-zinc-950 border-2 border-zinc-900 rounded-3xl p-16 hover:border-white transition-all cursor-pointer group"
+          >
+            <div className="space-y-6 text-center">
+              <div className="flex justify-center">
+                <Coffee className="w-20 h-20 text-white group-hover:scale-110 transition-transform" />
+              </div>
+              <div>
+                <h2 className="text-5xl font-black tracking-tighter uppercase mb-3 group-hover:text-white transition-colors">ROASTERS</h2>
+                <p className="text-lg text-zinc-400 uppercase tracking-wider font-black">
+                  {roastersWithOfferings.length} ROASTERS • {totalOfferings} OFFERINGS
+                </p>
+              </div>
+              <div className="pt-6">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowRoasterSubmit(true);
+                  }}
+                  className="bg-white text-black px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all inline-flex items-center gap-2"
+                >
+                  <Plus className="w-4 h-4" />
+                  SUBMIT ROASTER
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Equipment Placard */}
+          <div
+            onClick={() => setActiveView('equipment')}
+            className="bg-zinc-950 border-2 border-zinc-900 rounded-3xl p-16 hover:border-white transition-all cursor-pointer group"
+          >
+            <div className="space-y-6 text-center">
+              <div className="flex justify-center">
+                <Package className="w-20 h-20 text-white group-hover:scale-110 transition-transform" />
+              </div>
+              <div>
+                <h2 className="text-5xl font-black tracking-tighter uppercase mb-3 group-hover:text-white transition-colors">EQUIPMENT</h2>
+                <p className="text-lg text-zinc-400 uppercase tracking-wider font-black">
+                  BREWERS • GRINDERS • ACCESSORIES
+                </p>
+              </div>
+              <div className="pt-6">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowEquipmentSubmit(true);
+                  }}
+                  className="bg-white text-black px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all inline-flex items-center gap-2"
+                >
+                  <Plus className="w-4 h-4" />
+                  SUBMIT EQUIPMENT
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Roasters view
+  if (activeView === 'roasters') {
+    return (
+      <div className="max-w-7xl mx-auto space-y-8">
+        {/* Header with back button */}
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => {
+              setActiveView('main');
+              setSearchQuery('');
+            }}
+            className="bg-zinc-950 border-2 border-zinc-900 text-white px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:border-white transition-all"
+          >
+            ← BACK
+          </button>
+          <div className="flex-1">
+            <h1 className="text-5xl font-black tracking-tighter uppercase">ROASTERS</h1>
+            <p className="text-xs text-zinc-100 mt-2 tracking-wider uppercase">
+              {roastersWithOfferings.length} ROASTERS • {totalOfferings} OFFERINGS
+            </p>
+          </div>
           <button
             onClick={() => setShowRoasterSubmit(true)}
-            className="bg-zinc-900 border-2 border-zinc-800 text-white px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:border-white transition-all flex items-center gap-2"
+            className="bg-white text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all flex items-center gap-2"
           >
             <Coffee className="w-4 h-4" />
             <span className="hidden sm:inline">SUBMIT ROASTER</span>
           </button>
+        </div>
+
+        {/* Search */}
+        <div className="space-y-4">
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-200" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              placeholder="SEARCH BY ROASTER, ORIGIN, VARIETAL, PROCESS, OR ESTATE..."
+              className="w-full bg-zinc-950 border-2 border-zinc-900 rounded-2xl py-4 pl-12 pr-12 text-sm font-black text-white outline-none focus:border-white uppercase placeholder:text-zinc-700"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-200 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-lg p-1"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Search Results Count */}
+        {searchQuery && searchResults.length > 0 && (
+          <div className="flex items-center gap-3 text-sm">
+            <span className="text-zinc-400 font-black uppercase tracking-wider">
+              {searchResults.length} roaster{searchResults.length !== 1 ? 's' : ''} found
+            </span>
+            <span className="text-zinc-600">•</span>
+            <span className="text-zinc-400 font-black uppercase tracking-wider">
+              {searchResults.reduce((sum, r) => sum + r.offerings.length, 0)} total offerings
+            </span>
+          </div>
+        )}
+
+        {/* Roasters Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {searchResults.map(roaster => {
+            // Show matching offerings preview if searching
+            const matchingOfferings = searchQuery
+              ? roaster.offerings.filter(o =>
+                  o.origin.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                  o.varietals.some(v => v.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                  o.processing.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                  o.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                  (o.region && o.region.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                  (o.estate && o.estate.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                  (o.tasting_notes && o.tasting_notes.some(n => n.toLowerCase().includes(searchQuery.toLowerCase())))
+                ).slice(0, 3)
+              : [];
+
+            return (
+              <div
+                key={roaster.id}
+                onClick={() => setSelectedRoaster(roaster)}
+                className="bg-zinc-950 border-2 border-zinc-900 rounded-2xl p-10 hover:border-white transition-all cursor-pointer group"
+              >
+                <div className="space-y-3">
+                  <div>
+                    <h3 className="text-xl font-black tracking-tighter group-hover:text-white transition-colors">{roaster.name}</h3>
+                    <div className="flex items-center gap-2 mt-1 text-xs text-zinc-100">
+                      <MapPin className="w-3 h-3" />
+                      <span>{roaster.city}, {roaster.country}</span>
+                    </div>
+                  </div>
+                  {roaster.foundedYear && (
+                    <div className="flex items-center gap-2 text-xs text-zinc-200">
+                      <Calendar className="w-3 h-3" />
+                      <span>EST. {roaster.foundedYear}</span>
+                    </div>
+                  )}
+                  <div className="pt-3 border-t border-zinc-800">
+                    <div className="flex items-center gap-2 text-xs text-zinc-400 mb-2">
+                      <ShoppingBag className="w-3 h-3" />
+                      <span>{roaster.offerings.length} OFFERING{roaster.offerings.length !== 1 ? 'S' : ''}</span>
+                    </div>
+
+                    {/* Show matching offerings preview */}
+                    {matchingOfferings.length > 0 && (
+                      <div className="space-y-1 mt-3 pt-3 border-t border-zinc-800">
+                        <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest mb-2">Matches:</p>
+                        {matchingOfferings.map(offering => (
+                          <div key={offering.id} className="text-[10px] text-zinc-300 font-black uppercase tracking-wide">
+                            • {offering.name} - {offering.origin}
+                          </div>
+                        ))}
+                        {roaster.offerings.length > matchingOfferings.length && (
+                          <p className="text-[9px] text-zinc-500 font-black uppercase mt-1">
+                            +{roaster.offerings.length - matchingOfferings.length} more
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* No Results */}
+        {searchResults.length === 0 && searchQuery && (
+          <div className="text-center py-20 space-y-4">
+            <p className="text-zinc-200 text-lg font-black uppercase tracking-wider">NO RESULTS FOUND</p>
+            <p className="text-zinc-400 text-xs font-black uppercase tracking-wider">
+              Try searching for: Ethiopia, Kenya, Gesha, Natural, Washed, or a roaster name
+            </p>
+            <button
+              onClick={() => setSearchQuery('')}
+              className="mt-4 px-6 py-3 bg-zinc-900 border-2 border-zinc-800 rounded-xl text-xs font-black uppercase tracking-wider hover:border-white transition-all"
+            >
+              Clear Search
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Equipment view
+  if (activeView === 'equipment') {
+    return (
+      <div className="max-w-7xl mx-auto space-y-8">
+        {/* Header with back button */}
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => setActiveView('main')}
+            className="bg-zinc-950 border-2 border-zinc-900 text-white px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:border-white transition-all"
+          >
+            ← BACK
+          </button>
+          <div className="flex-1">
+            <h1 className="text-5xl font-black tracking-tighter uppercase">EQUIPMENT</h1>
+            <p className="text-xs text-zinc-100 mt-2 tracking-wider uppercase">
+              BREWERS • GRINDERS • ACCESSORIES
+            </p>
+          </div>
           <button
             onClick={() => setShowEquipmentSubmit(true)}
             className="bg-white text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all flex items-center gap-2"
@@ -222,152 +450,22 @@ const CoffeeShopView: React.FC = () => {
             <span className="hidden sm:inline">SUBMIT EQUIPMENT</span>
           </button>
         </div>
-      </div>
 
-      {/* Search */}
-      <div className="space-y-4">
-        <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-200" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
-            placeholder="SEARCH BY ROASTER, ORIGIN, VARIETAL, PROCESS, OR ESTATE..."
-            className="w-full bg-zinc-950 border-2 border-zinc-900 rounded-2xl py-4 pl-12 pr-12 text-sm font-black text-white outline-none focus:border-white uppercase placeholder:text-zinc-700"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-200 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-lg p-1"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Search Results Count */}
-      {searchQuery && searchResults.length > 0 && (
-        <div className="flex items-center gap-3 text-sm">
-          <span className="text-zinc-400 font-black uppercase tracking-wider">
-            {searchResults.length} roaster{searchResults.length !== 1 ? 's' : ''} found
-          </span>
-          <span className="text-zinc-600">•</span>
-          <span className="text-zinc-400 font-black uppercase tracking-wider">
-            {searchResults.reduce((sum, r) => sum + r.offerings.length, 0)} total offerings
-          </span>
-        </div>
-      )}
-
-      {/* Roasters Section */}
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-black tracking-tighter uppercase">ROASTERS</h2>
-          <p className="text-xs text-zinc-400 uppercase tracking-wider font-black">
-            {searchResults.length} TOTAL
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {searchResults.map(roaster => {
-          // Show matching offerings preview if searching
-          const matchingOfferings = searchQuery
-            ? roaster.offerings.filter(o =>
-                o.origin.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                o.varietals.some(v => v.toLowerCase().includes(searchQuery.toLowerCase())) ||
-                o.processing.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                o.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                (o.region && o.region.toLowerCase().includes(searchQuery.toLowerCase())) ||
-                (o.estate && o.estate.toLowerCase().includes(searchQuery.toLowerCase())) ||
-                (o.tasting_notes && o.tasting_notes.some(n => n.toLowerCase().includes(searchQuery.toLowerCase())))
-              ).slice(0, 3)
-            : [];
-
-          return (
-            <div
-              key={roaster.id}
-              onClick={() => setSelectedRoaster(roaster)}
-              className="bg-zinc-950 border-2 border-zinc-900 rounded-2xl p-10 hover:border-white transition-all cursor-pointer group"
-            >
-              <div className="space-y-3">
-                <div>
-                  <h3 className="text-xl font-black tracking-tighter group-hover:text-white transition-colors">{roaster.name}</h3>
-                  <div className="flex items-center gap-2 mt-1 text-xs text-zinc-100">
-                    <MapPin className="w-3 h-3" />
-                    <span>{roaster.city}, {roaster.country}</span>
-                  </div>
-                </div>
-                {roaster.foundedYear && (
-                  <div className="flex items-center gap-2 text-xs text-zinc-200">
-                    <Calendar className="w-3 h-3" />
-                    <span>EST. {roaster.foundedYear}</span>
-                  </div>
-                )}
-                <div className="pt-3 border-t border-zinc-800">
-                  <div className="flex items-center gap-2 text-xs text-zinc-400 mb-2">
-                    <ShoppingBag className="w-3 h-3" />
-                    <span>{roaster.offerings.length} OFFERING{roaster.offerings.length !== 1 ? 'S' : ''}</span>
-                  </div>
-
-                  {/* Show matching offerings preview */}
-                  {matchingOfferings.length > 0 && (
-                    <div className="space-y-1 mt-3 pt-3 border-t border-zinc-800">
-                      <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest mb-2">Matches:</p>
-                      {matchingOfferings.map(offering => (
-                        <div key={offering.id} className="text-[10px] text-zinc-300 font-black uppercase tracking-wide">
-                          • {offering.name} - {offering.origin}
-                        </div>
-                      ))}
-                      {roaster.offerings.length > matchingOfferings.length && (
-                        <p className="text-[9px] text-zinc-500 font-black uppercase mt-1">
-                          +{roaster.offerings.length - matchingOfferings.length} more
-                        </p>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-
-      {/* Equipment Section */}
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-black tracking-tighter uppercase">EQUIPMENT</h2>
-          <p className="text-xs text-zinc-400 uppercase tracking-wider font-black">
-            COMING SOON
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-zinc-950 border-2 border-zinc-900 rounded-2xl p-10 text-center">
-            <div className="space-y-4 py-8">
-              <Package className="w-12 h-12 text-zinc-700 mx-auto" />
-              <h3 className="text-xl font-black tracking-tighter text-zinc-400 uppercase">EQUIPMENT COMING SOON</h3>
-              <p className="text-xs text-zinc-500 uppercase tracking-wider font-black">
-                Browse brewers, grinders, and more
-              </p>
-            </div>
+        {/* Coming soon placeholder */}
+        <div className="text-center py-32 space-y-6">
+          <Package className="w-24 h-24 text-zinc-700 mx-auto" />
+          <div>
+            <h2 className="text-3xl font-black tracking-tighter text-zinc-400 uppercase mb-3">COMING SOON</h2>
+            <p className="text-sm text-zinc-500 uppercase tracking-wider font-black">
+              Equipment marketplace launching soon
+            </p>
           </div>
         </div>
       </div>
+    );
+  }
 
-      {/* No Results */}
-      {searchResults.length === 0 && searchQuery && (
-        <div className="text-center py-20 space-y-4">
-          <p className="text-zinc-200 text-lg font-black uppercase tracking-wider">NO RESULTS FOUND</p>
-          <p className="text-zinc-400 text-xs font-black uppercase tracking-wider">
-            Try searching for: Ethiopia, Kenya, Gesha, Natural, Washed, or a roaster name
-          </p>
-          <button
-            onClick={() => setSearchQuery('')}
-            className="mt-4 px-6 py-3 bg-zinc-900 border-2 border-zinc-800 rounded-xl text-xs font-black uppercase tracking-wider hover:border-white transition-all"
-          >
-            Clear Search
-          </button>
-        </div>
-      )}
+  return null;
 
       {/* Roaster Detail Modal */}
       {selectedRoaster && (
