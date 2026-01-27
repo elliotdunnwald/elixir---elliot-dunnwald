@@ -299,6 +299,11 @@ export async function createActivity(profileId: string, data: Partial<DbBrewActi
     return null;
   }
 
+  // Track roaster submission for admin approval
+  if (data.roaster && profileId) {
+    await trackRoasterSubmission(data.roaster, profileId);
+  }
+
   return activity;
 }
 
@@ -1132,4 +1137,112 @@ export async function getExistingFollowRequest(
   }
 
   return data;
+}
+
+// =====================================================
+// PENDING ROASTERS FUNCTIONS
+// =====================================================
+
+export interface PendingRoaster {
+  id: string;
+  roaster_name: string;
+  submission_count: number;
+  first_submitted_at: string;
+  last_submitted_at: string;
+  submitted_by_users: string[];
+  status: 'pending' | 'approved' | 'rejected';
+  approved_at?: string;
+  approved_by?: string;
+  created_at: string;
+}
+
+export async function trackRoasterSubmission(roasterName: string, userId: string): Promise<void> {
+  if (!roasterName || !userId) return;
+
+  try {
+    const { error } = await supabase.rpc('track_roaster_submission', {
+      p_roaster_name: roasterName.trim(),
+      p_user_id: userId
+    });
+
+    if (error) {
+      console.error('Error tracking roaster submission:', error);
+    }
+  } catch (err) {
+    console.error('Error in trackRoasterSubmission:', err);
+  }
+}
+
+export async function getPendingRoasters(): Promise<PendingRoaster[]> {
+  const { data, error } = await supabase
+    .from('pending_roasters')
+    .select('*')
+    .eq('status', 'pending')
+    .order('submission_count', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching pending roasters:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+export async function approveRoaster(roasterId: string, approvedBy: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('pending_roasters')
+    .update({
+      status: 'approved',
+      approved_at: new Date().toISOString(),
+      approved_by: approvedBy
+    })
+    .eq('id', roasterId);
+
+  if (error) {
+    console.error('Error approving roaster:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function rejectRoaster(roasterId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('pending_roasters')
+    .update({ status: 'rejected' })
+    .eq('id', roasterId);
+
+  if (error) {
+    console.error('Error rejecting roaster:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function addApprovedRoasterToDatabase(
+  roasterName: string,
+  city: string,
+  country: string,
+  state?: string,
+  website?: string,
+  foundedYear?: number
+): Promise<boolean> {
+  const { error } = await supabase
+    .from('roasters')
+    .insert({
+      name: roasterName,
+      city,
+      country,
+      state,
+      website,
+      founded_year: foundedYear
+    });
+
+  if (error) {
+    console.error('Error adding roaster to database:', error);
+    return false;
+  }
+
+  return true;
 }
