@@ -8,6 +8,20 @@ const AdminRoasters: React.FC = () => {
   const [pendingRoasters, setPendingRoasters] = useState<PendingRoaster[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Admin check
+  if (!profile?.is_admin) {
+    return (
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center py-32 border-4 border-dashed border-red-900 rounded-[3.5rem]">
+          <h1 className="text-5xl font-black text-white uppercase tracking-tighter mb-4">ACCESS DENIED</h1>
+          <p className="text-zinc-400 text-sm font-black uppercase tracking-wider">
+            You must be an admin to access this page
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   useEffect(() => {
     loadPendingRoasters();
   }, []);

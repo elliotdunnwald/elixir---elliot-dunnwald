@@ -19,6 +19,7 @@ export interface Profile {
   avatar_url?: string;
   bio?: string;
   is_private: boolean;
+  is_admin: boolean;
   created_at: string;
   updated_at: string;
 }
