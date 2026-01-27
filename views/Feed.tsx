@@ -1,13 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PostCard from '../components/PostCard';
+import BrewLogModal from '../components/BrewLogModal';
 import { useActivities } from '../hooks/useActivities';
 import { useAuth } from '../hooks/useAuth';
 import { Users, ArrowRight, Loader2 } from 'lucide-react';
+import type { BrewActivity } from '../types';
 
 const FeedView: React.FC = () => {
   const { profile } = useAuth();
   const { activities, loading, error, loadMore } = useActivities({ realtime: true });
+  const [editActivity, setEditActivity] = useState<BrewActivity | null>(null);
 
   console.log('FeedView render:', { profile, activitiesCount: activities.length, loading, error });
 
@@ -67,7 +70,11 @@ const FeedView: React.FC = () => {
         ) : (
           <div className="space-y-8">
             {activities.map(activity => (
-              <PostCard key={activity.id} activity={activity} />
+              <PostCard
+                key={activity.id}
+                activity={activity}
+                onEdit={setEditActivity}
+              />
             ))}
             {loading && (
               <div className="flex items-center justify-center py-8">
@@ -77,6 +84,11 @@ const FeedView: React.FC = () => {
           </div>
         )}
       </div>
+      <BrewLogModal
+        isOpen={!!editActivity}
+        onClose={() => setEditActivity(null)}
+        editActivity={editActivity}
+      />
     </div>
   );
 };
