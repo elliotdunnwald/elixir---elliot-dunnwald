@@ -1262,31 +1262,6 @@ export async function addApprovedRoasterToDatabase(
   return true;
 }
 
-export interface Roaster {
-  id: string;
-  name: string;
-  city: string;
-  state?: string;
-  country: string;
-  website?: string;
-  founded_year?: number;
-  created_at: string;
-}
-
-export async function getRoasters(): Promise<Roaster[]> {
-  const { data, error } = await supabase
-    .from('roasters')
-    .select('*')
-    .order('name');
-
-  if (error) {
-    console.error('Error fetching roasters:', error);
-    return [];
-  }
-
-  return data || [];
-}
-
 // =====================================================
 // PENDING EQUIPMENT FUNCTIONS
 // =====================================================
