@@ -4,7 +4,6 @@ import { User, Plus, Search, ChevronRight, Check, X, MapPin, Loader2, Eye, EyeOf
 import FeedView from './views/Feed';
 import ProfileView from './views/Profile';
 import ExploreView from './views/Search';
-import RoasterDatabase from './views/RoasterDatabase';
 import CoffeeShopView from './views/CoffeeShop';
 import AuthView from './views/AuthView';
 import AdminRoasters from './views/AdminRoasters';
@@ -321,7 +320,6 @@ const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void;
     { path: '/', label: 'FEED' },
     { path: '/explore', label: 'EXPLORE' },
     { path: '/coffee-shop', label: 'MARKETPLACE' },
-    { path: '/roasters', label: 'ROASTERS' },
     { path: '/profile/me', label: 'PROFILE' },
   ];
 
@@ -377,7 +375,6 @@ const MobileNav: React.FC = () => {
     { path: '/', label: 'FEED', icon: <Home className="w-6 h-6" /> },
     { path: '/explore', label: 'EXPLORE', icon: <Search className="w-6 h-6" /> },
     { path: '/coffee-shop', label: 'MARKET', icon: <ShoppingBag className="w-6 h-6" /> },
-    { path: '/roasters', label: 'ROASTERS', icon: <Coffee className="w-6 h-6" /> },
     { path: '/profile/me', label: 'PROFILE', icon: <User className="w-6 h-6" /> },
   ];
   return (
@@ -493,7 +490,6 @@ const AppContent: React.FC = () => {
             <Route path="/" element={<FeedView />} />
             <Route path="/explore" element={<ExploreView />} />
             <Route path="/coffee-shop" element={<CoffeeShopView />} />
-            <Route path="/roasters" element={<RoasterDatabase />} />
             <Route path="/admin/roasters" element={<AdminRoasters />} />
             <Route path="/profile/:userId" element={<ProfileView />} />
             <Route path="/profile/me" element={<ProfileView isMe={true} />} />
