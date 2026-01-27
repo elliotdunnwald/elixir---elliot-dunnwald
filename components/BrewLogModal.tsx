@@ -3,7 +3,7 @@ import { X, MapPin, Coffee, Award, Eye, EyeOff, Settings2, Calculator, Plus, Ima
 import { BrewActivity } from '../types';
 import { useSettings } from '../context/SettingsContext';
 import { useAuth } from '../hooks/useAuth';
-import { createActivity, uploadBrewImage, updateActivity } from '../lib/database';
+import { createActivity, uploadBrewImage, updateActivity, getRoasters } from '../lib/database';
 import DeviceSelectorModal from './DeviceSelectorModal';
 
 const INITIAL_FORM_DATA = {
@@ -39,7 +39,8 @@ const INITIAL_FORM_DATA = {
   coldMilkOz: 2,
   podSize: 'medium' as 'small' | 'medium' | 'large',
   podName: '',
-  location: ''
+  location: '',
+  brewedAt: ''
 };
 
 interface BrewLogModalProps {
@@ -58,9 +59,36 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
   const [uploading, setUploading] = useState(false);
   const [showDeviceSelector, setShowDeviceSelector] = useState(false);
   const [deviceCategory, setDeviceCategory] = useState<string>('');
+  const [roasterSuggestions, setRoasterSuggestions] = useState<string[]>([]);
+  const [showRoasterDropdown, setShowRoasterDropdown] = useState(false);
+  const [allRoasters, setAllRoasters] = useState<string[]>([]);
   const mediaInputRef = useRef<HTMLInputElement>(null);
 
   const isPodMachine = deviceCategory === 'pod';
+
+  // Load roasters from database
+  useEffect(() => {
+    if (isOpen) {
+      getRoasters().then(roasters => {
+        const roasterNames = roasters.map(r => r.name);
+        setAllRoasters(roasterNames);
+      });
+    }
+  }, [isOpen]);
+
+  // Update roaster suggestions when typing
+  useEffect(() => {
+    if (formData.roaster && formData.roaster.length > 0) {
+      const filtered = allRoasters.filter(name =>
+        name.toLowerCase().includes(formData.roaster.toLowerCase())
+      ).slice(0, 5);
+      setRoasterSuggestions(filtered);
+      setShowRoasterDropdown(filtered.length > 0 && filtered[0].toLowerCase() !== formData.roaster.toLowerCase());
+    } else {
+      setRoasterSuggestions([]);
+      setShowRoasterDropdown(false);
+    }
+  }, [formData.roaster, allRoasters]);
 
   // Load saved draft or edit activity data on open
   useEffect(() => {
@@ -100,7 +128,8 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           coldMilkOz: 2,
           podSize: 'medium' as 'small' | 'medium' | 'large',
           podName: '',
-          location: editActivity.locationName || defaultLocation
+          location: editActivity.locationName || defaultLocation,
+          brewedAt: editActivity.timestamp ? new Date(editActivity.timestamp).toISOString().slice(0, 16) : ''
         });
         if (editActivity.imageUrl) {
           setMediaPreview(editActivity.imageUrl);
@@ -284,7 +313,8 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
         drink_size: formData.showMilk && formData.milkType === 'steamed' ? formData.drinkSize : undefined,
         cold_milk_oz: formData.showMilk && formData.milkType === 'cold' ? formData.coldMilkOz : undefined,
         pod_size: isPodMachine ? formData.podSize : undefined,
-        pod_name: isPodMachine ? formData.podName : undefined
+        pod_name: isPodMachine ? formData.podName : undefined,
+        created_at: formData.brewedAt ? new Date(formData.brewedAt).toISOString() : undefined
       };
 
       let activity;
@@ -383,6 +413,19 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           </section>
 
           <section className="space-y-4">
+            <p className="text-[10px] font-black text-zinc-200 uppercase tracking-[0.3em] px-1">Brewed At (Optional)</p>
+            <input
+              type="datetime-local"
+              value={formData.brewedAt}
+              max={new Date().toISOString().slice(0, 16)}
+              onChange={e => handleInputChange('brewedAt', e.target.value)}
+              disabled={uploading}
+              className="w-full bg-zinc-950 border-2 border-zinc-800 focus:border-white rounded-2xl outline-none text-sm font-black text-white uppercase px-6 py-4 transition-all disabled:opacity-50"
+            />
+            <p className="text-[8px] text-zinc-500 uppercase tracking-wider px-1">Leave blank to use current time</p>
+          </section>
+
+          <section className="space-y-4">
             <div className="flex justify-between items-center px-1">
               <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Brewing Device</p>
               <div className={`px-3 py-1.5 rounded-lg border-2 text-[8px] font-black uppercase tracking-widest ${formData.brewType === 'espresso' ? 'bg-white text-black border-white' : 'bg-zinc-800 text-zinc-200 border-zinc-700'}`}>
@@ -410,9 +453,38 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           {!isPodMachine && (
             <section className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
+                <div className="space-y-2 relative">
                   <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">Roaster</label>
-                  <input type="text" value={formData.roaster} onChange={e => handleInputChange('roaster', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="SEY / ONYX / ETC" />
+                  <input
+                    type="text"
+                    value={formData.roaster}
+                    onChange={e => handleInputChange('roaster', e.target.value)}
+                    onFocus={() => {
+                      if (formData.roaster && roasterSuggestions.length > 0) {
+                        setShowRoasterDropdown(true);
+                      }
+                    }}
+                    disabled={uploading}
+                    className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50"
+                    placeholder="SEY / ONYX / ETC"
+                  />
+                  {showRoasterDropdown && roasterSuggestions.length > 0 && (
+                    <div className="absolute z-50 w-full mt-1 bg-zinc-900 border-2 border-zinc-800 rounded-xl overflow-hidden shadow-xl">
+                      {roasterSuggestions.map((suggestion, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => {
+                            setFormData(p => ({ ...p, roaster: suggestion }));
+                            setShowRoasterDropdown(false);
+                          }}
+                          className="w-full text-left px-4 py-3 text-white font-black text-sm uppercase hover:bg-zinc-800 transition-colors"
+                        >
+                          {suggestion}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">Origin</label>
