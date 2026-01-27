@@ -330,6 +330,28 @@ const CoffeeShopView: React.FC = () => {
           );
         })}
       </div>
+    </div>
+
+      {/* Equipment Section */}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-3xl font-black tracking-tighter uppercase">EQUIPMENT</h2>
+          <p className="text-xs text-zinc-400 uppercase tracking-wider font-black">
+            COMING SOON
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-zinc-950 border-2 border-zinc-900 rounded-2xl p-10 text-center">
+            <div className="space-y-4 py-8">
+              <Package className="w-12 h-12 text-zinc-700 mx-auto" />
+              <h3 className="text-xl font-black tracking-tighter text-zinc-400 uppercase">EQUIPMENT COMING SOON</h3>
+              <p className="text-xs text-zinc-500 uppercase tracking-wider font-black">
+                Browse brewers, grinders, and more
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* No Results */}
       {searchResults.length === 0 && searchQuery && (
