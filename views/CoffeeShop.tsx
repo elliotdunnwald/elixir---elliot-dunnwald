@@ -218,26 +218,11 @@ const CoffeeShopView: React.FC = () => {
               className="bg-zinc-950 border-2 border-zinc-900 rounded-3xl p-16 hover:border-white transition-all cursor-pointer group"
             >
               <div className="space-y-6 text-center">
-                <div className="flex justify-center">
-                  <Coffee className="w-20 h-20 text-white group-hover:scale-110 transition-transform" />
-                </div>
                 <div>
                   <h2 className="text-5xl font-black tracking-tighter uppercase mb-3 group-hover:text-white transition-colors">ROASTERS</h2>
                   <p className="text-lg text-zinc-400 uppercase tracking-wider font-black">
                     {roastersWithOfferings.length} ROASTERS • {totalOfferings} OFFERINGS
                   </p>
-                </div>
-                <div className="pt-6">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setShowRoasterSubmit(true);
-                    }}
-                    className="bg-white text-black px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all inline-flex items-center gap-2"
-                  >
-                    <Plus className="w-4 h-4" />
-                    SUBMIT ROASTER
-                  </button>
                 </div>
               </div>
             </div>
@@ -248,26 +233,11 @@ const CoffeeShopView: React.FC = () => {
               className="bg-zinc-950 border-2 border-zinc-900 rounded-3xl p-16 hover:border-white transition-all cursor-pointer group"
             >
               <div className="space-y-6 text-center">
-                <div className="flex justify-center">
-                  <Package className="w-20 h-20 text-white group-hover:scale-110 transition-transform" />
-                </div>
                 <div>
                   <h2 className="text-5xl font-black tracking-tighter uppercase mb-3 group-hover:text-white transition-colors">EQUIPMENT</h2>
                   <p className="text-lg text-zinc-400 uppercase tracking-wider font-black">
                     BREWERS • GRINDERS • ACCESSORIES
                   </p>
-                </div>
-                <div className="pt-6">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setShowEquipmentSubmit(true);
-                    }}
-                    className="bg-white text-black px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all inline-flex items-center gap-2"
-                  >
-                    <Plus className="w-4 h-4" />
-                    SUBMIT EQUIPMENT
-                  </button>
                 </div>
               </div>
             </div>
