@@ -376,7 +376,14 @@ const CoffeeShopView: React.FC = () => {
           onClose={() => setShowRoasterSubmit(false)}
           onSubmit={async (data) => {
             if (profile) {
-              await trackRoasterSubmission(data.name, profile.id);
+              await trackRoasterSubmission(
+                data.name,
+                profile.id,
+                data.city,
+                data.country,
+                data.state,
+                data.website
+              );
               setShowRoasterSubmit(false);
               alert('Roaster submitted for review! We\'ll add it to the marketplace soon.');
             }
@@ -730,17 +737,35 @@ const CoffeeDetailModal: React.FC<{
 // Roaster Submission Modal
 const RoasterSubmitModal: React.FC<{
   onClose: () => void;
-  onSubmit: (data: { name: string }) => void;
+  onSubmit: (data: {
+    name: string;
+    city: string;
+    country: string;
+    state?: string;
+    website?: string;
+  }) => void;
 }> = ({ onClose, onSubmit }) => {
-  const [roasterName, setRoasterName] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    city: '',
+    country: '',
+    state: '',
+    website: ''
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!roasterName.trim()) {
-      alert('Please enter a roaster name');
+    if (!formData.name.trim() || !formData.city.trim() || !formData.country.trim()) {
+      alert('Please fill in roaster name, city, and country');
       return;
     }
-    onSubmit({ name: roasterName.trim() });
+    onSubmit({
+      name: formData.name.trim(),
+      city: formData.city.trim(),
+      country: formData.country.trim(),
+      state: formData.state.trim() || undefined,
+      website: formData.website.trim() || undefined
+    });
   };
 
   return (
@@ -763,7 +788,7 @@ const RoasterSubmitModal: React.FC<{
         </div>
 
         <p className="text-sm text-zinc-300 leading-relaxed">
-          Know a great roaster that should be in the marketplace? Submit it for review and we'll add it soon!
+          Know a great roaster that should be in the marketplace? Submit it for review!
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -773,11 +798,66 @@ const RoasterSubmitModal: React.FC<{
             </label>
             <input
               type="text"
-              value={roasterName}
-              onChange={e => setRoasterName(e.target.value)}
+              value={formData.name}
+              onChange={e => setFormData({ ...formData, name: e.target.value })}
               placeholder="ONYX COFFEE LAB"
               className="w-full bg-black border-2 border-zinc-900 rounded-xl py-4 px-5 text-white font-black text-sm outline-none focus:border-white uppercase"
               required
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">
+                City *
+              </label>
+              <input
+                type="text"
+                value={formData.city}
+                onChange={e => setFormData({ ...formData, city: e.target.value })}
+                placeholder="BENTONVILLE"
+                className="w-full bg-black border-2 border-zinc-900 rounded-xl py-4 px-5 text-white font-black text-sm outline-none focus:border-white uppercase"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">
+                State/Region
+              </label>
+              <input
+                type="text"
+                value={formData.state}
+                onChange={e => setFormData({ ...formData, state: e.target.value })}
+                placeholder="ARKANSAS"
+                className="w-full bg-black border-2 border-zinc-900 rounded-xl py-4 px-5 text-white font-black text-sm outline-none focus:border-white uppercase"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">
+              Country *
+            </label>
+            <input
+              type="text"
+              value={formData.country}
+              onChange={e => setFormData({ ...formData, country: e.target.value })}
+              placeholder="USA"
+              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-4 px-5 text-white font-black text-sm outline-none focus:border-white uppercase"
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">
+              Website
+            </label>
+            <input
+              type="url"
+              value={formData.website}
+              onChange={e => setFormData({ ...formData, website: e.target.value })}
+              placeholder="https://onyxcoffeelab.com"
+              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-4 px-5 text-white text-sm outline-none focus:border-white"
             />
           </div>
 

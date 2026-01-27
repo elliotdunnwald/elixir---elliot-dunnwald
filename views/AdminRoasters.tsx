@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Check, X, Users, TrendingUp, Loader2, Plus } from 'lucide-react';
+import { Check, X, Users, TrendingUp, Loader2, MapPin, Globe } from 'lucide-react';
 import { getPendingRoasters, approveRoaster, rejectRoaster, addApprovedRoasterToDatabase, type PendingRoaster } from '../lib/database';
 import { useAuth } from '../hooks/useAuth';
 
@@ -7,8 +7,6 @@ const AdminRoasters: React.FC = () => {
   const { profile } = useAuth();
   const [pendingRoasters, setPendingRoasters] = useState<PendingRoaster[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedRoaster, setSelectedRoaster] = useState<PendingRoaster | null>(null);
-  const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
     loadPendingRoasters();
@@ -22,8 +20,41 @@ const AdminRoasters: React.FC = () => {
   }
 
   async function handleApprove(roaster: PendingRoaster) {
-    setSelectedRoaster(roaster);
-    setShowAddModal(true);
+    if (!profile) return;
+
+    // Check if required fields are present
+    if (!roaster.city || !roaster.country) {
+      alert('Missing location information. This roaster needs city and country to be approved.');
+      return;
+    }
+
+    // Confirm approval
+    if (!confirm(`Approve "${roaster.roaster_name}" from ${roaster.city}, ${roaster.country}?`)) {
+      return;
+    }
+
+    // First approve the pending roaster
+    const approveSuccess = await approveRoaster(roaster.id, profile.id);
+    if (!approveSuccess) {
+      alert('Failed to approve roaster');
+      return;
+    }
+
+    // Then add to roasters database
+    const addSuccess = await addApprovedRoasterToDatabase(
+      roaster.roaster_name,
+      roaster.city,
+      roaster.country,
+      roaster.state,
+      roaster.website
+    );
+
+    if (addSuccess) {
+      setPendingRoasters(prev => prev.filter(r => r.id !== roaster.id));
+      alert('Roaster added successfully!');
+    } else {
+      alert('Failed to add roaster to database');
+    }
   }
 
   async function handleReject(roasterId: string) {
@@ -32,42 +63,6 @@ const AdminRoasters: React.FC = () => {
       if (success) {
         setPendingRoasters(prev => prev.filter(r => r.id !== roasterId));
       }
-    }
-  }
-
-  async function handleAddRoaster(formData: {
-    city: string;
-    country: string;
-    state?: string;
-    website?: string;
-    foundedYear?: number;
-  }) {
-    if (!selectedRoaster || !profile) return;
-
-    // First approve the pending roaster
-    const approveSuccess = await approveRoaster(selectedRoaster.id, profile.id);
-    if (!approveSuccess) {
-      alert('Failed to approve roaster');
-      return;
-    }
-
-    // Then add to roasters database
-    const addSuccess = await addApprovedRoasterToDatabase(
-      selectedRoaster.roaster_name,
-      formData.city,
-      formData.country,
-      formData.state,
-      formData.website,
-      formData.foundedYear
-    );
-
-    if (addSuccess) {
-      setPendingRoasters(prev => prev.filter(r => r.id !== selectedRoaster.id));
-      setShowAddModal(false);
-      setSelectedRoaster(null);
-      alert('Roaster added successfully!');
-    } else {
-      alert('Failed to add roaster to database');
     }
   }
 
@@ -115,6 +110,33 @@ const AdminRoasters: React.FC = () => {
                 <h3 className="text-xl font-black text-white uppercase tracking-tighter">
                   {roaster.roaster_name}
                 </h3>
+
+                {/* Location Info */}
+                {(roaster.city || roaster.country) && (
+                  <div className="flex items-center gap-2 mt-2 text-xs text-zinc-300">
+                    <MapPin className="w-3 h-3" />
+                    <span className="font-black uppercase">
+                      {roaster.city && roaster.country ? `${roaster.city}, ${roaster.state ? roaster.state + ', ' : ''}${roaster.country}` : roaster.city || roaster.country || 'Location not provided'}
+                    </span>
+                  </div>
+                )}
+
+                {/* Website */}
+                {roaster.website && (
+                  <div className="flex items-center gap-2 mt-2 text-xs text-zinc-300">
+                    <Globe className="w-3 h-3" />
+                    <a
+                      href={roaster.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-black hover:text-white transition-colors truncate"
+                    >
+                      {roaster.website.replace(/^https?:\/\//, '')}
+                    </a>
+                  </div>
+                )}
+
+                {/* Stats */}
                 <div className="flex items-center gap-4 mt-3">
                   <div className="flex items-center gap-2 text-xs text-zinc-200">
                     <TrendingUp className="w-4 h-4" />
@@ -125,6 +147,13 @@ const AdminRoasters: React.FC = () => {
                     <span className="font-black uppercase">{roaster.submitted_by_users.length} USERS</span>
                   </div>
                 </div>
+
+                {/* Warning if missing info */}
+                {(!roaster.city || !roaster.country) && (
+                  <div className="mt-3 text-xs text-yellow-500 font-black uppercase bg-yellow-500/10 border border-yellow-500/20 rounded-lg px-3 py-2">
+                    ⚠ Missing location info
+                  </div>
+                )}
               </div>
 
               <div className="pt-4 border-t border-zinc-800 flex gap-2">
@@ -147,137 +176,6 @@ const AdminRoasters: React.FC = () => {
           ))}
         </div>
       )}
-
-      {showAddModal && selectedRoaster && (
-        <AddRoasterModal
-          roasterName={selectedRoaster.roaster_name}
-          onClose={() => {
-            setShowAddModal(false);
-            setSelectedRoaster(null);
-          }}
-          onSubmit={handleAddRoaster}
-        />
-      )}
-    </div>
-  );
-};
-
-const AddRoasterModal: React.FC<{
-  roasterName: string;
-  onClose: () => void;
-  onSubmit: (data: {
-    city: string;
-    country: string;
-    state?: string;
-    website?: string;
-    foundedYear?: number;
-  }) => void;
-}> = ({ roasterName, onClose, onSubmit }) => {
-  const [formData, setFormData] = useState({
-    city: '',
-    country: '',
-    state: '',
-    website: '',
-    foundedYear: ''
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.city || !formData.country) {
-      alert('City and country are required');
-      return;
-    }
-
-    onSubmit({
-      city: formData.city.toUpperCase(),
-      country: formData.country.toUpperCase(),
-      state: formData.state ? formData.state.toUpperCase() : undefined,
-      website: formData.website || undefined,
-      foundedYear: formData.foundedYear ? parseInt(formData.foundedYear) : undefined
-    });
-  };
-
-  return (
-    <div
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-6"
-      onClick={onClose}
-    >
-      <div
-        className="max-w-md w-full bg-zinc-950 border-2 border-zinc-800 rounded-3xl p-8 space-y-6"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-black tracking-tighter text-white uppercase">ADD ROASTER</h2>
-            <p className="text-sm text-zinc-200 mt-1 font-black uppercase tracking-wider">{roasterName}</p>
-          </div>
-          <button
-            onClick={onClose}
-            className="text-zinc-100 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-xl p-2"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <input
-              type="text"
-              placeholder="CITY *"
-              value={formData.city}
-              onChange={e => setFormData({ ...formData, city: e.target.value })}
-              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
-              required
-            />
-            <input
-              type="text"
-              placeholder="STATE"
-              value={formData.state}
-              onChange={e => setFormData({ ...formData, state: e.target.value })}
-              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
-            />
-          </div>
-          <input
-            type="text"
-            placeholder="COUNTRY *"
-            value={formData.country}
-            onChange={e => setFormData({ ...formData, country: e.target.value })}
-            className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
-            required
-          />
-          <input
-            type="url"
-            placeholder="WEBSITE"
-            value={formData.website}
-            onChange={e => setFormData({ ...formData, website: e.target.value })}
-            className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white"
-          />
-          <input
-            type="number"
-            placeholder="FOUNDED YEAR"
-            value={formData.foundedYear}
-            onChange={e => setFormData({ ...formData, foundedYear: e.target.value })}
-            className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
-          />
-
-          <div className="flex gap-3 pt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 px-6 py-4 rounded-xl border-2 border-zinc-800 text-zinc-100 hover:text-white hover:border-zinc-600 font-black text-sm uppercase tracking-wider transition-all"
-            >
-              CANCEL
-            </button>
-            <button
-              type="submit"
-              className="flex-1 bg-white text-black px-6 py-4 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all flex items-center justify-center gap-2"
-            >
-              <Plus className="w-4 h-4" />
-              ADD ROASTER
-            </button>
-          </div>
-        </form>
-      </div>
     </div>
   );
 };

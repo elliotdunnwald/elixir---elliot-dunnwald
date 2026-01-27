@@ -1146,6 +1146,10 @@ export async function getExistingFollowRequest(
 export interface PendingRoaster {
   id: string;
   roaster_name: string;
+  city?: string;
+  country?: string;
+  state?: string;
+  website?: string;
   submission_count: number;
   first_submitted_at: string;
   last_submitted_at: string;
@@ -1156,13 +1160,24 @@ export interface PendingRoaster {
   created_at: string;
 }
 
-export async function trackRoasterSubmission(roasterName: string, userId: string): Promise<void> {
+export async function trackRoasterSubmission(
+  roasterName: string,
+  userId: string,
+  city?: string,
+  country?: string,
+  state?: string,
+  website?: string
+): Promise<void> {
   if (!roasterName || !userId) return;
 
   try {
     const { error } = await supabase.rpc('track_roaster_submission', {
       p_roaster_name: roasterName.trim(),
-      p_user_id: userId
+      p_user_id: userId,
+      p_city: city?.trim() || null,
+      p_country: country?.trim() || null,
+      p_state: state?.trim() || null,
+      p_website: website?.trim() || null
     });
 
     if (error) {
@@ -1245,6 +1260,31 @@ export async function addApprovedRoasterToDatabase(
   }
 
   return true;
+}
+
+export interface Roaster {
+  id: string;
+  name: string;
+  city: string;
+  state?: string;
+  country: string;
+  website?: string;
+  founded_year?: number;
+  created_at: string;
+}
+
+export async function getRoasters(): Promise<Roaster[]> {
+  const { data, error } = await supabase
+    .from('roasters')
+    .select('*')
+    .order('name');
+
+  if (error) {
+    console.error('Error fetching roasters:', error);
+    return [];
+  }
+
+  return data || [];
 }
 
 // =====================================================

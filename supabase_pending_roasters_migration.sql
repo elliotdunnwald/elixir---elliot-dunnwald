@@ -2,6 +2,10 @@
 CREATE TABLE IF NOT EXISTS pending_roasters (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   roaster_name text NOT NULL,
+  city text,
+  country text,
+  state text,
+  website text,
   submission_count integer DEFAULT 1,
   first_submitted_at timestamptz DEFAULT now(),
   last_submitted_at timestamptz DEFAULT now(),
@@ -41,16 +45,25 @@ CREATE POLICY "System can update pending roasters"
 -- Function to track roaster submissions
 CREATE OR REPLACE FUNCTION track_roaster_submission(
   p_roaster_name text,
-  p_user_id text
+  p_user_id text,
+  p_city text DEFAULT NULL,
+  p_country text DEFAULT NULL,
+  p_state text DEFAULT NULL,
+  p_website text DEFAULT NULL
 ) RETURNS void AS $$
 BEGIN
-  INSERT INTO pending_roasters (roaster_name, submission_count, submitted_by_users)
-  VALUES (p_roaster_name, 1, ARRAY[p_user_id])
+  INSERT INTO pending_roasters (roaster_name, city, country, state, website, submission_count, submitted_by_users)
+  VALUES (p_roaster_name, p_city, p_country, p_state, p_website, 1, ARRAY[p_user_id])
   ON CONFLICT (LOWER(roaster_name))
   DO UPDATE SET
     submission_count = pending_roasters.submission_count + 1,
     last_submitted_at = now(),
-    submitted_by_users = array_append(pending_roasters.submitted_by_users, p_user_id);
+    submitted_by_users = array_append(pending_roasters.submitted_by_users, p_user_id),
+    -- Update location/website if new submission has it and existing doesn't
+    city = COALESCE(pending_roasters.city, p_city),
+    country = COALESCE(pending_roasters.country, p_country),
+    state = COALESCE(pending_roasters.state, p_state),
+    website = COALESCE(pending_roasters.website, p_website);
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 

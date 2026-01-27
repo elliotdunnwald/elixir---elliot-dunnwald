@@ -1,46 +1,53 @@
 # Roaster Approval System
 
 ## Overview
-ELIXR now uses a crowd-sourced roaster database system where roasters are automatically tracked from user brew logs and you can review/approve them for the official database.
+ELIXR has a seamless crowd-sourced roaster submission system where users submit complete roaster information upfront, and you approve with a single click.
 
-## How It Works
+## User Experience
 
-### 1. Automatic Tracking
-- When users create brew logs, they type in a roaster name (free text field)
-- The system automatically tracks these roaster submissions in the background
-- Roasters are tracked by:
-  - **Name**: The roaster name users enter
-  - **Submission Count**: How many times users have brewed with this roaster
-  - **User Count**: How many unique users have used this roaster
-  - **First/Last Submitted**: Timestamps for tracking popularity
+### Marketplace Submissions
+Users can submit roasters directly from the Marketplace page:
+- Click "Submit Roaster" button
+- Fill in complete information:
+  - **Roaster name** (required)
+  - **City** (required)
+  - **State/Region** (optional)
+  - **Country** (required)
+  - **Website** (optional)
+- Submit for review
+- See confirmation message
 
-### 2. Admin Review Page
-- Access the admin panel at: `/admin/roasters` (or navigate to `/#/admin/roasters`)
-- You'll see all pending roaster submissions sorted by popularity (most brewed = top of list)
-- Each roaster card shows:
-  - Roaster name
-  - Number of brews logged
-  - Number of users who've used it
-  - Approve/Reject buttons
+### Automatic Brew Log Tracking
+When users create brew logs, the roaster name is automatically tracked:
+- First-time roaster: System tracks it for admin review
+- Existing roaster: Adds to submission count
+- Users provide location/website details when prompted (if not already in system)
 
-### 3. Approval Workflow
-When you click "APPROVE" on a roaster:
-1. A modal appears asking for roaster details:
-   - **City** (required)
-   - **Country** (required)
-   - **State** (optional)
-   - **Website** (optional)
-   - **Founded Year** (optional)
+## Admin Review
 
-2. After filling in details and clicking "ADD ROASTER":
-   - Roaster is marked as approved in the database
-   - Roaster is added to the official roasters table
-   - It appears in both the Marketplace and Roaster Database views
-   - Users can now see it in search results
+### Roaster Approval Page
+- Access: `/#/admin/roasters`
+- Shows all pending roaster submissions sorted by popularity
+- Each card displays:
+  - **Roaster name** in large text
+  - **Location**: City, State, Country
+  - **Website**: Clickable link
+  - **Stats**: Number of brews logged and unique users
+  - **Warning badge** if missing required location info
 
-### 4. Rejection
-- Click "REJECT" to remove a roaster from pending submissions
-- This is useful for duplicates, typos, or non-specialty roasters
+### Approval Process (1-Click)
+1. Review the roaster information displayed on the card
+2. Click **APPROVE** button
+3. Confirm the approval in the popup
+4. Roaster is instantly added to marketplace database
+
+**No extra forms or data entry needed** - users provide all the information upfront!
+
+If a roaster is missing city/country, the approval will fail with a message prompting the user to resubmit with complete info.
+
+### Rejection
+- Click **REJECT** to remove a roaster from pending submissions
+- Useful for duplicates, typos, or non-specialty roasters
 
 ## Database Setup
 
@@ -49,27 +56,26 @@ When you click "APPROVE" on a roaster:
 2. Navigate to SQL Editor
 3. Copy and paste the contents of `supabase_pending_roasters_migration.sql`
 4. Run the SQL script
-5. This creates the `pending_roasters` table and tracking function
+5. This creates the `pending_roasters` table with location fields and tracking function
 
 ### Tables Created
 - **pending_roasters**: Tracks roaster submissions
-  - Stores roaster name, submission count, user IDs
+  - roaster_name, city, country, state, website
+  - submission_count, submitted_by_users
   - Status: pending/approved/rejected
   - Timestamps for tracking
 
+- **roasters**: Approved roasters visible in marketplace
+  - name, city, country, state, website, founded_year
+  - Searchable and filterable
+
 ## Benefits
 
-1. **Time-Saving**: Only add roasters your community actually uses
-2. **Data Quality**: Focus on roasters with real usage data
-3. **Community-Driven**: Users naturally populate the database
-4. **No Manual Entry**: Roasters are automatically captured from brew logs
-5. **Popularity Sorting**: See which roasters are most popular first
-
-## Starting Fresh
-The roaster database has been cleared to just 2 examples (Blue Bottle, Onyx). As users log brews:
-- Their roaster names accumulate in the pending list
-- You review and approve the ones worth adding
-- The database grows organically based on actual usage
+1. **Seamless**: No admin data entry - users provide everything
+2. **Fast**: Single-click approval workflow
+3. **Complete**: All roaster info collected upfront
+4. **Community-Driven**: Users naturally populate the database
+5. **Popularity-Based**: See which roasters are most requested
 
 ## Access
 - Admin panel: Navigate to `/#/admin/roasters` in your browser
@@ -77,6 +83,6 @@ The roaster database has been cleared to just 2 examples (Blue Bottle, Onyx). As
 
 ## Notes
 - No authentication check on admin page yet - consider adding profile-based admin access
-- The tracking happens silently in the background (users don't see it)
-- Approved roasters immediately appear in Marketplace and Roaster Database
-- All roaster names are tracked (even if they're typos), so you can clean them up during review
+- The tracking happens automatically when users create brew logs
+- Approved roasters immediately appear in Marketplace
+- Duplicate submissions increment the count (shows popularity)
