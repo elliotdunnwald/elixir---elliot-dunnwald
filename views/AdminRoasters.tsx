@@ -38,7 +38,6 @@ const AdminRoasters: React.FC = () => {
 
     // Check if required fields are present
     if (!roaster.city || !roaster.country) {
-      alert('Missing location information. This roaster needs city and country to be approved.');
       return;
     }
 
@@ -50,7 +49,6 @@ const AdminRoasters: React.FC = () => {
     // First approve the pending roaster
     const approveSuccess = await approveRoaster(roaster.id, profile.id);
     if (!approveSuccess) {
-      alert('Failed to approve roaster');
       return;
     }
 
@@ -65,9 +63,6 @@ const AdminRoasters: React.FC = () => {
 
     if (addSuccess) {
       setPendingRoasters(prev => prev.filter(r => r.id !== roaster.id));
-      alert('Roaster added successfully!');
-    } else {
-      alert('Failed to add roaster to database');
     }
   }
 

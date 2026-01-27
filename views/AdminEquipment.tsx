@@ -68,7 +68,6 @@ const AdminEquipment: React.FC = () => {
     // First approve the pending equipment
     const approveSuccess = await approveEquipment(selectedEquipment.id, profile.id);
     if (!approveSuccess) {
-      alert('Failed to approve equipment');
       return;
     }
 
@@ -87,9 +86,6 @@ const AdminEquipment: React.FC = () => {
       setPendingEquipment(prev => prev.filter(e => e.id !== selectedEquipment.id));
       setShowAddModal(false);
       setSelectedEquipment(null);
-      alert('Equipment added successfully!');
-    } else {
-      alert('Failed to add equipment to database');
     }
   }
 
