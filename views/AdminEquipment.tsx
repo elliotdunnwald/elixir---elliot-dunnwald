@@ -93,7 +93,7 @@ const AdminEquipment: React.FC = () => {
     <div className="max-w-7xl mx-auto space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-black tracking-tighter uppercase">EQUIPMENT SUBMISSIONS</h1>
+          <h1 className="text-5xl font-black tracking-tighter uppercase">EQUIPMENT SUBMISSIONS</h1>
           <p className="text-xs text-zinc-100 mt-2 tracking-wider uppercase">
             {pendingEquipment.length} PENDING APPROVAL
           </p>
@@ -105,7 +105,7 @@ const AdminEquipment: React.FC = () => {
           <div className="bg-white p-8 rounded-[2.5rem] inline-block mb-6">
             <Check className="w-12 h-12 text-black" />
           </div>
-          <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-3">
+          <h3 className="text-5xl font-black text-white uppercase tracking-tighter mb-3">
             ALL CAUGHT UP
           </h3>
           <p className="text-zinc-100 text-sm font-black uppercase tracking-widest">
@@ -225,7 +225,7 @@ const AddEquipmentModal: React.FC<{
       >
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-black tracking-tighter text-white uppercase">ADD EQUIPMENT</h2>
+            <h2 className="text-3xl font-black tracking-tighter text-white uppercase">ADD EQUIPMENT</h2>
             <p className="text-sm text-zinc-200 mt-1 font-black uppercase tracking-wider">
               {equipment.brand ? `${equipment.brand} ` : ''}{equipment.equipment_name}
             </p>

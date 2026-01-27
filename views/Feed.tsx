@@ -58,7 +58,7 @@ const FeedView: React.FC = () => {
           <div className="py-32 px-10 text-center border-4 border-dashed border-zinc-900 rounded-[4rem] flex flex-col items-center gap-8 animate-in fade-in duration-700">
             <div className="bg-white p-8 rounded-[2.5rem]"><Users className="w-12 h-12 text-black" /></div>
             <div className="space-y-4">
-              <h3 className="text-3xl font-black text-white uppercase tracking-tighter leading-none">FEED EMPTY</h3>
+              <h3 className="text-5xl font-black text-white uppercase tracking-tighter leading-none">FEED EMPTY</h3>
               <p className="text-zinc-100 text-sm font-black uppercase tracking-widest max-w-xs mx-auto leading-relaxed">
                 LOG A BREW OR FOLLOW OTHERS TO SEE THEIR POSTS HERE.
               </p>

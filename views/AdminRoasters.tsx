@@ -80,7 +80,7 @@ const AdminRoasters: React.FC = () => {
     <div className="max-w-7xl mx-auto space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-black tracking-tighter uppercase">ROASTER SUBMISSIONS</h1>
+          <h1 className="text-5xl font-black tracking-tighter uppercase">ROASTER SUBMISSIONS</h1>
           <p className="text-xs text-zinc-100 mt-2 tracking-wider uppercase">
             {pendingRoasters.length} PENDING APPROVAL
           </p>
@@ -92,7 +92,7 @@ const AdminRoasters: React.FC = () => {
           <div className="bg-white p-8 rounded-[2.5rem] inline-block mb-6">
             <Check className="w-12 h-12 text-black" />
           </div>
-          <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-3">
+          <h3 className="text-5xl font-black text-white uppercase tracking-tighter mb-3">
             ALL CAUGHT UP
           </h3>
           <p className="text-zinc-100 text-sm font-black uppercase tracking-widest">

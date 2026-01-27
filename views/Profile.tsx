@@ -605,7 +605,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
   if (!profileData) {
     return (
       <div className="max-w-4xl mx-auto py-32 text-center">
-        <h3 className="text-3xl font-black text-zinc-100 uppercase tracking-tighter">PROFILE NOT FOUND</h3>
+        <h3 className="text-5xl font-black text-zinc-100 uppercase tracking-tighter">PROFILE NOT FOUND</h3>
       </div>
     );
   }

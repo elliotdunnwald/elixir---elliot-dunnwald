@@ -202,7 +202,7 @@ const CoffeeShopView: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-black tracking-tighter uppercase">MARKETPLACE</h1>
+          <h1 className="text-5xl font-black tracking-tighter uppercase">MARKETPLACE</h1>
           <p className="text-xs text-zinc-100 mt-2 tracking-wider uppercase">
             {roastersWithOfferings.length} ROASTERS • {totalOfferings} OFFERINGS
           </p>
@@ -595,7 +595,7 @@ const CoffeeDetailModal: React.FC<{
               <RoasterLogo roasterName={coffee.roaster?.name} size={32} />
             </div>
             <div>
-              <h2 className="text-3xl font-black text-white uppercase tracking-tighter leading-tight">
+              <h2 className="text-5xl font-black text-white uppercase tracking-tighter leading-tight">
                 {coffee.name}
               </h2>
               <p className="text-sm font-black text-zinc-100 uppercase tracking-widest mt-1">
@@ -778,7 +778,7 @@ const RoasterSubmitModal: React.FC<{
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-black tracking-tighter text-white uppercase">SUBMIT ROASTER</h2>
+          <h2 className="text-3xl font-black tracking-tighter text-white uppercase">SUBMIT ROASTER</h2>
           <button
             onClick={onClose}
             className="text-zinc-100 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-xl p-2"
@@ -932,7 +932,7 @@ const EquipmentSubmitModal: React.FC<{
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-black tracking-tighter text-white uppercase">SUBMIT EQUIPMENT</h2>
+          <h2 className="text-3xl font-black tracking-tighter text-white uppercase">SUBMIT EQUIPMENT</h2>
           <button
             onClick={onClose}
             className="text-zinc-100 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-xl p-2"
