@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
-import { Bookmark, LayoutGrid, BarChart3, User as UserIcon, Settings2, X, Plus, Image as ImageIcon, Search, Lock, Eye, EyeOff, Share2, Check, Trash2, Loader2, ZoomIn, ZoomOut, Sun, Moon } from 'lucide-react';
+import { useParams, Link } from 'react-router-dom';
+import { Bookmark, LayoutGrid, BarChart3, User as UserIcon, Settings2, X, Plus, Image as ImageIcon, Search, Lock, Eye, EyeOff, Share2, Check, Trash2, Loader2, ZoomIn, ZoomOut, Sun, Moon, Shield } from 'lucide-react';
 import Cropper from 'react-easy-crop';
 import { Area } from 'react-easy-crop';
 import { BREWING_DEVICES } from '../data/database';
@@ -401,7 +401,7 @@ interface ProfileViewProps {
 const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
   const { userId } = useParams<{ userId: string }>();
   const { user, profile: currentProfile, refreshProfile } = useAuth();
-  const [activeTab, setActiveTab] = useState<'activity' | 'locker' | 'analytics'>('activity');
+  const [activeTab, setActiveTab] = useState<'activity' | 'locker' | 'analytics' | 'admin'>('activity');
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [profileData, setProfileData] = useState<ProfileWithStats | null>(null);
@@ -688,7 +688,12 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
         </div>
       </div>
       <div className="flex bg-black p-1 sm:p-2 rounded-2xl sm:rounded-3xl border-2 border-zinc-900 sticky top-18 sm:top-24 z-40 backdrop-blur-xl">
-        {[{ id: 'activity', label: 'HISTORY', icon: <LayoutGrid className="w-4 h-4" /> }, { id: 'locker', label: 'GEAR', icon: <Settings2 className="w-4 h-4" /> }, { id: 'analytics', label: 'STATS', icon: <BarChart3 className="w-4 h-4" /> }].map((tab) => (
+        {[
+          { id: 'activity', label: 'HISTORY', icon: <LayoutGrid className="w-4 h-4" /> },
+          { id: 'locker', label: 'GEAR', icon: <Settings2 className="w-4 h-4" /> },
+          { id: 'analytics', label: 'STATS', icon: <BarChart3 className="w-4 h-4" /> },
+          ...(isMe && currentProfile?.is_admin ? [{ id: 'admin', label: 'ADMIN', icon: <Shield className="w-4 h-4" /> }] : [])
+        ].map((tab) => (
           <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 py-4 sm:py-5 px-1 sm:px-2 rounded-xl sm:rounded-2xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] transition-all flex items-center justify-center gap-2 sm:gap-3 ${activeTab === tab.id ? 'bg-white text-black shadow-xl' : 'text-zinc-200 hover:text-white'}`}>
             {tab.icon} <span className="hidden xs:inline sm:inline">{tab.label}</span>
           </button>
@@ -825,6 +830,34 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
               <div className="w-16 h-16 sm:w-20 sm:h-20 bg-zinc-900 rounded-2xl mx-auto flex items-center justify-center"><BarChart3 className="w-8 h-8 sm:w-10 sm:h-10 text-zinc-700" /></div>
               <h3 className="text-zinc-100 font-black uppercase text-xs sm:text-base tracking-[0.4em]">COMING SOON</h3>
             </div>
+          </div>
+        )}
+        {activeTab === 'admin' && isMe && currentProfile?.is_admin && (
+          <div className="animate-in fade-in duration-500 space-y-4">
+            <Link
+              to="/admin/roasters"
+              className="block bg-zinc-950 border-2 border-zinc-900 hover:border-white rounded-2xl p-6 transition-all group"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-xl font-black text-white uppercase tracking-tighter group-hover:text-white transition-colors">ROASTER APPROVALS</h3>
+                  <p className="text-xs text-zinc-400 uppercase tracking-wider mt-1 font-black">Review and approve roaster submissions</p>
+                </div>
+                <Shield className="w-8 h-8 text-zinc-700 group-hover:text-white transition-colors" />
+              </div>
+            </Link>
+            <Link
+              to="/admin/equipment"
+              className="block bg-zinc-950 border-2 border-zinc-900 hover:border-white rounded-2xl p-6 transition-all group"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-xl font-black text-white uppercase tracking-tighter group-hover:text-white transition-colors">EQUIPMENT APPROVALS</h3>
+                  <p className="text-xs text-zinc-400 uppercase tracking-wider mt-1 font-black">Review and approve equipment submissions</p>
+                </div>
+                <Shield className="w-8 h-8 text-zinc-700 group-hover:text-white transition-colors" />
+              </div>
+            </Link>
           </div>
         )}
       </div>

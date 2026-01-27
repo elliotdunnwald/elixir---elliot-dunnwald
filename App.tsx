@@ -316,19 +316,13 @@ const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
 
 const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void; notificationCount: number }> = ({ onLogBrew, onOpenNotifications, notificationCount }) => {
   const location = useLocation();
-  const { signOut, profile } = useAuth();
-  const isAdmin = profile?.is_admin || false;
+  const { signOut } = useAuth();
 
   const navItems = [
     { path: '/', label: 'FEED' },
     { path: '/explore', label: 'EXPLORE' },
     { path: '/coffee-shop', label: 'MARKETPLACE' },
     { path: '/profile/me', label: 'PROFILE' },
-  ];
-
-  const adminItems = [
-    { path: '/admin/roasters', label: 'ROASTERS' },
-    { path: '/admin/equipment', label: 'EQUIPMENT' },
   ];
 
   return (
@@ -341,15 +335,6 @@ const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void;
               {navItems.map((item) => (
                 <Link key={item.label} to={item.path} className={`text-[11px] font-black uppercase tracking-[0.2em] transition-all ${location.pathname === item.path ? 'text-white underline underline-offset-8 decoration-4' : 'text-zinc-400 hover:text-white'}`}>{item.label}</Link>
               ))}
-              {isAdmin && (
-                <div className="flex space-x-8 pl-8 border-l-2 border-zinc-800">
-                  {adminItems.map((item) => (
-                    <Link key={item.label} to={item.path} className={`text-[11px] font-black uppercase tracking-[0.2em] transition-all ${location.pathname === item.path ? 'text-white underline underline-offset-8 decoration-4' : 'text-zinc-400 hover:text-white'}`}>
-                      <span className="opacity-60">ADMIN:</span> {item.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
             </div>
             <button onClick={onOpenNotifications} className="relative p-3 rounded-xl border-2 border-zinc-800 text-zinc-400 hover:text-white hover:border-white transition-all">
               <Bell className="w-5 h-5" />
