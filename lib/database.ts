@@ -361,6 +361,8 @@ export async function getUserActivities(profileId: string, limit = 20, offset = 
 }
 
 export async function updateActivity(activityId: string, updates: Partial<DbBrewActivity>): Promise<DbBrewActivity | null> {
+  console.log('updateActivity called with:', { activityId, updates });
+
   const { data, error } = await supabase
     .from('brew_activities')
     .update(updates)
@@ -375,9 +377,11 @@ export async function updateActivity(activityId: string, updates: Partial<DbBrew
 
   if (error) {
     console.error('Error updating activity:', error);
+    console.error('Error details:', JSON.stringify(error, null, 2));
     return null;
   }
 
+  console.log('Activity updated successfully:', data);
   return data;
 }
 

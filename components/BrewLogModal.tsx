@@ -285,7 +285,10 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
       let activity;
       if (editActivity) {
         // Update existing activity
+        console.log('Updating activity:', editActivity.id);
+        console.log('Update data:', activityData);
         activity = await updateActivity(editActivity.id, activityData);
+        console.log('Update result:', activity);
       } else {
         // Create new activity
         activity = await createActivity(profile.id, activityData);
