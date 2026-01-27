@@ -132,13 +132,13 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
     }
   }, [isOpen, defaultLocation, profile, editActivity]);
 
-  // Save draft to localStorage when form data changes
+  // Save draft to localStorage when form data changes (but not when editing)
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !editActivity) {
       const draftData = { ...formData, mediaPreview, deviceCategory };
       localStorage.setItem('elixr_brew_log_draft', JSON.stringify(draftData));
     }
-  }, [formData, mediaPreview, deviceCategory, isOpen]);
+  }, [formData, mediaPreview, deviceCategory, isOpen, editActivity]);
 
   // Handle Temp Conversion when unit changes
   const handleTempUnitToggle = (newUnit: 'C' | 'F') => {
