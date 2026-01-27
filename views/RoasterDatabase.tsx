@@ -32,22 +32,14 @@ const RoasterDatabase: React.FC = () => {
     const loadRoasters = async () => {
       // Clean up old localStorage key
       localStorage.removeItem('elixr_roasters_v1');
+      localStorage.removeItem('elixr_roasters_custom');
 
       try {
-        // Always load from JSON first to get the latest data
-        const response = await fetch('/data/roasters.json');
-        const data = await response.json();
-
-        // Fetch coffee offerings from Supabase
+        // Load roasters directly from Supabase
         const [supabaseOfferings, supabaseRoasters] = await Promise.all([
           getCoffeeOfferings(),
           getSupabaseRoasters()
         ]);
-
-        // Create a map of roaster names to Supabase roaster IDs
-        const roasterNameToId = new Map(
-          supabaseRoasters.map(r => [r.name.toLowerCase(), r.id])
-        );
 
         // Group offerings by roaster ID
         const offeringsByRoaster = new Map<string, typeof supabaseOfferings>();
@@ -57,55 +49,46 @@ const RoasterDatabase: React.FC = () => {
           offeringsByRoaster.set(offering.roaster_id, roasterOfferings);
         });
 
-        // Merge Supabase offerings into local roasters
-        const enrichedData = data.map((localRoaster: Roaster) => {
-          const supabaseRoasterId = roasterNameToId.get(localRoaster.name.toLowerCase());
-          if (supabaseRoasterId) {
-            const supabaseOfferingsForRoaster = offeringsByRoaster.get(supabaseRoasterId) || [];
+        // Convert Supabase roasters to local format
+        const allRoasters: Roaster[] = supabaseRoasters.map(sr => {
+          const supabaseOfferingsForRoaster = offeringsByRoaster.get(sr.id) || [];
 
-            // Convert Supabase offerings to local format
-            const convertedOfferings = supabaseOfferingsForRoaster.map(so => ({
-              id: so.id,
-              name: so.name,
-              lot: so.lot,
-              origin: so.origin,
-              region: so.region,
-              estate: so.estate,
-              varietals: so.varietals,
-              processing: so.processing,
-              roastLevel: so.roast_level,
-              tastingNotes: so.tasting_notes,
-              elevation: so.elevation,
-              available: so.available,
-              price: so.price,
-              size: so.size,
-              harvestDate: undefined
-            }));
+          // Convert Supabase offerings to local format
+          const convertedOfferings = supabaseOfferingsForRoaster.map(so => ({
+            id: so.id,
+            name: so.name,
+            lot: so.lot,
+            origin: so.origin,
+            region: so.region,
+            estate: so.estate,
+            varietals: so.varietals,
+            processing: so.processing,
+            roastLevel: so.roast_level,
+            tastingNotes: so.tasting_notes,
+            elevation: so.elevation,
+            available: so.available,
+            price: so.price,
+            size: so.size,
+            harvestDate: undefined
+          }));
 
-            return {
-              ...localRoaster,
-              offerings: [...localRoaster.offerings, ...convertedOfferings]
-            };
-          }
-          return localRoaster;
+          return {
+            id: sr.id,
+            name: sr.name,
+            city: sr.city,
+            state: sr.state,
+            country: sr.country,
+            foundedYear: sr.founded_year,
+            website: sr.website,
+            offerings: convertedOfferings
+          };
         });
 
-        // Check if user has custom additions in localStorage
-        const saved = localStorage.getItem('elixr_roasters_custom');
-        let allRoasters: Roaster[];
-        if (saved) {
-          const customRoasters = JSON.parse(saved);
-          // Merge: keep custom roasters that aren't in the base data
-          const baseIds = new Set(enrichedData.map((r: Roaster) => r.id));
-          const customOnly = customRoasters.filter((r: Roaster) => !baseIds.has(r.id));
-          allRoasters = [...enrichedData, ...customOnly];
-        } else {
-          allRoasters = enrichedData;
-        }
+        let finalRoasters = allRoasters;
 
         // Sort roasters alphabetically by name
-        allRoasters.sort((a, b) => a.name.localeCompare(b.name));
-        setRoasters(allRoasters);
+        finalRoasters.sort((a, b) => a.name.localeCompare(b.name));
+        setRoasters(finalRoasters);
       } catch (error) {
         console.error('Failed to load roasters:', error);
         setRoasters([]);
@@ -115,19 +98,8 @@ const RoasterDatabase: React.FC = () => {
   }, []);
 
   const saveRoasters = async (updatedRoasters: Roaster[]) => {
+    // Just update state - roasters are now managed via Supabase approval system
     setRoasters(updatedRoasters);
-
-    // Only save custom roasters (not in base JSON) to localStorage
-    try {
-      const response = await fetch('/data/roasters.json');
-      const baseData = await response.json();
-      const baseIds = new Set(baseData.map((r: Roaster) => r.id));
-      const customRoasters = updatedRoasters.filter(r => !baseIds.has(r.id));
-      localStorage.setItem('elixr_roasters_custom', JSON.stringify(customRoasters));
-    } catch (error) {
-      // If can't load base data, save everything
-      localStorage.setItem('elixr_roasters_custom', JSON.stringify(updatedRoasters));
-    }
   };
 
   const fuse = useMemo(() => {
