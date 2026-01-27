@@ -158,10 +158,14 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit }) => {
         </div>
 
         {activity.showParameters && (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 bg-black border-2 border-zinc-800 p-8 rounded-[2.5rem]">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-8 bg-black border-2 border-zinc-800 p-8 rounded-[2.5rem]">
             <div className="space-y-2">
-              <p className="text-[9px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><FlaskConical className="w-4 h-4" /> FORMULA</p>
+              <p className="text-[9px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><FlaskConical className="w-4 h-4" /> RECIPE</p>
               <p className="text-sm font-black text-white">{activity.gramsIn}G / {activity.gramsOut}G</p>
+            </div>
+            <div className="space-y-2">
+              <p className="text-[9px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2">RATIO</p>
+              <p className="text-sm font-black text-white">{activity.ratio}</p>
             </div>
             <div className="space-y-2">
               <p className="text-[9px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><Zap className="w-4 h-4" /> GEAR</p>
