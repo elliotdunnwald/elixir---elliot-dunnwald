@@ -828,6 +828,11 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
           </div>
         )}
       </div>
+      <BrewLogModal
+        isOpen={!!editActivity}
+        onClose={() => setEditActivity(null)}
+        editActivity={editActivity}
+      />
       {isMe && <EditProfileModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} userData={profileData} onSave={handleUpdateProfile} />}
     </div>
   );
