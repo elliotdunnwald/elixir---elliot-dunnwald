@@ -50,48 +50,12 @@
     "offerings": []
   },
   {
-    "id": "6",
-    "name": "Novo Coffee",
-    "city": "Denver",
-    "state": "CO",
-    "country": "USA",
-    "website": "https://novocoffee.com",
-    "offerings": []
-  },
-  {
     "id": "7",
     "name": "Heart Coffee Roasters",
     "city": "Portland",
     "state": "OR",
     "country": "USA",
     "website": "https://heartroasters.com",
-    "offerings": []
-  },
-  {
-    "id": "8",
-    "name": "Deeper Roots Coffee",
-    "city": "Cincinnati",
-    "state": "OH",
-    "country": "USA",
-    "website": "https://deeperrootscoffee.com",
-    "offerings": []
-  },
-  {
-    "id": "9",
-    "name": "Ritual Coffee Roasters",
-    "city": "San Francisco",
-    "state": "CA",
-    "country": "USA",
-    "website": "https://ritualcoffee.com",
-    "offerings": []
-  },
-  {
-    "id": "10",
-    "name": "Gracenote Coffee Roasters",
-    "city": "Boston",
-    "state": "MA",
-    "country": "USA",
-    "website": "https://gracenotecoffee.com",
     "offerings": []
   },
   {
@@ -122,94 +86,6 @@
     "offerings": []
   },
   {
-    "id": "15",
-    "name": "Common Roots Coffee",
-    "city": "Adirondacks",
-    "state": "NY",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "16",
-    "name": "Stray Cat Coffee",
-    "city": "Baker City",
-    "state": "OR",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "17",
-    "name": "Musa Coffee",
-    "city": "Miami",
-    "state": "FL",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "18",
-    "name": "Peristyle Coffee",
-    "city": "Cleveland",
-    "state": "OH",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "19",
-    "name": "West Lou Coffee",
-    "city": "Louisville",
-    "state": "KY",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "20",
-    "name": "Dekáf Coffee Roasters",
-    "city": "Portland",
-    "state": "OR",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "21",
-    "name": "Dito Coffee",
-    "city": "Grand Rapids",
-    "state": "MI",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "22",
-    "name": "Katï Coffee",
-    "city": "Georgetown",
-    "state": "TX",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "23",
-    "name": "Frequent Coffee",
-    "city": "San Diego",
-    "state": "CA",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "24",
-    "name": "Wavelength Coffee",
-    "city": "Boston",
-    "state": "MA",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "25",
-    "name": "Sugar Leaf Coffee Roasterie",
-    "city": "Milwaukee",
-    "state": "WI",
-    "country": "USA",
-    "offerings": []
-  },
-  {
     "id": "26",
     "name": "The Breaks Coffee Roasting",
     "city": "Sioux Falls",
@@ -222,78 +98,6 @@
     "name": "First Light Coffee",
     "city": "Baltimore",
     "state": "MD",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "28",
-    "name": "Compass Point Coffee",
-    "city": "Philadelphia",
-    "state": "PA",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "29",
-    "name": "Tracer Coffee",
-    "city": "Charleston",
-    "state": "SC",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "30",
-    "name": "Placer Roasting Company",
-    "city": "Rocklin",
-    "state": "CA",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "33",
-    "name": "NūStory Coffee",
-    "city": "Springfield",
-    "state": "MO",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "34",
-    "name": "Paul John Indian Caffeine Co.",
-    "city": "Tampa",
-    "state": "FL",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "35",
-    "name": "Untold Coffee Lab",
-    "city": "Rochester",
-    "state": "NY",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "36",
-    "name": "Fable Roasters",
-    "city": "St. Cloud",
-    "state": "MN",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "37",
-    "name": "Standing Wave Coffee",
-    "city": "Pittsburgh",
-    "state": "PA",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "38",
-    "name": "Caffe Ladro",
-    "city": "Seattle",
-    "state": "WA",
     "country": "USA",
     "offerings": []
   },
@@ -338,86 +142,12 @@
     "offerings": []
   },
   {
-    "id": "44",
-    "name": "Coava Coffee Roasters",
-    "city": "Portland",
-    "state": "OR",
-    "country": "USA",
-    "offerings": []
-  },
-  {
     "id": "45",
     "name": "Huckleberry Roasters",
     "city": "Denver",
     "state": "CO",
     "country": "USA",
     "website": "https://huckleberryroasters.com",
-    "offerings": []
-  },
-  {
-    "id": "46",
-    "name": "Method Coffee Roasters",
-    "city": "Denver",
-    "state": "CO",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "47",
-    "name": "LAMill Coffee",
-    "city": "Los Angeles",
-    "state": "CA",
-    "country": "USA",
-    "website": "https://lamillcoffee.com",
-    "foundedYear": 1991,
-    "offerings": []
-  },
-  {
-    "id": "48",
-    "name": "Cognoscenti Coffee",
-    "city": "Los Angeles",
-    "state": "CA",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "49",
-    "name": "Reborn Coffee",
-    "city": "Los Angeles",
-    "state": "CA",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "50",
-    "name": "Mozart's Coffee Roasters",
-    "city": "Austin",
-    "state": "TX",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "51",
-    "name": "Civil Goat Coffee Co.",
-    "city": "Austin",
-    "state": "TX",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "52",
-    "name": "Greater Goods Coffee",
-    "city": "Austin",
-    "state": "TX",
-    "country": "USA",
-    "offerings": []
-  },
-  {
-    "id": "53",
-    "name": "Red Bird Roasting",
-    "city": "Kelowna",
-    "state": "BC",
-    "country": "Canada",
     "offerings": []
   },
   {
@@ -466,14 +196,6 @@
     "city": "Berlin",
     "country": "Germany",
     "website": "https://thebarn.de",
-    "offerings": []
-  },
-  {
-    "id": "60",
-    "name": "Bonanza Coffee",
-    "city": "Berlin",
-    "country": "Germany",
-    "website": "https://bonanzacoffee.de",
     "offerings": []
   },
   {
