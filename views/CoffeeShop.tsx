@@ -244,27 +244,6 @@ const CoffeeShopView: React.FC = () => {
             </button>
           )}
         </div>
-
-        {/* Quick Filters */}
-        <div className="flex flex-wrap gap-2">
-          <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest flex items-center px-2">
-            Quick Search:
-          </span>
-          {quickFilters.map((filter) => (
-            <button
-              key={filter.label}
-              onClick={() => handleQuickFilter(filter.label)}
-              className={`px-3 py-1.5 rounded-xl border-2 text-[10px] font-black uppercase tracking-wider transition-all ${
-                searchQuery.toLowerCase() === filter.label.toLowerCase()
-                  ? 'bg-white text-black border-white'
-                  : 'bg-transparent border-zinc-800 text-zinc-200 hover:border-zinc-600'
-              }`}
-            >
-              <span className="mr-1">{filter.icon}</span>
-              {filter.label}
-            </button>
-          ))}
-        </div>
       </div>
 
       {/* Search Results Count */}
@@ -280,8 +259,15 @@ const CoffeeShopView: React.FC = () => {
         </div>
       )}
 
-      {/* Roaster Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* Roasters Section */}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-3xl font-black tracking-tighter uppercase">ROASTERS</h2>
+          <p className="text-xs text-zinc-400 uppercase tracking-wider font-black">
+            {searchResults.length} TOTAL
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {searchResults.map(roaster => {
           // Show matching offerings preview if searching
           const matchingOfferings = searchQuery
@@ -300,7 +286,7 @@ const CoffeeShopView: React.FC = () => {
             <div
               key={roaster.id}
               onClick={() => setSelectedRoaster(roaster)}
-              className="bg-zinc-950 border-2 border-zinc-900 rounded-2xl p-6 hover:border-white transition-all cursor-pointer group"
+              className="bg-zinc-950 border-2 border-zinc-900 rounded-2xl p-10 hover:border-white transition-all cursor-pointer group"
             >
               <div className="space-y-3">
                 <div>
