@@ -99,8 +99,8 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit }) => {
       <div className="p-10 flex justify-between items-start">
         <div className="flex gap-5 items-start">
           <Link to={`/profile/${activity.userUsername || activity.userId}`} className="block shrink-0">
-            <div className={`w-16 h-16 rounded-2xl border-2 transition-all hover:border-white ${isDefaultWhite ? 'bg-white text-black border-white' : 'bg-black border-zinc-700'}`}>
-              <div className="w-full h-full flex items-center justify-center overflow-hidden">
+            <div className={`w-16 h-16 rounded-2xl border-2 transition-all hover:border-white overflow-hidden ${isDefaultWhite ? 'bg-white text-black border-white' : 'bg-black border-zinc-700'}`}>
+              <div className="w-full h-full flex items-center justify-center">
                 {isDefaultWhite ? <Zap className="w-8 h-8" /> : <img src={activity.userAvatar} className="w-full h-full object-cover" alt="" />}
               </div>
             </div>
