@@ -71,6 +71,7 @@ export interface BrewActivity {
   id: string;
   userId: string;
   userName: string;
+  userUsername?: string;
   userAvatar: string;
   title: string;
   description: string;

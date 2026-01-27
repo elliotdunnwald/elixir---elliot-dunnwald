@@ -98,7 +98,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit }) => {
     <div className="bg-zinc-900 rounded-[3.5rem] border-2 border-zinc-800 transition-all hover:border-zinc-600 overflow-hidden shadow-2xl shadow-white/5 animate-in fade-in duration-500">
       <div className="p-10 flex justify-between items-start">
         <div className="flex gap-5 items-start">
-          <Link to={`/profile/${activity.userId}`} className="block shrink-0">
+          <Link to={`/profile/${activity.userUsername || activity.userId}`} className="block shrink-0">
             <div className={`w-16 h-16 rounded-2xl border-2 transition-all hover:border-white ${isDefaultWhite ? 'bg-white text-black border-white' : 'bg-black border-zinc-700'}`}>
               <div className="w-full h-full flex items-center justify-center overflow-hidden">
                 {isDefaultWhite ? <Zap className="w-8 h-8" /> : <img src={activity.userAvatar} className="w-full h-full object-cover" alt="" />}
@@ -107,7 +107,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit }) => {
           </Link>
           <div className="min-w-0">
             <div className="flex items-center gap-3">
-              <Link to={`/profile/${activity.userId}`} className="block group">
+              <Link to={`/profile/${activity.userUsername || activity.userId}`} className="block group">
                 <h3 className="font-black text-white uppercase tracking-tight text-xl group-hover:underline transition-colors truncate">{activity.userName}</h3>
               </Link>
               {activity.isPrivate && (

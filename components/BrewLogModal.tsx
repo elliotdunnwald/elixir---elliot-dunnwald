@@ -164,7 +164,11 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
     const dose = parseFloat(formData.gramsIn);
     const water = parseFloat(formData.gramsOut);
     const tdsVal = parseFloat(formData.tds);
-    const weight = parseFloat(formData.brewWeight);
+
+    // Auto-calculate brew weight from gramsOut (water used)
+    // Brew weight ≈ water - absorption (coffee absorbs ~2x its weight)
+    const calculatedBrewWeight = water - (dose * 2);
+    const weight = calculatedBrewWeight > 0 ? calculatedBrewWeight : water;
 
     if (dose > 0 && water > 0) {
       const r = (water / dose).toFixed(1);
@@ -175,10 +179,11 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
       setFormData(prev => ({
         ...prev,
         ratio: `1:${r}`,
+        brewWeight: weight.toString(),
         eyPercentage: parseFloat(ey.toFixed(2))
       }));
     }
-  }, [formData.gramsIn, formData.gramsOut, formData.tds, formData.brewWeight]);
+  }, [formData.gramsIn, formData.gramsOut, formData.tds]);
 
   const handleInputChange = (field: string, value: string) => setFormData(prev => ({ ...prev, [field]: value.toUpperCase() }));
 
@@ -497,16 +502,12 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                 </div>
 
                 {formData.showEY && (
-                  <div className="grid grid-cols-2 gap-4 animate-in slide-in-from-top-1">
+                  <div className="space-y-4 animate-in slide-in-from-top-1">
                     <div className="bg-zinc-950 border-2 border-zinc-800 p-6 rounded-2xl space-y-2">
                       <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><FlaskConical className="w-3 h-3" /> TDS</p>
                       <input type="number" step="0.01" value={formData.tds} onChange={e => setFormData({...formData, tds: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-zinc-800 py-1 text-white font-black text-xl outline-none focus:border-white disabled:opacity-50" placeholder="1.40" />
                     </div>
-                    <div className="bg-zinc-950 border-2 border-zinc-800 p-6 rounded-2xl space-y-2">
-                      <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><Beaker className="w-3 h-3" /> Brew Weight (g)</p>
-                      <input type="number" step="0.1" value={formData.brewWeight} onChange={e => setFormData({...formData, brewWeight: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-zinc-800 py-1 text-white font-black text-xl outline-none focus:border-white disabled:opacity-50" />
-                    </div>
-                    <div className="col-span-full bg-white text-black p-4 rounded-xl flex justify-between items-center">
+                    <div className="bg-white text-black p-4 rounded-xl flex justify-between items-center">
                       <p className="text-[10px] font-black uppercase tracking-widest">Calculated EY%</p>
                       <p className="text-2xl font-black">{formData.eyPercentage}%</p>
                     </div>

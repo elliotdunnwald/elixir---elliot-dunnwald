@@ -730,6 +730,7 @@ export function dbActivityToBrewActivity(dbActivity: DbBrewActivity): BrewActivi
     id: dbActivity.id,
     userId: dbActivity.profile_id,
     userName: profile ? `${profile.first_name} ${profile.last_name}` : 'Unknown',
+    userUsername: profile?.username,
     userAvatar: profile?.avatar_url || '',
     title: dbActivity.title,
     description: dbActivity.description || '',
