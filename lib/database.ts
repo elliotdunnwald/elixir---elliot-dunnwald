@@ -1246,3 +1246,158 @@ export async function addApprovedRoasterToDatabase(
 
   return true;
 }
+
+// =====================================================
+// PENDING EQUIPMENT FUNCTIONS
+// =====================================================
+
+export interface PendingEquipment {
+  id: string;
+  equipment_name: string;
+  equipment_type: 'brewer' | 'grinder' | 'filter' | 'water' | 'accessory';
+  brand?: string;
+  description?: string;
+  submission_count: number;
+  first_submitted_at: string;
+  last_submitted_at: string;
+  submitted_by_users: string[];
+  status: 'pending' | 'approved' | 'rejected';
+  approved_at?: string;
+  approved_by?: string;
+  created_at: string;
+}
+
+export interface Equipment {
+  id: string;
+  name: string;
+  brand: string;
+  type: 'brewer' | 'grinder' | 'filter' | 'water' | 'accessory';
+  description?: string;
+  image_url?: string;
+  price?: number;
+  website_url?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export async function trackEquipmentSubmission(
+  equipmentName: string,
+  equipmentType: string,
+  brand: string,
+  description: string,
+  userId: string
+): Promise<void> {
+  if (!equipmentName || !equipmentType || !userId) return;
+
+  try {
+    const { error } = await supabase.rpc('track_equipment_submission', {
+      p_equipment_name: equipmentName.trim(),
+      p_equipment_type: equipmentType,
+      p_brand: brand?.trim() || '',
+      p_description: description?.trim() || '',
+      p_user_id: userId
+    });
+
+    if (error) {
+      console.error('Error tracking equipment submission:', error);
+    }
+  } catch (err) {
+    console.error('Error in trackEquipmentSubmission:', err);
+  }
+}
+
+export async function getPendingEquipment(): Promise<PendingEquipment[]> {
+  const { data, error } = await supabase
+    .from('pending_equipment')
+    .select('*')
+    .eq('status', 'pending')
+    .order('submission_count', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching pending equipment:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+export async function approveEquipment(equipmentId: string, approvedBy: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('pending_equipment')
+    .update({
+      status: 'approved',
+      approved_at: new Date().toISOString(),
+      approved_by: approvedBy
+    })
+    .eq('id', equipmentId);
+
+  if (error) {
+    console.error('Error approving equipment:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function rejectEquipment(equipmentId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('pending_equipment')
+    .update({ status: 'rejected' })
+    .eq('id', equipmentId);
+
+  if (error) {
+    console.error('Error rejecting equipment:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function addApprovedEquipmentToDatabase(
+  equipmentName: string,
+  brand: string,
+  equipmentType: string,
+  description?: string,
+  imageUrl?: string,
+  price?: number,
+  websiteUrl?: string
+): Promise<boolean> {
+  const { error } = await supabase
+    .from('equipment')
+    .insert({
+      name: equipmentName,
+      brand,
+      type: equipmentType,
+      description,
+      image_url: imageUrl,
+      price,
+      website_url: websiteUrl
+    });
+
+  if (error) {
+    console.error('Error adding equipment to database:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function getEquipment(type?: string): Promise<Equipment[]> {
+  let query = supabase
+    .from('equipment')
+    .select('*')
+    .order('brand');
+
+  if (type) {
+    query = query.eq('type', type);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error('Error fetching equipment:', error);
+    return [];
+  }
+
+  return data || [];
+}

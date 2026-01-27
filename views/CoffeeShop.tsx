@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Coffee, Search, X, MapPin, Sparkles, Flame, Loader2, ShoppingBag, Calendar, DollarSign } from 'lucide-react';
+import { Coffee, Search, X, MapPin, Sparkles, Flame, Loader2, ShoppingBag, Calendar, DollarSign, Plus, Package } from 'lucide-react';
 import Fuse from 'fuse.js';
-import { getCoffeeOfferings, getRoasters } from '../lib/database';
+import { getCoffeeOfferings, getRoasters, trackRoasterSubmission, trackEquipmentSubmission } from '../lib/database';
+import { useAuth } from '../hooks/useAuth';
 
 // Type definitions
 interface CoffeeOffering {
@@ -84,10 +85,13 @@ const getRoastLevelColor = (level?: string) => {
 };
 
 const CoffeeShopView: React.FC = () => {
+  const { profile } = useAuth();
   const [roastersWithOfferings, setRoastersWithOfferings] = useState<RoasterWithOfferings[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRoaster, setSelectedRoaster] = useState<RoasterWithOfferings | null>(null);
+  const [showRoasterSubmit, setShowRoasterSubmit] = useState(false);
+  const [showEquipmentSubmit, setShowEquipmentSubmit] = useState(false);
 
   // Quick filter suggestions
   const quickFilters = [
@@ -202,6 +206,22 @@ const CoffeeShopView: React.FC = () => {
           <p className="text-xs text-zinc-100 mt-2 tracking-wider uppercase">
             {roastersWithOfferings.length} ROASTERS • {totalOfferings} OFFERINGS
           </p>
+        </div>
+        <div className="flex gap-3">
+          <button
+            onClick={() => setShowRoasterSubmit(true)}
+            className="bg-zinc-900 border-2 border-zinc-800 text-white px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:border-white transition-all flex items-center gap-2"
+          >
+            <Coffee className="w-4 h-4" />
+            <span className="hidden sm:inline">SUBMIT ROASTER</span>
+          </button>
+          <button
+            onClick={() => setShowEquipmentSubmit(true)}
+            className="bg-white text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all flex items-center gap-2"
+          >
+            <Package className="w-4 h-4" />
+            <span className="hidden sm:inline">SUBMIT EQUIPMENT</span>
+          </button>
         </div>
       </div>
 
@@ -347,6 +367,40 @@ const CoffeeShopView: React.FC = () => {
         <RoasterOfferingsModal
           roaster={selectedRoaster}
           onClose={() => setSelectedRoaster(null)}
+        />
+      )}
+
+      {/* Roaster Submission Modal */}
+      {showRoasterSubmit && (
+        <RoasterSubmitModal
+          onClose={() => setShowRoasterSubmit(false)}
+          onSubmit={async (data) => {
+            if (profile) {
+              await trackRoasterSubmission(data.name, profile.id);
+              setShowRoasterSubmit(false);
+              alert('Roaster submitted for review! We\'ll add it to the marketplace soon.');
+            }
+          }}
+        />
+      )}
+
+      {/* Equipment Submission Modal */}
+      {showEquipmentSubmit && (
+        <EquipmentSubmitModal
+          onClose={() => setShowEquipmentSubmit(false)}
+          onSubmit={async (data) => {
+            if (profile) {
+              await trackEquipmentSubmission(
+                data.name,
+                data.type,
+                data.brand,
+                data.description,
+                profile.id
+              );
+              setShowEquipmentSubmit(false);
+              alert('Equipment submitted for review! We\'ll add it to the marketplace soon.');
+            }
+          }}
         />
       )}
     </div>
@@ -668,6 +722,225 @@ const CoffeeDetailModal: React.FC<{
           </button>
         </div>
       </div>
+      </div>
+    </div>
+  );
+};
+
+// Roaster Submission Modal
+const RoasterSubmitModal: React.FC<{
+  onClose: () => void;
+  onSubmit: (data: { name: string }) => void;
+}> = ({ onClose, onSubmit }) => {
+  const [roasterName, setRoasterName] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!roasterName.trim()) {
+      alert('Please enter a roaster name');
+      return;
+    }
+    onSubmit({ name: roasterName.trim() });
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-6"
+      onClick={onClose}
+    >
+      <div
+        className="max-w-md w-full bg-zinc-950 border-2 border-zinc-800 rounded-3xl p-8 space-y-6"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-black tracking-tighter text-white uppercase">SUBMIT ROASTER</h2>
+          <button
+            onClick={onClose}
+            className="text-zinc-100 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-xl p-2"
+          >
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+
+        <p className="text-sm text-zinc-300 leading-relaxed">
+          Know a great roaster that should be in the marketplace? Submit it for review and we'll add it soon!
+        </p>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">
+              Roaster Name *
+            </label>
+            <input
+              type="text"
+              value={roasterName}
+              onChange={e => setRoasterName(e.target.value)}
+              placeholder="ONYX COFFEE LAB"
+              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-4 px-5 text-white font-black text-sm outline-none focus:border-white uppercase"
+              required
+            />
+          </div>
+
+          <div className="flex gap-3 pt-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 px-6 py-4 rounded-xl border-2 border-zinc-800 text-zinc-100 hover:text-white hover:border-zinc-600 font-black text-sm uppercase tracking-wider transition-all"
+            >
+              CANCEL
+            </button>
+            <button
+              type="submit"
+              className="flex-1 bg-white text-black px-6 py-4 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all flex items-center justify-center gap-2"
+            >
+              <Coffee className="w-4 h-4" />
+              SUBMIT
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+// Equipment Submission Modal
+const EquipmentSubmitModal: React.FC<{
+  onClose: () => void;
+  onSubmit: (data: {
+    name: string;
+    type: string;
+    brand: string;
+    description: string;
+  }) => void;
+}> = ({ onClose, onSubmit }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    type: 'brewer',
+    brand: '',
+    description: ''
+  });
+
+  const equipmentTypes = [
+    { value: 'brewer', label: 'Brewer' },
+    { value: 'grinder', label: 'Grinder' },
+    { value: 'filter', label: 'Filter' },
+    { value: 'water', label: 'Water Equipment' },
+    { value: 'accessory', label: 'Accessory' }
+  ];
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name.trim() || !formData.brand.trim()) {
+      alert('Please fill in equipment name and brand');
+      return;
+    }
+    onSubmit({
+      name: formData.name.trim(),
+      type: formData.type,
+      brand: formData.brand.trim(),
+      description: formData.description.trim()
+    });
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-6"
+      onClick={onClose}
+    >
+      <div
+        className="max-w-md w-full bg-zinc-950 border-2 border-zinc-800 rounded-3xl p-8 space-y-6"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-black tracking-tighter text-white uppercase">SUBMIT EQUIPMENT</h2>
+          <button
+            onClick={onClose}
+            className="text-zinc-100 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-xl p-2"
+          >
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+
+        <p className="text-sm text-zinc-300 leading-relaxed">
+          Submit brewers, grinders, filters, water equipment, or accessories to help grow the marketplace!
+        </p>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">
+              Equipment Type *
+            </label>
+            <select
+              value={formData.type}
+              onChange={e => setFormData({ ...formData, type: e.target.value })}
+              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-4 px-5 text-white font-black text-sm outline-none focus:border-white uppercase"
+            >
+              {equipmentTypes.map(type => (
+                <option key={type.value} value={type.value}>
+                  {type.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">
+                Brand *
+              </label>
+              <input
+                type="text"
+                value={formData.brand}
+                onChange={e => setFormData({ ...formData, brand: e.target.value })}
+                placeholder="HARIO"
+                className="w-full bg-black border-2 border-zinc-900 rounded-xl py-4 px-5 text-white font-black text-sm outline-none focus:border-white uppercase"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">
+                Model *
+              </label>
+              <input
+                type="text"
+                value={formData.name}
+                onChange={e => setFormData({ ...formData, name: e.target.value })}
+                placeholder="V60"
+                className="w-full bg-black border-2 border-zinc-900 rounded-xl py-4 px-5 text-white font-black text-sm outline-none focus:border-white uppercase"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">
+              Description
+            </label>
+            <textarea
+              value={formData.description}
+              onChange={e => setFormData({ ...formData, description: e.target.value })}
+              placeholder="Brief description (optional)"
+              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-5 text-white text-sm outline-none focus:border-white resize-none h-20"
+            />
+          </div>
+
+          <div className="flex gap-3 pt-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 px-6 py-4 rounded-xl border-2 border-zinc-800 text-zinc-100 hover:text-white hover:border-zinc-600 font-black text-sm uppercase tracking-wider transition-all"
+            >
+              CANCEL
+            </button>
+            <button
+              type="submit"
+              className="flex-1 bg-white text-black px-6 py-4 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all flex items-center justify-center gap-2"
+            >
+              <Package className="w-4 h-4" />
+              SUBMIT
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

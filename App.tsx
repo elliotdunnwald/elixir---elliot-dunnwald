@@ -7,6 +7,7 @@ import ExploreView from './views/Search';
 import CoffeeShopView from './views/CoffeeShop';
 import AuthView from './views/AuthView';
 import AdminRoasters from './views/AdminRoasters';
+import AdminEquipment from './views/AdminEquipment';
 import BrewLogModal from './components/BrewLogModal';
 import NotificationsPanel from './components/NotificationsPanel';
 import { BrewActivity } from './types';
@@ -491,6 +492,7 @@ const AppContent: React.FC = () => {
             <Route path="/explore" element={<ExploreView />} />
             <Route path="/coffee-shop" element={<CoffeeShopView />} />
             <Route path="/admin/roasters" element={<AdminRoasters />} />
+            <Route path="/admin/equipment" element={<AdminEquipment />} />
             <Route path="/profile/:userId" element={<ProfileView />} />
             <Route path="/profile/me" element={<ProfileView isMe={true} />} />
           </Routes>
