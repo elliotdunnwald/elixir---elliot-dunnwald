@@ -454,7 +454,6 @@ const CoffeeShopView: React.FC = () => {
                 data.website
               );
               setShowRoasterSubmit(false);
-              alert('Roaster submitted for review! We\'ll add it to the marketplace soon.');
             }
           }}
         />
@@ -474,7 +473,6 @@ const CoffeeShopView: React.FC = () => {
                 profile.id
               );
               setShowEquipmentSubmit(false);
-              alert('Equipment submitted for review! We\'ll add it to the marketplace soon.');
             }
           }}
         />
