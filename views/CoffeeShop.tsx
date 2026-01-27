@@ -1,6 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { Coffee, Search, Filter, X, DollarSign, MapPin, Sparkles, Flame, Loader2 } from 'lucide-react';
-import { getCoffeeOfferings, getRoasters, type CoffeeOffering, type Roaster } from '../lib/database';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Coffee, Search, X, MapPin, Sparkles, Flame, Loader2, ShoppingBag, Calendar, DollarSign } from 'lucide-react';
+import Fuse from 'fuse.js';
+import { getCoffeeOfferings, getRoasters } from '../lib/database';
+
+// Type definitions
+interface CoffeeOffering {
+  id: string;
+  roaster_id: string;
+  name: string;
+  lot: string;
+  origin: string;
+  region?: string;
+  estate?: string;
+  varietals: string[];
+  processing: string;
+  roast_level?: string;
+  tasting_notes?: string[];
+  elevation?: string;
+  available: boolean;
+  price?: number;
+  size?: string;
+  roaster?: {
+    id: string;
+    name: string;
+    city: string;
+    country: string;
+    website?: string;
+  };
+}
+
+interface RoasterWithOfferings {
+  id: string;
+  name: string;
+  city: string;
+  state?: string;
+  country: string;
+  website?: string;
+  foundedYear?: number;
+  offerings: CoffeeOffering[];
+}
 
 // Roaster logo component using favicons
 const RoasterLogo: React.FC<{ roasterName?: string; size?: number }> = ({ roasterName, size = 16 }) => {
@@ -12,7 +50,6 @@ const RoasterLogo: React.FC<{ roasterName?: string; size?: number }> = ({ roaste
         className="object-contain"
         style={{ width: size, height: size }}
         onError={(e) => {
-          // Fallback to generic coffee icon if favicon fails to load
           e.currentTarget.style.display = 'none';
         }}
       />
@@ -47,121 +84,104 @@ const getRoastLevelColor = (level?: string) => {
 };
 
 const CoffeeShopView: React.FC = () => {
-  const [coffees, setCoffees] = useState<CoffeeOffering[]>([]);
-  const [roasters, setRoasters] = useState<Roaster[]>([]);
+  const [roastersWithOfferings, setRoastersWithOfferings] = useState<RoasterWithOfferings[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedRoaster, setSelectedRoaster] = useState<string>('');
-  const [showFilters, setShowFilters] = useState(false);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 200]);
-  const [selectedCoffee, setSelectedCoffee] = useState<CoffeeOffering | null>(null);
+  const [selectedRoaster, setSelectedRoaster] = useState<RoasterWithOfferings | null>(null);
+
+  // Quick filter suggestions
+  const quickFilters = [
+    { label: 'Ethiopia', icon: '🇪🇹' },
+    { label: 'Kenya', icon: '🇰🇪' },
+    { label: 'Colombia', icon: '🇨🇴' },
+    { label: 'Natural', icon: '☀️' },
+    { label: 'Washed', icon: '💧' },
+    { label: 'Anaerobic', icon: '🔬' },
+    { label: 'Gesha', icon: '✨' },
+    { label: 'SL-28', icon: '🌱' },
+    { label: 'Bourbon', icon: '🍒' }
+  ];
+
+  const handleQuickFilter = (filter: string) => {
+    setSearchQuery(filter);
+  };
 
   useEffect(() => {
     loadData();
   }, []);
 
-  useEffect(() => {
-    filterCoffees();
-  }, [searchQuery, selectedRoaster]);
-
   async function loadData() {
     setLoading(true);
-    const [coffeesData, roastersData] = await Promise.all([
-      getCoffeeOfferings(),
-      getRoasters()
-    ]);
-    // Sort by roaster name, then by coffee name
-    const sorted = coffeesData.sort((a, b) => {
-      const roasterCompare = (a.roaster?.name || '').localeCompare(b.roaster?.name || '');
-      if (roasterCompare !== 0) return roasterCompare;
-      return a.name.localeCompare(b.name);
-    });
-    setCoffees(sorted);
-    setRoasters(roastersData);
-    setLoading(false);
+    try {
+      const [coffeesData, roastersData] = await Promise.all([
+        getCoffeeOfferings(),
+        getRoasters()
+      ]);
+
+      // Group coffees by roaster
+      const roasterMap = new Map<string, RoasterWithOfferings>();
+
+      roastersData.forEach(roaster => {
+        roasterMap.set(roaster.id, {
+          id: roaster.id,
+          name: roaster.name,
+          city: roaster.city,
+          state: roaster.state,
+          country: roaster.country,
+          website: roaster.website,
+          foundedYear: roaster.founded_year,
+          offerings: []
+        });
+      });
+
+      coffeesData.forEach(coffee => {
+        if (coffee.roaster_id && roasterMap.has(coffee.roaster_id)) {
+          roasterMap.get(coffee.roaster_id)!.offerings.push(coffee);
+        }
+      });
+
+      // Filter out roasters with no offerings and sort
+      const roastersArray = Array.from(roasterMap.values())
+        .filter(r => r.offerings.length > 0)
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+      setRoastersWithOfferings(roastersArray);
+    } catch (error) {
+      console.error('Error loading marketplace data:', error);
+    } finally {
+      setLoading(false);
+    }
   }
 
-  async function filterCoffees() {
-    const filters: any = {};
-    if (selectedRoaster) filters.roasterId = selectedRoaster;
-    if (searchQuery) filters.search = searchQuery;
-
-    const filtered = await getCoffeeOfferings(filters);
-    // Sort by roaster name, then by coffee name
-    const sorted = filtered.sort((a, b) => {
-      const roasterCompare = (a.roaster?.name || '').localeCompare(b.roaster?.name || '');
-      if (roasterCompare !== 0) return roasterCompare;
-      return a.name.localeCompare(b.name);
+  // Fuse.js search configuration
+  const fuse = useMemo(() => {
+    return new Fuse(roastersWithOfferings, {
+      keys: [
+        { name: 'name', weight: 2 },
+        'city',
+        'country',
+        { name: 'offerings.name', weight: 1.5 },
+        { name: 'offerings.origin', weight: 2 },
+        { name: 'offerings.region', weight: 1.5 },
+        { name: 'offerings.estate', weight: 1 },
+        { name: 'offerings.varietals', weight: 2 },
+        { name: 'offerings.processing', weight: 2 },
+        { name: 'offerings.tasting_notes', weight: 1 },
+        'offerings.roast_level'
+      ],
+      threshold: 0.4,
+      includeScore: true,
+      ignoreLocation: true,
+      useExtendedSearch: true
     });
-    setCoffees(sorted);
-  }
+  }, [roastersWithOfferings]);
 
-  const CoffeeCard: React.FC<{ coffee: CoffeeOffering }> = ({ coffee }) => (
-    <div
-      onClick={() => setSelectedCoffee(coffee)}
-      className="bg-zinc-900 border-2 border-zinc-800 rounded-2xl p-5 hover:border-white transition-all shadow-lg shadow-white/5 cursor-pointer group"
-    >
-      {/* Header with logo and price */}
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <div className="bg-white p-2 rounded-xl">
-            <RoasterLogo roasterName={coffee.roaster?.name} size={20} />
-          </div>
-          <div>
-            <p className="text-[9px] font-black text-zinc-100 uppercase tracking-widest">
-              {coffee.roaster?.name}
-            </p>
-          </div>
-        </div>
-        {coffee.price && (
-          <div className="bg-white text-black px-3 py-2 rounded-xl">
-            <span className="text-sm font-black">${coffee.price.toFixed(2)}</span>
-          </div>
-        )}
-      </div>
+  const searchResults = useMemo(() => {
+    if (!searchQuery.trim()) return roastersWithOfferings;
+    return fuse.search(searchQuery).map(result => result.item);
+  }, [searchQuery, fuse, roastersWithOfferings]);
 
-      {/* Coffee name */}
-      <h3 className="text-lg font-black text-white uppercase tracking-tighter leading-tight mb-4 group-hover:text-zinc-100 transition-colors">
-        {coffee.name}
-      </h3>
-
-      {/* Origin */}
-      <div className="flex items-center gap-2 text-zinc-100 mb-3">
-        <MapPin className="w-4 h-4" />
-        <span className="text-sm font-black uppercase">
-          {coffee.origin}
-        </span>
-      </div>
-
-      {/* Roast level badge */}
-      {coffee.roast_level && (
-        <div className={`${getRoastLevelColor(coffee.roast_level)} inline-block px-3 py-1.5 rounded-lg mb-3`}>
-          <span className="text-[10px] font-black text-white uppercase tracking-wide">
-            {coffee.roast_level}
-          </span>
-        </div>
-      )}
-
-      {/* Tasting notes preview */}
-      {coffee.tasting_notes && coffee.tasting_notes.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
-          {coffee.tasting_notes.slice(0, 3).map((note, i) => (
-            <span
-              key={i}
-              className="px-2 py-1 bg-zinc-800 border border-zinc-700 rounded-lg text-[9px] font-black text-zinc-100 uppercase"
-            >
-              {note}
-            </span>
-          ))}
-          {coffee.tasting_notes.length > 3 && (
-            <span className="px-2 py-1 text-[9px] font-black text-zinc-400 uppercase">
-              +{coffee.tasting_notes.length - 3} MORE
-            </span>
-          )}
-        </div>
-      )}
-    </div>
-  );
+  const totalOfferings = roastersWithOfferings.reduce((sum, r) => sum + r.offerings.length, 0);
 
   if (loading) {
     return (
@@ -175,128 +195,310 @@ const CoffeeShopView: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto space-y-8">
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-5xl font-black text-white tracking-tighter uppercase leading-none mb-2">
-              MARKETPLACE
-            </h1>
-            <p className="text-sm font-black text-zinc-100 uppercase tracking-widest">
-              {coffees.length} OFFERINGS AVAILABLE
-            </p>
-          </div>
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className={`px-6 py-3 rounded-xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center gap-2 ${
-              showFilters
-                ? 'bg-white text-black border-white'
-                : 'bg-zinc-900 border-zinc-800 text-zinc-100 hover:border-zinc-600'
-            }`}
-          >
-            <Filter className="w-4 h-4" />
-            FILTERS
-          </button>
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-4xl font-black tracking-tighter uppercase">MARKETPLACE</h1>
+          <p className="text-xs text-zinc-100 mt-2 tracking-wider uppercase">
+            {roastersWithOfferings.length} ROASTERS • {totalOfferings} OFFERINGS
+          </p>
         </div>
+      </div>
 
-        {/* Search Bar */}
-        <div className="relative group">
-          <Search className="absolute left-7 top-1/2 -translate-y-1/2 w-6 h-6 text-zinc-200 group-focus-within:text-white transition-colors" />
+      {/* Search */}
+      <div className="space-y-4">
+        <div className="relative">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-200" />
           <input
             type="text"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            placeholder="SEARCH BY NAME, ORIGIN, OR REGION..."
-            className="w-full bg-zinc-900 border-2 border-zinc-800 rounded-3xl py-7 pl-16 pr-16 text-sm font-black text-white outline-none focus:border-white transition-all uppercase placeholder:text-zinc-700"
+            placeholder="SEARCH BY ROASTER, ORIGIN, VARIETAL, PROCESS, OR ESTATE..."
+            className="w-full bg-zinc-950 border-2 border-zinc-900 rounded-2xl py-4 pl-12 pr-12 text-sm font-black text-white outline-none focus:border-white uppercase placeholder:text-zinc-700"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-7 top-1/2 -translate-y-1/2 text-zinc-200 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-xl p-2"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-200 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-lg p-1"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           )}
         </div>
 
-        {/* Filters */}
-        {showFilters && (
-          <div className="bg-zinc-900 border-2 border-zinc-800 rounded-[2.5rem] p-8 space-y-6 animate-in fade-in slide-in-from-top-4">
-            <div className="flex justify-between items-center">
-              <h3 className="text-xl font-black text-white uppercase tracking-tighter">
-                FILTER OPTIONS
-              </h3>
-              <button
-                onClick={() => setShowFilters(false)}
-                className="text-zinc-100 hover:text-white transition-all"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-3">
-                <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">
-                  ROASTER
-                </label>
-                <select
-                  value={selectedRoaster}
-                  onChange={e => setSelectedRoaster(e.target.value)}
-                  className="w-full bg-black border-2 border-zinc-800 rounded-xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase"
-                >
-                  <option value="">ALL ROASTERS</option>
-                  {roasters.map(roaster => (
-                    <option key={roaster.id} value={roaster.id}>
-                      {roaster.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="flex items-end gap-3">
-                <button
-                  onClick={() => {
-                    setSelectedRoaster('');
-                    setSearchQuery('');
-                    loadData();
-                  }}
-                  className="flex-1 px-6 py-4 rounded-xl border-2 border-zinc-800 text-zinc-100 hover:text-white hover:border-zinc-600 font-black text-xs uppercase tracking-[0.2em] transition-all"
-                >
-                  RESET FILTERS
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Coffee Grid */}
-      {coffees.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {coffees.map(coffee => (
-            <CoffeeCard key={coffee.id} coffee={coffee} />
+        {/* Quick Filters */}
+        <div className="flex flex-wrap gap-2">
+          <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest flex items-center px-2">
+            Quick Search:
+          </span>
+          {quickFilters.map((filter) => (
+            <button
+              key={filter.label}
+              onClick={() => handleQuickFilter(filter.label)}
+              className={`px-3 py-1.5 rounded-xl border-2 text-[10px] font-black uppercase tracking-wider transition-all ${
+                searchQuery.toLowerCase() === filter.label.toLowerCase()
+                  ? 'bg-white text-black border-white'
+                  : 'bg-transparent border-zinc-800 text-zinc-200 hover:border-zinc-600'
+              }`}
+            >
+              <span className="mr-1">{filter.icon}</span>
+              {filter.label}
+            </button>
           ))}
         </div>
-      ) : (
-        <div className="py-24 text-center border-4 border-dashed border-zinc-900 rounded-[3.5rem]">
-          <div className="bg-white p-8 rounded-[2.5rem] inline-block mb-6">
-            <Coffee className="w-12 h-12 text-black" />
-          </div>
-          <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-3">
-            NO COFFEES FOUND
-          </h3>
-          <p className="text-zinc-100 text-sm font-black uppercase tracking-widest">
-            TRY ADJUSTING YOUR SEARCH OR FILTERS
-          </p>
+      </div>
+
+      {/* Search Results Count */}
+      {searchQuery && searchResults.length > 0 && (
+        <div className="flex items-center gap-3 text-sm">
+          <span className="text-zinc-400 font-black uppercase tracking-wider">
+            {searchResults.length} roaster{searchResults.length !== 1 ? 's' : ''} found
+          </span>
+          <span className="text-zinc-600">•</span>
+          <span className="text-zinc-400 font-black uppercase tracking-wider">
+            {searchResults.reduce((sum, r) => sum + r.offerings.length, 0)} total offerings
+          </span>
         </div>
       )}
 
-      {/* Coffee Detail Modal */}
-      {selectedCoffee && (
-        <CoffeeDetailModal
-          coffee={selectedCoffee}
-          onClose={() => setSelectedCoffee(null)}
+      {/* Roaster Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {searchResults.map(roaster => {
+          // Show matching offerings preview if searching
+          const matchingOfferings = searchQuery
+            ? roaster.offerings.filter(o =>
+                o.origin.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                o.varietals.some(v => v.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                o.processing.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                o.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                (o.region && o.region.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                (o.estate && o.estate.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                (o.tasting_notes && o.tasting_notes.some(n => n.toLowerCase().includes(searchQuery.toLowerCase())))
+              ).slice(0, 3)
+            : [];
+
+          return (
+            <div
+              key={roaster.id}
+              onClick={() => setSelectedRoaster(roaster)}
+              className="bg-zinc-950 border-2 border-zinc-900 rounded-2xl p-6 hover:border-white transition-all cursor-pointer group"
+            >
+              <div className="space-y-3">
+                <div>
+                  <h3 className="text-xl font-black tracking-tighter group-hover:text-white transition-colors">{roaster.name}</h3>
+                  <div className="flex items-center gap-2 mt-1 text-xs text-zinc-100">
+                    <MapPin className="w-3 h-3" />
+                    <span>{roaster.city}, {roaster.country}</span>
+                  </div>
+                </div>
+                {roaster.foundedYear && (
+                  <div className="flex items-center gap-2 text-xs text-zinc-200">
+                    <Calendar className="w-3 h-3" />
+                    <span>EST. {roaster.foundedYear}</span>
+                  </div>
+                )}
+                <div className="pt-3 border-t border-zinc-800">
+                  <div className="flex items-center gap-2 text-xs text-zinc-400 mb-2">
+                    <ShoppingBag className="w-3 h-3" />
+                    <span>{roaster.offerings.length} OFFERING{roaster.offerings.length !== 1 ? 'S' : ''}</span>
+                  </div>
+
+                  {/* Show matching offerings preview */}
+                  {matchingOfferings.length > 0 && (
+                    <div className="space-y-1 mt-3 pt-3 border-t border-zinc-800">
+                      <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest mb-2">Matches:</p>
+                      {matchingOfferings.map(offering => (
+                        <div key={offering.id} className="text-[10px] text-zinc-300 font-black uppercase tracking-wide">
+                          • {offering.name} - {offering.origin}
+                        </div>
+                      ))}
+                      {roaster.offerings.length > matchingOfferings.length && (
+                        <p className="text-[9px] text-zinc-500 font-black uppercase mt-1">
+                          +{roaster.offerings.length - matchingOfferings.length} more
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* No Results */}
+      {searchResults.length === 0 && searchQuery && (
+        <div className="text-center py-20 space-y-4">
+          <p className="text-zinc-200 text-lg font-black uppercase tracking-wider">NO RESULTS FOUND</p>
+          <p className="text-zinc-400 text-xs font-black uppercase tracking-wider">
+            Try searching for: Ethiopia, Kenya, Gesha, Natural, Washed, or a roaster name
+          </p>
+          <button
+            onClick={() => setSearchQuery('')}
+            className="mt-4 px-6 py-3 bg-zinc-900 border-2 border-zinc-800 rounded-xl text-xs font-black uppercase tracking-wider hover:border-white transition-all"
+          >
+            Clear Search
+          </button>
+        </div>
+      )}
+
+      {/* Roaster Detail Modal */}
+      {selectedRoaster && (
+        <RoasterOfferingsModal
+          roaster={selectedRoaster}
+          onClose={() => setSelectedRoaster(null)}
         />
       )}
+    </div>
+  );
+};
+
+// Modal showing all offerings from a roaster
+const RoasterOfferingsModal: React.FC<{
+  roaster: RoasterWithOfferings;
+  onClose: () => void;
+}> = ({ roaster, onClose }) => {
+  const [selectedCoffee, setSelectedCoffee] = useState<CoffeeOffering | null>(null);
+
+  // ESC key to close
+  React.useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (selectedCoffee) {
+          setSelectedCoffee(null);
+        } else {
+          onClose();
+        }
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [onClose, selectedCoffee]);
+
+  if (selectedCoffee) {
+    return (
+      <CoffeeDetailModal
+        coffee={selectedCoffee}
+        onClose={() => setSelectedCoffee(null)}
+      />
+    );
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm overflow-y-auto p-6"
+      onClick={onClose}
+    >
+      <div className="min-h-full flex items-center justify-center py-10">
+        <div
+          className="max-w-6xl w-full bg-zinc-950 border-2 border-zinc-800 rounded-3xl p-8 space-y-6"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Header */}
+          <div className="flex items-start justify-between">
+            <div className="space-y-2">
+              <h2 className="text-4xl font-black tracking-tighter text-white">{roaster.name}</h2>
+              <div className="flex items-center gap-4 text-sm text-zinc-100">
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4" />
+                  <span>{roaster.city}, {roaster.country}</span>
+                </div>
+                {roaster.foundedYear && (
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4" />
+                    <span>EST. {roaster.foundedYear}</span>
+                  </div>
+                )}
+              </div>
+              {roaster.website && (
+                <a
+                  href={roaster.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-xs text-white hover:underline"
+                >
+                  VISIT WEBSITE
+                </a>
+              )}
+            </div>
+            <button
+              onClick={onClose}
+              className="text-zinc-100 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-xl p-2"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+
+          {/* Offerings Grid */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-black tracking-tighter text-white">
+              AVAILABLE COFFEES ({roaster.offerings.length})
+            </h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {roaster.offerings.map(offering => (
+                <div
+                  key={offering.id}
+                  onClick={() => setSelectedCoffee(offering)}
+                  className="bg-black border-2 border-zinc-900 rounded-2xl p-5 hover:border-white transition-all cursor-pointer group"
+                >
+                  {/* Price */}
+                  {offering.price && (
+                    <div className="flex justify-end mb-3">
+                      <div className="bg-white text-black px-3 py-2 rounded-xl">
+                        <span className="text-sm font-black">${offering.price.toFixed(2)}</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Coffee name */}
+                  <h4 className="text-lg font-black text-white uppercase tracking-tighter leading-tight mb-3 group-hover:text-zinc-100 transition-colors">
+                    {offering.name}
+                  </h4>
+
+                  {/* Origin */}
+                  <div className="flex items-center gap-2 text-zinc-100 mb-3">
+                    <MapPin className="w-3 h-3" />
+                    <span className="text-xs font-black uppercase">{offering.origin}</span>
+                  </div>
+
+                  {/* Varietals preview */}
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    {offering.varietals.slice(0, 2).map((v, i) => (
+                      <span
+                        key={i}
+                        className="px-2 py-1 bg-zinc-900 border border-zinc-800 rounded-lg text-[9px] font-black text-zinc-100 uppercase"
+                      >
+                        {v}
+                      </span>
+                    ))}
+                    {offering.varietals.length > 2 && (
+                      <span className="px-2 py-1 text-[9px] font-black text-zinc-500 uppercase">
+                        +{offering.varietals.length - 2}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Processing */}
+                  <div className="text-[10px] font-black text-zinc-400 uppercase tracking-wider">
+                    {offering.processing}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Close button at bottom */}
+          <div className="pt-6 border-t-2 border-zinc-800">
+            <button
+              onClick={onClose}
+              className="w-full bg-white text-black px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all border-2 border-white"
+            >
+              BACK TO MARKETPLACE
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -317,7 +519,7 @@ const CoffeeDetailModal: React.FC<{
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm overflow-y-auto p-6"
+      className="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm overflow-y-auto p-6"
       onClick={onClose}
     >
       <div className="min-h-full flex items-center justify-center py-10">
