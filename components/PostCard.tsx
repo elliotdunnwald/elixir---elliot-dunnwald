@@ -178,26 +178,18 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit }) => {
           </div>
         )}
 
-        {(activity.eyPercentage || activity.brewWeight) ? (
+        {activity.eyPercentage ? (
           <div className="mb-8 flex flex-wrap gap-4">
-            {activity.brewWeight && (
-              <div className="bg-zinc-800 px-4 py-2 rounded-xl">
-                <p className="text-[8px] font-black text-zinc-100 uppercase tracking-widest mb-1 flex items-center gap-1"><Beaker className="w-2 h-2" /> BREW WEIGHT</p>
-                <p className="text-xs font-black text-white">{activity.brewWeight}G</p>
-              </div>
-            )}
             {activity.tds ? (
               <div className="bg-zinc-800 px-4 py-2 rounded-xl">
                 <p className="text-[8px] font-black text-zinc-100 uppercase tracking-widest mb-1">TDS</p>
                 <p className="text-xs font-black text-white">{activity.tds}</p>
               </div>
             ) : null}
-            {activity.eyPercentage ? (
-              <div className="bg-white text-black px-4 py-2 rounded-xl">
-                <p className="text-[8px] font-black text-zinc-100 uppercase tracking-widest mb-1">EXT YIELD</p>
-                <p className="text-xs font-black">{activity.eyPercentage}%</p>
-              </div>
-            ) : null}
+            <div className="bg-white text-black px-4 py-2 rounded-xl">
+              <p className="text-[8px] font-black text-zinc-100 uppercase tracking-widest mb-1">EXT YIELD</p>
+              <p className="text-xs font-black">{activity.eyPercentage}%</p>
+            </div>
           </div>
         ) : null}
 
