@@ -238,6 +238,7 @@ export interface DbBrewActivity {
   roaster: string;
   bean_origin: string;
   estate?: string;
+  lot?: string;
   varietal?: string;
   process?: string;
   brew_type?: 'espresso' | 'filter';
@@ -306,13 +307,26 @@ export async function createActivity(profileId: string, data: Partial<DbBrewActi
   }
 
   // Track coffee offering from brew log
-  if (data.roaster && data.title && data.bean_origin) {
+  if (data.roaster && data.bean_origin) {
+    // Construct coffee name from estate + lot, not from title
+    let coffeeName = '';
+    if (data.estate && data.lot) {
+      coffeeName = `${data.estate} ${data.lot}`;
+    } else if (data.estate) {
+      coffeeName = data.estate;
+    } else if (data.lot) {
+      coffeeName = data.lot;
+    } else {
+      coffeeName = data.title || 'UNKNOWN';
+    }
+
     await trackCoffeeFromBrewLog(
       data.roaster,
-      data.title,
+      coffeeName,
       data.bean_origin,
       profileId,
       data.estate,
+      data.lot,
       data.varietal,
       data.process
     );
@@ -822,6 +836,7 @@ export function dbActivityToBrewActivity(dbActivity: DbBrewActivity): BrewActivi
     roaster: dbActivity.roaster,
     beanOrigin: dbActivity.bean_origin,
     estate: dbActivity.estate,
+    lot: dbActivity.lot,
     varietal: dbActivity.varietal,
     process: dbActivity.process,
     brewer: dbActivity.brewer,
@@ -1705,4 +1720,220 @@ export async function getEquipment(type?: string): Promise<Equipment[]> {
   }
 
   return data || [];
+}
+
+// =====================================================
+// PENDING COFFEE OFFERINGS FUNCTIONS
+// =====================================================
+
+export interface PendingCoffee {
+  id: string;
+  roaster_name: string;
+  coffee_name: string;
+  origin: string;
+  estate?: string;
+  lot?: string;
+  varietal?: string;
+  process?: string;
+  submission_count: number;
+  first_submitted_at: string;
+  last_submitted_at: string;
+  submitted_by_users: string[];
+  status: string;
+  approved_by?: string;
+  approved_at?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export async function trackCoffeeFromBrewLog(
+  roasterName: string,
+  coffeeName: string,
+  origin: string,
+  userId: string,
+  estate?: string,
+  lot?: string,
+  varietal?: string,
+  process?: string
+): Promise<void> {
+  const { error } = await supabase.rpc('track_coffee_submission', {
+    p_roaster_name: roasterName.trim(),
+    p_coffee_name: coffeeName.trim(),
+    p_origin: origin.trim(),
+    p_user_id: userId,
+    p_estate: estate?.trim() || null,
+    p_lot: lot?.trim() || null,
+    p_varietal: varietal?.trim() || null,
+    p_process: process?.trim() || null
+  });
+
+  if (error) {
+    console.error('Error tracking coffee submission:', error);
+  }
+}
+
+export async function getPendingCoffees(): Promise<PendingCoffee[]> {
+  const { data, error } = await supabase
+    .from('pending_coffee_offerings')
+    .select('*')
+    .eq('status', 'pending')
+    .order('submission_count', { ascending: false })
+    .order('roaster_name')
+    .order('coffee_name');
+
+  if (error) {
+    console.error('Error fetching pending coffees:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+export async function approveCoffee(coffeeId: string, adminId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('pending_coffee_offerings')
+    .update({
+      status: 'approved',
+      approved_by: adminId,
+      approved_at: new Date().toISOString()
+    })
+    .eq('id', coffeeId);
+
+  if (error) {
+    console.error('Error approving coffee:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function rejectCoffee(coffeeId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('pending_coffee_offerings')
+    .update({ status: 'rejected' })
+    .eq('id', coffeeId);
+
+  if (error) {
+    console.error('Error rejecting coffee:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function addApprovedCoffeeToDatabase(
+  roasterName: string,
+  coffeeName: string,
+  origin: string,
+  estate?: string,
+  lot?: string,
+  varietal?: string,
+  process?: string
+): Promise<boolean> {
+  // First find the roaster ID
+  const { data: roasterData, error: roasterError } = await supabase
+    .from('roasters')
+    .select('id')
+    .eq('name', roasterName)
+    .single();
+
+  if (roasterError || !roasterData) {
+    console.error('Error finding roaster:', roasterError);
+    return false;
+  }
+
+  // Add to coffee_offerings table
+  const { error } = await supabase
+    .from('coffee_offerings')
+    .insert({
+      roaster_id: roasterData.id,
+      name: coffeeName,
+      lot: lot || '',
+      origin,
+      estate,
+      varietals: varietal ? [varietal] : [],
+      processing: process || '',
+      available: true
+    });
+
+  if (error) {
+    console.error('Error adding coffee to database:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function backfillPendingCoffeesFromBrewLogs(): Promise<{
+  success: boolean;
+  processed: number;
+  errors: string[];
+}> {
+  const result = {
+    success: true,
+    processed: 0,
+    errors: [] as string[]
+  };
+
+  try {
+    // Get all unique coffees from brew activities
+    const { data: activities, error: fetchError } = await supabase
+      .from('brew_activities')
+      .select('roaster, title, bean_origin, estate, lot, varietal, process, profile_id, created_at')
+      .not('roaster', 'is', null)
+      .not('title', 'is', null)
+      .not('bean_origin', 'is', null)
+      .order('created_at', { ascending: false });
+
+    if (fetchError) {
+      result.success = false;
+      result.errors.push(`Error fetching activities: ${fetchError.message}`);
+      return result;
+    }
+
+    if (!activities || activities.length === 0) {
+      return result;
+    }
+
+    // Process each unique coffee
+    const seen = new Set<string>();
+    for (const activity of activities) {
+      // Construct coffee name from estate + lot, not from title
+      let coffeeName = '';
+      if (activity.estate && activity.lot) {
+        coffeeName = `${activity.estate} ${activity.lot}`;
+      } else if (activity.estate) {
+        coffeeName = activity.estate;
+      } else if (activity.lot) {
+        coffeeName = activity.lot;
+      } else {
+        coffeeName = activity.title || 'UNKNOWN';
+      }
+
+      const key = `${activity.roaster}|${coffeeName}|${activity.bean_origin}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+
+      try {
+        await trackCoffeeFromBrewLog(
+          activity.roaster,
+          coffeeName,
+          activity.bean_origin,
+          activity.profile_id,
+          activity.estate,
+          activity.lot,
+          activity.varietal,
+          activity.process
+        );
+        result.processed++;
+      } catch (err) {
+        result.errors.push(`Error processing ${activity.roaster} - ${coffeeName}: ${err}`);
+      }
+    }
+  } catch (err) {
+    result.success = false;
+    result.errors.push(`Unexpected error: ${err}`);
+  }
+
+  return result;
 }

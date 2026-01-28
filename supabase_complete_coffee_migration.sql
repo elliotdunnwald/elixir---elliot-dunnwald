@@ -1,10 +1,14 @@
--- Create pending_coffee_offerings table
+-- Complete Coffee Offerings Migration
+-- This script handles everything: table creation, lot field, and cleanup
+
+-- Step 1: Create pending_coffee_offerings table if it doesn't exist
 CREATE TABLE IF NOT EXISTS pending_coffee_offerings (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   roaster_name text NOT NULL,
   coffee_name text NOT NULL,
   origin text NOT NULL,
   estate text,
+  lot text,
   varietal text,
   process text,
   submission_count integer DEFAULT 1,
@@ -18,24 +22,35 @@ CREATE TABLE IF NOT EXISTS pending_coffee_offerings (
   updated_at timestamptz DEFAULT now()
 );
 
--- Index for faster queries
+-- Step 2: Add lot field to brew_activities table
+ALTER TABLE brew_activities
+ADD COLUMN IF NOT EXISTS lot text;
+
+-- Step 3: Add lot field to pending_coffee_offerings if missing
+ALTER TABLE pending_coffee_offerings
+ADD COLUMN IF NOT EXISTS lot text;
+
+-- Step 4: Create indexes for faster queries
 CREATE INDEX IF NOT EXISTS idx_pending_coffees_status ON pending_coffee_offerings(status);
 CREATE INDEX IF NOT EXISTS idx_pending_coffees_roaster ON pending_coffee_offerings(roaster_name);
 
--- RLS policies
+-- Step 5: Enable RLS
 ALTER TABLE pending_coffee_offerings ENABLE ROW LEVEL SECURITY;
 
--- Anyone can view pending coffees
+-- Step 6: Drop existing policies if they exist
+DROP POLICY IF EXISTS "Anyone can view pending coffees" ON pending_coffee_offerings;
+DROP POLICY IF EXISTS "Authenticated users can submit coffees" ON pending_coffee_offerings;
+DROP POLICY IF EXISTS "Admins can update pending coffees" ON pending_coffee_offerings;
+
+-- Step 7: Create RLS policies
 CREATE POLICY "Anyone can view pending coffees"
   ON pending_coffee_offerings FOR SELECT
   USING (true);
 
--- Anyone authenticated can submit
 CREATE POLICY "Authenticated users can submit coffees"
   ON pending_coffee_offerings FOR INSERT
   WITH CHECK (auth.uid() IS NOT NULL);
 
--- Only admins can update
 CREATE POLICY "Admins can update pending coffees"
   ON pending_coffee_offerings FOR UPDATE
   USING (
@@ -46,13 +61,20 @@ CREATE POLICY "Admins can update pending coffees"
     )
   );
 
--- Function to track coffee submissions (similar to roaster tracking)
+-- Step 8: Clear all pending coffees (for clean re-backfill with proper names)
+DELETE FROM pending_coffee_offerings WHERE status = 'pending';
+
+-- Step 9: Drop old function signature (without lot parameter)
+DROP FUNCTION IF EXISTS track_coffee_submission(text, text, text, uuid, text, text, text);
+
+-- Step 10: Create/update track_coffee_submission function with lot parameter
 CREATE OR REPLACE FUNCTION track_coffee_submission(
   p_roaster_name text,
   p_coffee_name text,
   p_origin text,
   p_user_id uuid,
   p_estate text DEFAULT NULL,
+  p_lot text DEFAULT NULL,
   p_varietal text DEFAULT NULL,
   p_process text DEFAULT NULL
 ) RETURNS void AS $$
@@ -76,6 +98,7 @@ BEGIN
         submitted_by_users = array_append(submitted_by_users, p_user_id::text),
         -- Update fields if they're null and new data provided
         estate = COALESCE(estate, p_estate),
+        lot = COALESCE(lot, p_lot),
         varietal = COALESCE(varietal, p_varietal),
         process = COALESCE(process, p_process),
         updated_at = now()
@@ -87,6 +110,7 @@ BEGIN
       coffee_name,
       origin,
       estate,
+      lot,
       varietal,
       process,
       submitted_by_users
@@ -95,6 +119,7 @@ BEGIN
       TRIM(p_coffee_name),
       TRIM(p_origin),
       NULLIF(TRIM(p_estate), ''),
+      NULLIF(TRIM(p_lot), ''),
       NULLIF(TRIM(p_varietal), ''),
       NULLIF(TRIM(p_process), ''),
       ARRAY[p_user_id::text]
@@ -103,5 +128,10 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Grant execute permission
+-- Step 11: Grant execute permission
 GRANT EXECUTE ON FUNCTION track_coffee_submission TO authenticated;
+
+-- ✅ Done! Next steps:
+-- 1. Go to Admin Coffees page in app
+-- 2. Click "BACKFILL FROM LOGS" button
+-- 3. Coffees will populate with proper names (Estate + Lot format, e.g., "Elida Estate Vuelta")

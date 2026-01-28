@@ -54,6 +54,7 @@ const AdminCoffees: React.FC = () => {
       coffee.coffee_name,
       coffee.origin,
       coffee.estate,
+      coffee.lot,
       coffee.varietal,
       coffee.process
     );
@@ -160,6 +161,11 @@ const AdminCoffees: React.FC = () => {
                   {coffee.estate && (
                     <p className="text-[10px] text-zinc-400 font-black uppercase tracking-widest">
                       ESTATE: {coffee.estate}
+                    </p>
+                  )}
+                  {coffee.lot && (
+                    <p className="text-[10px] text-zinc-400 font-black uppercase tracking-widest">
+                      LOT: {coffee.lot}
                     </p>
                   )}
                   {coffee.varietal && (

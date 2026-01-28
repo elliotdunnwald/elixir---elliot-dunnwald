@@ -12,6 +12,7 @@ const INITIAL_FORM_DATA = {
   roaster: '',
   origin: '',
   estate: '',
+  lot: '',
   varietal: '',
   process: '',
   brewType: 'filter' as 'espresso' | 'filter',
@@ -29,6 +30,7 @@ const INITIAL_FORM_DATA = {
   isPrivate: false,
   showParameters: true,
   showEstate: false,
+  showLot: false,
   showVarietal: false,
   showProcess: false,
   showEY: false,
@@ -101,6 +103,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           roaster: editActivity.roaster || '',
           origin: editActivity.beanOrigin || '',
           estate: editActivity.estate || '',
+          lot: editActivity.lot || '',
           varietal: editActivity.varietal || '',
           process: editActivity.process || '',
           brewType: (editActivity.brewType as 'espresso' | 'filter') || 'filter',
@@ -118,6 +121,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           isPrivate: editActivity.isPrivate || false,
           showParameters: editActivity.showParameters !== false,
           showEstate: !!editActivity.estate,
+          showLot: !!editActivity.lot,
           showVarietal: !!editActivity.varietal,
           showProcess: !!editActivity.process,
           showEY: !!(editActivity.tds || editActivity.eyPercentage),
@@ -289,6 +293,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
         roaster: isPodMachine ? 'POD MACHINE' : (formData.roaster || 'UNKNOWN'),
         bean_origin: isPodMachine ? 'N/A' : (formData.origin || 'UNKNOWN'),
         estate: !isPodMachine && formData.showEstate ? formData.estate : undefined,
+        lot: !isPodMachine && formData.showLot ? formData.lot : undefined,
         varietal: !isPodMachine && formData.showVarietal ? formData.varietal : undefined,
         process: !isPodMachine && formData.showProcess ? formData.process : undefined,
         brew_type: formData.brewType,
@@ -493,29 +498,36 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
               </div>
 
               <div className="space-y-4">
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap">
                   <ToggleBtn label="Farm / Estate" active={formData.showEstate} onClick={() => setFormData(p => ({...p, showEstate: !p.showEstate}))} />
+                  <ToggleBtn label="Lot / Name" active={formData.showLot} onClick={() => setFormData(p => ({...p, showLot: !p.showLot}))} />
                   <ToggleBtn label="Varietal" active={formData.showVarietal} onClick={() => setFormData(p => ({...p, showVarietal: !p.showVarietal}))} />
                   <ToggleBtn label="Processing" active={formData.showProcess} onClick={() => setFormData(p => ({...p, showProcess: !p.showProcess}))} />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {formData.showEstate && (
                     <div className="space-y-2 animate-in slide-in-from-top-1">
                       <label className="text-[8px] font-black text-zinc-100 uppercase tracking-widest px-1">Estate</label>
-                      <input type="text" value={formData.estate} onChange={e => handleInputChange('estate', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-xl px-4 py-3 text-white font-black text-xs outline-none focus:border-white uppercase disabled:opacity-50" />
+                      <input type="text" value={formData.estate} onChange={e => handleInputChange('estate', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-xl px-4 py-3 text-white font-black text-xs outline-none focus:border-white uppercase disabled:opacity-50" placeholder="FARM NAME" />
+                    </div>
+                  )}
+                  {formData.showLot && (
+                    <div className="space-y-2 animate-in slide-in-from-top-1">
+                      <label className="text-[8px] font-black text-zinc-100 uppercase tracking-widest px-1">Lot / Name</label>
+                      <input type="text" value={formData.lot} onChange={e => handleInputChange('lot', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-xl px-4 py-3 text-white font-black text-xs outline-none focus:border-white uppercase disabled:opacity-50" placeholder="LOT NUMBER" />
                     </div>
                   )}
                   {formData.showVarietal && (
                     <div className="space-y-2 animate-in slide-in-from-top-1">
                       <label className="text-[8px] font-black text-zinc-100 uppercase tracking-widest px-1">Varietal</label>
-                      <input type="text" value={formData.varietal} onChange={e => handleInputChange('varietal', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-xl px-4 py-3 text-white font-black text-xs outline-none focus:border-white uppercase disabled:opacity-50" />
+                      <input type="text" value={formData.varietal} onChange={e => handleInputChange('varietal', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-xl px-4 py-3 text-white font-black text-xs outline-none focus:border-white uppercase disabled:opacity-50" placeholder="SL28, GESHA, ETC" />
                     </div>
                   )}
                   {formData.showProcess && (
                     <div className="space-y-2 animate-in slide-in-from-top-1">
                       <label className="text-[8px] font-black text-zinc-100 uppercase tracking-widest px-1">Processing</label>
-                      <input type="text" value={formData.process} onChange={e => handleInputChange('process', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-xl px-4 py-3 text-white font-black text-xs outline-none focus:border-white uppercase disabled:opacity-50" />
+                      <input type="text" value={formData.process} onChange={e => handleInputChange('process', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-xl px-4 py-3 text-white font-black text-xs outline-none focus:border-white uppercase disabled:opacity-50" placeholder="WASHED, NATURAL, ETC" />
                     </div>
                   )}
                 </div>
