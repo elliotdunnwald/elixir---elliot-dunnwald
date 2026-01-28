@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Check, X, Users, TrendingUp, Loader2, Coffee, MapPin } from 'lucide-react';
-import { getPendingCoffees, approveCoffee, rejectCoffee, addApprovedCoffeeToDatabase, type PendingCoffee } from '../lib/database';
+import { Check, X, Users, TrendingUp, Loader2, Coffee, MapPin, RefreshCw } from 'lucide-react';
+import { getPendingCoffees, approveCoffee, rejectCoffee, addApprovedCoffeeToDatabase, backfillPendingCoffeesFromBrewLogs, type PendingCoffee } from '../lib/database';
 import { useAuth } from '../hooks/useAuth';
 
 const AdminCoffees: React.FC = () => {
   const { profile } = useAuth();
   const [pendingCoffees, setPendingCoffees] = useState<PendingCoffee[]>([]);
   const [loading, setLoading] = useState(true);
+  const [backfilling, setBackfilling] = useState(false);
 
   // Admin check
   if (!profile?.is_admin) {
@@ -71,6 +72,24 @@ const AdminCoffees: React.FC = () => {
     }
   }
 
+  async function handleBackfill() {
+    if (!confirm('This will scan all existing brew logs and add coffees to pending approvals. Continue?')) {
+      return;
+    }
+
+    setBackfilling(true);
+    const result = await backfillPendingCoffeesFromBrewLogs();
+    setBackfilling(false);
+
+    if (result.success) {
+      alert(`Successfully processed ${result.processed} brew logs!`);
+      // Reload pending coffees
+      await loadPendingCoffees();
+    } else {
+      alert(`Error processing brew logs. Processed: ${result.processed}\nErrors: ${result.errors.join('\n')}`);
+    }
+  }
+
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto">
@@ -90,6 +109,14 @@ const AdminCoffees: React.FC = () => {
             {pendingCoffees.length} PENDING APPROVAL
           </p>
         </div>
+        <button
+          onClick={handleBackfill}
+          disabled={backfilling}
+          className="bg-white text-black px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <RefreshCw className={`w-4 h-4 ${backfilling ? 'animate-spin' : ''}`} />
+          {backfilling ? 'PROCESSING...' : 'BACKFILL FROM LOGS'}
+        </button>
       </div>
 
       {pendingCoffees.length === 0 ? (
