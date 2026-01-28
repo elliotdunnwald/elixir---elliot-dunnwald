@@ -858,6 +858,18 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                 <Shield className="w-8 h-8 text-zinc-700 group-hover:text-white transition-colors" />
               </div>
             </Link>
+            <Link
+              to="/admin/coffees"
+              className="block bg-zinc-950 border-2 border-zinc-900 hover:border-white rounded-2xl p-6 transition-all group"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-xl font-black text-white uppercase tracking-tighter group-hover:text-white transition-colors">COFFEE APPROVALS</h3>
+                  <p className="text-xs text-zinc-400 uppercase tracking-wider mt-1 font-black">Review and approve coffee submissions</p>
+                </div>
+                <Shield className="w-8 h-8 text-zinc-700 group-hover:text-white transition-colors" />
+              </div>
+            </Link>
           </div>
         )}
       </div>

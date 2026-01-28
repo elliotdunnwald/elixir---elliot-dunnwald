@@ -311,6 +311,7 @@ export async function createActivity(profileId: string, data: Partial<DbBrewActi
       data.roaster,
       data.title,
       data.bean_origin,
+      profileId,
       data.estate,
       data.varietal,
       data.process
@@ -993,12 +994,108 @@ export async function trackCoffeeFromBrewLog(
   roasterName: string,
   coffeeName: string,
   origin: string,
+  userId: string,
   estate?: string,
   varietal?: string,
   process?: string
 ): Promise<void> {
+  if (!roasterName || !coffeeName || !origin || !userId) return;
+
   try {
-    // First, find or get the roaster by name
+    // Track the coffee submission for admin approval
+    const { error } = await supabase.rpc('track_coffee_submission', {
+      p_roaster_name: roasterName.trim(),
+      p_coffee_name: coffeeName.trim(),
+      p_origin: origin.trim(),
+      p_user_id: userId,
+      p_estate: estate?.trim() || null,
+      p_varietal: varietal?.trim() || null,
+      p_process: process?.trim() || null
+    });
+
+    if (error) {
+      console.error('Error tracking coffee submission:', error);
+    }
+  } catch (err) {
+    console.error('Error in trackCoffeeFromBrewLog:', err);
+  }
+}
+
+export interface PendingCoffee {
+  id: string;
+  roaster_name: string;
+  coffee_name: string;
+  origin: string;
+  estate?: string;
+  varietal?: string;
+  process?: string;
+  submission_count: number;
+  first_submitted_at: string;
+  last_submitted_at: string;
+  submitted_by_users: string[];
+  status: 'pending' | 'approved' | 'rejected';
+  approved_at?: string;
+  approved_by?: string;
+  created_at: string;
+}
+
+export async function getPendingCoffees(): Promise<PendingCoffee[]> {
+  const { data, error } = await supabase
+    .from('pending_coffee_offerings')
+    .select('*')
+    .eq('status', 'pending')
+    .order('submission_count', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching pending coffees:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+export async function approveCoffee(coffeeId: string, adminId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('pending_coffee_offerings')
+    .update({
+      status: 'approved',
+      approved_at: new Date().toISOString(),
+      approved_by: adminId
+    })
+    .eq('id', coffeeId);
+
+  if (error) {
+    console.error('Error approving coffee:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function rejectCoffee(coffeeId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('pending_coffee_offerings')
+    .update({ status: 'rejected' })
+    .eq('id', coffeeId);
+
+  if (error) {
+    console.error('Error rejecting coffee:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function addApprovedCoffeeToDatabase(
+  roasterName: string,
+  coffeeName: string,
+  origin: string,
+  estate?: string,
+  varietal?: string,
+  process?: string
+): Promise<boolean> {
+  try {
+    // Find the roaster by name
     const { data: roasters } = await supabase
       .from('roasters')
       .select('id')
@@ -1006,13 +1103,13 @@ export async function trackCoffeeFromBrewLog(
       .limit(1);
 
     if (!roasters || roasters.length === 0) {
-      console.log('Roaster not found, skipping coffee offering creation');
-      return;
+      console.error('Roaster not found:', roasterName);
+      return false;
     }
 
     const roasterId = roasters[0].id;
 
-    // Check if a similar coffee offering already exists
+    // Check if coffee already exists
     const { data: existing } = await supabase
       .from('coffee_offerings')
       .select('id')
@@ -1022,11 +1119,11 @@ export async function trackCoffeeFromBrewLog(
       .limit(1);
 
     if (existing && existing.length > 0) {
-      // Coffee offering already exists
-      return;
+      console.log('Coffee offering already exists');
+      return true;
     }
 
-    // Create new coffee offering
+    // Create the coffee offering
     const varietals = varietal ? [varietal] : [];
 
     const { error } = await supabase
@@ -1034,7 +1131,7 @@ export async function trackCoffeeFromBrewLog(
       .insert({
         roaster_id: roasterId,
         name: coffeeName,
-        lot: 'Various', // Default lot
+        lot: 'Various',
         origin: origin,
         estate: estate || null,
         varietals: varietals,
@@ -1044,12 +1141,14 @@ export async function trackCoffeeFromBrewLog(
       });
 
     if (error) {
-      console.error('Error creating coffee offering:', error);
-    } else {
-      console.log('Successfully created new coffee offering');
+      console.error('Error adding coffee to database:', error);
+      return false;
     }
+
+    return true;
   } catch (err) {
-    console.error('Error in trackCoffeeFromBrewLog:', err);
+    console.error('Error in addApprovedCoffeeToDatabase:', err);
+    return false;
   }
 }
 
