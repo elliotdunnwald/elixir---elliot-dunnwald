@@ -1620,16 +1620,34 @@ export async function addApprovedCoffeeToDatabase(
   varietal?: string,
   process?: string
 ): Promise<boolean> {
-  // First find the roaster ID
+  // First find the roaster ID (case-insensitive)
   const { data: roasterData, error: roasterError } = await supabase
     .from('roasters')
     .select('id')
-    .eq('name', roasterName)
+    .ilike('name', roasterName.trim())
+    .limit(1)
     .single();
 
   if (roasterError || !roasterData) {
     console.error('Error finding roaster:', roasterError);
+    console.error('Roaster name searched:', roasterName);
+    alert(`Could not find roaster "${roasterName}" in database. Please add the roaster first in Admin Roasters.`);
     return false;
+  }
+
+  // Check if coffee already exists
+  const { data: existingCoffee } = await supabase
+    .from('coffee_offerings')
+    .select('id')
+    .eq('roaster_id', roasterData.id)
+    .ilike('name', coffeeName.trim())
+    .ilike('origin', origin.trim())
+    .limit(1)
+    .single();
+
+  if (existingCoffee) {
+    console.log('Coffee already exists in database');
+    return true;
   }
 
   // Add to coffee_offerings table
@@ -1637,17 +1655,19 @@ export async function addApprovedCoffeeToDatabase(
     .from('coffee_offerings')
     .insert({
       roaster_id: roasterData.id,
-      name: coffeeName,
-      lot: lot || '',
-      origin,
-      estate,
-      varietals: varietal ? [varietal] : [],
-      processing: process || '',
+      name: coffeeName.trim(),
+      lot: lot?.trim() || '',
+      origin: origin.trim(),
+      estate: estate?.trim() || null,
+      varietals: varietal ? [varietal.trim()] : [],
+      processing: process?.trim() || '',
       available: true
     });
 
   if (error) {
     console.error('Error adding coffee to database:', error);
+    console.error('Coffee data:', { roasterName, coffeeName, origin, estate, lot, varietal, process });
+    alert(`Error adding coffee: ${error.message}`);
     return false;
   }
 
