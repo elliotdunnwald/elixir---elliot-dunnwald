@@ -8,19 +8,20 @@ DECLARE
 BEGIN
   -- Loop through all brew activities
   FOR activity_record IN
-    SELECT DISTINCT
+    SELECT DISTINCT ON (roaster, title, bean_origin)
       roaster,
       title as coffee_name,
       bean_origin as origin,
       estate,
       varietal,
       process,
-      profile_id
+      profile_id,
+      created_at
     FROM brew_activities
     WHERE roaster IS NOT NULL
       AND title IS NOT NULL
       AND bean_origin IS NOT NULL
-    ORDER BY created_at DESC
+    ORDER BY roaster, title, bean_origin, created_at DESC
   LOOP
     -- Call the track_coffee_submission function for each unique coffee
     PERFORM track_coffee_submission(
