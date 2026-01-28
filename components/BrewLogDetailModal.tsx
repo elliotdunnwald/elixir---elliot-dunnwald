@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, MapPin, Award, FlaskConical, Timer, Thermometer, Zap, Heart, MessageCircle, Share2, Lock, Edit3, Trash2, Send, Calendar } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BrewActivity } from '../types';
 import { useAuth } from '../hooks/useAuth';
 import { toggleLike, addComment, getActivityById } from '../lib/database';
@@ -37,6 +37,7 @@ const formatTimestamp = (timestamp: string) => {
 
 const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onClose, onDelete, onEdit }) => {
   const { profile } = useAuth();
+  const navigate = useNavigate();
   const [activity, setActivity] = useState<BrewActivity | null>(null);
   const [loading, setLoading] = useState(true);
   const [likes, setLikes] = useState(0);
@@ -109,6 +110,12 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
       onDelete?.(activityId);
       onClose();
     }
+  };
+
+  const handleRoasterClick = () => {
+    if (!activity) return;
+    onClose();
+    navigate('/coffee-shop', { state: { selectedRoaster: activity.roaster } });
   };
 
   // ESC key to close
@@ -206,7 +213,12 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
             <div className="mb-8">
               <h2 className="text-4xl font-black text-white tracking-tighter uppercase leading-none mb-3">{activity.title}</h2>
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                <p className="text-white text-[13px] font-black uppercase tracking-[0.3em] border-2 border-zinc-800 px-3 py-1 rounded-lg">{activity.roaster}</p>
+                <button
+                  onClick={handleRoasterClick}
+                  className="text-white text-[13px] font-black uppercase tracking-[0.3em] border-2 border-zinc-800 px-3 py-1 rounded-lg hover:bg-zinc-800 transition-colors cursor-pointer"
+                >
+                  {activity.roaster}
+                </button>
                 <p className="text-zinc-400 text-[13px] font-black uppercase tracking-[0.3em]">{activity.beanOrigin}</p>
               </div>
               {(activity.estate || activity.varietal || activity.process) && (

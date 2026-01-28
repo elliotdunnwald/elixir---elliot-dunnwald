@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Coffee, Search, X, MapPin, Sparkles, Flame, Loader2, ShoppingBag, Calendar, DollarSign, Plus, Package } from 'lucide-react';
 import Fuse from 'fuse.js';
 import { getCoffeeOfferings, getRoasters, trackRoasterSubmission, trackEquipmentSubmission } from '../lib/database';
@@ -86,6 +87,7 @@ const getRoastLevelColor = (level?: string) => {
 
 const CoffeeShopView: React.FC = () => {
   const { profile } = useAuth();
+  const location = useLocation();
   const [roastersWithOfferings, setRoastersWithOfferings] = useState<RoasterWithOfferings[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -114,6 +116,20 @@ const CoffeeShopView: React.FC = () => {
   useEffect(() => {
     loadData();
   }, []);
+
+  // Handle roaster selection from navigation state
+  useEffect(() => {
+    const state = location.state as { selectedRoaster?: string } | null;
+    if (state?.selectedRoaster && roastersWithOfferings.length > 0) {
+      const roaster = roastersWithOfferings.find(
+        r => r.name.toLowerCase() === state.selectedRoaster.toLowerCase()
+      );
+      if (roaster) {
+        setSelectedRoaster(roaster);
+        setActiveView('main');
+      }
+    }
+  }, [location.state, roastersWithOfferings]);
 
   async function loadData() {
     setLoading(true);
