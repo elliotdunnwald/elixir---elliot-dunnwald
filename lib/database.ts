@@ -1167,56 +1167,6 @@ export async function addApprovedCoffeeToDatabase(
   }
 }
 
-export async function backfillPendingCoffeesFromBrewLogs(): Promise<{ success: boolean; processed: number; errors: string[] }> {
-  const errors: string[] = [];
-  let processed = 0;
-
-  try {
-    // Fetch all brew activities
-    const { data: activities, error } = await supabase
-      .from('brew_activities')
-      .select('roaster, title, bean_origin, estate, varietal, process, profile_id')
-      .not('roaster', 'is', null)
-      .not('title', 'is', null)
-      .not('bean_origin', 'is', null)
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      errors.push(`Error fetching activities: ${error.message}`);
-      return { success: false, processed: 0, errors };
-    }
-
-    if (!activities || activities.length === 0) {
-      return { success: true, processed: 0, errors: ['No brew activities found'] };
-    }
-
-    console.log(`Found ${activities.length} brew activities to process`);
-
-    // Process each activity
-    for (const activity of activities) {
-      try {
-        await trackCoffeeFromBrewLog(
-          activity.roaster,
-          activity.title,
-          activity.bean_origin,
-          activity.profile_id,
-          activity.estate,
-          activity.varietal,
-          activity.process
-        );
-        processed++;
-      } catch (err) {
-        errors.push(`Error processing ${activity.title}: ${err}`);
-      }
-    }
-
-    console.log(`Processed ${processed} activities`);
-    return { success: true, processed, errors };
-  } catch (err) {
-    errors.push(`Unexpected error: ${err}`);
-    return { success: false, processed, errors };
-  }
-}
 
 // =====================================================
 // NOTIFICATION FUNCTIONS
