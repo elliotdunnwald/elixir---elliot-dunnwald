@@ -305,6 +305,18 @@ export async function createActivity(profileId: string, data: Partial<DbBrewActi
     await trackRoasterSubmission(data.roaster, profileId);
   }
 
+  // Track coffee offering from brew log
+  if (data.roaster && data.title && data.bean_origin) {
+    await trackCoffeeFromBrewLog(
+      data.roaster,
+      data.title,
+      data.bean_origin,
+      data.estate,
+      data.varietal,
+      data.process
+    );
+  }
+
   return activity;
 }
 
@@ -975,6 +987,70 @@ export async function getCoffeeOfferingById(id: string): Promise<CoffeeOffering 
   }
 
   return data;
+}
+
+export async function trackCoffeeFromBrewLog(
+  roasterName: string,
+  coffeeName: string,
+  origin: string,
+  estate?: string,
+  varietal?: string,
+  process?: string
+): Promise<void> {
+  try {
+    // First, find or get the roaster by name
+    const { data: roasters } = await supabase
+      .from('roasters')
+      .select('id')
+      .ilike('name', roasterName)
+      .limit(1);
+
+    if (!roasters || roasters.length === 0) {
+      console.log('Roaster not found, skipping coffee offering creation');
+      return;
+    }
+
+    const roasterId = roasters[0].id;
+
+    // Check if a similar coffee offering already exists
+    const { data: existing } = await supabase
+      .from('coffee_offerings')
+      .select('id')
+      .eq('roaster_id', roasterId)
+      .ilike('name', coffeeName)
+      .ilike('origin', origin)
+      .limit(1);
+
+    if (existing && existing.length > 0) {
+      // Coffee offering already exists
+      return;
+    }
+
+    // Create new coffee offering
+    const varietals = varietal ? [varietal] : [];
+
+    const { error } = await supabase
+      .from('coffee_offerings')
+      .insert({
+        roaster_id: roasterId,
+        name: coffeeName,
+        lot: 'Various', // Default lot
+        origin: origin,
+        estate: estate || null,
+        varietals: varietals,
+        processing: process || 'Unknown',
+        tasting_notes: [],
+        available: true
+      });
+
+    if (error) {
+      console.error('Error creating coffee offering:', error);
+    } else {
+      console.log('Successfully created new coffee offering');
+    }
+  } catch (err) {
+    console.error('Error in trackCoffeeFromBrewLog:', err);
+  }
 }
 
 // =====================================================
