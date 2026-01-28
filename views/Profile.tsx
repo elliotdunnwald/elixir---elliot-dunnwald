@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { Bookmark, LayoutGrid, BarChart3, User as UserIcon, Settings2, X, Plus, Image as ImageIcon, Search, Lock, Eye, EyeOff, Share2, Check, Trash2, Loader2, ZoomIn, ZoomOut, Sun, Moon, Shield } from 'lucide-react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { Bookmark, LayoutGrid, BarChart3, User as UserIcon, Settings2, X, Plus, Image as ImageIcon, Search, Lock, Eye, EyeOff, Share2, Check, Trash2, Loader2, ZoomIn, ZoomOut, Sun, Moon, Shield, ArrowLeft } from 'lucide-react';
 import Cropper from 'react-easy-crop';
 import { Area } from 'react-easy-crop';
 import { BREWING_DEVICES } from '../data/database';
@@ -400,6 +400,7 @@ interface ProfileViewProps {
 
 const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
   const { userId } = useParams<{ userId: string }>();
+  const navigate = useNavigate();
   const { user, profile: currentProfile, refreshProfile } = useAuth();
   const [activeTab, setActiveTab] = useState<'activity' | 'locker' | 'analytics' | 'admin'>('activity');
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -628,6 +629,16 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-10 animate-in slide-in-from-bottom duration-500 pb-20">
+      {!isMe && (
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          <span className="text-sm font-black uppercase tracking-wider">Back</span>
+        </button>
+      )}
+
       <div className="bg-zinc-900 rounded-[2.5rem] sm:rounded-[3.5rem] overflow-hidden border-2 border-zinc-800 shadow-2xl relative">
         <div className="h-32 sm:h-40 bg-zinc-950 flex items-center justify-center"></div>
         {isMe && (

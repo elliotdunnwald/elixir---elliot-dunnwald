@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Check, X, Users, TrendingUp, Loader2, Coffee, MapPin, RefreshCw } from 'lucide-react';
+import { Check, X, Users, TrendingUp, Loader2, Coffee, MapPin, RefreshCw, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { getPendingCoffees, approveCoffee, rejectCoffee, addApprovedCoffeeToDatabase, backfillPendingCoffeesFromBrewLogs, type PendingCoffee } from '../lib/database';
 import { useAuth } from '../hooks/useAuth';
 
 const AdminCoffees: React.FC = () => {
   const { profile } = useAuth();
+  const navigate = useNavigate();
   const [pendingCoffees, setPendingCoffees] = useState<PendingCoffee[]>([]);
   const [loading, setLoading] = useState(true);
   const [backfilling, setBackfilling] = useState(false);
@@ -103,6 +105,14 @@ const AdminCoffees: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto space-y-8">
+      <button
+        onClick={() => navigate('/profile')}
+        className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors mb-4"
+      >
+        <ArrowLeft className="w-5 h-5" />
+        <span className="text-sm font-black uppercase tracking-wider">Back to Profile</span>
+      </button>
+
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-5xl font-black tracking-tighter uppercase">COFFEE SUBMISSIONS</h1>

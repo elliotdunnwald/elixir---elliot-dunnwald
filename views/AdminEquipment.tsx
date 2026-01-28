@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Check, X, Users, TrendingUp, Loader2, Plus, Package } from 'lucide-react';
+import { Check, X, Users, TrendingUp, Loader2, Plus, Package, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { getPendingEquipment, approveEquipment, rejectEquipment, addApprovedEquipmentToDatabase, type PendingEquipment } from '../lib/database';
 import { useAuth } from '../hooks/useAuth';
 
@@ -13,6 +14,7 @@ const EQUIPMENT_TYPE_LABELS = {
 
 const AdminEquipment: React.FC = () => {
   const { profile } = useAuth();
+  const navigate = useNavigate();
   const [pendingEquipment, setPendingEquipment] = useState<PendingEquipment[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedEquipment, setSelectedEquipment] = useState<PendingEquipment | null>(null);
@@ -101,6 +103,14 @@ const AdminEquipment: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto space-y-8">
+      <button
+        onClick={() => navigate('/profile')}
+        className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors mb-4"
+      >
+        <ArrowLeft className="w-5 h-5" />
+        <span className="text-sm font-black uppercase tracking-wider">Back to Profile</span>
+      </button>
+
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-5xl font-black tracking-tighter uppercase">EQUIPMENT SUBMISSIONS</h1>
