@@ -164,12 +164,12 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
 
   // Update cafe suggestions when typing
   useEffect(() => {
-    if (formData.cafeName && formData.cafeName.length > 0) {
+    if (formData.cafeName && formData.cafeName.length > 0 && Array.isArray(allCafes)) {
       const filtered = allCafes.filter(cafe =>
-        cafe.name.toLowerCase().includes(formData.cafeName.toLowerCase())
+        cafe?.name?.toLowerCase().includes(formData.cafeName.toLowerCase())
       ).slice(0, 5);
       setCafeSuggestions(filtered);
-      setShowCafeDropdown(filtered.length > 0 && filtered[0].name.toLowerCase() !== formData.cafeName.toLowerCase());
+      setShowCafeDropdown(filtered.length > 0 && filtered[0]?.name?.toLowerCase() !== formData.cafeName.toLowerCase());
     } else {
       setCafeSuggestions([]);
       setShowCafeDropdown(false);
@@ -586,20 +586,20 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                   className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50"
                   placeholder="BLUE BOTTLE / VERVE / ETC"
                 />
-                {showCafeDropdown && cafeSuggestions.length > 0 && (
+                {showCafeDropdown && Array.isArray(cafeSuggestions) && cafeSuggestions.length > 0 && (
                   <div className="absolute z-50 w-full mt-1 bg-zinc-950 border-2 border-zinc-800 rounded-xl overflow-hidden shadow-xl">
                     {cafeSuggestions.map((cafe, idx) => (
                       <button
                         key={idx}
                         type="button"
                         onClick={() => {
-                          setFormData(p => ({ ...p, cafeName: cafe.name, cafeCity: cafe.city, cafeCountry: cafe.country }));
+                          setFormData(p => ({ ...p, cafeName: cafe?.name || '', cafeCity: cafe?.city || '', cafeCountry: cafe?.country || '' }));
                           setShowCafeDropdown(false);
                         }}
                         className="w-full text-left px-6 py-4 text-white font-black text-sm uppercase hover:bg-zinc-900 transition-colors border-b border-zinc-800 last:border-b-0"
                       >
-                        <div>{cafe.name}</div>
-                        <div className="text-xs text-zinc-400">{cafe.city}, {cafe.country}</div>
+                        <div>{cafe?.name || 'UNKNOWN'}</div>
+                        <div className="text-xs text-zinc-400">{cafe?.city || 'UNKNOWN'}, {cafe?.country || 'UNKNOWN'}</div>
                       </button>
                     ))}
                   </div>
@@ -654,7 +654,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                   ))}
                 </div>
 
-                {formData.drinkCategory !== 'specialty' ? (
+                {formData.drinkCategory !== 'specialty' && DRINK_CATEGORIES[formData.drinkCategory] ? (
                   <select
                     value={formData.drinkOrdered}
                     onChange={e => setFormData(p => ({ ...p, drinkOrdered: e.target.value }))}
@@ -663,7 +663,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50"
                   >
                     <option value="">SELECT DRINK</option>
-                    {DRINK_CATEGORIES[formData.drinkCategory].map(drink => (
+                    {DRINK_CATEGORIES[formData.drinkCategory]?.map(drink => (
                       <option key={drink} value={drink}>{drink}</option>
                     ))}
                     <option value="SPECIALTY">SPECIALTY / OTHER</option>
