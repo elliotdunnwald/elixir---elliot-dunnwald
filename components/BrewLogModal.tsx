@@ -3,10 +3,63 @@ import { X, MapPin, Coffee, Award, Eye, EyeOff, Settings2, Calculator, Plus, Ima
 import { BrewActivity } from '../types';
 import { useSettings } from '../context/SettingsContext';
 import { useAuth } from '../hooks/useAuth';
-import { createActivity, uploadBrewImage, updateActivity, getRoasters } from '../lib/database';
+import { createActivity, uploadBrewImage, updateActivity, getRoasters, getCafes, trackCafeFromVisit } from '../lib/database';
 import DeviceSelectorModal from './DeviceSelectorModal';
 
+// Predefined drink options organized by category
+const DRINK_CATEGORIES = {
+  espresso: [
+    'Espresso',
+    'Double Espresso',
+    'Americano',
+    'Macchiato',
+    'Cortado',
+    'Flat White',
+    'Cappuccino',
+    'Latte',
+    'Mocha',
+    'Affogato'
+  ],
+  filter: [
+    'Pourover',
+    'Drip Coffee',
+    'French Press',
+    'Aeropress',
+    'Chemex',
+    'Siphon',
+    'Cold Brew',
+    'Nitro Cold Brew'
+  ],
+  iced: [
+    'Iced Coffee',
+    'Iced Latte',
+    'Iced Americano',
+    'Iced Cappuccino',
+    'Iced Mocha'
+  ],
+  other: [
+    'Turkish Coffee',
+    'Matcha Latte',
+    'Chai Latte',
+    'Hot Chocolate'
+  ]
+};
+
 const INITIAL_FORM_DATA = {
+  // Mode selection
+  isCafeVisit: false,
+
+  // Cafe-specific fields
+  cafeName: '',
+  cafeCity: '',
+  cafeCountry: '',
+  cafeAddress: '',
+  drinkCategory: 'espresso' as 'espresso' | 'filter' | 'iced' | 'other' | 'specialty',
+  drinkOrdered: '',
+  specialtyDrink: '',
+  showCoffeeDetails: false,
+
+  // Existing fields
   title: '',
   description: '',
   roaster: '',
@@ -64,16 +117,23 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
   const [roasterSuggestions, setRoasterSuggestions] = useState<string[]>([]);
   const [showRoasterDropdown, setShowRoasterDropdown] = useState(false);
   const [allRoasters, setAllRoasters] = useState<string[]>([]);
+  const [cafeSuggestions, setCafeSuggestions] = useState<Array<{name: string, city: string, country: string}>>([]);
+  const [showCafeDropdown, setShowCafeDropdown] = useState(false);
+  const [allCafes, setAllCafes] = useState<Array<{name: string, city: string, country: string}>>([]);
   const mediaInputRef = useRef<HTMLInputElement>(null);
 
   const isPodMachine = deviceCategory === 'pod';
 
-  // Load roasters from database
+  // Load roasters and cafes from database
   useEffect(() => {
     if (isOpen) {
       getRoasters().then(roasters => {
         const roasterNames = roasters.map(r => r.name);
         setAllRoasters(roasterNames);
+      });
+      getCafes().then(cafes => {
+        const cafeList = cafes.map(c => ({ name: c.name, city: c.city, country: c.country }));
+        setAllCafes(cafeList);
       });
     }
   }, [isOpen]);
@@ -91,6 +151,20 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
       setShowRoasterDropdown(false);
     }
   }, [formData.roaster, allRoasters]);
+
+  // Update cafe suggestions when typing
+  useEffect(() => {
+    if (formData.cafeName && formData.cafeName.length > 0) {
+      const filtered = allCafes.filter(cafe =>
+        cafe.name.toLowerCase().includes(formData.cafeName.toLowerCase())
+      ).slice(0, 5);
+      setCafeSuggestions(filtered);
+      setShowCafeDropdown(filtered.length > 0 && filtered[0].name.toLowerCase() !== formData.cafeName.toLowerCase());
+    } else {
+      setCafeSuggestions([]);
+      setShowCafeDropdown(false);
+    }
+  }, [formData.cafeName, allCafes]);
 
   // Load saved draft or edit activity data on open
   useEffect(() => {
@@ -285,40 +359,58 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
         imageUrl = await uploadBrewImage(user.id, mediaFile) || undefined;
       }
 
+      // Determine drink name for cafe visits
+      const drinkName = formData.isCafeVisit
+        ? (formData.drinkOrdered === 'SPECIALTY' || formData.drinkCategory === 'specialty'
+            ? formData.specialtyDrink
+            : formData.drinkOrdered)
+        : undefined;
+
       const activityData = {
-        title: formData.title || 'BREW SESSION',
+        title: formData.title || (formData.isCafeVisit ? 'CAFE VISIT' : 'BREW SESSION'),
         description: formData.description || undefined,
         image_url: imageUrl,
-        location_name: formData.location || defaultLocation,
-        roaster: isPodMachine ? 'POD MACHINE' : (formData.roaster || 'UNKNOWN'),
-        bean_origin: isPodMachine ? 'N/A' : (formData.origin || 'UNKNOWN'),
-        estate: !isPodMachine && formData.showEstate ? formData.estate : undefined,
-        lot: !isPodMachine && formData.showLot ? formData.lot : undefined,
-        varietal: !isPodMachine && formData.showVarietal ? formData.varietal : undefined,
-        process: !isPodMachine && formData.showProcess ? formData.process : undefined,
+        location_name: formData.isCafeVisit
+          ? `${formData.cafeCity}, ${formData.cafeCountry}`.toUpperCase()
+          : (formData.location || defaultLocation),
+        roaster: formData.isCafeVisit
+          ? (formData.showCoffeeDetails && formData.roaster ? formData.roaster : 'CAFE')
+          : (isPodMachine ? 'POD MACHINE' : (formData.roaster || 'UNKNOWN')),
+        bean_origin: formData.isCafeVisit
+          ? (formData.showCoffeeDetails && formData.origin ? formData.origin : 'UNKNOWN')
+          : (isPodMachine ? 'N/A' : (formData.origin || 'UNKNOWN')),
+        estate: !isPodMachine && !formData.isCafeVisit && formData.showEstate ? formData.estate : undefined,
+        lot: !isPodMachine && !formData.isCafeVisit && formData.showLot ? formData.lot : undefined,
+        varietal: !isPodMachine && !formData.isCafeVisit && formData.showVarietal ? formData.varietal : undefined,
+        process: !isPodMachine && !formData.isCafeVisit && formData.showProcess ? formData.process : undefined,
         brew_type: formData.brewType,
-        brewer: formData.brewer,
+        brewer: formData.isCafeVisit ? drinkName : formData.brewer,
         grinder: undefined,
-        grind_setting: formData.grindSetting || undefined,
-        ratio: formData.ratio,
-        grams_in: parseFloat(formData.gramsIn) || 0,
-        grams_out: parseFloat(formData.gramsOut) || 0,
-        brew_weight: parseFloat(formData.brewWeight) || undefined,
-        temperature: parseFloat(formData.temp) || 0,
+        grind_setting: !formData.isCafeVisit ? (formData.grindSetting || undefined) : undefined,
+        ratio: !formData.isCafeVisit ? formData.ratio : undefined,
+        grams_in: !formData.isCafeVisit ? (parseFloat(formData.gramsIn) || 0) : 0,
+        grams_out: !formData.isCafeVisit ? (parseFloat(formData.gramsOut) || 0) : 0,
+        brew_weight: !formData.isCafeVisit ? (parseFloat(formData.brewWeight) || undefined) : undefined,
+        temperature: !formData.isCafeVisit ? (parseFloat(formData.temp) || 0) : 0,
         temp_unit: tempUnit,
-        brew_time: formData.brewTime,
+        brew_time: !formData.isCafeVisit ? formData.brewTime : undefined,
         rating: formData.rating,
-        tds: parseFloat(formData.tds) || undefined,
-        ey_percentage: formData.eyPercentage || undefined,
-        show_parameters: formData.showParameters,
+        tds: !formData.isCafeVisit ? (parseFloat(formData.tds) || undefined) : undefined,
+        ey_percentage: !formData.isCafeVisit ? (formData.eyPercentage || undefined) : undefined,
+        show_parameters: !formData.isCafeVisit ? formData.showParameters : false,
         is_private: formData.isPrivate,
-        is_cafe_log: false,
+        is_cafe_log: formData.isCafeVisit,
+        cafe_name: formData.isCafeVisit ? formData.cafeName : undefined,
+        cafe_city: formData.isCafeVisit ? formData.cafeCity : undefined,
+        cafe_country: formData.isCafeVisit ? formData.cafeCountry : undefined,
+        cafe_address: formData.isCafeVisit && formData.cafeAddress ? formData.cafeAddress : undefined,
+        drink_ordered: formData.isCafeVisit ? drinkName : undefined,
         milk_type: formData.showMilk ? formData.milkType : undefined,
         steamed_drink: formData.showMilk && formData.milkType === 'steamed' ? formData.steamedDrink : undefined,
         drink_size: formData.showMilk && formData.milkType === 'steamed' ? formData.drinkSize : undefined,
         cold_milk_oz: formData.showMilk && formData.milkType === 'cold' ? formData.coldMilkOz : undefined,
-        pod_size: isPodMachine ? formData.podSize : undefined,
-        pod_name: isPodMachine ? formData.podName : undefined,
+        pod_size: isPodMachine && !formData.isCafeVisit ? formData.podSize : undefined,
+        pod_name: isPodMachine && !formData.isCafeVisit ? formData.podName : undefined,
         created_at: formData.brewedAt ? new Date(formData.brewedAt).toISOString() : undefined
       };
 
@@ -332,6 +424,18 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
       } else {
         // Create new activity
         activity = await createActivity(profile.id, activityData);
+
+        // Track cafe submission if this is a cafe visit
+        if (activity && formData.isCafeVisit) {
+          await trackCafeFromVisit(
+            formData.cafeName,
+            formData.cafeCity,
+            formData.cafeCountry,
+            formData.cafeAddress || undefined,
+            profile.id,
+            formData.rating
+          );
+        }
       }
 
       if (activity) {
@@ -339,6 +443,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
         setFormData({ ...INITIAL_FORM_DATA, location: defaultLocation });
         setMediaFile(null);
         setMediaPreview(null);
+        setDeviceCategory('');
         localStorage.removeItem('elixr_brew_log_draft');
         onClose();
       } else {
@@ -407,6 +512,29 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
 
         <form onSubmit={handleSubmit} className="overflow-y-auto px-8 py-6 space-y-6 custom-scrollbar bg-zinc-900">
 
+          {/* Home Brew / Cafe Visit Toggle */}
+          <section className="space-y-3">
+            <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Log Type</p>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setFormData(p => ({ ...p, isCafeVisit: false }))}
+                disabled={uploading}
+                className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${!formData.isCafeVisit ? 'bg-white text-black border-white' : 'bg-black text-zinc-200 border-zinc-800 hover:border-zinc-600'}`}
+              >
+                Home Brew
+              </button>
+              <button
+                type="button"
+                onClick={() => setFormData(p => ({ ...p, isCafeVisit: true }))}
+                disabled={uploading}
+                className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.isCafeVisit ? 'bg-white text-black border-white' : 'bg-black text-zinc-200 border-zinc-800 hover:border-zinc-600'}`}
+              >
+                Cafe Visit
+              </button>
+            </div>
+          </section>
+
           <section className="space-y-3">
             <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Session Title</p>
             <input
@@ -430,32 +558,162 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
             <p className="text-[10px] text-zinc-500 uppercase tracking-wider">Leave blank to use current time</p>
           </section>
 
-          <section className="space-y-3">
-            <div className="flex justify-between items-center">
-              <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Brewing Device</p>
-              <div className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest ${formData.brewType === 'espresso' ? 'bg-white text-black border-white' : 'bg-zinc-900 text-zinc-200 border-zinc-800'}`}>
-                {formData.brewType === 'espresso' ? 'ESPRESSO' : 'FILTER'}
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={() => setShowDeviceSelector(true)}
-              disabled={uploading}
-              className="w-full bg-black border-2 border-zinc-800 hover:border-white rounded-xl px-6 py-4 text-left flex items-center justify-between transition-all disabled:opacity-50"
-            >
-              <div>
-                {formData.brewer ? (
-                  <p className="text-white font-black text-sm uppercase">{formData.brewer}</p>
-                ) : (
-                  <p className="text-zinc-600 font-black text-sm uppercase">Select Device</p>
+          {/* Cafe Visit Fields */}
+          {formData.isCafeVisit && (
+            <>
+              <section className="space-y-3 relative">
+                <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Cafe Name</p>
+                <input
+                  type="text"
+                  required
+                  value={formData.cafeName}
+                  onChange={e => setFormData(p => ({ ...p, cafeName: e.target.value.toUpperCase() }))}
+                  onFocus={() => {
+                    if (formData.cafeName && cafeSuggestions.length > 0) {
+                      setShowCafeDropdown(true);
+                    }
+                  }}
+                  disabled={uploading}
+                  className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50"
+                  placeholder="BLUE BOTTLE / VERVE / ETC"
+                />
+                {showCafeDropdown && cafeSuggestions.length > 0 && (
+                  <div className="absolute z-50 w-full mt-1 bg-zinc-950 border-2 border-zinc-800 rounded-xl overflow-hidden shadow-xl">
+                    {cafeSuggestions.map((cafe, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => {
+                          setFormData(p => ({ ...p, cafeName: cafe.name, cafeCity: cafe.city, cafeCountry: cafe.country }));
+                          setShowCafeDropdown(false);
+                        }}
+                        className="w-full text-left px-6 py-4 text-white font-black text-sm uppercase hover:bg-zinc-900 transition-colors border-b border-zinc-800 last:border-b-0"
+                      >
+                        <div>{cafe.name}</div>
+                        <div className="text-xs text-zinc-400">{cafe.city}, {cafe.country}</div>
+                      </button>
+                    ))}
+                  </div>
                 )}
-              </div>
-              <ChevronRight className="w-5 h-5 text-zinc-400" />
-            </button>
-          </section>
+              </section>
 
-          {/* Bean Information - Hidden for Pod Machines */}
-          {!isPodMachine && (
+              <section className="space-y-3">
+                <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Location</p>
+                <div className="grid grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    required
+                    value={formData.cafeCity}
+                    onChange={e => setFormData(p => ({ ...p, cafeCity: e.target.value.toUpperCase() }))}
+                    disabled={uploading}
+                    className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50"
+                    placeholder="CITY"
+                  />
+                  <input
+                    type="text"
+                    required
+                    value={formData.cafeCountry}
+                    onChange={e => setFormData(p => ({ ...p, cafeCountry: e.target.value.toUpperCase() }))}
+                    disabled={uploading}
+                    className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50"
+                    placeholder="COUNTRY"
+                  />
+                </div>
+                <input
+                  type="text"
+                  value={formData.cafeAddress}
+                  onChange={e => setFormData(p => ({ ...p, cafeAddress: e.target.value.toUpperCase() }))}
+                  disabled={uploading}
+                  className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50"
+                  placeholder="ADDRESS (OPTIONAL)"
+                />
+              </section>
+
+              <section className="space-y-3">
+                <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Drink Ordered</p>
+                <div className="grid grid-cols-4 gap-2 mb-3">
+                  {(['espresso', 'filter', 'iced', 'other'] as const).map(category => (
+                    <button
+                      key={category}
+                      type="button"
+                      onClick={() => setFormData(p => ({ ...p, drinkCategory: category, drinkOrdered: '' }))}
+                      disabled={uploading}
+                      className={`px-3 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.drinkCategory === category ? 'bg-white text-black border-white' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:border-zinc-600'}`}
+                    >
+                      {category}
+                    </button>
+                  ))}
+                </div>
+
+                {formData.drinkCategory !== 'specialty' ? (
+                  <select
+                    value={formData.drinkOrdered}
+                    onChange={e => setFormData(p => ({ ...p, drinkOrdered: e.target.value }))}
+                    required
+                    disabled={uploading}
+                    className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50"
+                  >
+                    <option value="">SELECT DRINK</option>
+                    {DRINK_CATEGORIES[formData.drinkCategory].map(drink => (
+                      <option key={drink} value={drink}>{drink}</option>
+                    ))}
+                    <option value="SPECIALTY">SPECIALTY / OTHER</option>
+                  </select>
+                ) : null}
+
+                {(formData.drinkCategory === 'specialty' || formData.drinkOrdered === 'SPECIALTY') && (
+                  <input
+                    type="text"
+                    required
+                    value={formData.specialtyDrink}
+                    onChange={e => setFormData(p => ({ ...p, specialtyDrink: e.target.value.toUpperCase() }))}
+                    disabled={uploading}
+                    className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50 animate-in slide-in-from-top-1"
+                    placeholder="ENTER SPECIALTY DRINK NAME"
+                  />
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => setFormData(p => ({ ...p, showCoffeeDetails: !p.showCoffeeDetails }))}
+                  disabled={uploading}
+                  className={`w-full px-4 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showCoffeeDetails ? 'bg-white text-black border-white' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:border-zinc-600'}`}
+                >
+                  {formData.showCoffeeDetails ? '✓ ' : ''}Include Coffee Details (Optional)
+                </button>
+              </section>
+            </>
+          )}
+
+          {/* Brewing Device - Hidden for Cafe Visits */}
+          {!formData.isCafeVisit && (
+            <section className="space-y-3">
+              <div className="flex justify-between items-center">
+                <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Brewing Device</p>
+                <div className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest ${formData.brewType === 'espresso' ? 'bg-white text-black border-white' : 'bg-zinc-900 text-zinc-200 border-zinc-800'}`}>
+                  {formData.brewType === 'espresso' ? 'ESPRESSO' : 'FILTER'}
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowDeviceSelector(true)}
+                disabled={uploading}
+                className="w-full bg-black border-2 border-zinc-800 hover:border-white rounded-xl px-6 py-4 text-left flex items-center justify-between transition-all disabled:opacity-50"
+              >
+                <div>
+                  {formData.brewer ? (
+                    <p className="text-white font-black text-sm uppercase">{formData.brewer}</p>
+                  ) : (
+                    <p className="text-zinc-600 font-black text-sm uppercase">Select Device</p>
+                  )}
+                </div>
+                <ChevronRight className="w-5 h-5 text-zinc-400" />
+              </button>
+            </section>
+          )}
+
+          {/* Bean Information - Hidden for Pod Machines and shown conditionally for Cafe Visits */}
+          {!isPodMachine && !formData.isCafeVisit && (
             <section className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-3 relative">
@@ -535,99 +793,147 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
             </section>
           )}
 
-          <section className="space-y-6">
-            <div className="flex justify-between items-center border-b-2 border-zinc-800 pb-2">
-              <h3 className="text-[10px] font-black text-white uppercase tracking-widest flex items-center gap-2"><Settings2 className="w-4 h-4" /> Brew Parameters</h3>
-              <div onClick={() => setFormData(p => ({...p, showParameters: !p.showParameters}))} className={`w-10 h-5 rounded-full relative cursor-pointer transition-all ${formData.showParameters ? 'bg-white' : 'bg-zinc-800'}`}>
-                <div className={`absolute top-1 w-3 h-3 rounded-full transition-all ${formData.showParameters ? 'left-6 bg-black' : 'left-1 bg-white'}`} />
-              </div>
-            </div>
-
-            {formData.showParameters && (
-              <div className="space-y-6 animate-in fade-in duration-300">
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 bg-zinc-950 border-2 border-zinc-800 p-6 rounded-xl">
-                  <div className="flex flex-col items-center">
-                    <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest mb-3">DOSE (G)</p>
-                    <input type="number" step="0.1" value={formData.gramsIn} onChange={e => setFormData({...formData, gramsIn: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-center text-sm outline-none focus:border-white disabled:opacity-50" />
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest mb-3">WATER (G)</p>
-                    <input type="number" step="1" value={formData.gramsOut} onChange={e => setFormData({...formData, gramsOut: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-center text-sm outline-none focus:border-white disabled:opacity-50" />
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <div className="flex items-center gap-2 mb-3">
-                      <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">TEMP</p>
-                      <div className="flex bg-zinc-900 rounded p-0.5 border-2 border-zinc-800">
-                        <button type="button" onClick={() => handleTempUnitToggle('C')} disabled={uploading} className={`px-2 py-1 rounded text-[10px] font-black transition-all disabled:opacity-50 ${tempUnit === 'C' ? 'bg-white text-black' : 'text-white'}`}>°C</button>
-                        <button type="button" onClick={() => handleTempUnitToggle('F')} disabled={uploading} className={`px-2 py-1 rounded text-[10px] font-black transition-all disabled:opacity-50 ${tempUnit === 'F' ? 'bg-white text-black' : 'text-white'}`}>°F</button>
-                      </div>
-                    </div>
-                    <input type="number" value={formData.temp} onChange={e => setFormData({...formData, temp: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-center text-sm outline-none focus:border-white disabled:opacity-50" />
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest mb-3">RATIO</p>
-                    <div className="w-full py-2 text-white font-black text-center text-sm border-b-2 border-transparent">{formData.ratio}</div>
-                  </div>
-                  <div className="flex flex-col items-center col-span-2 sm:col-span-4">
-                    <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest mb-3">TBT (MM:SS)</p>
-                    <input
-                      type="text"
-                      value={formData.brewTime}
-                      onChange={e => setFormData({...formData, brewTime: e.target.value})}
-                      disabled={uploading}
-                      placeholder="02:30"
-                      className="w-full sm:w-32 bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-center text-sm outline-none focus:border-white disabled:opacity-50"
-                    />
-                  </div>
-                </div>
-
-                <div className="flex gap-2">
-                  <ToggleBtn label="EY% Analytics" active={formData.showEY} onClick={() => setFormData(p => ({...p, showEY: !p.showEY}))} />
-                </div>
-
-                {formData.showEY && (
-                  <div className="space-y-4 animate-in slide-in-from-top-1">
-                    <div className="bg-zinc-950 border-2 border-zinc-800 p-6 rounded-xl space-y-2">
-                      <p className="text-[10px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><FlaskConical className="w-3 h-3" /> TDS</p>
-                      <input type="number" step="0.01" value={formData.tds} onChange={e => setFormData({...formData, tds: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-sm outline-none focus:border-white disabled:opacity-50" placeholder="1.40" />
-                    </div>
-                    <div className="bg-white text-black p-6 rounded-xl flex justify-between items-center border-2 border-white">
-                      <p className="text-[10px] font-black uppercase tracking-widest">Calculated EY%</p>
-                      <p className="text-xl font-black">{formData.eyPercentage}%</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Pod Machine Section */}
-            {isPodMachine && (
-              <div className="space-y-6 animate-in fade-in duration-300">
-                <div className="grid grid-cols-1 gap-4">
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Pod Name</label>
-                    <input type="text" value={formData.podName} onChange={e => handleInputChange('podName', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="STARBUCKS PIKE PLACE" />
-                  </div>
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Cup Size</label>
-                    <div className="grid grid-cols-3 gap-3">
-                      {(['small', 'medium', 'large'] as const).map(size => (
+          {/* Coffee Details for Cafe Visits (when toggled on) */}
+          {formData.isCafeVisit && formData.showCoffeeDetails && (
+            <section className="space-y-6 animate-in slide-in-from-top-1">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-3 relative">
+                  <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Roaster</label>
+                  <input
+                    type="text"
+                    value={formData.roaster}
+                    onChange={e => handleInputChange('roaster', e.target.value)}
+                    onFocus={() => {
+                      if (formData.roaster && roasterSuggestions.length > 0) {
+                        setShowRoasterDropdown(true);
+                      }
+                    }}
+                    disabled={uploading}
+                    className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50"
+                    placeholder="SEY / ONYX / ETC"
+                  />
+                  {showRoasterDropdown && roasterSuggestions.length > 0 && (
+                    <div className="absolute z-50 w-full mt-1 bg-zinc-950 border-2 border-zinc-800 rounded-xl overflow-hidden shadow-xl">
+                      {roasterSuggestions.map((suggestion, idx) => (
                         <button
-                          key={size}
+                          key={idx}
                           type="button"
-                          onClick={() => setFormData(p => ({ ...p, podSize: size }))}
-                          disabled={uploading}
-                          className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.podSize === size ? 'bg-white text-black border-white' : 'bg-black text-zinc-200 border-zinc-800 hover:border-zinc-600'}`}
+                          onClick={() => {
+                            setFormData(p => ({ ...p, roaster: suggestion }));
+                            setShowRoasterDropdown(false);
+                          }}
+                          className="w-full text-left px-6 py-4 text-white font-black text-sm uppercase hover:bg-zinc-900 transition-colors"
                         >
-                          {size}
+                          {suggestion}
                         </button>
                       ))}
                     </div>
-                  </div>
+                  )}
+                </div>
+                <div className="space-y-3">
+                  <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Origin</label>
+                  <input type="text" value={formData.origin} onChange={e => handleInputChange('origin', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="ETHIOPIA / KENYA" />
                 </div>
               </div>
-            )}
-          </section>
+            </section>
+          )}
+
+          {/* Brew Parameters - Hidden for Cafe Visits */}
+          {!formData.isCafeVisit && (
+            <section className="space-y-6">
+              <div className="flex justify-between items-center border-b-2 border-zinc-800 pb-2">
+                <h3 className="text-[10px] font-black text-white uppercase tracking-widest flex items-center gap-2"><Settings2 className="w-4 h-4" /> Brew Parameters</h3>
+                <div onClick={() => setFormData(p => ({...p, showParameters: !p.showParameters}))} className={`w-10 h-5 rounded-full relative cursor-pointer transition-all ${formData.showParameters ? 'bg-white' : 'bg-zinc-800'}`}>
+                  <div className={`absolute top-1 w-3 h-3 rounded-full transition-all ${formData.showParameters ? 'left-6 bg-black' : 'left-1 bg-white'}`} />
+                </div>
+              </div>
+
+              {formData.showParameters && (
+                <div className="space-y-6 animate-in fade-in duration-300">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 bg-zinc-950 border-2 border-zinc-800 p-6 rounded-xl">
+                    <div className="flex flex-col items-center">
+                      <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest mb-3">DOSE (G)</p>
+                      <input type="number" step="0.1" value={formData.gramsIn} onChange={e => setFormData({...formData, gramsIn: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-center text-sm outline-none focus:border-white disabled:opacity-50" />
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest mb-3">WATER (G)</p>
+                      <input type="number" step="1" value={formData.gramsOut} onChange={e => setFormData({...formData, gramsOut: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-center text-sm outline-none focus:border-white disabled:opacity-50" />
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <div className="flex items-center gap-2 mb-3">
+                        <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">TEMP</p>
+                        <div className="flex bg-zinc-900 rounded p-0.5 border-2 border-zinc-800">
+                          <button type="button" onClick={() => handleTempUnitToggle('C')} disabled={uploading} className={`px-2 py-1 rounded text-[10px] font-black transition-all disabled:opacity-50 ${tempUnit === 'C' ? 'bg-white text-black' : 'text-white'}`}>°C</button>
+                          <button type="button" onClick={() => handleTempUnitToggle('F')} disabled={uploading} className={`px-2 py-1 rounded text-[10px] font-black transition-all disabled:opacity-50 ${tempUnit === 'F' ? 'bg-white text-black' : 'text-white'}`}>°F</button>
+                        </div>
+                      </div>
+                      <input type="number" value={formData.temp} onChange={e => setFormData({...formData, temp: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-center text-sm outline-none focus:border-white disabled:opacity-50" />
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest mb-3">RATIO</p>
+                      <div className="w-full py-2 text-white font-black text-center text-sm border-b-2 border-transparent">{formData.ratio}</div>
+                    </div>
+                    <div className="flex flex-col items-center col-span-2 sm:col-span-4">
+                      <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest mb-3">TBT (MM:SS)</p>
+                      <input
+                        type="text"
+                        value={formData.brewTime}
+                        onChange={e => setFormData({...formData, brewTime: e.target.value})}
+                        disabled={uploading}
+                        placeholder="02:30"
+                        className="w-full sm:w-32 bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-center text-sm outline-none focus:border-white disabled:opacity-50"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <ToggleBtn label="EY% Analytics" active={formData.showEY} onClick={() => setFormData(p => ({...p, showEY: !p.showEY}))} />
+                  </div>
+
+                  {formData.showEY && (
+                    <div className="space-y-4 animate-in slide-in-from-top-1">
+                      <div className="bg-zinc-950 border-2 border-zinc-800 p-6 rounded-xl space-y-2">
+                        <p className="text-[10px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><FlaskConical className="w-3 h-3" /> TDS</p>
+                        <input type="number" step="0.01" value={formData.tds} onChange={e => setFormData({...formData, tds: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-zinc-800 py-2 text-white font-black text-sm outline-none focus:border-white disabled:opacity-50" placeholder="1.40" />
+                      </div>
+                      <div className="bg-white text-black p-6 rounded-xl flex justify-between items-center border-2 border-white">
+                        <p className="text-[10px] font-black uppercase tracking-widest">Calculated EY%</p>
+                        <p className="text-xl font-black">{formData.eyPercentage}%</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Pod Machine Section */}
+              {isPodMachine && (
+                <div className="space-y-6 animate-in fade-in duration-300">
+                  <div className="grid grid-cols-1 gap-4">
+                    <div className="space-y-3">
+                      <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Pod Name</label>
+                      <input type="text" value={formData.podName} onChange={e => handleInputChange('podName', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="STARBUCKS PIKE PLACE" />
+                    </div>
+                    <div className="space-y-3">
+                      <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Cup Size</label>
+                      <div className="grid grid-cols-3 gap-3">
+                        {(['small', 'medium', 'large'] as const).map(size => (
+                          <button
+                            key={size}
+                            type="button"
+                            onClick={() => setFormData(p => ({ ...p, podSize: size }))}
+                            disabled={uploading}
+                            className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.podSize === size ? 'bg-white text-black border-white' : 'bg-black text-zinc-200 border-zinc-800 hover:border-zinc-600'}`}
+                          >
+                            {size}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </section>
+          )}
 
           {/* Milk Section */}
           <section className="space-y-6">
