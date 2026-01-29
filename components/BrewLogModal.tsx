@@ -130,10 +130,20 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
       getRoasters().then(roasters => {
         const roasterNames = roasters.map(r => r.name);
         setAllRoasters(roasterNames);
+      }).catch(err => {
+        console.error('Error loading roasters:', err);
+        setAllRoasters([]);
       });
       getCafes().then(cafes => {
-        const cafeList = cafes.map(c => ({ name: c.name, city: c.city, country: c.country }));
-        setAllCafes(cafeList);
+        if (cafes && Array.isArray(cafes)) {
+          const cafeList = cafes.map(c => ({ name: c.name, city: c.city, country: c.country }));
+          setAllCafes(cafeList);
+        } else {
+          setAllCafes([]);
+        }
+      }).catch(err => {
+        console.error('Error loading cafes:', err);
+        setAllCafes([]);
       });
     }
   }, [isOpen]);
@@ -431,9 +441,8 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
             formData.cafeName,
             formData.cafeCity,
             formData.cafeCountry,
-            formData.cafeAddress || undefined,
             profile.id,
-            formData.rating
+            formData.cafeAddress || undefined
           );
         }
       }
