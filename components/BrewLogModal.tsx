@@ -54,10 +54,13 @@ const INITIAL_FORM_DATA = {
   cafeCity: '',
   cafeCountry: '',
   cafeAddress: '',
+  showAddress: false,
   drinkCategory: 'espresso' as 'espresso' | 'filter' | 'iced' | 'other' | 'specialty',
   drinkOrdered: '',
   specialtyDrink: '',
   showCoffeeDetails: false,
+  showDescription: false,
+  showWhen: false,
 
   // Existing fields
   title: '',
@@ -377,7 +380,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
         : undefined;
 
       const activityData = {
-        title: formData.title || (formData.isCafeVisit ? 'CAFE VISIT' : 'BREW SESSION'),
+        title: formData.title || (formData.isCafeVisit ? formData.cafeName : 'BREW SESSION'),
         description: formData.description || undefined,
         image_url: imageUrl,
         location_name: formData.isCafeVisit
@@ -544,28 +547,18 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
             </div>
           </section>
 
-          <section className="space-y-3">
-            <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Session Title</p>
-            <input
-              type="text" required value={formData.title} onChange={e => handleInputChange('title', e.target.value)}
-              disabled={uploading}
-              className="w-full bg-black border-2 border-zinc-800 focus:border-white rounded-xl outline-none text-sm font-black text-white uppercase px-6 py-4 placeholder:text-zinc-600 transition-all disabled:opacity-50"
-              placeholder="NAME THIS SESSION"
-            />
-          </section>
-
-          <section className="space-y-3">
-            <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Brewed At (Optional)</p>
-            <input
-              type="datetime-local"
-              value={formData.brewedAt}
-              max={new Date().toISOString().slice(0, 16)}
-              onChange={e => handleInputChange('brewedAt', e.target.value)}
-              disabled={uploading}
-              className="w-full bg-black border-2 border-zinc-800 focus:border-white rounded-xl outline-none text-sm font-black text-white uppercase px-6 py-4 transition-all disabled:opacity-50"
-            />
-            <p className="text-[10px] text-zinc-500 uppercase tracking-wider">Leave blank to use current time</p>
-          </section>
+          {/* Title - Only for Home Brews */}
+          {!formData.isCafeVisit && (
+            <section className="space-y-3">
+              <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Session Title</p>
+              <input
+                type="text" required value={formData.title} onChange={e => handleInputChange('title', e.target.value)}
+                disabled={uploading}
+                className="w-full bg-black border-2 border-zinc-800 focus:border-white rounded-xl outline-none text-sm font-black text-white uppercase px-6 py-4 placeholder:text-zinc-600 transition-all disabled:opacity-50"
+                placeholder="NAME THIS SESSION"
+              />
+            </section>
+          )}
 
           {/* Cafe Visit Fields */}
           {formData.isCafeVisit && (
@@ -628,14 +621,27 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     placeholder="COUNTRY"
                   />
                 </div>
-                <input
-                  type="text"
-                  value={formData.cafeAddress}
-                  onChange={e => setFormData(p => ({ ...p, cafeAddress: e.target.value.toUpperCase() }))}
+
+                {/* Address Toggle */}
+                <button
+                  type="button"
+                  onClick={() => setFormData(p => ({ ...p, showAddress: !p.showAddress }))}
                   disabled={uploading}
-                  className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50"
-                  placeholder="ADDRESS (OPTIONAL)"
-                />
+                  className={`w-full px-4 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showAddress ? 'bg-white text-black border-white' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:border-zinc-600'}`}
+                >
+                  {formData.showAddress ? '✓ ' : ''}Add Address (Optional)
+                </button>
+
+                {formData.showAddress && (
+                  <input
+                    type="text"
+                    value={formData.cafeAddress}
+                    onChange={e => setFormData(p => ({ ...p, cafeAddress: e.target.value.toUpperCase() }))}
+                    disabled={uploading}
+                    className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50 animate-in slide-in-from-top-1"
+                    placeholder="STREET ADDRESS"
+                  />
+                )}
               </section>
 
               <section className="space-y-3">
@@ -1061,35 +1067,75 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
             <input type="range" min="0" max="10" step="0.1" value={formData.rating} onChange={e => setFormData({...formData, rating: parseFloat(e.target.value)})} disabled={uploading} className="w-full cursor-pointer disabled:opacity-50" />
           </section>
 
-          <section className="space-y-3">
-            <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Description & Tasting Notes</p>
-            <textarea value={formData.description} onChange={e => handleInputChange('description', e.target.value)} disabled={uploading} placeholder="CUPS NOTES, TEXTURE, PHILOSOPHY..." className="w-full bg-black border-2 border-zinc-800 rounded-xl p-6 text-sm text-white font-black focus:border-white outline-none min-h-[140px] resize-none uppercase disabled:opacity-50" />
-          </section>
-
-          <section className="space-y-3">
-            <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Visual Documentation</p>
-            <div
-              onClick={() => !uploading && mediaInputRef.current?.click()}
-              className={`w-full aspect-video rounded-xl border-2 border-dashed border-zinc-800 bg-black flex flex-col items-center justify-center ${uploading ? 'cursor-wait' : 'cursor-pointer hover:border-white'} transition-all overflow-hidden relative group`}
+          {/* Optional Sections - Toggles */}
+          <div className="flex gap-2 flex-wrap">
+            <button
+              type="button"
+              onClick={() => setFormData(p => ({ ...p, showDescription: !p.showDescription }))}
+              disabled={uploading}
+              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showDescription ? 'bg-white text-black border-white' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:border-zinc-600'}`}
             >
-              {mediaPreview ? (
-                <>
-                  <img src={mediaPreview} className="w-full h-full object-cover transition-all" alt="Preview" />
-                  {!uploading && (
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                      <Plus className="w-10 h-10 text-white" />
-                    </div>
-                  )}
-                </>
-              ) : (
-                <>
-                  <ImageIcon className="w-10 h-10 text-zinc-800 mb-2" />
-                  <p className="text-[10px] font-black text-zinc-800 uppercase tracking-widest">TAP TO ATTACH MEDIA</p>
-                </>
-              )}
-            </div>
-            <input type="file" ref={mediaInputRef} onChange={handleMediaUpload} className="hidden" accept="image/*" disabled={uploading} />
-          </section>
+              {formData.showDescription ? '✓ ' : ''}Notes
+            </button>
+            <button
+              type="button"
+              onClick={() => !uploading && mediaInputRef.current?.click()}
+              disabled={uploading}
+              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${mediaPreview ? 'bg-white text-black border-white' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:border-zinc-600'}`}
+            >
+              {mediaPreview ? '✓ ' : ''}Photo
+            </button>
+            <button
+              type="button"
+              onClick={() => setFormData(p => ({ ...p, showWhen: !p.showWhen }))}
+              disabled={uploading}
+              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showWhen ? 'bg-white text-black border-white' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:border-zinc-600'}`}
+            >
+              {formData.showWhen ? '✓ ' : ''}When
+            </button>
+          </div>
+
+          {/* Description */}
+          {formData.showDescription && (
+            <section className="space-y-3 animate-in slide-in-from-top-1">
+              <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Notes & Thoughts</p>
+              <textarea value={formData.description} onChange={e => handleInputChange('description', e.target.value)} disabled={uploading} placeholder="CUPS NOTES, TEXTURE, PHILOSOPHY..." className="w-full bg-black border-2 border-zinc-800 rounded-xl p-6 text-sm text-white font-black focus:border-white outline-none min-h-[140px] resize-none uppercase disabled:opacity-50" />
+            </section>
+          )}
+
+          {/* Photo Preview */}
+          {mediaPreview && (
+            <section className="space-y-3 animate-in slide-in-from-top-1">
+              <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Photo</p>
+              <div
+                onClick={() => !uploading && mediaInputRef.current?.click()}
+                className="w-full aspect-video rounded-xl border-2 border-zinc-800 bg-black overflow-hidden relative group cursor-pointer hover:border-white transition-all"
+              >
+                <img src={mediaPreview} className="w-full h-full object-cover transition-all" alt="Preview" />
+                {!uploading && (
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                    <Plus className="w-10 h-10 text-white" />
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
+          <input type="file" ref={mediaInputRef} onChange={handleMediaUpload} className="hidden" accept="image/*" disabled={uploading} />
+
+          {/* When/Datetime */}
+          {formData.showWhen && (
+            <section className="space-y-3 animate-in slide-in-from-top-1">
+              <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">When</p>
+              <input
+                type="datetime-local"
+                value={formData.brewedAt}
+                max={new Date().toISOString().slice(0, 16)}
+                onChange={e => setFormData(p => ({ ...p, brewedAt: e.target.value }))}
+                disabled={uploading}
+                className="w-full bg-black border-2 border-zinc-800 focus:border-white rounded-xl outline-none text-sm font-black text-white px-6 py-4 transition-all disabled:opacity-50"
+              />
+            </section>
+          )}
 
           <section className="pt-4 pb-4">
             <button type="submit" disabled={uploading} className="w-full bg-white text-black font-black text-sm uppercase tracking-widest py-6 rounded-xl transition-all active:scale-[0.98] flex items-center justify-center gap-3 disabled:bg-zinc-400 disabled:text-zinc-600">
