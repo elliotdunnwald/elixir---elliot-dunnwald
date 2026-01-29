@@ -10,7 +10,6 @@ import DeviceSelectorModal from './DeviceSelectorModal';
 const DRINK_CATEGORIES = {
   espresso: [
     'Espresso',
-    'Double Espresso',
     'Americano',
     'Macchiato',
     'Cortado',
@@ -26,16 +25,16 @@ const DRINK_CATEGORIES = {
     'French Press',
     'Aeropress',
     'Chemex',
-    'Siphon',
-    'Cold Brew',
-    'Nitro Cold Brew'
+    'Siphon'
   ],
   iced: [
     'Iced Coffee',
     'Iced Latte',
     'Iced Americano',
     'Iced Cappuccino',
-    'Iced Mocha'
+    'Iced Mocha',
+    'Cold Brew',
+    'Nitro Cold Brew'
   ],
   other: [
     'Turkish Coffee',
@@ -57,6 +56,7 @@ const INITIAL_FORM_DATA = {
   showAddress: false,
   drinkCategory: 'espresso' as 'espresso' | 'filter' | 'iced' | 'other' | 'specialty',
   drinkOrdered: '',
+  drinksOrdered: [] as string[],
   specialtyDrink: '',
   showCoffeeDetails: false,
   showDescription: false,
@@ -123,6 +123,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
   const [cafeSuggestions, setCafeSuggestions] = useState<Array<{name: string, city: string, country: string}>>([]);
   const [showCafeDropdown, setShowCafeDropdown] = useState(false);
   const [allCafes, setAllCafes] = useState<Array<{name: string, city: string, country: string}>>([]);
+  const [showDrinkDropdown, setShowDrinkDropdown] = useState(false);
   const mediaInputRef = useRef<HTMLInputElement>(null);
 
   const isPodMachine = deviceCategory === 'pod';
@@ -178,6 +179,21 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
       setShowCafeDropdown(false);
     }
   }, [formData.cafeName, allCafes]);
+
+  // Close drink dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (showDrinkDropdown && !target.closest('.drink-dropdown-container')) {
+        setShowDrinkDropdown(false);
+      }
+    };
+
+    if (showDrinkDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [showDrinkDropdown]);
 
   // Load saved draft or edit activity data on open
   useEffect(() => {
@@ -364,6 +380,12 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
     e.preventDefault();
     if (!user || !profile) return;
 
+    // Validate cafe visit has at least one drink
+    if (formData.isCafeVisit && formData.drinksOrdered.length === 0) {
+      alert('Please add at least one drink');
+      return;
+    }
+
     setUploading(true);
     try {
       // Upload image if new file exists
@@ -374,9 +396,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
 
       // Determine drink name for cafe visits
       const drinkName = formData.isCafeVisit
-        ? (formData.drinkOrdered === 'SPECIALTY' || formData.drinkCategory === 'specialty'
-            ? formData.specialtyDrink
-            : formData.drinkOrdered)
+        ? (formData.drinksOrdered.length > 0 ? formData.drinksOrdered.join(', ') : 'DRINK')
         : undefined;
 
       const activityData = {
@@ -530,7 +550,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
-                onClick={() => setFormData(p => ({ ...p, isCafeVisit: false }))}
+                onClick={() => setFormData(p => ({ ...p, isCafeVisit: false, drinksOrdered: [] }))}
                 disabled={uploading}
                 className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${!formData.isCafeVisit ? 'bg-white text-black border-white' : 'bg-black text-zinc-200 border-zinc-800 hover:border-zinc-600'}`}
               >
@@ -538,7 +558,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
               </button>
               <button
                 type="button"
-                onClick={() => setFormData(p => ({ ...p, isCafeVisit: true }))}
+                onClick={() => setFormData(p => ({ ...p, isCafeVisit: true, drinksOrdered: [] }))}
                 disabled={uploading}
                 className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.isCafeVisit ? 'bg-white text-black border-white' : 'bg-black text-zinc-200 border-zinc-800 hover:border-zinc-600'}`}
               >
@@ -645,13 +665,49 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
               </section>
 
               <section className="space-y-3">
-                <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Drink Ordered</p>
+                <div className="flex items-center justify-between">
+                  <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Drinks Ordered</p>
+                  {formData.drinksOrdered.length > 0 && (
+                    <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">
+                      {formData.drinksOrdered.length} {formData.drinksOrdered.length === 1 ? 'drink' : 'drinks'}
+                    </span>
+                  )}
+                </div>
+
+                {/* Selected Drinks */}
+                {formData.drinksOrdered.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {formData.drinksOrdered.map((drink, idx) => (
+                      <div
+                        key={idx}
+                        className="bg-white text-black px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wide flex items-center gap-2"
+                      >
+                        {drink}
+                        <button
+                          type="button"
+                          onClick={() => setFormData(p => ({
+                            ...p,
+                            drinksOrdered: p.drinksOrdered.filter((_, i) => i !== idx)
+                          }))}
+                          disabled={uploading}
+                          className="hover:text-red-600 transition-colors"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
                 <div className="grid grid-cols-4 gap-2 mb-3">
                   {(['espresso', 'filter', 'iced', 'other'] as const).map(category => (
                     <button
                       key={category}
                       type="button"
-                      onClick={() => setFormData(p => ({ ...p, drinkCategory: category, drinkOrdered: '' }))}
+                      onClick={() => {
+                        setFormData(p => ({ ...p, drinkCategory: category, drinkOrdered: '' }));
+                        setShowDrinkDropdown(false);
+                      }}
                       disabled={uploading}
                       className={`px-3 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.drinkCategory === category ? 'bg-white text-black border-white' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:border-zinc-600'}`}
                     >
@@ -661,31 +717,82 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                 </div>
 
                 {formData.drinkCategory !== 'specialty' && DRINK_CATEGORIES[formData.drinkCategory] ? (
-                  <select
-                    value={formData.drinkOrdered}
-                    onChange={e => setFormData(p => ({ ...p, drinkOrdered: e.target.value }))}
-                    required
-                    disabled={uploading}
-                    className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50"
-                  >
-                    <option value="">SELECT DRINK</option>
-                    {DRINK_CATEGORIES[formData.drinkCategory]?.map(drink => (
-                      <option key={drink} value={drink}>{drink}</option>
-                    ))}
-                    <option value="SPECIALTY">SPECIALTY / OTHER</option>
-                  </select>
+                  <div className="relative drink-dropdown-container">
+                    <button
+                      type="button"
+                      onClick={() => setShowDrinkDropdown(!showDrinkDropdown)}
+                      disabled={uploading}
+                      className="w-full bg-black border-2 border-zinc-800 hover:border-white rounded-xl px-6 py-4 text-left flex items-center justify-between transition-all disabled:opacity-50"
+                    >
+                      <span className="text-white font-black text-sm uppercase">ADD DRINK</span>
+                      <ChevronRight className={`w-5 h-5 text-zinc-400 transition-transform ${showDrinkDropdown ? 'rotate-90' : ''}`} />
+                    </button>
+
+                    {showDrinkDropdown && (
+                      <div className="absolute z-50 w-full mt-2 bg-zinc-950 border-2 border-zinc-800 rounded-xl overflow-hidden shadow-xl max-h-64 overflow-y-auto animate-in slide-in-from-top-1 custom-scrollbar">
+                        {DRINK_CATEGORIES[formData.drinkCategory]?.map(drink => (
+                          <button
+                            key={drink}
+                            type="button"
+                            onClick={() => {
+                              if (!formData.drinksOrdered.includes(drink)) {
+                                setFormData(p => ({
+                                  ...p,
+                                  drinksOrdered: [...p.drinksOrdered, drink],
+                                  drinkOrdered: ''
+                                }));
+                              }
+                              setShowDrinkDropdown(false);
+                            }}
+                            disabled={formData.drinksOrdered.includes(drink)}
+                            className="w-full text-left px-6 py-4 text-white font-black text-sm uppercase hover:bg-zinc-900 transition-colors border-b border-zinc-800 last:border-b-0 disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {drink} {formData.drinksOrdered.includes(drink) && '✓'}
+                          </button>
+                        ))}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFormData(p => ({ ...p, drinkOrdered: 'SPECIALTY' }));
+                            setShowDrinkDropdown(false);
+                          }}
+                          className="w-full text-left px-6 py-4 text-zinc-400 font-black text-sm uppercase hover:bg-zinc-900 hover:text-white transition-colors"
+                        >
+                          SPECIALTY / OTHER
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 ) : null}
 
                 {(formData.drinkCategory === 'specialty' || formData.drinkOrdered === 'SPECIALTY') && (
-                  <input
-                    type="text"
-                    required
-                    value={formData.specialtyDrink}
-                    onChange={e => setFormData(p => ({ ...p, specialtyDrink: e.target.value.toUpperCase() }))}
-                    disabled={uploading}
-                    className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50 animate-in slide-in-from-top-1"
-                    placeholder="ENTER SPECIALTY DRINK NAME"
-                  />
+                  <div className="flex gap-2 animate-in slide-in-from-top-1">
+                    <input
+                      type="text"
+                      value={formData.specialtyDrink}
+                      onChange={e => setFormData(p => ({ ...p, specialtyDrink: e.target.value.toUpperCase() }))}
+                      disabled={uploading}
+                      className="flex-1 bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50"
+                      placeholder="ENTER SPECIALTY DRINK"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (formData.specialtyDrink.trim() && !formData.drinksOrdered.includes(formData.specialtyDrink.trim())) {
+                          setFormData(p => ({
+                            ...p,
+                            drinksOrdered: [...p.drinksOrdered, p.specialtyDrink.trim()],
+                            specialtyDrink: '',
+                            drinkOrdered: ''
+                          }));
+                        }
+                      }}
+                      disabled={uploading || !formData.specialtyDrink.trim()}
+                      className="px-6 py-4 bg-white text-black rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      Add
+                    </button>
+                  </div>
                 )}
 
                 <button
