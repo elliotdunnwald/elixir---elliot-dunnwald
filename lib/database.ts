@@ -1747,3 +1747,241 @@ export async function backfillPendingCoffeesFromBrewLogs(): Promise<{
 
   return result;
 }
+
+// =====================================================
+// CAFE FUNCTIONS
+// =====================================================
+
+export interface Cafe {
+  id: string;
+  name: string;
+  city: string;
+  country: string;
+  address?: string;
+  average_rating: number;
+  visit_count: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PendingCafe {
+  id: string;
+  cafe_name: string;
+  city: string;
+  country: string;
+  address?: string;
+  submitted_by: string;
+  submission_count: number;
+  submitted_by_users: string[];
+  status: 'pending' | 'approved' | 'rejected';
+  approved_by?: string;
+  approved_at?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export async function getCafes(): Promise<Cafe[]> {
+  const { data, error } = await supabase
+    .from('cafes')
+    .select('*')
+    .order('name');
+
+  if (error) {
+    console.error('Error fetching cafes:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+export async function getCafeById(cafeId: string): Promise<Cafe | null> {
+  const { data, error} = await supabase
+    .from('cafes')
+    .select('*')
+    .eq('id', cafeId)
+    .single();
+
+  if (error) {
+    console.error('Error fetching cafe:', error);
+    return null;
+  }
+
+  return data;
+}
+
+export async function searchCafes(query: string): Promise<Cafe[]> {
+  const { data, error } = await supabase
+    .from('cafes')
+    .select('*')
+    .or(`name.ilike.%${query}%,city.ilike.%${query}%,country.ilike.%${query}%`)
+    .order('visit_count', { ascending: false })
+    .limit(20);
+
+  if (error) {
+    console.error('Error searching cafes:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+export async function trackCafeFromVisit(
+  cafeName: string,
+  city: string,
+  country: string,
+  submittedBy: string,
+  address?: string
+): Promise<boolean> {
+  try {
+    // First, check if this exact cafe already exists
+    const { data: existing, error: searchError } = await supabase
+      .from('cafes')
+      .select('id')
+      .eq('name', cafeName.toUpperCase())
+      .eq('city', city.toUpperCase())
+      .eq('country', country.toUpperCase())
+      .single();
+
+    if (searchError && searchError.code !== 'PGRST116') {
+      console.error('Error checking for existing cafe:', searchError);
+      return false;
+    }
+
+    // If cafe exists, we're done
+    if (existing) {
+      return true;
+    }
+
+    // Check if cafe is in pending approvals
+    const { data: pending, error: pendingError } = await supabase
+      .from('pending_cafes')
+      .select('*')
+      .eq('cafe_name', cafeName.toUpperCase())
+      .eq('city', city.toUpperCase())
+      .eq('country', country.toUpperCase())
+      .eq('status', 'pending')
+      .single();
+
+    if (pendingError && pendingError.code !== 'PGRST116') {
+      console.error('Error checking pending cafes:', pendingError);
+      return false;
+    }
+
+    if (pending) {
+      // Cafe is pending, increment submission count and add user
+      const updatedUsers = Array.from(new Set([...pending.submitted_by_users, submittedBy]));
+
+      const { error: updateError } = await supabase
+        .from('pending_cafes')
+        .update({
+          submission_count: pending.submission_count + 1,
+          submitted_by_users: updatedUsers,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', pending.id);
+
+      if (updateError) {
+        console.error('Error updating pending cafe:', updateError);
+        return false;
+      }
+
+      return true;
+    }
+
+    // Create new pending cafe
+    const { error: insertError } = await supabase
+      .from('pending_cafes')
+      .insert({
+        cafe_name: cafeName.toUpperCase(),
+        city: city.toUpperCase(),
+        country: country.toUpperCase(),
+        address: address?.toUpperCase(),
+        submitted_by: submittedBy,
+        submission_count: 1,
+        submitted_by_users: [submittedBy],
+        status: 'pending'
+      });
+
+    if (insertError) {
+      console.error('Error creating pending cafe:', insertError);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error('Unexpected error in trackCafeFromVisit:', err);
+    return false;
+  }
+}
+
+export async function getPendingCafes(): Promise<PendingCafe[]> {
+  const { data, error } = await supabase
+    .from('pending_cafes')
+    .select('*')
+    .eq('status', 'pending')
+    .order('submission_count', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching pending cafes:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+export async function approveCafe(cafeId: string, approvedBy: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('pending_cafes')
+    .update({
+      status: 'approved',
+      approved_by: approvedBy,
+      approved_at: new Date().toISOString()
+    })
+    .eq('id', cafeId);
+
+  if (error) {
+    console.error('Error approving cafe:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function rejectCafe(cafeId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('pending_cafes')
+    .update({ status: 'rejected' })
+    .eq('id', cafeId);
+
+  if (error) {
+    console.error('Error rejecting cafe:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function addApprovedCafeToDatabase(
+  name: string,
+  city: string,
+  country: string,
+  address?: string
+): Promise<boolean> {
+  const { error } = await supabase
+    .from('cafes')
+    .insert({
+      name: name.toUpperCase(),
+      city: city.toUpperCase(),
+      country: country.toUpperCase(),
+      address: address?.toUpperCase(),
+      average_rating: 0,
+      visit_count: 0
+    });
+
+  if (error) {
+    console.error('Error adding approved cafe:', error);
+    return false;
+  }
+
+  return true;
+}
