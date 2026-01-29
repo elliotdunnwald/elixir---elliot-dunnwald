@@ -415,11 +415,20 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
   const [newGearSearch, setNewGearSearch] = useState('');
   const [deletingGearId, setDeletingGearId] = useState<string | null>(null);
   const [editActivity, setEditActivity] = useState<BrewActivity | null>(null);
+  const [activityFilter, setActivityFilter] = useState<'all' | 'brews' | 'cafes'>('all');
 
   // Fetch activities for this profile
   const { activities, loading: activitiesLoading } = useActivities({
     userId: isMe ? currentProfile?.id : profileData?.id,
     realtime: true
+  });
+
+  // Filter activities based on selection
+  const filteredActivities = activities.filter(activity => {
+    if (activityFilter === 'all') return true;
+    if (activityFilter === 'brews') return !activity.isCafeLog;
+    if (activityFilter === 'cafes') return activity.isCafeLog;
+    return true;
   });
 
   useEffect(() => {
@@ -713,12 +722,34 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
       <div className="min-h-[400px]">
         {activeTab === 'activity' && (
           <div className="space-y-6 animate-in fade-in duration-500">
+            {/* Activity Filter */}
+            <div className="flex gap-2 justify-center">
+              <button
+                onClick={() => setActivityFilter('all')}
+                className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${activityFilter === 'all' ? 'bg-white text-black border-white' : 'bg-black text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
+              >
+                All
+              </button>
+              <button
+                onClick={() => setActivityFilter('brews')}
+                className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${activityFilter === 'brews' ? 'bg-white text-black border-white' : 'bg-black text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
+              >
+                Home Brews
+              </button>
+              <button
+                onClick={() => setActivityFilter('cafes')}
+                className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${activityFilter === 'cafes' ? 'bg-white text-black border-white' : 'bg-black text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
+              >
+                Cafes
+              </button>
+            </div>
+
             {activitiesLoading ? (
               <div className="flex items-center justify-center py-32">
                 <Loader2 className="w-8 h-8 text-white animate-spin" />
               </div>
-            ) : activities.length > 0 ? (
-              activities.map(a => (
+            ) : filteredActivities.length > 0 ? (
+              filteredActivities.map(a => (
                 <PostCard
                   key={a.id}
                   activity={a}
@@ -877,6 +908,18 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                 <div>
                   <h3 className="text-xl font-black text-white uppercase tracking-tighter group-hover:text-white transition-colors">COFFEE APPROVALS</h3>
                   <p className="text-xs text-zinc-400 uppercase tracking-wider mt-1 font-black">Review and approve coffee submissions</p>
+                </div>
+                <Shield className="w-8 h-8 text-zinc-700 group-hover:text-white transition-colors" />
+              </div>
+            </Link>
+            <Link
+              to="/admin/cafes"
+              className="block bg-zinc-950 border-2 border-zinc-900 hover:border-white rounded-2xl p-6 transition-all group"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-xl font-black text-white uppercase tracking-tighter group-hover:text-white transition-colors">CAFE APPROVALS</h3>
+                  <p className="text-xs text-zinc-400 uppercase tracking-wider mt-1 font-black">Review and approve cafe submissions</p>
                 </div>
                 <Shield className="w-8 h-8 text-zinc-700 group-hover:text-white transition-colors" />
               </div>

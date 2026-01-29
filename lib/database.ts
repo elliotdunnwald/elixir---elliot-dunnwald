@@ -1985,3 +1985,41 @@ export async function addApprovedCafeToDatabase(
 
   return true;
 }
+
+export async function getActivitiesByCafe(cafeId: string): Promise<BrewActivity[]> {
+  // First get the cafe name
+  const { data: cafe, error: cafeError } = await supabase
+    .from('cafes')
+    .select('name')
+    .eq('id', cafeId)
+    .single();
+
+  if (cafeError || !cafe) {
+    console.error('Error fetching cafe:', cafeError);
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .from('brew_activities')
+    .select(`
+      *,
+      profiles!inner (
+        id,
+        username,
+        first_name,
+        last_name,
+        avatar_url
+      )
+    `)
+    .eq('is_cafe_log', true)
+    .eq('cafe_name', cafe.name)
+    .order('created_at', { ascending: false })
+    .limit(50);
+
+  if (error) {
+    console.error('Error fetching cafe activities:', error);
+    return [];
+  }
+
+  return (data || []).map(rawActivity => transformActivity(rawActivity));
+}

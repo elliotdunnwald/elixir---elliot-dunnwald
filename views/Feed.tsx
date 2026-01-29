@@ -14,8 +14,17 @@ const FeedView: React.FC = () => {
   const { activities, loading, error, loadMore, removeActivity } = useActivities({ realtime: true });
   const [editActivity, setEditActivity] = useState<BrewActivity | null>(null);
   const [selectedActivityId, setSelectedActivityId] = useState<string | null>(null);
+  const [feedFilter, setFeedFilter] = useState<'all' | 'brews' | 'cafes'>('all');
 
   console.log('FeedView render:', { profile, activitiesCount: activities.length, loading, error });
+
+  // Filter activities based on selection
+  const filteredActivities = activities.filter(activity => {
+    if (feedFilter === 'all') return true;
+    if (feedFilter === 'brews') return !activity.isCafeLog;
+    if (feedFilter === 'cafes') return activity.isCafeLog;
+    return true;
+  });
 
   const handleDelete = async (activityId: string) => {
     const success = await deleteActivity(activityId);
@@ -36,7 +45,7 @@ const FeedView: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [loadMore]);
 
-  const isEmpty = activities.length === 0 && !loading;
+  const isEmpty = filteredActivities.length === 0 && !loading;
 
   if (loading && activities.length === 0) {
     return (
@@ -63,7 +72,29 @@ const FeedView: React.FC = () => {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="mb-12">
-        <h2 className="text-[11px] font-black text-zinc-100 uppercase tracking-[0.4em] mb-8">GLOBAL FEED</h2>
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-[11px] font-black text-zinc-100 uppercase tracking-[0.4em]">GLOBAL FEED</h2>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setFeedFilter('all')}
+              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${feedFilter === 'all' ? 'bg-white text-black border-white' : 'bg-black text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
+            >
+              All
+            </button>
+            <button
+              onClick={() => setFeedFilter('brews')}
+              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${feedFilter === 'brews' ? 'bg-white text-black border-white' : 'bg-black text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
+            >
+              Home Brews
+            </button>
+            <button
+              onClick={() => setFeedFilter('cafes')}
+              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${feedFilter === 'cafes' ? 'bg-white text-black border-white' : 'bg-black text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
+            >
+              Cafes
+            </button>
+          </div>
+        </div>
         {isEmpty ? (
           <div className="py-32 px-10 text-center border-4 border-dashed border-zinc-900 rounded-[4rem] flex flex-col items-center gap-8 animate-in fade-in duration-700">
             <div className="bg-white p-8 rounded-[2.5rem]"><Users className="w-12 h-12 text-black" /></div>
@@ -79,7 +110,7 @@ const FeedView: React.FC = () => {
           </div>
         ) : (
           <div className="space-y-8">
-            {activities.map(activity => (
+            {filteredActivities.map(activity => (
               <PostCard
                 key={activity.id}
                 activity={activity}

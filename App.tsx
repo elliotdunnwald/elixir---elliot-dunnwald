@@ -9,6 +9,8 @@ import AuthView from './views/AuthView';
 import AdminRoasters from './views/AdminRoasters';
 import AdminEquipment from './views/AdminEquipment';
 import AdminCoffees from './views/AdminCoffees';
+import AdminCafes from './views/AdminCafes';
+import CafeProfile from './views/CafeProfile';
 import BrewLogModal from './components/BrewLogModal';
 import BrewLogDetailModal from './components/BrewLogDetailModal';
 import NotificationsPanel from './components/NotificationsPanel';
@@ -498,6 +500,8 @@ const AppContent: React.FC = () => {
             <Route path="/admin/roasters" element={<AdminRoasters />} />
             <Route path="/admin/equipment" element={<AdminEquipment />} />
             <Route path="/admin/coffees" element={<AdminCoffees />} />
+            <Route path="/admin/cafes" element={<AdminCafes />} />
+            <Route path="/cafe/:cafeId" element={<CafeProfile />} />
             <Route path="/profile/me" element={<ProfileView isMe={true} />} />
             <Route path="/profile/:userId" element={<ProfileView />} />
           </Routes>
