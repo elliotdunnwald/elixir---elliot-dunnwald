@@ -380,7 +380,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-auto" onClick={onClose} />
       <div className="relative bg-white w-full max-w-2xl h-full sm:h-auto sm:rounded-[2rem] shadow-2xl border-4 border-black overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95 pointer-events-auto">
 
-        <div className="px-8 py-6 border-b-2 border-black bg-white sticky top-0 z-20">
+        <div className="px-8 py-6 border-b-2 border-black bg-zinc-50 sticky top-0 z-20">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-black text-black tracking-tighter uppercase">{editActivity ? 'Edit Brew' : 'Log Brew'}</h2>
             <button onClick={onClose} className="text-black hover:text-zinc-600 transition-all" disabled={uploading}><X className="w-7 h-7" /></button>
@@ -405,7 +405,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="overflow-y-auto px-8 py-8 space-y-8 custom-scrollbar bg-white">
+        <form onSubmit={handleSubmit} className="overflow-y-auto px-8 py-8 space-y-8 custom-scrollbar bg-zinc-50">
 
           <section className="space-y-3">
             <p className="text-[11px] font-black text-zinc-800 uppercase tracking-[0.25em]">Session Title</p>
