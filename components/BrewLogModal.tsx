@@ -545,7 +545,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-300 pointer-events-none">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-auto" onClick={onClose} />
-      <div className="relative bg-zinc-900 w-full max-w-2xl h-full sm:h-auto sm:rounded-xl shadow-2xl border-2 border-zinc-800 overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95 pointer-events-auto">
+      <div className="relative bg-zinc-900 w-full max-w-2xl h-full sm:h-auto sm:rounded-xl shadow-2xl border-4 border-zinc-800 overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95 pointer-events-auto">
 
         <div className="px-8 py-6 border-b-2 border-zinc-800 bg-zinc-950 sticky top-0 z-20">
           <div className="flex justify-between items-center">
