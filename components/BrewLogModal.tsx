@@ -44,6 +44,32 @@ const DRINK_CATEGORIES = {
   ]
 };
 
+// Drinks that typically contain milk
+const MILK_BASED_DRINKS = [
+  'Macchiato',
+  'Cortado',
+  'Flat White',
+  'Cappuccino',
+  'Latte',
+  'Mocha',
+  'Iced Latte',
+  'Iced Cappuccino',
+  'Iced Mocha',
+  'Matcha Latte',
+  'Chai Latte',
+  'Hot Chocolate'
+];
+
+const MILK_TYPES = [
+  'Whole',
+  'Oat',
+  'Almond',
+  'Soy',
+  'Coconut',
+  'Skim',
+  '2%'
+];
+
 const INITIAL_FORM_DATA = {
   // Mode selection
   isCafeVisit: false,
@@ -124,6 +150,8 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
   const [showCafeDropdown, setShowCafeDropdown] = useState(false);
   const [allCafes, setAllCafes] = useState<Array<{name: string, city: string, country: string}>>([]);
   const [showDrinkDropdown, setShowDrinkDropdown] = useState(false);
+  const [pendingDrink, setPendingDrink] = useState<string | null>(null);
+  const [selectedMilk, setSelectedMilk] = useState<string>('');
   const mediaInputRef = useRef<HTMLInputElement>(null);
 
   const isPodMachine = deviceCategory === 'pod';
@@ -372,6 +400,8 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
       setMediaFile(null);
       setMediaPreview(null);
       setDeviceCategory('');
+      setPendingDrink(null);
+      setSelectedMilk('');
       localStorage.removeItem('elixr_brew_log_draft');
     }
   };
@@ -550,7 +580,11 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
-                onClick={() => setFormData(p => ({ ...p, isCafeVisit: false, drinksOrdered: [] }))}
+                onClick={() => {
+                  setFormData(p => ({ ...p, isCafeVisit: false, drinksOrdered: [] }));
+                  setPendingDrink(null);
+                  setSelectedMilk('');
+                }}
                 disabled={uploading}
                 className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${!formData.isCafeVisit ? 'bg-white text-black border-white' : 'bg-black text-zinc-200 border-zinc-800 hover:border-zinc-600'}`}
               >
@@ -558,7 +592,11 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
               </button>
               <button
                 type="button"
-                onClick={() => setFormData(p => ({ ...p, isCafeVisit: true, drinksOrdered: [] }))}
+                onClick={() => {
+                  setFormData(p => ({ ...p, isCafeVisit: true, drinksOrdered: [] }));
+                  setPendingDrink(null);
+                  setSelectedMilk('');
+                }}
                 disabled={uploading}
                 className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.isCafeVisit ? 'bg-white text-black border-white' : 'bg-black text-zinc-200 border-zinc-800 hover:border-zinc-600'}`}
               >
@@ -707,6 +745,8 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                       onClick={() => {
                         setFormData(p => ({ ...p, drinkCategory: category, drinkOrdered: '' }));
                         setShowDrinkDropdown(false);
+                        setPendingDrink(null);
+                        setSelectedMilk('');
                       }}
                       disabled={uploading}
                       className={`px-3 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.drinkCategory === category ? 'bg-white text-black border-white' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:border-zinc-600'}`}
@@ -735,19 +775,27 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                             key={drink}
                             type="button"
                             onClick={() => {
-                              if (!formData.drinksOrdered.includes(drink)) {
-                                setFormData(p => ({
-                                  ...p,
-                                  drinksOrdered: [...p.drinksOrdered, drink],
-                                  drinkOrdered: ''
-                                }));
+                              // Check if drink is milk-based
+                              if (MILK_BASED_DRINKS.includes(drink)) {
+                                setPendingDrink(drink);
+                                setSelectedMilk('');
+                                setShowDrinkDropdown(false);
+                              } else {
+                                // Add drink directly if not milk-based
+                                if (!formData.drinksOrdered.includes(drink)) {
+                                  setFormData(p => ({
+                                    ...p,
+                                    drinksOrdered: [...p.drinksOrdered, drink],
+                                    drinkOrdered: ''
+                                  }));
+                                }
+                                setShowDrinkDropdown(false);
                               }
-                              setShowDrinkDropdown(false);
                             }}
-                            disabled={formData.drinksOrdered.includes(drink)}
+                            disabled={formData.drinksOrdered.some(d => d.startsWith(drink))}
                             className="w-full text-left px-6 py-4 text-white font-black text-sm uppercase hover:bg-zinc-900 transition-colors border-b border-zinc-800 last:border-b-0 disabled:opacity-50 disabled:cursor-not-allowed"
                           >
-                            {drink} {formData.drinksOrdered.includes(drink) && '✓'}
+                            {drink} {formData.drinksOrdered.some(d => d.startsWith(drink)) && '✓'}
                           </button>
                         ))}
                         <button
@@ -764,6 +812,84 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     )}
                   </div>
                 ) : null}
+
+                {/* Milk Selector - Shows when a milk-based drink is selected */}
+                {pendingDrink && MILK_BASED_DRINKS.includes(pendingDrink) && (
+                  <div className="space-y-3 p-4 bg-zinc-950 border-2 border-zinc-800 rounded-xl animate-in slide-in-from-top-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">
+                        {pendingDrink} - Milk Type
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setPendingDrink(null);
+                          setSelectedMilk('');
+                        }}
+                        className="text-zinc-400 hover:text-white transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-2">
+                      {MILK_TYPES.map(milk => (
+                        <button
+                          key={milk}
+                          type="button"
+                          onClick={() => setSelectedMilk(milk)}
+                          disabled={uploading}
+                          className={`px-3 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${selectedMilk === milk ? 'bg-white text-black border-white' : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-600'}`}
+                        >
+                          {milk}
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="flex gap-2 pt-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          // Add without milk specification
+                          if (!formData.drinksOrdered.some(d => d.startsWith(pendingDrink))) {
+                            setFormData(p => ({
+                              ...p,
+                              drinksOrdered: [...p.drinksOrdered, pendingDrink]
+                            }));
+                          }
+                          setPendingDrink(null);
+                          setSelectedMilk('');
+                        }}
+                        disabled={uploading}
+                        className="flex-1 px-4 py-3 bg-zinc-900 border-2 border-zinc-800 text-zinc-400 rounded-xl text-[10px] font-black uppercase tracking-widest hover:border-zinc-600 hover:text-white transition-all disabled:opacity-50"
+                      >
+                        Skip
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          // Add with milk specification
+                          const drinkWithMilk = selectedMilk
+                            ? `${pendingDrink} (${selectedMilk} Milk)`
+                            : pendingDrink;
+
+                          if (!formData.drinksOrdered.includes(drinkWithMilk)) {
+                            setFormData(p => ({
+                              ...p,
+                              drinksOrdered: [...p.drinksOrdered, drinkWithMilk]
+                            }));
+                          }
+                          setPendingDrink(null);
+                          setSelectedMilk('');
+                        }}
+                        disabled={uploading || !selectedMilk}
+                        className="flex-1 px-4 py-3 bg-white text-black rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-zinc-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                )}
 
                 {(formData.drinkCategory === 'specialty' || formData.drinkOrdered === 'SPECIALTY') && (
                   <div className="flex gap-2 animate-in slide-in-from-top-1">
