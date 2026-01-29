@@ -412,7 +412,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
             <input
               type="text" required value={formData.title} onChange={e => handleInputChange('title', e.target.value)}
               disabled={uploading}
-              className="w-full bg-white border-2 border-black focus:border-zinc-500 rounded-2xl outline-none text-lg font-black text-black uppercase tracking-tight px-6 py-4 placeholder:text-zinc-400 transition-all disabled:opacity-50"
+              className="w-full bg-white border-2 border-black focus:border-zinc-500 rounded-2xl outline-none text-sm font-black text-black uppercase tracking-tight px-6 py-4 placeholder:text-zinc-400 transition-all disabled:opacity-50"
               placeholder="NAME THIS SESSION"
             />
           </section>
@@ -509,25 +509,25 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                   {formData.showEstate && (
                     <div className="space-y-3 animate-in slide-in-from-top-1">
                       <label className="text-[9px] font-black text-zinc-800 uppercase tracking-widest">Estate</label>
-                      <input type="text" value={formData.estate} onChange={e => handleInputChange('estate', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-4 py-3 text-black font-black text-xs outline-none focus:border-zinc-500 uppercase disabled:opacity-50" placeholder="FARM NAME" />
+                      <input type="text" value={formData.estate} onChange={e => handleInputChange('estate', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-4 py-3 text-black font-black text-sm outline-none focus:border-zinc-500 uppercase disabled:opacity-50" placeholder="FARM NAME" />
                     </div>
                   )}
                   {formData.showLot && (
                     <div className="space-y-3 animate-in slide-in-from-top-1">
                       <label className="text-[9px] font-black text-zinc-800 uppercase tracking-widest">Lot / Name</label>
-                      <input type="text" value={formData.lot} onChange={e => handleInputChange('lot', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-4 py-3 text-black font-black text-xs outline-none focus:border-zinc-500 uppercase disabled:opacity-50" placeholder="LOT NUMBER" />
+                      <input type="text" value={formData.lot} onChange={e => handleInputChange('lot', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-4 py-3 text-black font-black text-sm outline-none focus:border-zinc-500 uppercase disabled:opacity-50" placeholder="LOT NUMBER" />
                     </div>
                   )}
                   {formData.showVarietal && (
                     <div className="space-y-3 animate-in slide-in-from-top-1">
                       <label className="text-[9px] font-black text-zinc-800 uppercase tracking-widest">Varietal</label>
-                      <input type="text" value={formData.varietal} onChange={e => handleInputChange('varietal', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-4 py-3 text-black font-black text-xs outline-none focus:border-zinc-500 uppercase disabled:opacity-50" placeholder="SL28, GESHA, ETC" />
+                      <input type="text" value={formData.varietal} onChange={e => handleInputChange('varietal', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-4 py-3 text-black font-black text-sm outline-none focus:border-zinc-500 uppercase disabled:opacity-50" placeholder="SL28, GESHA, ETC" />
                     </div>
                   )}
                   {formData.showProcess && (
                     <div className="space-y-3 animate-in slide-in-from-top-1">
                       <label className="text-[9px] font-black text-zinc-800 uppercase tracking-widest">Processing</label>
-                      <input type="text" value={formData.process} onChange={e => handleInputChange('process', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-4 py-3 text-black font-black text-xs outline-none focus:border-zinc-500 uppercase disabled:opacity-50" placeholder="WASHED, NATURAL, ETC" />
+                      <input type="text" value={formData.process} onChange={e => handleInputChange('process', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-4 py-3 text-black font-black text-sm outline-none focus:border-zinc-500 uppercase disabled:opacity-50" placeholder="WASHED, NATURAL, ETC" />
                     </div>
                   )}
                 </div>
@@ -548,11 +548,11 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 bg-white border-2 border-black p-8 rounded-2xl">
                   <div className="flex flex-col items-center">
                     <p className="text-[9px] font-black text-zinc-800 uppercase tracking-widest mb-3">DOSE (G)</p>
-                    <input type="number" step="0.1" value={formData.gramsIn} onChange={e => setFormData({...formData, gramsIn: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-lg outline-none focus:border-zinc-500 disabled:opacity-50" />
+                    <input type="number" step="0.1" value={formData.gramsIn} onChange={e => setFormData({...formData, gramsIn: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-zinc-500 disabled:opacity-50" />
                   </div>
                   <div className="flex flex-col items-center">
                     <p className="text-[9px] font-black text-zinc-800 uppercase tracking-widest mb-3">WATER (G)</p>
-                    <input type="number" step="1" value={formData.gramsOut} onChange={e => setFormData({...formData, gramsOut: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-lg outline-none focus:border-zinc-500 disabled:opacity-50" />
+                    <input type="number" step="1" value={formData.gramsOut} onChange={e => setFormData({...formData, gramsOut: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-zinc-500 disabled:opacity-50" />
                   </div>
                   <div className="flex flex-col items-center">
                     <div className="flex items-center gap-2 mb-3">
@@ -562,11 +562,11 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                         <button type="button" onClick={() => handleTempUnitToggle('F')} disabled={uploading} className={`px-2 py-1 rounded text-[8px] font-black transition-all disabled:opacity-50 ${tempUnit === 'F' ? 'bg-black text-white' : 'text-black'}`}>°F</button>
                       </div>
                     </div>
-                    <input type="number" value={formData.temp} onChange={e => setFormData({...formData, temp: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-lg outline-none focus:border-zinc-500 disabled:opacity-50" />
+                    <input type="number" value={formData.temp} onChange={e => setFormData({...formData, temp: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-zinc-500 disabled:opacity-50" />
                   </div>
                   <div className="flex flex-col items-center">
                     <p className="text-[9px] font-black text-zinc-800 uppercase tracking-widest mb-3">RATIO</p>
-                    <div className="w-full py-2 text-black font-black text-center text-lg border-b-2 border-transparent">{formData.ratio}</div>
+                    <div className="w-full py-2 text-black font-black text-center text-sm border-b-2 border-transparent">{formData.ratio}</div>
                   </div>
                   <div className="flex flex-col items-center col-span-2 sm:col-span-4">
                     <p className="text-[9px] font-black text-zinc-800 uppercase tracking-widest mb-3">TBT (MM:SS)</p>
@@ -576,7 +576,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                       onChange={e => setFormData({...formData, brewTime: e.target.value})}
                       disabled={uploading}
                       placeholder="02:30"
-                      className="w-full sm:w-32 bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-lg outline-none focus:border-zinc-500 disabled:opacity-50"
+                      className="w-full sm:w-32 bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-zinc-500 disabled:opacity-50"
                     />
                   </div>
                 </div>
@@ -589,7 +589,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                   <div className="space-y-4 animate-in slide-in-from-top-1">
                     <div className="bg-white border-2 border-black p-6 rounded-2xl space-y-2">
                       <p className="text-[8px] font-black text-zinc-800 uppercase tracking-widest flex items-center gap-2"><FlaskConical className="w-3 h-3" /> TDS</p>
-                      <input type="number" step="0.01" value={formData.tds} onChange={e => setFormData({...formData, tds: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-1 text-black font-black text-xl outline-none focus:border-zinc-500 disabled:opacity-50" placeholder="1.40" />
+                      <input type="number" step="0.01" value={formData.tds} onChange={e => setFormData({...formData, tds: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-1 text-black font-black text-sm outline-none focus:border-zinc-500 disabled:opacity-50" placeholder="1.40" />
                     </div>
                     <div className="bg-white border-2 border-black text-black p-4 rounded-xl flex justify-between items-center">
                       <p className="text-[10px] font-black uppercase tracking-widest">Calculated EY%</p>
