@@ -138,20 +138,14 @@
             cursor: pointer;
             border: none;
         }
-        /* Rating slider styling - black dot on black line with white center */
+        /* Rating slider styling - dark theme - solid white track */
         input[type="range"]:not(.slider) {
             -webkit-appearance: none;
             appearance: none;
             background: transparent;
         }
         input[type="range"]:not(.slider)::-webkit-slider-track {
-            background: linear-gradient(to right,
-                #000000 0%,
-                #000000 45%,
-                #ffffff 48%,
-                #ffffff 52%,
-                #000000 55%,
-                #000000 100%);
+            background: #ffffff;
             height: 4px;
             border-radius: 2px;
         }
@@ -162,18 +156,12 @@
             height: 24px;
             border-radius: 50%;
             background: #000000;
-            border: 2px solid #000000;
+            border: 2px solid #ffffff;
             cursor: pointer;
             margin-top: -10px;
         }
         input[type="range"]:not(.slider)::-moz-range-track {
-            background: linear-gradient(to right,
-                #000000 0%,
-                #000000 45%,
-                #ffffff 48%,
-                #ffffff 52%,
-                #000000 55%,
-                #000000 100%);
+            background: #ffffff;
             height: 4px;
             border-radius: 2px;
         }
@@ -182,32 +170,24 @@
             height: 24px;
             border-radius: 50%;
             background: #000000;
-            border: 2px solid #000000;
+            border: 2px solid #ffffff;
             cursor: pointer;
             border: none;
         }
-        /* Light theme rating slider - white dot on white line with black center */
+        /* Light theme rating slider - solid black track */
         .light-theme input[type="range"]:not(.slider)::-webkit-slider-track {
-            background: linear-gradient(to right,
-                #ffffff 0%,
-                #ffffff 45%,
-                #000000 48%,
-                #000000 52%,
-                #ffffff 55%,
-                #ffffff 100%);
+            background: #000000;
+            height: 4px;
+            border-radius: 2px;
         }
         .light-theme input[type="range"]:not(.slider)::-webkit-slider-thumb {
             background: #ffffff;
             border: 2px solid #000000;
         }
         .light-theme input[type="range"]:not(.slider)::-moz-range-track {
-            background: linear-gradient(to right,
-                #ffffff 0%,
-                #ffffff 45%,
-                #000000 48%,
-                #000000 52%,
-                #ffffff 55%,
-                #ffffff 100%);
+            background: #000000;
+            height: 4px;
+            border-radius: 2px;
         }
         .light-theme input[type="range"]:not(.slider)::-moz-range-thumb {
             background: #ffffff;
