@@ -106,7 +106,7 @@ const AdminCoffees: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto space-y-8">
       <button
-        onClick={() => navigate('/profile')}
+        onClick={() => navigate('/profile/me')}
         className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors mb-4"
       >
         <ArrowLeft className="w-5 h-5" />
