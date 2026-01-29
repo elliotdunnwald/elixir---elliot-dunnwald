@@ -405,7 +405,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="overflow-y-auto px-8 py-8 space-y-8 custom-scrollbar bg-zinc-50">
+        <form onSubmit={handleSubmit} className="overflow-y-auto px-8 py-8 space-y-8 custom-scrollbar bg-white">
 
           <section className="space-y-3">
             <p className="text-[11px] font-black text-zinc-800 uppercase tracking-[0.25em]">Session Title</p>
