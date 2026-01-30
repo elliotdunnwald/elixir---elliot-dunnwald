@@ -154,7 +154,9 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
             <>
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                 <p className="text-white text-[13px] font-black uppercase tracking-[0.3em] border-2 border-zinc-800 px-3 py-1 rounded-lg">{activity.brewer}</p>
-                {activity.roaster !== activity.title && activity.roaster !== 'CAFE' && (
+                {activity.roaster &&
+                 activity.roaster.trim().toUpperCase() !== activity.title.trim().toUpperCase() &&
+                 activity.roaster !== 'CAFE' && (
                   <p className="text-white text-[13px] font-black uppercase tracking-[0.3em] border-2 border-zinc-800 px-3 py-1 rounded-lg">{activity.roaster}</p>
                 )}
                 {activity.beanOrigin !== 'UNKNOWN' && (
