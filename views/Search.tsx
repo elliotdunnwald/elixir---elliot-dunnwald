@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Users, User, ShieldCheck, Loader2, Coffee, MapPin, Star } from 'lucide-react';
-import { searchProfiles, searchCafes, type Profile, type Cafe } from '../lib/database';
+import { searchProfiles, searchCafes, getCafes, type Profile, type Cafe } from '../lib/database';
 import { useAuth } from '../hooks/useAuth';
 import CafeMap from '../components/CafeMap';
 
@@ -11,38 +11,137 @@ const ExploreView: React.FC = () => {
   const [query, setQuery] = useState('');
   const [searchResults, setSearchResults] = useState<Profile[]>([]);
   const [cafeResults, setCafeResults] = useState<Cafe[]>([]);
+  const [allCafes, setAllCafes] = useState<Cafe[]>([]);
   const [loading, setLoading] = useState(false);
+  const [mapCenter, setMapCenter] = useState<[number, number] | null>(null);
+  const [searchType, setSearchType] = useState<'cafe' | 'location'>('cafe');
+
+  // Load all cafes when cafes tab is selected
+  useEffect(() => {
+    async function loadAllCafes() {
+      if (activeTab === 'cafes') {
+        const cafes = await getCafes();
+        setAllCafes(cafes);
+        // If no search query, show all cafes
+        if (!query.trim()) {
+          setCafeResults(cafes);
+        }
+      }
+    }
+    loadAllCafes();
+  }, [activeTab]);
+
+  // Geocode a location search
+  async function geocodeLocation(locationQuery: string): Promise<{ lat: number; lng: number; displayName: string } | null> {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationQuery)}&limit=1`,
+        {
+          headers: {
+            'User-Agent': 'Elixr Coffee App (contact@elixr.coffee)'
+          }
+        }
+      );
+      const data = await response.json();
+
+      if (data && data.length > 0) {
+        return {
+          lat: parseFloat(data[0].lat),
+          lng: parseFloat(data[0].lon),
+          displayName: data[0].display_name
+        };
+      }
+    } catch (error) {
+      console.error('Geocoding error:', error);
+    }
+    return null;
+  }
+
+  // Calculate distance between two points (Haversine formula)
+  function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+    const R = 6371; // Radius of the Earth in kilometers
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a =
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c; // Distance in kilometers
+  }
 
   useEffect(() => {
     async function performSearch() {
       const q = query.trim();
-      if (!q) {
-        setSearchResults([]);
-        setCafeResults([]);
-        return;
-      }
 
-      setLoading(true);
-      try {
-        if (activeTab === 'people') {
+      if (activeTab === 'people') {
+        if (!q) {
+          setSearchResults([]);
+          return;
+        }
+        setLoading(true);
+        try {
           const results = await searchProfiles(q);
           // Filter out current user from results
           setSearchResults(results.filter(p => p.id !== currentProfile?.id));
-        } else {
-          const results = await searchCafes(q);
-          setCafeResults(results);
+        } catch (err) {
+          console.error('Search error:', err);
+        } finally {
+          setLoading(false);
         }
-      } catch (err) {
-        console.error('Search error:', err);
-      } finally {
-        setLoading(false);
+      } else {
+        // Cafes tab
+        if (!q) {
+          setCafeResults(allCafes);
+          setMapCenter(null);
+          return;
+        }
+
+        setLoading(true);
+        try {
+          // First try searching by cafe name
+          const cafeNameResults = await searchCafes(q);
+
+          if (cafeNameResults.length > 0) {
+            // Found cafes by name
+            setCafeResults(cafeNameResults);
+            setSearchType('cafe');
+            setMapCenter(null);
+          } else {
+            // No cafes found by name, try geocoding as location
+            const location = await geocodeLocation(q);
+            if (location) {
+              // Found a location, filter cafes by proximity
+              const cafesWithDistance = allCafes
+                .filter(cafe => cafe.latitude && cafe.longitude)
+                .map(cafe => ({
+                  ...cafe,
+                  distance: calculateDistance(location.lat, location.lng, cafe.latitude!, cafe.longitude!)
+                }))
+                .filter(cafe => cafe.distance < 50) // Within 50km
+                .sort((a, b) => a.distance - b.distance);
+
+              setCafeResults(cafesWithDistance);
+              setMapCenter([location.lat, location.lng]);
+              setSearchType('location');
+            } else {
+              // No results found
+              setCafeResults([]);
+              setMapCenter(null);
+            }
+          }
+        } catch (err) {
+          console.error('Search error:', err);
+        } finally {
+          setLoading(false);
+        }
       }
     }
 
     // Debounce search
-    const timeoutId = setTimeout(performSearch, 300);
+    const timeoutId = setTimeout(performSearch, 500);
     return () => clearTimeout(timeoutId);
-  }, [query, currentProfile, activeTab]);
+  }, [query, currentProfile, activeTab, allCafes]);
 
   return (
     <div className="max-w-4xl mx-auto space-y-12 pb-24 animate-in fade-in duration-500">
@@ -79,7 +178,7 @@ const ExploreView: React.FC = () => {
             type="text"
             value={query}
             onChange={e => setQuery(e.target.value)}
-            placeholder={activeTab === 'people' ? "SEARCH THE NETWORK..." : "SEARCH CAFES..."}
+            placeholder={activeTab === 'people' ? "SEARCH THE NETWORK..." : "SEARCH CAFES OR LOCATIONS..."}
             className="w-full bg-zinc-900 border-2 border-zinc-800 rounded-3xl py-7 pl-16 pr-8 text-sm font-black text-white outline-none focus:border-white transition-all uppercase placeholder:text-zinc-700"
           />
           {loading && (
@@ -90,11 +189,12 @@ const ExploreView: React.FC = () => {
         </div>
       </div>
 
-      {/* Cafe Map - Show when on cafes tab and have results */}
-      {activeTab === 'cafes' && cafeResults.length > 0 && (
+      {/* Cafe Map - Always show on cafes tab */}
+      {activeTab === 'cafes' && (
         <div className="mb-8">
           <CafeMap
             cafes={cafeResults}
+            center={mapCenter}
             onCafeClick={(cafe) => console.log('Clicked cafe:', cafe)}
           />
         </div>

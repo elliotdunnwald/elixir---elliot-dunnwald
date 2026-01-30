@@ -1,7 +1,7 @@
-import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import React, { useEffect, useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap, Circle } from 'react-leaflet';
 import { useNavigate } from 'react-router-dom';
-import { MapPin, Star, Coffee } from 'lucide-react';
+import { MapPin, Star, Coffee, Navigation } from 'lucide-react';
 import type { Cafe } from '../lib/database';
 import L from 'leaflet';
 
@@ -20,17 +20,69 @@ L.Marker.prototype.options.icon = DefaultIcon;
 
 interface CafeMapProps {
   cafes: Cafe[];
+  center?: [number, number] | null;
   onCafeClick?: (cafe: Cafe) => void;
 }
 
-const CafeMap: React.FC<CafeMapProps> = ({ cafes, onCafeClick }) => {
+// Component to handle map recentering when center prop changes
+function MapController({ center }: { center: [number, number] | null }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (center) {
+      map.flyTo(center, 12, { duration: 1.5 });
+    }
+  }, [center, map]);
+
+  return null;
+}
+
+// Component for geolocation button
+function GeolocationButton() {
+  const map = useMap();
+  const [locating, setLocating] = useState(false);
+
+  const handleLocate = () => {
+    setLocating(true);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          map.flyTo([latitude, longitude], 13, { duration: 1.5 });
+          setLocating(false);
+        },
+        (error) => {
+          console.error('Geolocation error:', error);
+          alert('Could not get your location. Please enable location services.');
+          setLocating(false);
+        }
+      );
+    } else {
+      alert('Geolocation is not supported by your browser.');
+      setLocating(false);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleLocate}
+      disabled={locating}
+      className="absolute top-4 right-4 z-[1000] bg-white text-black p-3 rounded-xl border-2 border-zinc-800 hover:bg-zinc-100 transition-all shadow-lg disabled:opacity-50"
+      title="Find my location"
+    >
+      <Navigation className={`w-5 h-5 ${locating ? 'animate-pulse' : ''}`} />
+    </button>
+  );
+}
+
+const CafeMap: React.FC<CafeMapProps> = ({ cafes, center, onCafeClick }) => {
   const navigate = useNavigate();
 
   // Filter cafes that have coordinates
   const mappableCafes = cafes.filter(cafe => cafe.latitude && cafe.longitude);
 
-  // Calculate center point (average of all coordinates)
-  const center: [number, number] = mappableCafes.length > 0
+  // Calculate initial center point (average of all coordinates or use provided center)
+  const initialCenter: [number, number] = mappableCafes.length > 0
     ? [
         mappableCafes.reduce((sum, c) => sum + (c.latitude || 0), 0) / mappableCafes.length,
         mappableCafes.reduce((sum, c) => sum + (c.longitude || 0), 0) / mappableCafes.length
@@ -43,11 +95,14 @@ const CafeMap: React.FC<CafeMapProps> = ({ cafes, onCafeClick }) => {
 
   if (mappableCafes.length === 0) {
     return (
-      <div className="w-full h-[500px] bg-zinc-900 border-2 border-zinc-800 rounded-[2rem] flex items-center justify-center">
+      <div className="w-full h-[600px] bg-zinc-900 border-2 border-zinc-800 rounded-[2rem] flex items-center justify-center">
         <div className="text-center">
           <MapPin className="w-12 h-12 text-zinc-700 mx-auto mb-4" />
           <p className="text-zinc-400 text-sm font-black uppercase tracking-widest">
             No Cafes with Location Data
+          </p>
+          <p className="text-zinc-600 text-xs font-bold uppercase tracking-wider mt-2">
+            Search for a location or add cafes with addresses
           </p>
         </div>
       </div>
@@ -55,17 +110,38 @@ const CafeMap: React.FC<CafeMapProps> = ({ cafes, onCafeClick }) => {
   }
 
   return (
-    <div className="w-full h-[500px] rounded-[2rem] overflow-hidden border-2 border-zinc-800">
+    <div className="relative w-full h-[600px] rounded-[2rem] overflow-hidden border-2 border-zinc-800 shadow-lg">
       <MapContainer
-        center={center}
-        zoom={13}
+        center={initialCenter}
+        zoom={12}
         scrollWheelZoom={true}
         style={{ width: '100%', height: '100%' }}
+        zoomControl={true}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+
+        {/* Map controller to handle center changes */}
+        <MapController center={center} />
+
+        {/* Show circle around searched location */}
+        {center && (
+          <Circle
+            center={center}
+            radius={5000}
+            pathOptions={{
+              color: 'white',
+              fillColor: 'white',
+              fillOpacity: 0.1,
+              weight: 2,
+              dashArray: '5, 5'
+            }}
+          />
+        )}
+
+        {/* Cafe markers */}
         {mappableCafes.map(cafe => (
           <Marker
             key={cafe.id}
@@ -85,6 +161,11 @@ const CafeMap: React.FC<CafeMapProps> = ({ cafes, onCafeClick }) => {
                     {cafe.city}, {cafe.country}
                   </span>
                 </div>
+                {cafe.address && (
+                  <p className="text-xs text-zinc-500 mb-2">
+                    {cafe.address}
+                  </p>
+                )}
                 {cafe.average_rating > 0 && (
                   <div className="flex items-center gap-2 text-xs mb-2">
                     <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
@@ -106,6 +187,16 @@ const CafeMap: React.FC<CafeMapProps> = ({ cafes, onCafeClick }) => {
           </Marker>
         ))}
       </MapContainer>
+
+      {/* Geolocation button */}
+      <GeolocationButton />
+
+      {/* Map legend/instructions */}
+      <div className="absolute bottom-4 left-4 z-[1000] bg-white/95 backdrop-blur-sm px-4 py-2 rounded-xl border-2 border-zinc-800 shadow-lg">
+        <p className="text-[10px] font-black uppercase tracking-wider text-zinc-800">
+          {mappableCafes.length} {mappableCafes.length === 1 ? 'Cafe' : 'Cafes'} Shown
+        </p>
+      </div>
     </div>
   );
 };
