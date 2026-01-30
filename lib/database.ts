@@ -1998,5 +1998,5 @@ export async function getActivitiesByCafe(cafeId: string): Promise<BrewActivity[
     return [];
   }
 
-  return (data || []).map(rawActivity => transformActivity(rawActivity));
+  return (data || []).map(rawActivity => dbActivityToBrewActivity(rawActivity as DbBrewActivity));
 }
