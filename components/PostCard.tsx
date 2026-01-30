@@ -148,16 +148,42 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
       <div className="px-10 pb-10">
         <div className="mb-8">
           <h2 className="text-4xl font-black text-white tracking-tighter uppercase leading-none mb-3">{activity.title}</h2>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <p className="text-white text-[13px] font-black uppercase tracking-[0.3em] border-2 border-zinc-800 px-3 py-1 rounded-lg">{activity.roaster}</p>
-            <p className="text-zinc-400 text-[13px] font-black uppercase tracking-[0.3em]">{activity.beanOrigin}</p>
-          </div>
-          {(activity.estate || activity.varietal || activity.process) && (
-            <div className="flex flex-wrap gap-3 mt-4 max-w-full">
-              {activity.estate && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
-              {activity.varietal && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
-              {activity.process && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
-            </div>
+
+          {activity.isCafeLog ? (
+            // Cafe Visit Display
+            <>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                <p className="text-white text-[13px] font-black uppercase tracking-[0.3em] border-2 border-zinc-800 px-3 py-1 rounded-lg">{activity.brewer}</p>
+                {activity.roaster !== activity.title && activity.roaster !== 'CAFE' && (
+                  <p className="text-white text-[13px] font-black uppercase tracking-[0.3em] border-2 border-zinc-800 px-3 py-1 rounded-lg">{activity.roaster}</p>
+                )}
+                {activity.beanOrigin !== 'UNKNOWN' && (
+                  <p className="text-zinc-400 text-[13px] font-black uppercase tracking-[0.3em]">{activity.beanOrigin}</p>
+                )}
+              </div>
+              {(activity.estate || activity.varietal || activity.process) && (
+                <div className="flex flex-wrap gap-3 mt-4 max-w-full">
+                  {activity.estate && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
+                  {activity.varietal && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
+                  {activity.process && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
+                </div>
+              )}
+            </>
+          ) : (
+            // Home Brew Display
+            <>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                <p className="text-white text-[13px] font-black uppercase tracking-[0.3em] border-2 border-zinc-800 px-3 py-1 rounded-lg">{activity.roaster}</p>
+                <p className="text-zinc-400 text-[13px] font-black uppercase tracking-[0.3em]">{activity.beanOrigin}</p>
+              </div>
+              {(activity.estate || activity.varietal || activity.process) && (
+                <div className="flex flex-wrap gap-3 mt-4 max-w-full">
+                  {activity.estate && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
+                  {activity.varietal && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
+                  {activity.process && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
+                </div>
+              )}
+            </>
           )}
         </div>
 

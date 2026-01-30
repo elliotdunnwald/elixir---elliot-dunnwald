@@ -97,6 +97,7 @@ const INITIAL_FORM_DATA = {
   lot: '',
   varietal: '',
   process: '',
+  producer: '',
   brewType: 'filter' as 'espresso' | 'filter',
   brewer: '',
   grindSetting: '',
@@ -115,6 +116,7 @@ const INITIAL_FORM_DATA = {
   showLot: false,
   showVarietal: false,
   showProcess: false,
+  showProducer: false,
   showEY: false,
   showMilk: false,
   milkType: 'none' as 'none' | 'steamed' | 'cold',
@@ -252,6 +254,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           isPrivate: editActivity.isPrivate || false,
           showParameters: editActivity.showParameters !== false,
           showEstate: !!editActivity.estate,
+          showProducer: !!(editActivity as any).producer,
           showLot: !!editActivity.lot,
           showVarietal: !!editActivity.varietal,
           showProcess: !!editActivity.process,
@@ -443,6 +446,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           ? (formData.showCoffeeDetails && formData.origin ? formData.origin : 'UNKNOWN')
           : (isPodMachine ? 'N/A' : (formData.origin || 'UNKNOWN')),
         estate: !isPodMachine && formData.showEstate ? formData.estate : undefined,
+        producer: !isPodMachine && formData.showProducer ? formData.producer : undefined,
         lot: !isPodMachine && formData.showLot ? formData.lot : undefined,
         varietal: !isPodMachine && formData.showVarietal ? formData.varietal : undefined,
         process: !isPodMachine && formData.showProcess ? formData.process : undefined,
@@ -1006,6 +1010,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
               <div className="space-y-4">
                 <div className="flex gap-3 flex-wrap">
                   <ToggleBtn label="Farm / Estate" active={formData.showEstate} onClick={() => setFormData(p => ({...p, showEstate: !p.showEstate}))} />
+                  <ToggleBtn label="Producer" active={formData.showProducer} onClick={() => setFormData(p => ({...p, showProducer: !p.showProducer}))} />
                   <ToggleBtn label="Lot / Name" active={formData.showLot} onClick={() => setFormData(p => ({...p, showLot: !p.showLot}))} />
                   <ToggleBtn label="Varietal" active={formData.showVarietal} onClick={() => setFormData(p => ({...p, showVarietal: !p.showVarietal}))} />
                   <ToggleBtn label="Processing" active={formData.showProcess} onClick={() => setFormData(p => ({...p, showProcess: !p.showProcess}))} />
@@ -1016,6 +1021,12 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     <div className="space-y-3 animate-in slide-in-from-top-1">
                       <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Estate</label>
                       <input type="text" value={formData.estate} onChange={e => handleInputChange('estate', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="FARM NAME" />
+                    </div>
+                  )}
+                  {formData.showProducer && (
+                    <div className="space-y-3 animate-in slide-in-from-top-1">
+                      <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Producer</label>
+                      <input type="text" value={formData.producer} onChange={e => handleInputChange('producer', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="PRODUCER NAME" />
                     </div>
                   )}
                   {formData.showLot && (
@@ -1087,6 +1098,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
               <div className="space-y-4">
                 <div className="flex gap-3 flex-wrap">
                   <ToggleBtn label="Farm / Estate" active={formData.showEstate} onClick={() => setFormData(p => ({...p, showEstate: !p.showEstate}))} />
+                  <ToggleBtn label="Producer" active={formData.showProducer} onClick={() => setFormData(p => ({...p, showProducer: !p.showProducer}))} />
                   <ToggleBtn label="Lot / Name" active={formData.showLot} onClick={() => setFormData(p => ({...p, showLot: !p.showLot}))} />
                   <ToggleBtn label="Varietal" active={formData.showVarietal} onClick={() => setFormData(p => ({...p, showVarietal: !p.showVarietal}))} />
                   <ToggleBtn label="Processing" active={formData.showProcess} onClick={() => setFormData(p => ({...p, showProcess: !p.showProcess}))} />
@@ -1097,6 +1109,12 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     <div className="space-y-3 animate-in slide-in-from-top-1">
                       <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Estate</label>
                       <input type="text" value={formData.estate} onChange={e => handleInputChange('estate', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="FARM NAME" />
+                    </div>
+                  )}
+                  {formData.showProducer && (
+                    <div className="space-y-3 animate-in slide-in-from-top-1">
+                      <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Producer</label>
+                      <input type="text" value={formData.producer} onChange={e => handleInputChange('producer', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="PRODUCER NAME" />
                     </div>
                   )}
                   {formData.showLot && (
