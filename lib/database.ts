@@ -839,55 +839,6 @@ export async function deleteBrewImage(imageUrl: string): Promise<boolean> {
 // HELPER FUNCTIONS TO CONVERT BETWEEN DB AND APP TYPES
 // =====================================================
 
-export function dbActivityToBrewActivity(dbActivity: DbBrewActivity): BrewActivity {
-  const profile = dbActivity.profiles;
-
-  return {
-    id: dbActivity.id,
-    userId: dbActivity.profile_id,
-    userName: profile ? `${profile.first_name} ${profile.last_name}` : 'Unknown',
-    userUsername: profile?.username,
-    userAvatar: profile?.avatar_url || '',
-    title: dbActivity.title,
-    description: dbActivity.description || '',
-    timestamp: dbActivity.created_at,
-    locationName: dbActivity.location_name,
-    imageUrl: dbActivity.image_url,
-    roaster: dbActivity.roaster,
-    beanOrigin: dbActivity.bean_origin,
-    estate: dbActivity.estate,
-    lot: dbActivity.lot,
-    varietal: dbActivity.varietal,
-    process: dbActivity.process,
-    brewer: dbActivity.brewer,
-    grinder: dbActivity.grinder,
-    grindSetting: dbActivity.grind_setting,
-    ratio: dbActivity.ratio,
-    gramsIn: dbActivity.grams_in,
-    gramsOut: dbActivity.grams_out,
-    brewWeight: dbActivity.brew_weight,
-    temperature: dbActivity.temperature,
-    tempUnit: dbActivity.temp_unit,
-    brewTime: dbActivity.brew_time,
-    rating: dbActivity.rating,
-    tds: dbActivity.tds,
-    eyPercentage: dbActivity.ey_percentage,
-    showParameters: dbActivity.show_parameters,
-    isPrivate: dbActivity.is_private,
-    isCafeLog: dbActivity.is_cafe_log,
-    cafeName: dbActivity.cafe_name,
-    likeCount: dbActivity.likes?.length || 0,
-    likedBy: dbActivity.likes?.map(l => l.profile_id) || [],
-    comments: dbActivity.comments?.map(c => ({
-      id: c.id,
-      userId: c.profile_id,
-      userName: c.profiles ? `${c.profiles.first_name} ${c.profiles.last_name}` : 'Unknown',
-      text: c.text,
-      timestamp: c.created_at
-    })) || []
-  };
-}
-
 export function dbProfileToUser(profile: Profile, gear?: GearItem[], stats?: { totalBrews: number; followerCount: number }): User {
   const brewers = gear?.filter(g => g.type === 'brewer') || [];
   const grinders = gear?.filter(g => g.type === 'grinder') || [];
