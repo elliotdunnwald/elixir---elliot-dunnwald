@@ -442,10 +442,10 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
         bean_origin: formData.isCafeVisit
           ? (formData.showCoffeeDetails && formData.origin ? formData.origin : 'UNKNOWN')
           : (isPodMachine ? 'N/A' : (formData.origin || 'UNKNOWN')),
-        estate: !isPodMachine && !formData.isCafeVisit && formData.showEstate ? formData.estate : undefined,
-        lot: !isPodMachine && !formData.isCafeVisit && formData.showLot ? formData.lot : undefined,
-        varietal: !isPodMachine && !formData.isCafeVisit && formData.showVarietal ? formData.varietal : undefined,
-        process: !isPodMachine && !formData.isCafeVisit && formData.showProcess ? formData.process : undefined,
+        estate: !isPodMachine && formData.showEstate ? formData.estate : undefined,
+        lot: !isPodMachine && formData.showLot ? formData.lot : undefined,
+        varietal: !isPodMachine && formData.showVarietal ? formData.varietal : undefined,
+        process: !isPodMachine && formData.showProcess ? formData.process : undefined,
         brew_type: formData.brewType,
         brewer: formData.isCafeVisit ? drinkName : formData.brewer,
         grinder: undefined,
@@ -1081,6 +1081,42 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                 <div className="space-y-3">
                   <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Origin</label>
                   <input type="text" value={formData.origin} onChange={e => handleInputChange('origin', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="ETHIOPIA / KENYA" />
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex gap-3 flex-wrap">
+                  <ToggleBtn label="Farm / Estate" active={formData.showEstate} onClick={() => setFormData(p => ({...p, showEstate: !p.showEstate}))} />
+                  <ToggleBtn label="Lot / Name" active={formData.showLot} onClick={() => setFormData(p => ({...p, showLot: !p.showLot}))} />
+                  <ToggleBtn label="Varietal" active={formData.showVarietal} onClick={() => setFormData(p => ({...p, showVarietal: !p.showVarietal}))} />
+                  <ToggleBtn label="Processing" active={formData.showProcess} onClick={() => setFormData(p => ({...p, showProcess: !p.showProcess}))} />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {formData.showEstate && (
+                    <div className="space-y-3 animate-in slide-in-from-top-1">
+                      <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Estate</label>
+                      <input type="text" value={formData.estate} onChange={e => handleInputChange('estate', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="FARM NAME" />
+                    </div>
+                  )}
+                  {formData.showLot && (
+                    <div className="space-y-3 animate-in slide-in-from-top-1">
+                      <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Lot / Name</label>
+                      <input type="text" value={formData.lot} onChange={e => handleInputChange('lot', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="LOT NUMBER" />
+                    </div>
+                  )}
+                  {formData.showVarietal && (
+                    <div className="space-y-3 animate-in slide-in-from-top-1">
+                      <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Varietal</label>
+                      <input type="text" value={formData.varietal} onChange={e => handleInputChange('varietal', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="SL28, GESHA, ETC" />
+                    </div>
+                  )}
+                  {formData.showProcess && (
+                    <div className="space-y-3 animate-in slide-in-from-top-1">
+                      <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Processing</label>
+                      <input type="text" value={formData.process} onChange={e => handleInputChange('process', e.target.value)} disabled={uploading} className="w-full bg-black border-2 border-zinc-800 rounded-xl px-6 py-4 text-white font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="WASHED, NATURAL, ETC" />
+                    </div>
+                  )}
                 </div>
               </div>
             </section>
