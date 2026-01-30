@@ -230,17 +230,37 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
     if (isOpen && profile) {
       if (editActivity) {
         // Load activity data for editing
+        const isCafe = editActivity.isCafeLog || false;
+        const drinks = isCafe && editActivity.brewer ? editActivity.brewer.split(', ') : [];
+
         setFormData({
+          // Cafe-specific fields
+          isCafeVisit: isCafe,
+          cafeName: (editActivity as any).cafeName || '',
+          cafeCity: (editActivity as any).cafeCity || '',
+          cafeCountry: (editActivity as any).cafeCountry || '',
+          cafeAddress: (editActivity as any).cafeAddress || '',
+          showAddress: !!(editActivity as any).cafeAddress,
+          drinkCategory: 'espresso' as 'espresso' | 'filter' | 'iced' | 'other' | 'specialty',
+          drinkOrdered: '',
+          drinksOrdered: drinks,
+          specialtyDrink: '',
+          showCoffeeDetails: !!(editActivity.roaster && editActivity.roaster !== 'CAFE'),
+          showDescription: !!editActivity.description,
+          showWhen: !!editActivity.timestamp,
+
+          // Common fields
           title: editActivity.title || '',
           description: editActivity.description || '',
           roaster: editActivity.roaster || '',
           origin: editActivity.beanOrigin || '',
           estate: editActivity.estate || '',
+          producer: (editActivity as any).producer || '',
           lot: editActivity.lot || '',
           varietal: editActivity.varietal || '',
           process: editActivity.process || '',
           brewType: (editActivity.brewType as 'espresso' | 'filter') || 'filter',
-          brewer: editActivity.brewer || '',
+          brewer: isCafe ? '' : (editActivity.brewer || ''),
           grindSetting: editActivity.grindSetting || '',
           ratio: editActivity.ratio || '1:15',
           gramsIn: editActivity.gramsIn?.toString() || '15.0',
