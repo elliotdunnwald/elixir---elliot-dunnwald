@@ -81,6 +81,7 @@ export interface BrewActivity {
   roaster: string;
   beanOrigin: string;
   estate?: string;
+  producer?: string;
   lot?: string;
   varietal?: string;
   process?: string;
