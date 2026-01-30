@@ -1942,6 +1942,35 @@ export async function addApprovedCafeToDatabase(
   latitude?: number,
   longitude?: number
 ): Promise<boolean> {
+  // Check if cafe already exists
+  const { data: existing } = await supabase
+    .from('cafes')
+    .select('id')
+    .eq('name', name.toUpperCase())
+    .eq('city', city.toUpperCase())
+    .eq('country', country.toUpperCase())
+    .maybeSingle();
+
+  if (existing) {
+    console.log('Cafe already exists, updating coordinates instead');
+    // Update existing cafe with coordinates if provided
+    const { error: updateError } = await supabase
+      .from('cafes')
+      .update({
+        latitude: latitude,
+        longitude: longitude,
+        address: address?.toUpperCase()
+      })
+      .eq('id', existing.id);
+
+    if (updateError) {
+      console.error('Error updating cafe:', updateError);
+      return false;
+    }
+    return true;
+  }
+
+  // Insert new cafe
   const { error } = await supabase
     .from('cafes')
     .insert({
