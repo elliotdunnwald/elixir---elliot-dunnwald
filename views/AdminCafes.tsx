@@ -35,6 +35,37 @@ const AdminCafes: React.FC = () => {
     setLoading(false);
   }
 
+  async function geocodeCafe(cafe: PendingCafe): Promise<{ lat: number; lng: number } | null> {
+    // Construct address query
+    const addressQuery = cafe.address
+      ? `${cafe.address}, ${cafe.city}, ${cafe.country}`
+      : `${cafe.city}, ${cafe.country}`;
+
+    try {
+      // Nominatim requires a User-Agent header
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(addressQuery)}&limit=1`,
+        {
+          headers: {
+            'User-Agent': 'Elixr Coffee App (contact@elixr.coffee)'
+          }
+        }
+      );
+      const data = await response.json();
+
+      if (data && data.length > 0) {
+        return {
+          lat: parseFloat(data[0].lat),
+          lng: parseFloat(data[0].lon)
+        };
+      }
+    } catch (error) {
+      console.error('Geocoding error:', error);
+    }
+
+    return null;
+  }
+
   async function handleApprove(cafe: PendingCafe) {
     if (!profile) return;
 
@@ -48,18 +79,29 @@ const AdminCafes: React.FC = () => {
       return;
     }
 
+    // Geocode the cafe to get coordinates
+    console.log('Geocoding cafe:', cafe.cafe_name);
+    const coordinates = await geocodeCafe(cafe);
+    if (coordinates) {
+      console.log('Geocoded coordinates:', coordinates);
+    } else {
+      console.log('Could not geocode cafe, will be added without coordinates');
+    }
+
     // First approve the pending cafe
     const approveSuccess = await approveCafe(cafe.id, profile.id);
     if (!approveSuccess) {
       return;
     }
 
-    // Then add to cafes database
+    // Then add to cafes database with coordinates
     const addSuccess = await addApprovedCafeToDatabase(
       cafe.cafe_name,
       cafe.city,
       cafe.country,
-      cafe.address
+      cafe.address,
+      coordinates?.lat,
+      coordinates?.lng
     );
 
     if (addSuccess) {

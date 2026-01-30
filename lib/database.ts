@@ -1729,6 +1729,8 @@ export interface Cafe {
   city: string;
   country: string;
   address?: string;
+  latitude?: number;
+  longitude?: number;
   average_rating: number;
   visit_count: number;
   created_at: string;
@@ -1936,7 +1938,9 @@ export async function addApprovedCafeToDatabase(
   name: string,
   city: string,
   country: string,
-  address?: string
+  address?: string,
+  latitude?: number,
+  longitude?: number
 ): Promise<boolean> {
   const { error } = await supabase
     .from('cafes')
@@ -1945,6 +1949,8 @@ export async function addApprovedCafeToDatabase(
       city: city.toUpperCase(),
       country: country.toUpperCase(),
       address: address?.toUpperCase(),
+      latitude: latitude,
+      longitude: longitude,
       average_rating: 0,
       visit_count: 0
     });

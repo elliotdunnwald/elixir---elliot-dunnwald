@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Search, Users, User, ShieldCheck, Loader2, Coffee, MapPin, Star } from 'lucide-react';
 import { searchProfiles, searchCafes, type Profile, type Cafe } from '../lib/database';
 import { useAuth } from '../hooks/useAuth';
+import CafeMap from '../components/CafeMap';
 
 const ExploreView: React.FC = () => {
   const { profile: currentProfile } = useAuth();
@@ -88,6 +89,17 @@ const ExploreView: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Cafe Map - Show when on cafes tab and have results */}
+      {activeTab === 'cafes' && cafeResults.length > 0 && (
+        <div className="mb-8">
+          <CafeMap
+            cafes={cafeResults}
+            onCafeClick={(cafe) => console.log('Clicked cafe:', cafe)}
+          />
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {activeTab === 'people' ? (
           searchResults.length > 0 ? (
