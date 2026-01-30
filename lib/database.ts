@@ -238,6 +238,7 @@ export interface DbBrewActivity {
   roaster: string;
   bean_origin: string;
   estate?: string;
+  producer?: string;
   lot?: string;
   varietal?: string;
   process?: string;
@@ -259,6 +260,10 @@ export interface DbBrewActivity {
   is_private: boolean;
   is_cafe_log: boolean;
   cafe_name?: string;
+  cafe_city?: string;
+  cafe_country?: string;
+  cafe_address?: string;
+  drink_ordered?: string;
   milk_type?: 'none' | 'steamed' | 'cold';
   steamed_drink?: 'macchiato' | 'cortado' | 'flatwhite' | 'cappuccino' | 'latte';
   drink_size?: number;
@@ -393,6 +398,62 @@ export async function getUserActivities(profileId: string, limit = 20, offset = 
   return data || [];
 }
 
+// Helper function to transform DbBrewActivity to BrewActivity
+export function dbActivityToBrewActivity(data: DbBrewActivity): BrewActivity {
+  return {
+    id: data.id,
+    userId: data.profile_id,
+    userName: data.profiles ? `${data.profiles.first_name} ${data.profiles.last_name}` : 'Unknown',
+    userUsername: data.profiles?.username,
+    userAvatar: data.profiles?.avatar_url || '',
+    title: data.title,
+    description: data.description || '',
+    imageUrl: data.image_url || '',
+    locationName: data.location_name,
+    roaster: data.roaster,
+    beanOrigin: data.bean_origin,
+    estate: data.estate,
+    producer: data.producer,
+    lot: data.lot,
+    varietal: data.varietal,
+    process: data.process,
+    brewType: data.brew_type,
+    brewer: data.brewer,
+    grinder: data.grinder,
+    grindSetting: data.grind_setting,
+    ratio: data.ratio,
+    gramsIn: data.grams_in,
+    gramsOut: data.grams_out,
+    brewWeight: data.brew_weight,
+    temperature: data.temperature,
+    tempUnit: data.temp_unit || 'C',
+    brewTime: data.brew_time,
+    rating: data.rating,
+    tds: data.tds,
+    eyPercentage: data.ey_percentage,
+    showParameters: data.show_parameters,
+    isPrivate: data.is_private,
+    isCafeLog: data.is_cafe_log,
+    cafeName: data.cafe_name,
+    timestamp: data.created_at,
+    milkType: data.milk_type,
+    steamedDrink: data.steamed_drink,
+    drinkSize: data.drink_size,
+    coldMilkOz: data.cold_milk_oz,
+    podSize: data.pod_size,
+    podName: data.pod_name,
+    likeCount: data.likes?.length || 0,
+    likedBy: data.likes?.map((l: any) => l.profile_id) || [],
+    comments: data.comments?.map((c: any) => ({
+      id: c.id,
+      userId: c.profile_id,
+      userName: c.profiles ? `${c.profiles.first_name} ${c.profiles.last_name}` : 'Unknown',
+      text: c.text,
+      timestamp: c.created_at
+    })) || []
+  };
+}
+
 export async function getActivityById(activityId: string): Promise<BrewActivity | null> {
   const { data, error } = await supabase
     .from('brew_activities')
@@ -412,48 +473,7 @@ export async function getActivityById(activityId: string): Promise<BrewActivity 
 
   if (!data) return null;
 
-  // Transform to BrewActivity format
-  return {
-    id: data.id,
-    userId: data.profile_id,
-    userName: data.profiles ? `${data.profiles.first_name} ${data.profiles.last_name}` : 'Unknown',
-    userUsername: data.profiles?.username,
-    userAvatar: data.profiles?.avatar_url,
-    title: data.title,
-    description: data.description || '',
-    imageUrl: data.image_url || '',
-    locationName: data.location_name,
-    roaster: data.roaster,
-    beanOrigin: data.bean_origin,
-    estate: data.estate || '',
-    varietal: data.varietal || '',
-    process: data.process || '',
-    brewer: data.brewer,
-    grinder: data.grinder || '',
-    grindSetting: data.grind_setting || '',
-    ratio: data.ratio,
-    gramsIn: data.grams_in,
-    gramsOut: data.grams_out,
-    brewWeight: data.brew_weight,
-    temperature: data.temperature,
-    tempUnit: data.temp_unit || 'C',
-    brewTime: data.brew_time,
-    rating: data.rating,
-    tds: data.tds,
-    eyPercentage: data.ey_percentage,
-    showParameters: data.show_parameters,
-    isPrivate: data.is_private,
-    timestamp: data.created_at,
-    likeCount: data.likes?.length || 0,
-    likedBy: data.likes?.map((l: any) => l.profile_id) || [],
-    comments: data.comments?.map((c: any) => ({
-      id: c.id,
-      userId: c.profile_id,
-      userName: c.profiles ? `${c.profiles.first_name} ${c.profiles.last_name}` : 'Unknown',
-      text: c.text,
-      timestamp: c.created_at
-    })) || []
-  };
+  return dbActivityToBrewActivity(data as DbBrewActivity);
 }
 
 export async function updateActivity(activityId: string, updates: Partial<DbBrewActivity>): Promise<DbBrewActivity | null> {
