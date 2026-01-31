@@ -1,12 +1,11 @@
 import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Bookmark, LayoutGrid, BarChart3, User as UserIcon, Settings2, X, Plus, Image as ImageIcon, Search, Lock, Eye, EyeOff, Share2, Check, Trash2, Loader2, ZoomIn, ZoomOut, Sun, Moon, Shield, ArrowLeft } from 'lucide-react';
+import { Bookmark, LayoutGrid, BarChart3, User as UserIcon, Settings2, X, Plus, Image as ImageIcon, Search, Lock, Eye, EyeOff, Share2, Check, Trash2, Loader2, ZoomIn, ZoomOut, Shield, ArrowLeft } from 'lucide-react';
 import Cropper from 'react-easy-crop';
 import { Area } from 'react-easy-crop';
 import { BREWING_DEVICES } from '../data/database';
 import { useAuth } from '../hooks/useAuth';
 import { useActivities } from '../hooks/useActivities';
-import { useTheme } from '../context/ThemeContext';
 import {
   getProfileByUsername,
   updateProfile,
@@ -135,31 +134,6 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({ isOpen, imageSrc, onCom
           </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-const ThemeToggleSection: React.FC = () => {
-  const { theme, toggleTheme } = useTheme();
-
-  return (
-    <div className="space-y-2">
-      <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">THEME</label>
-      <button
-        type="button"
-        onClick={toggleTheme}
-        className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${theme === 'light' ? 'bg-white text-black border-white' : 'bg-zinc-900 border-zinc-700 text-white'}`}
-      >
-        {theme === 'light' ? (
-          <>
-            <Sun className="w-4 h-4" /> LIGHT MODE
-          </>
-        ) : (
-          <>
-            <Moon className="w-4 h-4" /> DARK MODE
-          </>
-        )}
-      </button>
     </div>
   );
 };
@@ -377,7 +351,6 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
                 {formData.isPrivate ? <><EyeOff className="w-4 h-4" /> PRIVATE PROFILE</> : <><Eye className="w-4 h-4" /> PUBLIC PROFILE</>}
               </button>
             </div>
-            <ThemeToggleSection />
           </section>
         </div>
         <div className="px-6 sm:px-10 py-6 border-t-2 border-zinc-800 shrink-0">

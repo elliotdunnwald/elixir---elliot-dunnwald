@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { User, Plus, Search, ChevronRight, Check, X, MapPin, Loader2, Eye, EyeOff, Home, Mail, Phone, Coffee, ShoppingBag, Bell, Sun, Moon } from 'lucide-react';
+import { User, Plus, Search, ChevronRight, Check, X, MapPin, Loader2, Eye, EyeOff, Home, Mail, Phone, Coffee, ShoppingBag, Bell } from 'lucide-react';
 import FeedView from './views/Feed';
 import ProfileView from './views/Profile';
 import ExploreView from './views/Search';
@@ -17,7 +17,7 @@ import NotificationsPanel from './components/NotificationsPanel';
 import { BrewActivity } from './types';
 import { SettingsProvider } from './context/SettingsContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import { ThemeProvider, useTheme } from './context/ThemeContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { createProfile, createActivity, deleteActivity, getUnreadNotificationCount, getPendingFollowRequestCount } from './lib/database';
 import { BREWING_DEVICES } from './data/database';
 import { supabase } from './lib/supabase';
@@ -68,7 +68,6 @@ interface ProfileSetupProps {
 
 const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
   const { user, refreshProfile } = useAuth();
-  const { theme, toggleTheme } = useTheme();
   const [step, setStep] = useState(1);
   const [isDetecting, setIsDetecting] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -260,9 +259,6 @@ const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
               <div className="space-y-4">
                 <button onClick={() => setFormData(p => ({...p, isPrivate: !p.isPrivate}))} className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${formData.isPrivate ? 'bg-zinc-900 border-zinc-700 text-zinc-400' : 'bg-white text-black border-white'}`}>
                   {formData.isPrivate ? <><EyeOff className="w-4 h-4" /> PRIVATE PROFILE</> : <><Eye className="w-4 h-4" /> PUBLIC PROFILE</>}
-                </button>
-                <button onClick={toggleTheme} className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${theme === 'light' ? 'bg-white text-black border-white' : 'bg-zinc-900 border-zinc-700 text-white'}`}>
-                  {theme === 'light' ? <><Sun className="w-4 h-4" /> LIGHT MODE</> : <><Moon className="w-4 h-4" /> DARK MODE</>}
                 </button>
               </div>
             </div>
