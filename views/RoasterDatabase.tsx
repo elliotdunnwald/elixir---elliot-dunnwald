@@ -223,69 +223,34 @@ const RoasterDatabase: React.FC = () => {
         </div>
       )}
 
-      <div className="space-y-2">
-        {searchResults.map(roaster => {
-          // Show matching offerings preview if searching
-          const matchingOfferings = searchQuery
-            ? roaster.offerings.filter(o =>
-                o.origin.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                o.varietals.some(v => v.toLowerCase().includes(searchQuery.toLowerCase())) ||
-                o.processing.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                o.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                (o.region && o.region.toLowerCase().includes(searchQuery.toLowerCase())) ||
-                (o.estate && o.estate.toLowerCase().includes(searchQuery.toLowerCase()))
-              ).slice(0, 2)
-            : [];
-
-          return (
-            <div
-              key={roaster.id}
-              onClick={() => setSelectedRoaster(roaster)}
-              className="bg-zinc-950 border-2 border-zinc-900 rounded-xl p-4 hover:border-white transition-all cursor-pointer group"
-            >
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3">
-                    <h3 className="text-lg font-black tracking-tight uppercase group-hover:text-white transition-colors truncate">
-                      {roaster.name}
-                    </h3>
-                    {roaster.foundedYear && (
-                      <span className="text-[9px] font-black text-zinc-500 uppercase tracking-wider whitespace-nowrap">
-                        EST. {roaster.foundedYear}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-4 mt-1">
-                    <div className="flex items-center gap-1.5 text-[10px] text-zinc-400">
-                      <MapPin className="w-3 h-3 flex-shrink-0" />
-                      <span className="font-bold uppercase tracking-wide">{roaster.city}, {roaster.country}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5 text-[10px] text-zinc-500">
-                      <Coffee className="w-3 h-3 flex-shrink-0" />
-                      <span className="font-bold uppercase tracking-wide">{roaster.offerings.length} OFFERING{roaster.offerings.length !== 1 ? 'S' : ''}</span>
-                    </div>
-                  </div>
-
-                  {/* Show matching offerings preview inline */}
-                  {matchingOfferings.length > 0 && (
-                    <div className="flex items-center gap-2 mt-2 flex-wrap">
-                      {matchingOfferings.map(offering => (
-                        <span key={offering.id} className="text-[9px] text-zinc-400 font-black uppercase tracking-wide bg-zinc-900 px-2 py-1 rounded">
-                          {offering.name} · {offering.origin}
-                        </span>
-                      ))}
-                      {roaster.offerings.length > matchingOfferings.length && (
-                        <span className="text-[9px] text-zinc-600 font-black uppercase">
-                          +{roaster.offerings.length - matchingOfferings.length}
-                        </span>
-                      )}
-                    </div>
-                  )}
-                </div>
+      {/* Compact list view */}
+      <div className="space-y-1.5">
+        {searchResults.map(roaster => (
+          <div
+            key={roaster.id}
+            onClick={() => setSelectedRoaster(roaster)}
+            className="bg-zinc-950 border border-zinc-900 rounded-lg p-3 hover:border-white transition-all cursor-pointer group flex items-center justify-between gap-4"
+          >
+            <div className="flex items-center gap-4 flex-1 min-w-0">
+              <h3 className="text-sm font-black tracking-tight uppercase group-hover:text-white transition-colors truncate">
+                {roaster.name}
+              </h3>
+              <div className="flex items-center gap-1 text-[9px] text-zinc-500">
+                <MapPin className="w-2.5 h-2.5" />
+                <span className="font-bold uppercase tracking-wide whitespace-nowrap">{roaster.city}, {roaster.country}</span>
               </div>
             </div>
-          );
-        })}
+            <div className="flex items-center gap-3 text-[9px] text-zinc-600 font-bold uppercase whitespace-nowrap">
+              {roaster.foundedYear && (
+                <span>EST. {roaster.foundedYear}</span>
+              )}
+              <div className="flex items-center gap-1">
+                <Coffee className="w-2.5 h-2.5" />
+                <span>{roaster.offerings.length}</span>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
       {searchResults.length === 0 && searchQuery && (
