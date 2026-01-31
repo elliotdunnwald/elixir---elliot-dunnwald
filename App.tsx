@@ -380,15 +380,15 @@ const MobileNav: React.FC = () => {
     { path: '/profile/me', label: 'PROFILE', icon: <User className="w-6 h-6" /> },
   ];
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-black/90 backdrop-blur-xl border-t-2 border-zinc-900 sm:hidden flex justify-around items-center h-20 px-2">
+    <nav className="bg-zinc-900 border-t-2 border-zinc-800 sm:hidden flex justify-around items-center h-20 px-2 shadow-2xl shadow-white/5">
       {navItems.map((item) => (
         <Link
           key={item.label}
           to={item.path}
-          className={`flex flex-col items-center gap-1 px-4 py-2 rounded-2xl border-2 transition-all ${
+          className={`flex flex-col items-center gap-1 px-3 py-2 rounded-xl border-2 transition-all ${
             location.pathname === item.path
               ? 'text-white border-white bg-white/10'
-              : 'text-zinc-200 border-transparent hover:text-zinc-400 hover:border-zinc-800'
+              : 'text-zinc-400 border-transparent hover:text-white hover:border-zinc-700'
           }`}
         >
           {item.icon}
@@ -478,7 +478,7 @@ const AppContent: React.FC = () => {
   return (
     <Router>
       <PageTitle />
-      <div className="min-h-screen flex flex-col bg-black text-white selection:bg-white selection:text-black pb-24 sm:pb-0">
+      <div className="min-h-screen flex flex-col bg-black text-white selection:bg-white selection:text-black">
         <Navbar
           onLogBrew={() => setIsLogModalOpen(true)}
           onOpenNotifications={() => setIsNotificationsOpen(true)}
@@ -503,7 +503,7 @@ const AppContent: React.FC = () => {
           </Routes>
         </main>
         <MobileNav />
-        <button onClick={() => setIsLogModalOpen(true)} className="fixed bottom-24 right-6 z-30 bg-white text-black w-16 h-16 rounded-full flex items-center justify-center shadow-2xl shadow-white/20 border-4 border-black sm:hidden active:scale-90 transition-all">
+        <button onClick={() => setIsLogModalOpen(true)} className="fixed bottom-6 right-6 z-30 bg-white text-black w-16 h-16 rounded-full flex items-center justify-center shadow-2xl shadow-white/20 border-4 border-black sm:hidden active:scale-90 transition-all">
           <Plus className="w-8 h-8" />
         </button>
         <BrewLogModal isOpen={isLogModalOpen} onClose={() => setIsLogModalOpen(false)} />
