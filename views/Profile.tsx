@@ -435,7 +435,10 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
     async function loadProfile() {
       setLoading(true);
 
-      if (isMe && currentProfile) {
+      // Check if viewing own profile (either isMe prop or username matches current profile)
+      const viewingOwnProfile = isMe || (userId && currentProfile && userId === currentProfile.username);
+
+      if (viewingOwnProfile && currentProfile) {
         // Load own profile
         const [gearData, followerCount, followingCount] = await Promise.all([
           getUserGear(currentProfile.id),
@@ -474,7 +477,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
     }
 
     loadProfile();
-  }, [isMe, userId, currentProfile?.id]);
+  }, [isMe, userId, currentProfile?.id, currentProfile?.username]);
 
   // Update brew count when activities change
   useEffect(() => {
@@ -563,7 +566,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
   };
 
   const shareProfile = () => {
-    if (!isMe || !profileData) return;
+    if (!profileData) return;
 
     const url = `${window.location.origin}/#/profile/${profileData.username}`;
     navigator.clipboard.writeText(url);
@@ -620,6 +623,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
     );
   }
 
+  // Check if viewing own profile
+  const viewingOwnProfile = isMe || (currentProfile && profileData.id === currentProfile.id);
+
   const displayUser = {
     id: profileData.id,
     name: `${profileData.first_name} ${profileData.last_name}`,
@@ -638,7 +644,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-10 animate-in slide-in-from-bottom duration-500 pb-20">
-      {!isMe && (
+      {!viewingOwnProfile && (
         <button
           onClick={() => navigate(-1)}
           className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors"
@@ -650,7 +656,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
 
       <div className="bg-zinc-900 rounded-[2.5rem] sm:rounded-[3.5rem] overflow-hidden border-2 border-zinc-800 shadow-2xl relative">
         <div className="h-32 sm:h-40 bg-zinc-950 flex items-center justify-center"></div>
-        {isMe && (
+        {viewingOwnProfile && (
           <div className="absolute top-4 right-4 sm:top-6 sm:right-6 flex gap-2 sm:gap-3">
             <button onClick={shareProfile} className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-black border-2 border-zinc-800 text-zinc-100 hover:text-white hover:border-white transition-all shadow-xl z-10 flex items-center gap-2">
               {copied ? <Check className="w-4 h-4 sm:w-5 sm:h-5 text-white" /> : <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />}
@@ -659,7 +665,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
             <button onClick={() => setIsEditModalOpen(true)} className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-black border-2 border-zinc-800 text-zinc-100 hover:text-white hover:border-white transition-all shadow-xl z-10"><Settings2 className="w-4 h-4 sm:w-5 sm:h-5" /></button>
           </div>
         )}
-        {!isMe && currentProfile && (
+        {!viewingOwnProfile && currentProfile && (
           <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
             <button
               onClick={handleFollowToggle}
@@ -712,7 +718,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
           { id: 'activity', label: 'HISTORY', icon: <LayoutGrid className="w-4 h-4" /> },
           { id: 'locker', label: 'GEAR', icon: <Settings2 className="w-4 h-4" /> },
           { id: 'analytics', label: 'STATS', icon: <BarChart3 className="w-4 h-4" /> },
-          ...(isMe && currentProfile?.is_admin ? [{ id: 'admin', label: 'ADMIN', icon: <Shield className="w-4 h-4" /> }] : [])
+          ...(viewingOwnProfile && currentProfile?.is_admin ? [{ id: 'admin', label: 'ADMIN', icon: <Shield className="w-4 h-4" /> }] : [])
         ].map((tab) => (
           <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 py-4 sm:py-5 px-1 sm:px-2 rounded-xl sm:rounded-2xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] transition-all flex items-center justify-center gap-2 sm:gap-3 ${activeTab === tab.id ? 'bg-white text-black shadow-xl' : 'text-zinc-200 hover:text-white'}`}>
             {tab.icon} <span className="hidden xs:inline sm:inline">{tab.label}</span>
@@ -753,8 +759,8 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                 <PostCard
                   key={a.id}
                   activity={a}
-                  onEdit={isMe ? setEditActivity : undefined}
-                  onDelete={isMe ? handleDeleteActivity : undefined}
+                  onEdit={viewingOwnProfile ? setEditActivity : undefined}
+                  onDelete={viewingOwnProfile ? handleDeleteActivity : undefined}
                 />
               ))
             ) : (
@@ -767,7 +773,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
         )}
         {activeTab === 'locker' && (
           <div className="animate-in fade-in duration-500 px-2 sm:px-0">
-            {isMe && (
+            {viewingOwnProfile && (
               <div className="mb-6">
                 {!isAddingGear ? (
                   <button
@@ -838,7 +844,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                       <p className="text-[8px] sm:text-[9px] font-black text-zinc-200 uppercase tracking-widest">DEVICE</p>
                       <p className="text-lg sm:text-xl font-black text-white uppercase tracking-tighter italic">{item.brand} {item.name}</p>
                     </div>
-                    {isMe ? (
+                    {viewingOwnProfile ? (
                       <button
                         onClick={() => handleDeleteGear(item.id)}
                         disabled={deletingGearId === item.id}
@@ -874,7 +880,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
             </div>
           </div>
         )}
-        {activeTab === 'admin' && isMe && currentProfile?.is_admin && (
+        {activeTab === 'admin' && viewingOwnProfile && currentProfile?.is_admin && (
           <div className="animate-in fade-in duration-500 space-y-4">
             <Link
               to="/admin/roasters"
@@ -932,7 +938,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
         onClose={() => setEditActivity(null)}
         editActivity={editActivity}
       />
-      {isMe && <EditProfileModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} userData={profileData} onSave={handleUpdateProfile} />}
+      {viewingOwnProfile && <EditProfileModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} userData={profileData} onSave={handleUpdateProfile} />}
     </div>
   );
 };
