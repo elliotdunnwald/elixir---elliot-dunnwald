@@ -274,15 +274,15 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-300">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative bg-zinc-900 w-full max-w-2xl h-full sm:h-auto sm:rounded-[2.5rem] shadow-2xl border border-zinc-800 overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95">
-        <div className="px-8 py-6 border-b border-zinc-800 flex justify-between items-center bg-zinc-900">
+      <div className="relative bg-zinc-900 w-full max-w-2xl h-full sm:h-auto sm:rounded-[3.5rem] shadow-2xl shadow-white/5 border-2 border-zinc-800 overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95">
+        <div className="px-8 py-6 border-b-2 border-zinc-800 flex justify-between items-center bg-zinc-900">
           <h2 className="text-xl font-black text-white tracking-tighter uppercase">EDIT PROFILE</h2>
           <button onClick={onClose} className="text-zinc-400 hover:text-white transition-all"><X className="w-6 h-6" /></button>
         </div>
         <div className="overflow-y-auto px-6 sm:px-10 py-10 space-y-12 custom-scrollbar flex-1">
           <section className="flex flex-col items-center gap-6">
-            <div onClick={() => !uploading && mediaInputRef.current?.click()} className={`w-32 h-32 rounded-3xl border-4 border-zinc-800 bg-black flex items-center justify-center overflow-hidden ${uploading ? 'cursor-wait' : 'cursor-pointer hover:border-white'} transition-all group relative`}>
-              {formData.avatar ? <img src={formData.avatar} className="w-full h-full object-cover" alt="" /> : <UserIcon className="w-12 h-12 text-zinc-800" />}
+            <div onClick={() => !uploading && mediaInputRef.current?.click()} className={`w-32 h-32 rounded-3xl border-4 border-white bg-white flex items-center justify-center overflow-hidden shadow-2xl shadow-white/10 ${uploading ? 'cursor-wait' : 'cursor-pointer hover:shadow-white/20'} transition-all group relative`}>
+              {formData.avatar ? <img src={formData.avatar} className="w-full h-full object-cover" alt="" /> : <UserIcon className="w-12 h-12 text-black" />}
               {uploading ? (
                 <div className="absolute inset-0 bg-black/80 flex items-center justify-center">
                   <Loader2 className="w-8 h-8 text-white animate-spin" />
@@ -353,8 +353,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
             </div>
           </section>
         </div>
-        <div className="px-6 sm:px-10 py-6 border-t-2 border-zinc-800 shrink-0">
-          <button type="button" onClick={handleSave} className="w-full bg-white text-black font-black text-sm uppercase tracking-[0.4em] py-7 rounded-[2.5rem] transition-all active:scale-[0.98]">SAVE CHANGES</button>
+        <div className="px-6 sm:px-10 py-6 border-t-2 border-zinc-800 shrink-0 bg-zinc-900">
+          <button type="button" onClick={handleSave} className="w-full bg-white text-black font-black text-sm uppercase tracking-[0.4em] py-7 rounded-[2rem] sm:rounded-[2.5rem] transition-all active:scale-[0.98] shadow-xl">SAVE CHANGES</button>
         </div>
       </div>
       <ImageCropModal
