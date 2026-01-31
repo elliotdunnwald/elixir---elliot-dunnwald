@@ -164,7 +164,7 @@ const RoasterDatabase: React.FC = () => {
         </div>
         <button
           onClick={() => setIsAddingRoaster(true)}
-          className="bg-white text-black px-6 py-3 rounded-2xl flex items-center gap-2 font-black text-xs uppercase tracking-wider active:scale-95 transition-all"
+          className="bg-white text-black px-6 py-3 rounded-2xl flex items-center gap-2 font-black text-xs uppercase tracking-wider active:scale-95 transition-all shadow-xl"
         >
           <Plus className="w-4 h-4" /> ADD ROASTER
         </button>
@@ -178,7 +178,7 @@ const RoasterDatabase: React.FC = () => {
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="SEARCH BY ROASTER, ORIGIN, VARIETAL, PROCESS, OR ESTATE..."
-            className="w-full bg-zinc-950 border-2 border-zinc-900 rounded-2xl py-4 pl-12 pr-12 text-sm font-black text-white outline-none focus:border-white uppercase placeholder:text-zinc-700"
+            className="w-full bg-black border-2 border-zinc-800 rounded-2xl py-4 pl-12 pr-12 text-sm font-black text-white outline-none focus:border-white uppercase placeholder:text-zinc-700"
           />
           {searchQuery && (
             <button
@@ -225,12 +225,12 @@ const RoasterDatabase: React.FC = () => {
       )}
 
       {/* Compact list view */}
-      <div className="space-y-1.5">
+      <div className="space-y-3">
         {searchResults.map(roaster => (
           <div
             key={roaster.id}
             onClick={() => setSelectedRoaster(roaster)}
-            className="bg-zinc-950 border border-zinc-900 rounded-lg p-3 hover:border-white transition-all cursor-pointer group flex items-center justify-between gap-4"
+            className="bg-zinc-900 border-2 border-zinc-800 rounded-2xl p-5 hover:border-white transition-all cursor-pointer group flex items-center justify-between gap-4 shadow-2xl shadow-white/5"
           >
             <div className="flex items-center gap-4 flex-1 min-w-0">
               <h3 className="text-sm font-black tracking-tight uppercase group-hover:text-white transition-colors truncate">
@@ -316,7 +316,7 @@ const RoasterDetailModal: React.FC<{
     >
       <div className="min-h-full flex items-center justify-center py-10">
         <div
-          className="max-w-4xl w-full bg-zinc-950 border-2 border-zinc-800 rounded-3xl p-8 space-y-6"
+          className="max-w-4xl w-full bg-zinc-900 border-2 border-zinc-800 rounded-[3.5rem] p-8 space-y-6 shadow-2xl shadow-white/5"
           onClick={(e) => e.stopPropagation()}
         >
         <div className="flex items-start justify-between">
@@ -374,7 +374,7 @@ const RoasterDetailModal: React.FC<{
               {roaster.offerings.map(offering => (
                 <div
                   key={offering.id}
-                  className="bg-black border-2 border-zinc-900 rounded-2xl p-5 space-y-3"
+                  className="bg-black border-2 border-zinc-800 rounded-2xl p-5 space-y-3 shadow-xl"
                 >
                   <div>
                     <h4 className="text-lg font-black tracking-tighter">{offering.name}</h4>
@@ -442,7 +442,7 @@ const RoasterDetailModal: React.FC<{
         <div className="pt-6 border-t-2 border-zinc-800">
           <button
             onClick={onClose}
-            className="w-full bg-white text-black px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all border-2 border-white"
+            className="w-full bg-white text-black px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all border-2 border-white shadow-xl"
           >
             BACK TO ROASTERS
           </button>
@@ -495,7 +495,7 @@ const AddRoasterModal: React.FC<{
       onClick={onClose}
     >
       <div
-        className="max-w-md w-full bg-zinc-950 border-2 border-zinc-800 rounded-3xl p-8 space-y-6"
+        className="max-w-md w-full bg-zinc-900 border-2 border-zinc-800 rounded-[3.5rem] p-8 space-y-6 shadow-2xl shadow-white/5"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
@@ -514,7 +514,7 @@ const AddRoasterModal: React.FC<{
             placeholder="ROASTER NAME *"
             value={formData.name}
             onChange={e => setFormData({ ...formData, name: e.target.value })}
-            className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+            className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
           />
           <div className="grid grid-cols-2 gap-4">
             <input
@@ -522,14 +522,14 @@ const AddRoasterModal: React.FC<{
               placeholder="CITY *"
               value={formData.city}
               onChange={e => setFormData({ ...formData, city: e.target.value })}
-              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+              className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
             />
             <input
               type="text"
               placeholder="STATE"
               value={formData.state}
               onChange={e => setFormData({ ...formData, state: e.target.value })}
-              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+              className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
             />
           </div>
           <input
@@ -537,28 +537,28 @@ const AddRoasterModal: React.FC<{
             placeholder="COUNTRY *"
             value={formData.country}
             onChange={e => setFormData({ ...formData, country: e.target.value })}
-            className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+            className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
           />
           <input
             type="url"
             placeholder="WEBSITE"
             value={formData.website}
             onChange={e => setFormData({ ...formData, website: e.target.value })}
-            className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white"
+            className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white"
           />
           <input
             type="number"
             placeholder="FOUNDED YEAR"
             value={formData.foundedYear}
             onChange={e => setFormData({ ...formData, foundedYear: e.target.value })}
-            className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+            className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
           />
         </div>
 
         <button
           onClick={handleSubmit}
           disabled={!formData.name || !formData.city || !formData.country}
-          className="w-full bg-white text-black disabled:bg-zinc-900 disabled:text-zinc-700 py-4 rounded-2xl font-black text-sm uppercase tracking-wider transition-all active:scale-95"
+          className="w-full bg-white text-black disabled:bg-zinc-900 disabled:text-zinc-700 py-4 rounded-2xl font-black text-sm uppercase tracking-wider transition-all active:scale-95 shadow-xl"
         >
           ADD ROASTER
         </button>
@@ -626,7 +626,7 @@ const AddOfferingModal: React.FC<{
       onClick={onClose}
     >
       <div
-        className="max-w-2xl w-full bg-zinc-950 border-2 border-zinc-800 rounded-3xl p-8 space-y-6 my-10"
+        className="max-w-2xl w-full bg-zinc-900 border-2 border-zinc-800 rounded-[3.5rem] p-8 space-y-6 my-10 shadow-2xl shadow-white/5"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
@@ -649,14 +649,14 @@ const AddOfferingModal: React.FC<{
               placeholder="COFFEE NAME *"
               value={formData.name}
               onChange={e => setFormData({ ...formData, name: e.target.value })}
-              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+              className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
             />
             <input
               type="text"
               placeholder="LOT NUMBER *"
               value={formData.lot}
               onChange={e => setFormData({ ...formData, lot: e.target.value })}
-              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+              className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
             />
           </div>
 
@@ -666,14 +666,14 @@ const AddOfferingModal: React.FC<{
               placeholder="ORIGIN *"
               value={formData.origin}
               onChange={e => setFormData({ ...formData, origin: e.target.value })}
-              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+              className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
             />
             <input
               type="text"
               placeholder="REGION"
               value={formData.region}
               onChange={e => setFormData({ ...formData, region: e.target.value })}
-              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+              className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
             />
           </div>
 
@@ -682,7 +682,7 @@ const AddOfferingModal: React.FC<{
             placeholder="ESTATE/FARM"
             value={formData.estate}
             onChange={e => setFormData({ ...formData, estate: e.target.value })}
-            className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+            className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
           />
 
           <input
@@ -690,7 +690,7 @@ const AddOfferingModal: React.FC<{
             placeholder="PRODUCER"
             value={formData.producer}
             onChange={e => setFormData({ ...formData, producer: e.target.value })}
-            className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+            className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
           />
 
           <input
@@ -698,7 +698,7 @@ const AddOfferingModal: React.FC<{
             placeholder="VARIETALS (COMMA SEPARATED) *"
             value={formData.varietals}
             onChange={e => setFormData({ ...formData, varietals: e.target.value })}
-            className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+            className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
           />
 
           <div className="grid grid-cols-2 gap-4">
@@ -707,14 +707,14 @@ const AddOfferingModal: React.FC<{
               placeholder="PROCESSING *"
               value={formData.processing}
               onChange={e => setFormData({ ...formData, processing: e.target.value })}
-              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+              className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
             />
             <input
               type="text"
               placeholder="ROAST LEVEL"
               value={formData.roastLevel}
               onChange={e => setFormData({ ...formData, roastLevel: e.target.value })}
-              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+              className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
             />
           </div>
 
@@ -723,7 +723,7 @@ const AddOfferingModal: React.FC<{
             placeholder="TASTING NOTES (COMMA SEPARATED)"
             value={formData.tastingNotes}
             onChange={e => setFormData({ ...formData, tastingNotes: e.target.value })}
-            className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white"
+            className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white"
           />
 
           <input
@@ -731,7 +731,7 @@ const AddOfferingModal: React.FC<{
             placeholder="ELEVATION (e.g. 1800-2000m)"
             value={formData.elevation}
             onChange={e => setFormData({ ...formData, elevation: e.target.value })}
-            className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+            className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
           />
 
           <div className="grid grid-cols-3 gap-4">
@@ -741,21 +741,21 @@ const AddOfferingModal: React.FC<{
               placeholder="PRICE"
               value={formData.price}
               onChange={e => setFormData({ ...formData, price: e.target.value })}
-              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+              className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
             />
             <input
               type="text"
               placeholder="SIZE"
               value={formData.size}
               onChange={e => setFormData({ ...formData, size: e.target.value })}
-              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+              className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
             />
             <input
               type="month"
               placeholder="HARVEST"
               value={formData.harvestDate}
               onChange={e => setFormData({ ...formData, harvestDate: e.target.value })}
-              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+              className="w-full bg-black border-2 border-zinc-800 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
             />
           </div>
         </div>
@@ -763,7 +763,7 @@ const AddOfferingModal: React.FC<{
         <button
           onClick={handleSubmit}
           disabled={!formData.name || !formData.lot || !formData.origin || !formData.varietals || !formData.processing}
-          className="w-full bg-white text-black disabled:bg-zinc-900 disabled:text-zinc-700 py-4 rounded-2xl font-black text-sm uppercase tracking-wider transition-all active:scale-95"
+          className="w-full bg-white text-black disabled:bg-zinc-900 disabled:text-zinc-700 py-4 rounded-2xl font-black text-sm uppercase tracking-wider transition-all active:scale-95 shadow-xl"
         >
           ADD OFFERING
         </button>
