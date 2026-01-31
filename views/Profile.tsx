@@ -627,23 +627,23 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
         </button>
       )}
 
-      <div className="bg-zinc-900 rounded-[2.5rem] sm:rounded-[3.5rem] overflow-hidden border-2 border-zinc-800 shadow-2xl relative">
+      <div className="bg-zinc-900 rounded-[2rem] sm:rounded-[3.5rem] overflow-hidden border-2 border-zinc-800 shadow-2xl shadow-white/5 relative">
         <div className="h-32 sm:h-40 bg-zinc-950 flex items-center justify-center"></div>
         {viewingOwnProfile && (
-          <div className="absolute top-4 right-4 sm:top-6 sm:right-6 flex gap-2 sm:gap-3">
-            <button onClick={shareProfile} className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-black border-2 border-zinc-800 text-zinc-100 hover:text-white hover:border-white transition-all shadow-xl z-10 flex items-center gap-2">
+          <div className="absolute top-3 right-3 sm:top-6 sm:right-6 flex gap-2 sm:gap-3">
+            <button onClick={shareProfile} className="p-2.5 sm:p-4 rounded-lg sm:rounded-2xl bg-black border-2 border-zinc-800 text-zinc-100 hover:text-white hover:border-white transition-all shadow-xl z-10 flex items-center gap-2">
               {copied ? <Check className="w-4 h-4 sm:w-5 sm:h-5 text-white" /> : <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />}
               <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest hidden sm:inline">{copied ? 'LINK COPIED' : 'SHARE PROFILE'}</span>
             </button>
-            <button onClick={() => setIsEditModalOpen(true)} className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-black border-2 border-zinc-800 text-zinc-100 hover:text-white hover:border-white transition-all shadow-xl z-10"><Settings2 className="w-4 h-4 sm:w-5 sm:h-5" /></button>
+            <button onClick={() => setIsEditModalOpen(true)} className="p-2.5 sm:p-4 rounded-lg sm:rounded-2xl bg-black border-2 border-zinc-800 text-zinc-100 hover:text-white hover:border-white transition-all shadow-xl z-10"><Settings2 className="w-4 h-4 sm:w-5 sm:h-5" /></button>
           </div>
         )}
         {!viewingOwnProfile && currentProfile && (
-          <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+          <div className="absolute top-3 right-3 sm:top-6 sm:right-6">
             <button
               onClick={handleFollowToggle}
               disabled={followLoading || hasPendingRequest}
-              className={`px-6 py-3 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all shadow-xl ${
+              className={`px-4 py-2 sm:px-6 sm:py-3 rounded-xl sm:rounded-2xl font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] transition-all shadow-xl ${
                 following
                   ? 'bg-zinc-800 text-zinc-400 border-2 border-zinc-700 hover:border-red-900 hover:text-red-400'
                   : hasPendingRequest
@@ -651,13 +651,13 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                   : 'bg-white text-black border-2 border-white hover:bg-zinc-100'
               }`}
             >
-              {followLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : following ? 'UNFOLLOW' : hasPendingRequest ? 'REQUESTED' : 'FOLLOW'}
+              {followLoading ? <Loader2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-spin" /> : following ? 'UNFOLLOW' : hasPendingRequest ? 'REQUESTED' : 'FOLLOW'}
             </button>
           </div>
         )}
-        <div className="px-6 sm:px-10 pb-8 sm:pb-10">
+        <div className="px-5 sm:px-10 pb-5 sm:pb-10">
           <div className="flex flex-col sm:flex-row items-center sm:items-end -mt-12 sm:-mt-16 mb-6 sm:mb-8 gap-4 sm:gap-8">
-            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-3xl border-4 border-white bg-white flex items-center justify-center overflow-hidden shadow-2xl shadow-white/10 shrink-0">
+            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl sm:rounded-3xl border-4 border-white bg-white flex items-center justify-center overflow-hidden shadow-2xl shadow-white/10 shrink-0">
               {displayUser.avatar ? <img src={displayUser.avatar} className="w-full h-full object-cover" alt="" /> : <UserIcon className="w-10 h-10 sm:w-14 sm:h-14 text-black" />}
             </div>
             <div className="sm:pb-2 flex-grow text-center sm:text-left">
@@ -672,11 +672,11 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
             </div>
           </div>
           {displayUser.bio && (
-            <p className="mb-8 sm:mb-10 text-zinc-400 font-black uppercase tracking-widest text-[10px] sm:text-xs leading-relaxed max-w-2xl border-l-4 border-zinc-800 pl-4 sm:pl-6 italic mx-auto sm:mx-0">
+            <p className="mb-6 sm:mb-10 text-zinc-400 font-black uppercase tracking-widest text-[10px] sm:text-xs leading-relaxed max-w-2xl border-l-4 border-zinc-800 pl-4 sm:pl-6 italic mx-auto sm:mx-0">
               "{displayUser.bio}"
             </p>
           )}
-          <div className="grid grid-cols-3 gap-4 sm:gap-8 py-8 sm:py-10 border-t-2 border-zinc-800">
+          <div className="grid grid-cols-3 gap-3 sm:gap-8 py-5 sm:py-10 border-t-2 border-zinc-800">
             {[{ label: 'FOLLOWERS', val: displayUser.stats.followers }, { label: 'FOLLOWING', val: displayUser.stats.following }, { label: 'BREWS', val: displayUser.stats.brews }].map(s => (
               <div key={s.label} className="text-center">
                 <p className="text-[8px] sm:text-[10px] font-black text-zinc-200 uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-1 sm:mb-2">{s.label}</p>
@@ -686,7 +686,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
           </div>
         </div>
       </div>
-      <div className="flex bg-black p-1 sm:p-2 rounded-2xl sm:rounded-3xl border-2 border-zinc-900 sticky top-18 sm:top-24 z-40 backdrop-blur-xl">
+      <div className="flex bg-black p-1 sm:p-2 rounded-xl sm:rounded-2xl border-2 border-zinc-800 sticky top-18 sm:top-24 z-40 backdrop-blur-xl shadow-lg">
         {[
           { id: 'activity', label: 'HISTORY', icon: <LayoutGrid className="w-4 h-4" /> },
           { id: 'locker', label: 'GEAR', icon: <Settings2 className="w-4 h-4" /> },
@@ -705,19 +705,19 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
             <div className="flex gap-2 justify-center">
               <button
                 onClick={() => setActivityFilter('all')}
-                className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${activityFilter === 'all' ? 'bg-white text-black border-white' : 'bg-black text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
+                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'all' ? 'bg-white text-black border-white' : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
               >
                 All
               </button>
               <button
                 onClick={() => setActivityFilter('brews')}
-                className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${activityFilter === 'brews' ? 'bg-white text-black border-white' : 'bg-black text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
+                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'brews' ? 'bg-white text-black border-white' : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
               >
                 Home Brews
               </button>
               <button
                 onClick={() => setActivityFilter('cafes')}
-                className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${activityFilter === 'cafes' ? 'bg-white text-black border-white' : 'bg-black text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
+                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'cafes' ? 'bg-white text-black border-white' : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
               >
                 Cafes
               </button>
@@ -737,9 +737,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                 />
               ))
             ) : (
-              <div className="py-24 text-center border-4 border-dashed border-zinc-900 rounded-[3.5rem] space-y-6 px-6">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-zinc-900 rounded-2xl mx-auto flex items-center justify-center"><LayoutGrid className="w-8 h-8 sm:w-10 sm:h-10 text-zinc-700" /></div>
-                <h3 className="text-zinc-100 font-black uppercase text-xs sm:text-base tracking-[0.3em] sm:tracking-[0.4em]">HISTORY EMPTY</h3>
+              <div className="py-20 sm:py-24 text-center border-2 border-zinc-800 bg-zinc-900 rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6 px-6 shadow-2xl shadow-white/5">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-black rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center"><LayoutGrid className="w-8 h-8 sm:w-10 sm:h-10 text-zinc-700" /></div>
+                <h3 className="text-zinc-400 font-black uppercase text-xs sm:text-base tracking-[0.3em] sm:tracking-[0.4em]">HISTORY EMPTY</h3>
               </div>
             )}
           </div>
@@ -812,7 +812,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
             {displayUser.gear.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {gear.map((item: any) => (
-                  <div key={item.id} className="bg-zinc-900 p-6 sm:p-8 rounded-[2rem] border-2 border-zinc-800 flex items-center justify-between group hover:border-white transition-all">
+                  <div key={item.id} className="bg-zinc-900 p-5 sm:p-8 rounded-2xl border-2 border-zinc-800 flex items-center justify-between group hover:border-white transition-all shadow-2xl shadow-white/5">
                     <div className="space-y-1">
                       <p className="text-[8px] sm:text-[9px] font-black text-zinc-200 uppercase tracking-widest">DEVICE</p>
                       <p className="text-lg sm:text-xl font-black text-white uppercase tracking-tighter italic">{item.brand} {item.name}</p>
@@ -821,7 +821,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                       <button
                         onClick={() => handleDeleteGear(item.id)}
                         disabled={deletingGearId === item.id}
-                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center hover:border-red-900 hover:bg-red-950 transition-all group"
+                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-zinc-950 border-2 border-zinc-800 flex items-center justify-center hover:border-red-900 hover:bg-red-950 transition-all group"
                       >
                         {deletingGearId === item.id ? (
                           <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-200 animate-spin" />
@@ -830,7 +830,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                         )}
                       </button>
                     ) : (
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-zinc-950 border-2 border-zinc-800 flex items-center justify-center">
                         <Settings2 className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-800 group-hover:text-white transition-colors" />
                       </div>
                     )}
@@ -838,18 +838,18 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                 ))}
               </div>
             ) : (
-              <div className="py-24 text-center border-4 border-dashed border-zinc-900 rounded-[3.5rem] space-y-6">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-zinc-900 rounded-2xl mx-auto flex items-center justify-center"><Settings2 className="w-8 h-8 sm:w-10 sm:h-10 text-zinc-700" /></div>
-                <h3 className="text-zinc-100 font-black uppercase text-xs sm:text-base tracking-[0.4em]">LOCKER UNSET</h3>
+              <div className="py-20 sm:py-24 text-center border-2 border-zinc-800 bg-zinc-900 rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6 shadow-2xl shadow-white/5">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-black rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center"><Settings2 className="w-8 h-8 sm:w-10 sm:h-10 text-zinc-700" /></div>
+                <h3 className="text-zinc-400 font-black uppercase text-xs sm:text-base tracking-[0.4em]">LOCKER UNSET</h3>
               </div>
             )}
           </div>
         )}
         {activeTab === 'analytics' && (
           <div className="animate-in fade-in duration-500">
-            <div className="py-24 text-center border-4 border-dashed border-zinc-900 rounded-[3.5rem] space-y-6">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-zinc-900 rounded-2xl mx-auto flex items-center justify-center"><BarChart3 className="w-8 h-8 sm:w-10 sm:h-10 text-zinc-700" /></div>
-              <h3 className="text-zinc-100 font-black uppercase text-xs sm:text-base tracking-[0.4em]">COMING SOON</h3>
+            <div className="py-20 sm:py-24 text-center border-2 border-zinc-800 bg-zinc-900 rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6 shadow-2xl shadow-white/5">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-black rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center"><BarChart3 className="w-8 h-8 sm:w-10 sm:h-10 text-zinc-700" /></div>
+              <h3 className="text-zinc-400 font-black uppercase text-xs sm:text-base tracking-[0.4em]">COMING SOON</h3>
             </div>
           </div>
         )}
@@ -857,7 +857,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
           <div className="animate-in fade-in duration-500 space-y-4">
             <Link
               to="/admin/roasters"
-              className="block bg-zinc-950 border-2 border-zinc-900 hover:border-white rounded-2xl p-6 transition-all group"
+              className="block bg-zinc-900 border-2 border-zinc-800 hover:border-white rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-white/5"
             >
               <div className="flex items-center justify-between">
                 <div>
@@ -869,7 +869,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
             </Link>
             <Link
               to="/admin/equipment"
-              className="block bg-zinc-950 border-2 border-zinc-900 hover:border-white rounded-2xl p-6 transition-all group"
+              className="block bg-zinc-900 border-2 border-zinc-800 hover:border-white rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-white/5"
             >
               <div className="flex items-center justify-between">
                 <div>
@@ -881,7 +881,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
             </Link>
             <Link
               to="/admin/coffees"
-              className="block bg-zinc-950 border-2 border-zinc-900 hover:border-white rounded-2xl p-6 transition-all group"
+              className="block bg-zinc-900 border-2 border-zinc-800 hover:border-white rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-white/5"
             >
               <div className="flex items-center justify-between">
                 <div>
@@ -893,7 +893,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
             </Link>
             <Link
               to="/admin/cafes"
-              className="block bg-zinc-950 border-2 border-zinc-900 hover:border-white rounded-2xl p-6 transition-all group"
+              className="block bg-zinc-900 border-2 border-zinc-800 hover:border-white rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-white/5"
             >
               <div className="flex items-center justify-between">
                 <div>
