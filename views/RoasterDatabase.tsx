@@ -61,6 +61,7 @@ const RoasterDatabase: React.FC = () => {
             origin: so.origin,
             region: so.region,
             estate: so.estate,
+            producer: so.producer,
             varietals: so.varietals,
             processing: so.processing,
             roastLevel: so.roast_level,
@@ -377,13 +378,21 @@ const RoasterDetailModal: React.FC<{
                 >
                   <div>
                     <h4 className="text-lg font-black tracking-tighter">{offering.name}</h4>
-                    <p className="text-xs text-zinc-100 mt-1">{offering.lot}</p>
+                    {offering.lot && (
+                      <p className="text-xs text-zinc-100 mt-1">LOT: {offering.lot}</p>
+                    )}
                   </div>
                   <div className="space-y-2 text-xs">
                     <div className="flex justify-between">
                       <span className="text-zinc-200">ORIGIN:</span>
                       <span className="text-white font-black">{offering.origin} {offering.region && `• ${offering.region}`}</span>
                     </div>
+                    {offering.producer && (
+                      <div className="flex justify-between">
+                        <span className="text-zinc-200">PRODUCER:</span>
+                        <span className="text-white font-black">{offering.producer}</span>
+                      </div>
+                    )}
                     {offering.estate && (
                       <div className="flex justify-between">
                         <span className="text-zinc-200">ESTATE:</span>
@@ -569,6 +578,7 @@ const AddOfferingModal: React.FC<{
     origin: '',
     region: '',
     estate: '',
+    producer: '',
     varietals: '',
     processing: '',
     roastLevel: '',
@@ -597,6 +607,7 @@ const AddOfferingModal: React.FC<{
       origin: formData.origin.toUpperCase(),
       region: formData.region.toUpperCase() || undefined,
       estate: formData.estate.toUpperCase() || undefined,
+      producer: formData.producer.toUpperCase() || undefined,
       varietals: formData.varietals.split(',').map(v => v.trim().toUpperCase()),
       processing: formData.processing.toUpperCase(),
       roastLevel: formData.roastLevel || undefined,
@@ -671,6 +682,14 @@ const AddOfferingModal: React.FC<{
             placeholder="ESTATE/FARM"
             value={formData.estate}
             onChange={e => setFormData({ ...formData, estate: e.target.value })}
+            className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+          />
+
+          <input
+            type="text"
+            placeholder="PRODUCER"
+            value={formData.producer}
+            onChange={e => setFormData({ ...formData, producer: e.target.value })}
             className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
           />
 

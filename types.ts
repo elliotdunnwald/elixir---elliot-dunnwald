@@ -134,6 +134,7 @@ export interface CoffeeOffering {
   origin: string;
   region?: string;
   estate?: string;
+  producer?: string;
   varietals: string[];
   processing: string;
   roastLevel?: string;
