@@ -186,10 +186,10 @@ const CafeMap: React.FC<CafeMapProps> = ({ cafes, center, onCafeClick }) => {
             </Popup>
           </Marker>
         ))}
-      </MapContainer>
 
-      {/* Geolocation button */}
-      <GeolocationButton />
+        {/* Geolocation button - must be inside MapContainer */}
+        <GeolocationButton />
+      </MapContainer>
 
       {/* Map legend/instructions */}
       <div className="absolute bottom-4 left-4 z-[1000] bg-white/95 backdrop-blur-sm px-4 py-2 rounded-xl border-2 border-zinc-800 shadow-lg">
