@@ -3,7 +3,7 @@ import { X, MapPin, Coffee, Award, Eye, EyeOff, Settings2, Calculator, Plus, Ima
 import { BrewActivity } from '../types';
 import { useSettings } from '../context/SettingsContext';
 import { useAuth } from '../hooks/useAuth';
-import { createActivity, uploadBrewImage, updateActivity, getRoasters, getCafes, trackCafeFromVisit } from '../lib/database';
+import { createActivity, uploadBrewImage, updateActivity, getRoasters, getCafes, trackCafeFromVisit, trackRoasterSubmission } from '../lib/database';
 import DeviceSelectorModal from './DeviceSelectorModal';
 
 // Predefined drink options organized by category
@@ -155,6 +155,16 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
   const [pendingDrink, setPendingDrink] = useState<string | null>(null);
   const [selectedMilk, setSelectedMilk] = useState<string>('');
   const mediaInputRef = useRef<HTMLInputElement>(null);
+
+  // New roaster prompt states
+  const [showNewRoasterPrompt, setShowNewRoasterPrompt] = useState(false);
+  const [newRoasterDetails, setNewRoasterDetails] = useState({
+    name: '',
+    city: '',
+    country: '',
+    state: '',
+    website: ''
+  });
 
   const isPodMachine = deviceCategory === 'pod';
 
@@ -525,6 +535,21 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
       }
 
       if (activity) {
+        // Show success message with info about auto-submissions
+        const hasRoaster = formData.roaster && formData.roaster !== 'CAFE' && formData.roaster !== 'POD MACHINE' && formData.roaster !== 'UNKNOWN';
+        const hasCoffeeDetails = formData.origin && formData.origin !== 'UNKNOWN' && formData.origin !== 'N/A';
+
+        if (hasRoaster || hasCoffeeDetails) {
+          let message = 'Brew log posted! ';
+          if (hasRoaster) {
+            message += '\n✓ Roaster tracked';
+          }
+          if (hasCoffeeDetails) {
+            message += '\n✓ Coffee automatically submitted for database review';
+          }
+          alert(message);
+        }
+
         // Reset form and clear draft
         setFormData({ ...INITIAL_FORM_DATA, location: defaultLocation });
         setMediaFile(null);
@@ -1020,6 +1045,20 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                       ))}
                     </div>
                   )}
+                  {/* Show "New Roaster" prompt if typed roaster doesn't exist */}
+                  {formData.roaster && formData.roaster.length > 2 && !allRoasters.some(r => r.toLowerCase() === formData.roaster.toLowerCase()) && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setNewRoasterDetails({ name: formData.roaster, city: '', country: '', state: '', website: '' });
+                        setShowNewRoasterPrompt(true);
+                      }}
+                      className="mt-2 w-full bg-zinc-900 border-2 border-zinc-800 rounded-lg px-4 py-2.5 text-[10px] font-black uppercase tracking-wider text-zinc-300 hover:border-white hover:text-white transition-all flex items-center justify-between"
+                    >
+                      <span>⭐ Add "{formData.roaster}" to database</span>
+                      <Plus className="w-3.5 h-3.5" />
+                    </button>
+                  )}
                 </div>
                 <div className="space-y-3">
                   <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">Origin</label>
@@ -1107,6 +1146,20 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                         </button>
                       ))}
                     </div>
+                  )}
+                  {/* Show "New Roaster" prompt if typed roaster doesn't exist */}
+                  {formData.roaster && formData.roaster.length > 2 && !allRoasters.some(r => r.toLowerCase() === formData.roaster.toLowerCase()) && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setNewRoasterDetails({ name: formData.roaster, city: '', country: '', state: '', website: '' });
+                        setShowNewRoasterPrompt(true);
+                      }}
+                      className="mt-2 w-full bg-zinc-900 border-2 border-zinc-800 rounded-lg px-4 py-2.5 text-[10px] font-black uppercase tracking-wider text-zinc-300 hover:border-white hover:text-white transition-all flex items-center justify-between"
+                    >
+                      <span>⭐ Add "{formData.roaster}" to database</span>
+                      <Plus className="w-3.5 h-3.5" />
+                    </button>
                   )}
                 </div>
                 <div className="space-y-3">
@@ -1466,6 +1519,113 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
         onSelect={handleDeviceSelect}
         currentDevice={formData.brewer}
       />
+
+      {/* New Roaster Details Modal */}
+      {showNewRoasterPrompt && (
+        <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+          <div className="bg-zinc-950 border-2 border-zinc-800 rounded-3xl p-8 max-w-md w-full">
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-2xl font-black uppercase tracking-tight text-white">Add Roaster Details</h3>
+                <p className="text-sm font-bold text-zinc-400 mt-2 uppercase tracking-wide">
+                  Help build our database by adding details for "{newRoasterDetails.name}"
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Roaster Name</label>
+                  <input
+                    type="text"
+                    value={newRoasterDetails.name}
+                    disabled
+                    className="mt-2 w-full bg-zinc-900 border-2 border-zinc-800 rounded-xl px-4 py-3 text-white font-black text-sm uppercase opacity-50"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">City *</label>
+                    <input
+                      type="text"
+                      value={newRoasterDetails.city}
+                      onChange={e => setNewRoasterDetails(p => ({ ...p, city: e.target.value }))}
+                      className="mt-2 w-full bg-black border-2 border-zinc-800 rounded-xl px-4 py-3 text-white font-black text-sm uppercase focus:border-white outline-none"
+                      placeholder="NEW YORK"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Country *</label>
+                    <input
+                      type="text"
+                      value={newRoasterDetails.country}
+                      onChange={e => setNewRoasterDetails(p => ({ ...p, country: e.target.value }))}
+                      className="mt-2 w-full bg-black border-2 border-zinc-800 rounded-xl px-4 py-3 text-white font-black text-sm uppercase focus:border-white outline-none"
+                      placeholder="USA"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">State / Province (Optional)</label>
+                  <input
+                    type="text"
+                    value={newRoasterDetails.state}
+                    onChange={e => setNewRoasterDetails(p => ({ ...p, state: e.target.value }))}
+                    className="mt-2 w-full bg-black border-2 border-zinc-800 rounded-xl px-4 py-3 text-white font-black text-sm uppercase focus:border-white outline-none"
+                    placeholder="NY"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Website (Optional)</label>
+                  <input
+                    type="url"
+                    value={newRoasterDetails.website}
+                    onChange={e => setNewRoasterDetails(p => ({ ...p, website: e.target.value }))}
+                    className="mt-2 w-full bg-black border-2 border-zinc-800 rounded-xl px-4 py-3 text-white font-black text-sm lowercase focus:border-white outline-none"
+                    placeholder="https://example.com"
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <button
+                  onClick={() => setShowNewRoasterPrompt(false)}
+                  className="flex-1 bg-zinc-900 border-2 border-zinc-800 rounded-xl px-6 py-4 text-sm font-black uppercase tracking-wider text-zinc-400 hover:border-zinc-600 transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={async () => {
+                    if (!newRoasterDetails.city || !newRoasterDetails.country) {
+                      alert('Please fill in city and country');
+                      return;
+                    }
+                    if (!profile) return;
+
+                    await trackRoasterSubmission(
+                      newRoasterDetails.name,
+                      profile.id,
+                      newRoasterDetails.city,
+                      newRoasterDetails.country,
+                      newRoasterDetails.state || undefined,
+                      newRoasterDetails.website || undefined
+                    );
+
+                    alert('Roaster submitted for approval! Admins will review it soon.');
+                    setShowNewRoasterPrompt(false);
+                  }}
+                  disabled={!newRoasterDetails.city || !newRoasterDetails.country}
+                  className="flex-1 bg-white text-black border-2 border-white rounded-xl px-6 py-4 text-sm font-black uppercase tracking-wider hover:bg-zinc-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
