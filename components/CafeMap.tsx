@@ -30,6 +30,14 @@ function MapController({ center }: { center: [number, number] | null }) {
     }
   }, [center, map]);
 
+  // Force map to resize properly
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      map.invalidateSize();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [map]);
+
   return null;
 }
 
@@ -113,10 +121,16 @@ const CafeMap: React.FC<CafeMapProps> = ({ cafes, center, onCafeClick }) => {
         scrollWheelZoom={true}
         style={{ width: '100%', height: '100%' }}
         zoomControl={true}
+        whenReady={() => {
+          console.log('Map is ready');
+        }}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          maxZoom={19}
+          subdomains={['a', 'b', 'c']}
+          errorTileUrl="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
         />
 
         {/* Map controller to handle center changes */}
