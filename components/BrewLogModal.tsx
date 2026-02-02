@@ -246,11 +246,11 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
         setFormData({
           // Cafe-specific fields
           isCafeVisit: isCafe,
-          cafeName: (editActivity as any).cafeName || '',
-          cafeCity: (editActivity as any).cafeCity || '',
-          cafeCountry: (editActivity as any).cafeCountry || '',
-          cafeAddress: (editActivity as any).cafeAddress || '',
-          showAddress: !!(editActivity as any).cafeAddress,
+          cafeName: (editActivity as any).cafe_name || '',
+          cafeCity: (editActivity as any).cafe_city || '',
+          cafeCountry: (editActivity as any).cafe_country || '',
+          cafeAddress: (editActivity as any).cafe_address || '',
+          showAddress: !!(editActivity as any).cafe_address,
           drinkCategory: 'espresso' as 'espresso' | 'filter' | 'iced' | 'other' | 'specialty',
           drinkOrdered: '',
           drinksOrdered: drinks,
@@ -634,7 +634,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                   setPendingDrink(null);
                   setSelectedMilk('');
                 }}
-                disabled={uploading}
+                disabled={uploading || !!editActivity}
                 className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${!formData.isCafeVisit ? 'bg-white text-black border-black' : 'bg-white text-zinc-700 border-black hover:border-black'}`}
               >
                 Home Brew
@@ -646,7 +646,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                   setPendingDrink(null);
                   setSelectedMilk('');
                 }}
-                disabled={uploading}
+                disabled={uploading || !!editActivity}
                 className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.isCafeVisit ? 'bg-white text-black border-black' : 'bg-white text-zinc-700 border-black hover:border-black'}`}
               >
                 Cafe Visit
