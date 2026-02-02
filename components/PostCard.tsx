@@ -97,13 +97,13 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
 
   return (
     <div
-      className="bg-white rounded-[2rem] sm:rounded-[3.5rem] border-2 border-zinc-300 transition-all hover:border-zinc-600 overflow-hidden shadow-2xl shadow-black/5 animate-in fade-in duration-500 cursor-pointer"
+      className="bg-white rounded-[2rem] sm:rounded-[3.5rem] border-2 border-black transition-all hover:border-black overflow-hidden shadow-2xl shadow-black/5 animate-in fade-in duration-500 cursor-pointer"
       onClick={onClick}
     >
       <div className="p-5 sm:p-10 flex justify-between items-start gap-3">
         <div className="flex gap-3 sm:gap-5 items-start flex-1 min-w-0">
           <Link to={`/profile/${activity.userUsername || activity.userId}`} className="block shrink-0" onClick={(e) => e.stopPropagation()}>
-            <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl border-2 transition-all hover:border-white overflow-hidden ${isDefaultWhite ? 'bg-white text-black border-white' : 'bg-zinc-50 border-zinc-400'}`}>
+            <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl border-2 transition-all hover:border-black overflow-hidden ${isDefaultWhite ? 'bg-white text-black border-black' : 'bg-zinc-50 border-black'}`}>
               <div className="w-full h-full flex items-center justify-center">
                 {isDefaultWhite ? <Zap className="w-6 h-6 sm:w-8 sm:h-8" /> : <img src={activity.userAvatar} className="w-full h-full object-cover" alt="" />}
               </div>
@@ -131,7 +131,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
           </div>
         </div>
 
-        <div className="bg-white text-black px-3 py-2 sm:px-6 sm:py-3 rounded-xl sm:rounded-2xl flex items-center gap-1.5 sm:gap-3 shadow-2xl shrink-0">
+        <div className="bg-white text-black px-3 py-2 sm:px-6 sm:py-3 rounded-xl sm:rounded-2xl border-2 border-black flex items-center gap-1.5 sm:gap-3 shadow-2xl shrink-0">
           <Award className="w-4 h-4 sm:w-6 sm:h-6 fill-black" />
           <span className="text-xl sm:text-3xl font-black tracking-tighter leading-none">{activity.rating.toFixed(1)}</span>
         </div>
@@ -139,7 +139,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
 
       {activity.imageUrl && (
         <div className="px-5 pb-5 sm:px-10 sm:pb-8">
-          <div className="w-full aspect-[16/9] rounded-2xl sm:rounded-[2.5rem] overflow-hidden border-2 border-zinc-400 hover:border-zinc-600 shadow-inner shadow-black/5 group relative transition-all">
+          <div className="w-full aspect-[16/9] rounded-2xl sm:rounded-[2.5rem] overflow-hidden border-2 border-black hover:border-black shadow-inner shadow-black/5 group relative transition-all">
             <img src={activity.imageUrl} className="w-full h-full object-cover transition-all duration-700" alt="Brew session" />
           </div>
         </div>
@@ -153,11 +153,11 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
             // Cafe Visit Display
             <>
               <div className="flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-2">
-                <p className="text-black text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] border-2 border-zinc-300 px-2.5 py-1 sm:px-3 sm:py-1 rounded-lg">{activity.brewer}</p>
+                <p className="text-black text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] border-2 border-black px-2.5 py-1 sm:px-3 sm:py-1 rounded-lg">{activity.brewer}</p>
                 {activity.roaster &&
                  activity.roaster.trim().toUpperCase() !== activity.title.trim().toUpperCase() &&
                  activity.roaster !== 'CAFE' && (
-                  <p className="text-black text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] border-2 border-zinc-300 px-2.5 py-1 sm:px-3 sm:py-1 rounded-lg">{activity.roaster}</p>
+                  <p className="text-black text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] border-2 border-black px-2.5 py-1 sm:px-3 sm:py-1 rounded-lg">{activity.roaster}</p>
                 )}
                 {activity.beanOrigin !== 'UNKNOWN' && (
                   <p className="text-zinc-600 text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em]">{activity.beanOrigin}</p>
@@ -165,10 +165,10 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
               </div>
               {(activity.estate || activity.producer || activity.varietal || activity.process) && (
                 <div className="flex flex-wrap gap-2 sm:gap-3 mt-3 sm:mt-4 max-w-full">
-                  {activity.estate && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-zinc-300 px-2 py-1 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
-                  {activity.producer && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-zinc-300 px-2 py-1 rounded-lg whitespace-nowrap">PRODUCER: {activity.producer}</span>}
-                  {activity.varietal && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-zinc-300 px-2 py-1 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
-                  {activity.process && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-zinc-300 px-2 py-1 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
+                  {activity.estate && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
+                  {activity.producer && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PRODUCER: {activity.producer}</span>}
+                  {activity.varietal && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
+                  {activity.process && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
                 </div>
               )}
             </>
@@ -176,15 +176,15 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
             // Home Brew Display
             <>
               <div className="flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-2">
-                <p className="text-black text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] border-2 border-zinc-300 px-2.5 py-1 sm:px-3 sm:py-1 rounded-lg">{activity.roaster}</p>
+                <p className="text-black text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] border-2 border-black px-2.5 py-1 sm:px-3 sm:py-1 rounded-lg">{activity.roaster}</p>
                 <p className="text-zinc-600 text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em]">{activity.beanOrigin}</p>
               </div>
               {(activity.estate || activity.producer || activity.varietal || activity.process) && (
                 <div className="flex flex-wrap gap-2 sm:gap-3 mt-3 sm:mt-4 max-w-full">
-                  {activity.estate && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-zinc-300 px-2 py-1 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
-                  {activity.producer && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-zinc-300 px-2 py-1 rounded-lg whitespace-nowrap">PRODUCER: {activity.producer}</span>}
-                  {activity.varietal && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-zinc-300 px-2 py-1 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
-                  {activity.process && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-zinc-300 px-2 py-1 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
+                  {activity.estate && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
+                  {activity.producer && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PRODUCER: {activity.producer}</span>}
+                  {activity.varietal && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
+                  {activity.process && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
                 </div>
               )}
             </>
@@ -192,7 +192,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
         </div>
 
         {activity.showParameters && (
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4 mb-6 sm:mb-8 bg-zinc-50 border-2 border-zinc-300 p-4 sm:p-8 rounded-2xl sm:rounded-[2.5rem]">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4 mb-6 sm:mb-8 bg-zinc-50 border-2 border-black p-4 sm:p-8 rounded-2xl sm:rounded-[2.5rem]">
             <div className="space-y-1 sm:space-y-2">
               <p className="text-[9px] sm:text-[10px] font-black text-zinc-400 uppercase tracking-widest flex items-center gap-1.5"><FlaskConical className="w-3 h-3 sm:w-4 sm:h-4" /> RECIPE</p>
               <p className="text-xs sm:text-sm font-black text-black">{activity.gramsIn}G / {activity.gramsOut}G</p>
@@ -219,7 +219,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
         {activity.eyPercentage ? (
           <div className="mb-6 sm:mb-8 flex flex-wrap gap-3 sm:gap-4">
             {activity.tds ? (
-              <div className="bg-zinc-50 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 border-zinc-300">
+              <div className="bg-zinc-50 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 border-black">
                 <p className="text-[9px] sm:text-[10px] font-black text-zinc-600 uppercase tracking-widest mb-0.5 sm:mb-1">TDS</p>
                 <p className="text-[10px] sm:text-xs font-black text-black">{activity.tds}</p>
               </div>
@@ -231,32 +231,32 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
           </div>
         ) : null}
 
-        {activity.description && <p className="text-zinc-600 text-sm sm:text-base mb-6 sm:mb-10 font-black uppercase tracking-widest leading-relaxed border-l-4 border-zinc-300 pl-4 sm:pl-6 italic">"{activity.description}"</p>}
+        {activity.description && <p className="text-zinc-600 text-sm sm:text-base mb-6 sm:mb-10 font-black uppercase tracking-widest leading-relaxed border-l-4 border-black pl-4 sm:pl-6 italic">"{activity.description}"</p>}
 
-        <div className="flex items-center gap-2 sm:gap-3 pt-5 sm:pt-8 border-t-2 border-zinc-300" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center gap-2 sm:gap-3 pt-5 sm:pt-8 border-t-2 border-black" onClick={(e) => e.stopPropagation()}>
           <button
             onClick={(e) => { e.stopPropagation(); handleLike(); }}
             disabled={isMe}
-            className={`flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 transition-all ${isMe ? 'text-zinc-400 border-zinc-300 cursor-not-allowed' : (hasLiked ? 'text-black border-black bg-black/10' : 'text-zinc-900 border-zinc-300 hover:text-black hover:border-zinc-600 active:text-black active:border-white')}`}
+            className={`flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 transition-all ${isMe ? 'text-zinc-400 border-zinc-300 cursor-not-allowed' : (hasLiked ? 'text-black border-black bg-black/10' : 'text-zinc-900 border-zinc-300 hover:text-black hover:border-black active:text-black active:border-black')}`}
           >
             <Heart className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform ${hasLiked ? 'fill-white scale-110' : ''}`} />
             <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest">{likes}</span>
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); setShowComments(!showComments); }}
-            className={`flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 transition-all ${showComments ? 'text-black border-black bg-black/10' : 'text-zinc-900 border-zinc-300 hover:text-black hover:border-zinc-600 active:text-black active:border-white'}`}
+            className={`flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 transition-all ${showComments ? 'text-black border-black bg-black/10' : 'text-zinc-900 border-zinc-300 hover:text-black hover:border-black active:text-black active:border-black'}`}
           >
             <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
             <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest">{activity.comments.length}</span>
           </button>
-          <button onClick={(e) => e.stopPropagation()} className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-zinc-900 border-zinc-300 hover:text-black hover:border-zinc-600 active:text-black active:border-white transition-all ml-auto">
+          <button onClick={(e) => e.stopPropagation()} className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-zinc-900 border-zinc-300 hover:text-black hover:border-black active:text-black active:border-black transition-all ml-auto">
             <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
             <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest hidden sm:inline">SHARE</span>
           </button>
           {isMe && onEdit && (
             <button
               onClick={(e) => { e.stopPropagation(); onEdit(activity); }}
-              className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-zinc-900 border-zinc-300 hover:text-black hover:border-zinc-600 active:text-black active:border-white transition-all"
+              className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-zinc-900 border-zinc-300 hover:text-black hover:border-black active:text-black active:border-black transition-all"
               title="Edit this post"
             >
               <Edit3 className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -276,11 +276,11 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
         </div>
 
         {showComments && (
-          <div className="mt-5 sm:mt-8 pt-5 sm:pt-8 border-t-2 border-zinc-300 space-y-4 sm:space-y-6 animate-in fade-in duration-300">
+          <div className="mt-5 sm:mt-8 pt-5 sm:pt-8 border-t-2 border-black space-y-4 sm:space-y-6 animate-in fade-in duration-300">
             {activity.comments.length > 0 && (
               <div className="space-y-3 sm:space-y-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                 {activity.comments.map(comment => (
-                  <div key={comment.id} className="bg-zinc-50 border border-zinc-300 rounded-xl sm:rounded-2xl p-3 sm:p-4 space-y-1.5 sm:space-y-2">
+                  <div key={comment.id} className="bg-zinc-50 border-2 border-black rounded-xl sm:rounded-2xl p-3 sm:p-4 space-y-1.5 sm:space-y-2">
                     <div className="flex items-center gap-2 sm:gap-3">
                       <p className="font-black text-black text-xs sm:text-sm uppercase tracking-tight">{comment.userName}</p>
                       <p className="text-[9px] sm:text-[10px] font-black text-zinc-400 uppercase tracking-widest">
@@ -302,7 +302,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
                 onChange={e => setCommentText(e.target.value)}
                 placeholder="ADD A COMMENT..."
                 disabled={submittingComment}
-                className="flex-grow bg-zinc-50 border-2 border-zinc-300 rounded-xl sm:rounded-2xl px-4 py-3 sm:px-5 sm:py-4 text-black font-black text-xs sm:text-sm outline-none focus:border-white uppercase placeholder:text-zinc-400 disabled:opacity-50"
+                className="flex-grow bg-zinc-50 border-2 border-black rounded-xl sm:rounded-2xl px-4 py-3 sm:px-5 sm:py-4 text-black font-black text-xs sm:text-sm outline-none focus:border-black uppercase placeholder:text-zinc-400 disabled:opacity-50"
               />
               <button
                 type="submit"
