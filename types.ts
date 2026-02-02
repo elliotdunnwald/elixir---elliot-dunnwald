@@ -100,6 +100,9 @@ export interface BrewActivity {
   comments: Comment[];
   isCafeLog?: boolean;
   cafeName?: string;
+  cafeCity?: string;
+  cafeCountry?: string;
+  cafeAddress?: string;
   isPrivate?: boolean;
   tds?: number;
   eyPercentage?: number;
