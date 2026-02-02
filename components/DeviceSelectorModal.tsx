@@ -116,7 +116,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
                       className={`p-4 rounded-xl border-2 text-left transition-all ${
                         isSelected
                           ? 'bg-white text-black border-white'
-                          : 'bg-white text-zinc-600 border-black hover:border-black'
+                          : 'bg-white text-black border-black hover:border-black'
                       }`}
                     >
                       <p className="font-black text-sm uppercase tracking-tight">{item.brand}</p>

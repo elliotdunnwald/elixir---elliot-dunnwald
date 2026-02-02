@@ -705,19 +705,19 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
             <div className="flex gap-2 justify-center">
               <button
                 onClick={() => setActivityFilter('all')}
-                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'all' ? 'bg-white text-black border-black' : 'bg-white text-zinc-600 border-black hover:border-black active:border-black'}`}
+                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'all' ? 'bg-white text-black border-black' : 'bg-zinc-100 text-black border-black hover:border-black active:border-black'}`}
               >
                 All
               </button>
               <button
                 onClick={() => setActivityFilter('brews')}
-                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'brews' ? 'bg-white text-black border-black' : 'bg-white text-zinc-600 border-black hover:border-black active:border-black'}`}
+                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'brews' ? 'bg-white text-black border-black' : 'bg-zinc-100 text-black border-black hover:border-black active:border-black'}`}
               >
                 Home Brews
               </button>
               <button
                 onClick={() => setActivityFilter('cafes')}
-                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'cafes' ? 'bg-white text-black border-black' : 'bg-white text-zinc-600 border-black hover:border-black active:border-black'}`}
+                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'cafes' ? 'bg-white text-black border-black' : 'bg-zinc-100 text-black border-black hover:border-black active:border-black'}`}
               >
                 Cafes
               </button>
