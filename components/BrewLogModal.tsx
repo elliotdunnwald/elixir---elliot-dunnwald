@@ -1423,47 +1423,52 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           </section>
 
           <section className="space-y-3">
-            <div className="flex justify-between items-center"><p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Overall Score</p><p className="text-xl font-black">{formData.rating.toFixed(1)}</p></div>
+            <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Overall Score (0-10)</p>
             <input
-              type="range"
+              type="number"
               min="0"
               max="10"
               step="0.1"
               value={formData.rating}
-              onChange={e => setFormData({...formData, rating: parseFloat(e.target.value)})}
-              disabled={uploading}
-              className="w-full h-2 bg-zinc-50 rounded-lg appearance-none cursor-pointer disabled:opacity-50"
-              style={{
-                WebkitAppearance: 'none',
-                background: '#27272a'
+              onChange={e => {
+                const val = parseFloat(e.target.value);
+                if (!isNaN(val) && val >= 0 && val <= 10) {
+                  setFormData({...formData, rating: val});
+                }
               }}
+              disabled={uploading}
+              placeholder="8.0"
+              className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-center text-3xl font-black text-black outline-none focus:border-black transition-all disabled:opacity-50"
             />
           </section>
 
           {/* Optional Sections - Toggles */}
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex gap-3 flex-wrap">
             <button
               type="button"
               onClick={() => setFormData(p => ({ ...p, showDescription: !p.showDescription }))}
               disabled={uploading}
-              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showDescription ? 'bg-white text-black border-black' : 'bg-zinc-100 border-black text-black hover:border-black hover:bg-zinc-200'}`}
+              className={`flex-1 sm:flex-none px-6 py-4 rounded-xl border-2 text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showDescription ? 'bg-white text-black border-black shadow-lg' : 'bg-zinc-100 border-black text-black hover:border-black hover:bg-zinc-200'}`}
             >
+              <MessageSquare className="inline w-4 h-4 mr-2" />
               {formData.showDescription ? '✓ ' : ''}Notes
             </button>
             <button
               type="button"
               onClick={() => !uploading && mediaInputRef.current?.click()}
               disabled={uploading}
-              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${mediaPreview ? 'bg-white text-black border-black' : 'bg-zinc-100 border-black text-black hover:border-black hover:bg-zinc-200'}`}
+              className={`flex-1 sm:flex-none px-6 py-4 rounded-xl border-2 text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50 ${mediaPreview ? 'bg-white text-black border-black shadow-lg' : 'bg-zinc-100 border-black text-black hover:border-black hover:bg-zinc-200'}`}
             >
+              <ImageIcon className="inline w-4 h-4 mr-2" />
               {mediaPreview ? '✓ ' : ''}Photo
             </button>
             <button
               type="button"
               onClick={() => setFormData(p => ({ ...p, showWhen: !p.showWhen }))}
               disabled={uploading}
-              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showWhen ? 'bg-white text-black border-black' : 'bg-zinc-100 border-black text-black hover:border-black hover:bg-zinc-200'}`}
+              className={`flex-1 sm:flex-none px-6 py-4 rounded-xl border-2 text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showWhen ? 'bg-white text-black border-black shadow-lg' : 'bg-zinc-100 border-black text-black hover:border-black hover:bg-zinc-200'}`}
             >
+              <ArrowRight className="inline w-4 h-4 mr-2" />
               {formData.showWhen ? '✓ ' : ''}When
             </button>
           </div>
