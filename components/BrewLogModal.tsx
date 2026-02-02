@@ -583,7 +583,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
     <button
       type="button"
       onClick={onClick}
-      className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${active ? 'bg-white border-white text-black' : 'bg-zinc-950 border-black text-zinc-600 hover:border-black'}`}
+      className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${active ? 'bg-white border-white text-black' : 'bg-white border-black text-zinc-600 hover:border-black'}`}
     >
       {label}
     </button>
@@ -596,7 +596,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
       <div className="absolute inset-0 bg-white/60 backdrop-blur-sm pointer-events-auto" onClick={onClose} />
       <div className="relative bg-zinc-50 w-full max-w-2xl h-full sm:h-auto sm:rounded-xl shadow-2xl border-4 border-black overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95 pointer-events-auto">
 
-        <div className="px-8 py-6 border-b-2 border-black bg-zinc-950 sticky top-0 z-20">
+        <div className="px-8 py-6 border-b-2 border-black bg-white sticky top-0 z-20">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-black text-black uppercase tracking-wider">{editActivity ? 'Edit Brew' : 'Log Brew'}</h2>
             <button onClick={onClose} className="text-black hover:text-zinc-600 transition-all" disabled={uploading}><X className="w-6 h-6" /></button>
@@ -614,7 +614,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
               type="button"
               onClick={() => setFormData(p => ({...p, isPrivate: !p.isPrivate}))}
               disabled={uploading}
-              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.isPrivate ? 'bg-zinc-950 border-black text-zinc-600' : 'bg-white text-black border-white'}`}
+              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.isPrivate ? 'bg-white border-black text-zinc-600' : 'bg-white text-black border-white'}`}
             >
               {formData.isPrivate ? <><EyeOff className="inline w-3 h-3 mr-1" /> Private</> : <><Eye className="inline w-3 h-3 mr-1" /> Global</>}
             </button>
@@ -687,7 +687,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                   placeholder="BLUE BOTTLE / VERVE / ETC"
                 />
                 {showCafeDropdown && Array.isArray(cafeSuggestions) && cafeSuggestions.length > 0 && (
-                  <div className="absolute z-50 w-full mt-1 bg-zinc-950 border-2 border-black rounded-xl overflow-hidden shadow-xl">
+                  <div className="absolute z-50 w-full mt-1 bg-white border-2 border-black rounded-xl overflow-hidden shadow-xl">
                     {cafeSuggestions.map((cafe, idx) => (
                       <button
                         key={idx}
@@ -734,7 +734,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                   type="button"
                   onClick={() => setFormData(p => ({ ...p, showAddress: !p.showAddress }))}
                   disabled={uploading}
-                  className={`w-full px-4 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showAddress ? 'bg-white text-black border-white' : 'bg-zinc-950 border-black text-zinc-600 hover:border-black'}`}
+                  className={`w-full px-4 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showAddress ? 'bg-white text-black border-white' : 'bg-white border-black text-zinc-600 hover:border-black'}`}
                 >
                   {formData.showAddress ? '✓ ' : ''}Add Address (Optional)
                 </button>
@@ -798,7 +798,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                         setSelectedMilk('');
                       }}
                       disabled={uploading}
-                      className={`px-3 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.drinkCategory === category ? 'bg-white text-black border-white' : 'bg-zinc-950 border-black text-zinc-600 hover:border-black'}`}
+                      className={`px-3 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.drinkCategory === category ? 'bg-white text-black border-white' : 'bg-white border-black text-zinc-600 hover:border-black'}`}
                     >
                       {category}
                     </button>
@@ -818,7 +818,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     </button>
 
                     {showDrinkDropdown && (
-                      <div className="absolute z-50 w-full mt-2 bg-zinc-950 border-2 border-black rounded-xl overflow-hidden shadow-xl max-h-64 overflow-y-auto animate-in slide-in-from-top-1 custom-scrollbar">
+                      <div className="absolute z-50 w-full mt-2 bg-white border-2 border-black rounded-xl overflow-hidden shadow-xl max-h-64 overflow-y-auto animate-in slide-in-from-top-1 custom-scrollbar">
                         {DRINK_CATEGORIES[formData.drinkCategory]?.map(drink => (
                           <button
                             key={drink}
@@ -864,7 +864,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
 
                 {/* Milk Selector - Shows when a milk-based drink is selected */}
                 {pendingDrink && MILK_BASED_DRINKS.includes(pendingDrink) && (
-                  <div className="space-y-3 p-4 bg-zinc-950 border-2 border-black rounded-xl animate-in slide-in-from-top-1">
+                  <div className="space-y-3 p-4 bg-white border-2 border-black rounded-xl animate-in slide-in-from-top-1">
                     <div className="flex items-center justify-between mb-2">
                       <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">
                         {pendingDrink} - Milk Type
@@ -974,7 +974,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                   type="button"
                   onClick={() => setFormData(p => ({ ...p, showCoffeeDetails: !p.showCoffeeDetails }))}
                   disabled={uploading}
-                  className={`w-full px-4 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showCoffeeDetails ? 'bg-white text-black border-white' : 'bg-zinc-950 border-black text-zinc-600 hover:border-black'}`}
+                  className={`w-full px-4 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showCoffeeDetails ? 'bg-white text-black border-white' : 'bg-white border-black text-zinc-600 hover:border-black'}`}
                 >
                   {formData.showCoffeeDetails ? '✓ ' : ''}Include Coffee Details (Optional)
                 </button>
@@ -1029,7 +1029,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     placeholder="SEY / ONYX / ETC"
                   />
                   {showRoasterDropdown && roasterSuggestions.length > 0 && (
-                    <div className="absolute z-50 w-full mt-1 bg-zinc-950 border-2 border-black rounded-xl overflow-hidden shadow-xl">
+                    <div className="absolute z-50 w-full mt-1 bg-white border-2 border-black rounded-xl overflow-hidden shadow-xl">
                       {roasterSuggestions.map((suggestion, idx) => (
                         <button
                           key={idx}
@@ -1131,7 +1131,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     placeholder="SEY / ONYX / ETC"
                   />
                   {showRoasterDropdown && roasterSuggestions.length > 0 && (
-                    <div className="absolute z-50 w-full mt-1 bg-zinc-950 border-2 border-black rounded-xl overflow-hidden shadow-xl">
+                    <div className="absolute z-50 w-full mt-1 bg-white border-2 border-black rounded-xl overflow-hidden shadow-xl">
                       {roasterSuggestions.map((suggestion, idx) => (
                         <button
                           key={idx}
@@ -1225,7 +1225,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
 
               {formData.showParameters && (
                 <div className="space-y-6 animate-in fade-in duration-300">
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 bg-zinc-950 border-2 border-black p-6 rounded-xl">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 bg-white border-2 border-black p-6 rounded-xl">
                     <div className="flex flex-col items-center">
                       <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest mb-3">DOSE (G)</p>
                       <input type="number" step="0.1" value={formData.gramsIn} onChange={e => setFormData({...formData, gramsIn: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-white disabled:opacity-50" />
@@ -1267,7 +1267,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
 
                   {formData.showEY && (
                     <div className="space-y-4 animate-in slide-in-from-top-1">
-                      <div className="bg-zinc-950 border-2 border-black p-6 rounded-xl space-y-2">
+                      <div className="bg-white border-2 border-black p-6 rounded-xl space-y-2">
                         <p className="text-[10px] font-black text-zinc-700 uppercase tracking-widest flex items-center gap-2"><FlaskConical className="w-3 h-3" /> TDS</p>
                         <input type="number" step="0.01" value={formData.tds} onChange={e => setFormData({...formData, tds: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-sm outline-none focus:border-white disabled:opacity-50" placeholder="1.40" />
                       </div>
@@ -1446,7 +1446,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
               type="button"
               onClick={() => setFormData(p => ({ ...p, showDescription: !p.showDescription }))}
               disabled={uploading}
-              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showDescription ? 'bg-white text-black border-white' : 'bg-zinc-950 border-black text-zinc-600 hover:border-black'}`}
+              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showDescription ? 'bg-white text-black border-white' : 'bg-white border-black text-zinc-600 hover:border-black'}`}
             >
               {formData.showDescription ? '✓ ' : ''}Notes
             </button>
@@ -1454,7 +1454,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
               type="button"
               onClick={() => !uploading && mediaInputRef.current?.click()}
               disabled={uploading}
-              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${mediaPreview ? 'bg-white text-black border-white' : 'bg-zinc-950 border-black text-zinc-600 hover:border-black'}`}
+              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${mediaPreview ? 'bg-white text-black border-white' : 'bg-white border-black text-zinc-600 hover:border-black'}`}
             >
               {mediaPreview ? '✓ ' : ''}Photo
             </button>
@@ -1462,7 +1462,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
               type="button"
               onClick={() => setFormData(p => ({ ...p, showWhen: !p.showWhen }))}
               disabled={uploading}
-              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showWhen ? 'bg-white text-black border-white' : 'bg-zinc-950 border-black text-zinc-600 hover:border-black'}`}
+              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showWhen ? 'bg-white text-black border-white' : 'bg-white border-black text-zinc-600 hover:border-black'}`}
             >
               {formData.showWhen ? '✓ ' : ''}When
             </button>
@@ -1536,7 +1536,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
       {/* New Roaster Details Modal */}
       {showNewRoasterPrompt && (
         <div className="fixed inset-0 bg-white/90 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className="bg-zinc-950 border-2 border-black rounded-3xl p-8 max-w-md w-full">
+          <div className="bg-white border-2 border-black rounded-3xl p-8 max-w-md w-full">
             <div className="space-y-6">
               <div>
                 <h3 className="text-2xl font-black uppercase tracking-tight text-black">Add Roaster Details</h3>
