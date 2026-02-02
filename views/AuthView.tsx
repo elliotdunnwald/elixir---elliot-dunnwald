@@ -59,11 +59,11 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-black flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div className="min-h-screen w-full bg-white flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
       <div className="max-w-md w-full space-y-8 sm:space-y-12 py-6 sm:py-10">
         <div className="text-center space-y-3 sm:space-y-4">
-          <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tighter uppercase leading-none">ELIXR</h1>
-          <p className="text-[10px] sm:text-[11px] font-black text-zinc-900 uppercase tracking-[0.3em]">
+          <h1 className="text-4xl sm:text-5xl font-black text-black tracking-tighter uppercase leading-none">ELIXR</h1>
+          <p className="text-[10px] sm:text-[11px] font-black text-zinc-600 uppercase tracking-[0.3em]">
             {isSignUp ? 'CREATE ACCOUNT' : 'SIGN IN'}
           </p>
         </div>
@@ -71,7 +71,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
         <form onSubmit={handleSubmit} className="space-y-8 sm:space-y-10">
           <div className="space-y-5 sm:space-y-6">
             <div className="relative group">
-              <Mail className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-zinc-700 group-focus-within:text-white transition-colors" />
+              <Mail className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-zinc-400 group-focus-within:text-black transition-colors" />
               <input
                 type="email"
                 value={formData.email}
@@ -80,12 +80,12 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
                 disabled={loading}
                 autoCapitalize="none"
                 autoCorrect="off"
-                className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-white outline-none text-base sm:text-xl font-black text-white text-center uppercase tracking-tighter py-3 sm:py-4 pl-6 sm:pl-8 disabled:opacity-50"
+                className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-black outline-none text-base sm:text-xl font-black text-black text-center uppercase tracking-tighter py-3 sm:py-4 pl-6 sm:pl-8 disabled:opacity-50 placeholder:text-zinc-400"
               />
             </div>
 
             <div className="relative group">
-              <Lock className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-zinc-700 group-focus-within:text-white transition-colors" />
+              <Lock className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-zinc-400 group-focus-within:text-black transition-colors" />
               <input
                 type="password"
                 value={formData.password}
@@ -94,13 +94,13 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
                 disabled={loading}
                 autoCapitalize="none"
                 autoCorrect="off"
-                className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-white outline-none text-base sm:text-xl font-black text-white text-center uppercase tracking-tighter py-3 sm:py-4 pl-6 sm:pl-8 disabled:opacity-50"
+                className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-black outline-none text-base sm:text-xl font-black text-black text-center uppercase tracking-tighter py-3 sm:py-4 pl-6 sm:pl-8 disabled:opacity-50 placeholder:text-zinc-400"
               />
             </div>
 
             {isSignUp && (
               <div className="relative group animate-in fade-in slide-in-from-bottom-4">
-                <Lock className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-zinc-700 group-focus-within:text-white transition-colors" />
+                <Lock className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-zinc-400 group-focus-within:text-black transition-colors" />
                 <input
                   type="password"
                   value={formData.confirmPassword}
@@ -109,7 +109,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
                   disabled={loading}
                   autoCapitalize="none"
                   autoCorrect="off"
-                  className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-white outline-none text-base sm:text-xl font-black text-white text-center uppercase tracking-tighter py-3 sm:py-4 pl-6 sm:pl-8 disabled:opacity-50"
+                  className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-black outline-none text-base sm:text-xl font-black text-black text-center uppercase tracking-tighter py-3 sm:py-4 pl-6 sm:pl-8 disabled:opacity-50 placeholder:text-zinc-400"
                 />
               </div>
             )}
@@ -148,7 +148,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
                 setFormData({ email: '', password: '', confirmPassword: '' });
               }}
               disabled={loading}
-              className="w-full bg-white text-zinc-400 hover:text-white py-4 sm:py-5 rounded-xl sm:rounded-2xl font-black text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] transition-all disabled:opacity-50"
+              className="w-full bg-zinc-100 text-zinc-600 hover:text-black border-2 border-zinc-300 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-black text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] transition-all disabled:opacity-50"
             >
               {isSignUp ? 'ALREADY HAVE AN ACCOUNT? SIGN IN' : 'NEW USER? CREATE ACCOUNT'}
             </button>
@@ -156,7 +156,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
 
           {isSignUp && (
             <div className="text-center animate-in fade-in">
-              <p className="text-[9px] font-bold text-zinc-200 uppercase tracking-wider leading-relaxed">
+              <p className="text-[9px] font-bold text-zinc-600 uppercase tracking-wider leading-relaxed">
                 By creating an account, you'll be able to<br />
                 share your brews and connect with coffee lovers worldwide
               </p>

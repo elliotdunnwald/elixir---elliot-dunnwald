@@ -227,14 +227,14 @@ const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
           {step === 1 && (
             <div className="space-y-6 sm:space-y-8 text-center animate-in fade-in slide-in-from-bottom-4">
               <div className="space-y-5 sm:space-y-6">
-                <p className="text-[11px] sm:text-[12px] font-black text-zinc-900 uppercase tracking-[0.3em]">IDENTITY</p>
+                <p className="text-[11px] sm:text-[12px] font-black text-zinc-600 uppercase tracking-[0.3em]">IDENTITY</p>
                 <div className="space-y-3 sm:space-y-4">
-                  <input type="text" value={formData.firstName} onChange={e => setFormData(p => ({...p, firstName: e.target.value.toUpperCase()}))} placeholder="FIRST NAME" autoCapitalize="words" className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-white outline-none text-xl sm:text-3xl font-black text-white text-center uppercase tracking-tighter py-3 sm:py-4" />
-                  <input type="text" value={formData.lastName} onChange={e => setFormData(p => ({...p, lastName: e.target.value.toUpperCase()}))} placeholder="LAST NAME" autoCapitalize="words" className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-white outline-none text-xl sm:text-3xl font-black text-white text-center uppercase tracking-tighter py-3 sm:py-4" />
+                  <input type="text" value={formData.firstName} onChange={e => setFormData(p => ({...p, firstName: e.target.value.toUpperCase()}))} placeholder="FIRST NAME" autoCapitalize="words" className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-black outline-none text-xl sm:text-3xl font-black text-black text-center uppercase tracking-tighter py-3 sm:py-4 placeholder:text-zinc-400" />
+                  <input type="text" value={formData.lastName} onChange={e => setFormData(p => ({...p, lastName: e.target.value.toUpperCase()}))} placeholder="LAST NAME" autoCapitalize="words" className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-black outline-none text-xl sm:text-3xl font-black text-black text-center uppercase tracking-tighter py-3 sm:py-4 placeholder:text-zinc-400" />
                 </div>
               </div>
               <div className="space-y-4">
-                <p className="text-[10px] font-black text-zinc-200 uppercase tracking-[0.2em]">PRONOUNS</p>
+                <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.2em]">PRONOUNS</p>
                 <div className="flex flex-wrap justify-center gap-2">
                   {PRONOUN_OPTIONS.map(opt => (
                     <button key={opt} onClick={() => setFormData(p => ({...p, pronouns: p.pronouns === opt ? '' : opt}))} className={`px-4 py-2 rounded-xl border-2 font-black text-[10px] uppercase tracking-widest transition-all ${formData.pronouns === opt ? 'bg-white text-black border-white' : 'bg-white border-zinc-300 text-zinc-900'}`}>{opt}</button>
@@ -248,16 +248,16 @@ const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
             <div className="space-y-10 text-center animate-in fade-in slide-in-from-bottom-4">
               <div className="space-y-6">
                 <div className="flex flex-col items-center gap-2">
-                  <p className="text-[12px] font-black text-zinc-900 uppercase tracking-[0.3em]">LOCATION</p>
-                  {isDetecting && <div className="flex items-center gap-2 text-[8px] font-black text-white animate-pulse"><Loader2 className="w-3 h-3 animate-spin" /> DISCOVERING...</div>}
+                  <p className="text-[12px] font-black text-zinc-600 uppercase tracking-[0.3em]">LOCATION</p>
+                  {isDetecting && <div className="flex items-center gap-2 text-[8px] font-black text-black animate-pulse"><Loader2 className="w-3 h-3 animate-spin" /> DISCOVERING...</div>}
                 </div>
                 <div className="space-y-4">
-                  <input autoFocus type="text" value={formData.city} onChange={e => setFormData(p => ({...p, city: e.target.value.toUpperCase()}))} placeholder="CITY" className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-white outline-none text-3xl font-black text-white text-center uppercase tracking-tighter py-4" />
-                  <input type="text" value={formData.country} onChange={e => setFormData(p => ({...p, country: formatCountryAcronym(e.target.value)}))} placeholder="COUNTRY" className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-white outline-none text-3xl font-black text-white text-center uppercase tracking-tighter py-4" />
+                  <input autoFocus type="text" value={formData.city} onChange={e => setFormData(p => ({...p, city: e.target.value.toUpperCase()}))} placeholder="CITY" className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-black outline-none text-3xl font-black text-black text-center uppercase tracking-tighter py-4 placeholder:text-zinc-400" />
+                  <input type="text" value={formData.country} onChange={e => setFormData(p => ({...p, country: formatCountryAcronym(e.target.value)}))} placeholder="COUNTRY" className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-black outline-none text-3xl font-black text-black text-center uppercase tracking-tighter py-4 placeholder:text-zinc-400" />
                 </div>
               </div>
               <div className="space-y-4">
-                <button onClick={() => setFormData(p => ({...p, isPrivate: !p.isPrivate}))} className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${formData.isPrivate ? 'bg-white border-zinc-400 text-zinc-400' : 'bg-white text-black border-white'}`}>
+                <button onClick={() => setFormData(p => ({...p, isPrivate: !p.isPrivate}))} className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${formData.isPrivate ? 'bg-zinc-100 border-zinc-300 text-zinc-600' : 'bg-white text-black border-black'}`}>
                   {formData.isPrivate ? <><EyeOff className="w-4 h-4" /> PRIVATE PROFILE</> : <><Eye className="w-4 h-4" /> PUBLIC PROFILE</>}
                 </button>
               </div>
@@ -279,7 +279,7 @@ const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
                       toggleMethod(searchQuery.toUpperCase());
                       setSearchQuery('');
                     }}
-                    className="col-span-full py-5 rounded-2xl border-2 border-white bg-zinc-50 text-white font-black text-[10px] uppercase tracking-widest transition-all flex items-center justify-center gap-2"
+                    className="col-span-full py-5 rounded-2xl border-2 border-black bg-white text-black font-black text-[10px] uppercase tracking-widest transition-all flex items-center justify-center gap-2"
                   >
                     <Plus className="w-3 h-3" /> ADD CUSTOM: {searchQuery.toUpperCase()}
                   </button>
@@ -344,7 +344,7 @@ const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void;
                 </span>
               )}
             </button>
-            <button onClick={onLogBrew} className="bg-black text-white px-8 py-3 rounded-2xl flex items-center gap-2 font-black text-[11px] uppercase tracking-[0.2em] active:scale-95 transition-all shadow-xl border-2 border-black hover:bg-white"><Plus className="w-4 h-4" /> <span>LOG BREW</span></button>
+            <button onClick={onLogBrew} className="bg-white text-black px-8 py-3 rounded-2xl flex items-center gap-2 font-black text-[11px] uppercase tracking-[0.2em] active:scale-95 transition-all shadow-xl border-2 border-black hover:bg-zinc-50"><Plus className="w-4 h-4" /> <span>LOG BREW</span></button>
             <button onClick={signOut} className="px-5 py-2 rounded-xl border-2 border-zinc-300 text-[11px] font-black uppercase tracking-[0.2em] text-zinc-600 hover:text-black hover:border-black active:border-black transition-all">SIGN OUT</button>
           </div>
         </div>
@@ -455,10 +455,10 @@ const AppContent: React.FC = () => {
   if (loading) {
     console.log('Showing loading screen');
     return (
-      <div className="fixed inset-0 bg-black flex items-center justify-center">
+      <div className="fixed inset-0 bg-white flex items-center justify-center">
         <div className="text-center space-y-4">
-          <h1 className="text-5xl font-black text-white tracking-tighter uppercase leading-none">ELIXR</h1>
-          <Loader2 className="w-8 h-8 text-white animate-spin mx-auto" />
+          <h1 className="text-5xl font-black text-black tracking-tighter uppercase leading-none">ELIXR</h1>
+          <Loader2 className="w-8 h-8 text-black animate-spin mx-auto" />
         </div>
       </div>
     );
@@ -503,7 +503,7 @@ const AppContent: React.FC = () => {
           </Routes>
         </main>
         <MobileNav />
-        <button onClick={() => setIsLogModalOpen(true)} className="fixed bottom-28 right-6 z-30 bg-black text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl shadow-black/20 border-4 border-white sm:hidden active:scale-90 transition-all">
+        <button onClick={() => setIsLogModalOpen(true)} className="fixed bottom-28 right-6 z-30 bg-white text-black w-16 h-16 rounded-full flex items-center justify-center shadow-2xl shadow-black/20 border-4 border-black sm:hidden active:scale-90 transition-all">
           <Plus className="w-8 h-8" />
         </button>
         <BrewLogModal isOpen={isLogModalOpen} onClose={() => setIsLogModalOpen(false)} />
