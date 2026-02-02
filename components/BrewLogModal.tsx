@@ -246,11 +246,11 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
         setFormData({
           // Cafe-specific fields
           isCafeVisit: isCafe,
-          cafeName: (editActivity as any).cafe_name || '',
-          cafeCity: (editActivity as any).cafe_city || '',
-          cafeCountry: (editActivity as any).cafe_country || '',
-          cafeAddress: (editActivity as any).cafe_address || '',
-          showAddress: !!(editActivity as any).cafe_address,
+          cafeName: editActivity.cafeName || '',
+          cafeCity: editActivity.cafeCity || '',
+          cafeCountry: editActivity.cafeCountry || '',
+          cafeAddress: editActivity.cafeAddress || '',
+          showAddress: !!editActivity.cafeAddress,
           drinkCategory: 'espresso' as 'espresso' | 'filter' | 'iced' | 'other' | 'specialty',
           drinkOrdered: '',
           drinksOrdered: drinks,
