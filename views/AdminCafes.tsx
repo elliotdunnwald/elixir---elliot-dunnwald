@@ -168,7 +168,7 @@ const AdminCafes: React.FC = () => {
           {pendingCafes.map(cafe => (
             <div
               key={cafe.id}
-              className="bg-white border-2 border-zinc-300 rounded-2xl p-6 space-y-4 hover:border-zinc-400 transition-all"
+              className="bg-white border-2 border-black rounded-2xl p-6 space-y-4 hover:border-zinc-400 transition-all"
             >
               <div className="space-y-3">
                 <div className="flex items-start justify-between gap-3">
@@ -196,7 +196,7 @@ const AdminCafes: React.FC = () => {
                   </p>
                 )}
 
-                <div className="pt-2 border-t-2 border-zinc-300">
+                <div className="pt-2 border-t-2 border-black">
                   <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-1">
                     Submitted By
                   </p>

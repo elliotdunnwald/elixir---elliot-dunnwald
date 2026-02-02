@@ -67,7 +67,7 @@ function GeolocationButton() {
     <button
       onClick={handleLocate}
       disabled={locating}
-      className="absolute top-4 right-4 z-10 bg-white text-black p-3 rounded-xl border-2 border-zinc-300 hover:bg-zinc-100 active:bg-zinc-200 transition-all shadow-lg disabled:opacity-50"
+      className="absolute top-4 right-4 z-10 bg-white text-black p-3 rounded-xl border-2 border-black hover:bg-zinc-100 active:bg-zinc-200 transition-all shadow-lg disabled:opacity-50"
       title="Find my location"
     >
       <Navigation className={`w-5 h-5 ${locating ? 'animate-pulse' : ''}`} />
@@ -95,7 +95,7 @@ const CafeMap: React.FC<CafeMapProps> = ({ cafes, center, onCafeClick }) => {
 
   if (mappableCafes.length === 0) {
     return (
-      <div className="w-full h-[600px] bg-white border-2 border-zinc-300 rounded-[2rem] flex items-center justify-center">
+      <div className="w-full h-[600px] bg-white border-2 border-black rounded-[2rem] flex items-center justify-center">
         <div className="text-center">
           <MapPin className="w-12 h-12 text-zinc-700 mx-auto mb-4" />
           <p className="text-zinc-600 text-sm font-black uppercase tracking-widest">
@@ -110,7 +110,7 @@ const CafeMap: React.FC<CafeMapProps> = ({ cafes, center, onCafeClick }) => {
   }
 
   return (
-    <div className="relative w-full h-[400px] sm:h-[600px] rounded-[2rem] overflow-hidden border-2 border-zinc-300 shadow-lg">
+    <div className="relative w-full h-[400px] sm:h-[600px] rounded-[2rem] overflow-hidden border-2 border-black shadow-lg">
       <MapContainer
         center={initialCenter}
         zoom={12}
@@ -192,7 +192,7 @@ const CafeMap: React.FC<CafeMapProps> = ({ cafes, center, onCafeClick }) => {
       </MapContainer>
 
       {/* Map legend/instructions */}
-      <div className="absolute bottom-4 left-4 z-10 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-xl border-2 border-zinc-300 shadow-lg">
+      <div className="absolute bottom-4 left-4 z-10 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-xl border-2 border-black shadow-lg">
         <p className="text-[10px] font-black uppercase tracking-wider text-zinc-800">
           {mappableCafes.length} {mappableCafes.length === 1 ? 'Cafe' : 'Cafes'} Shown
         </p>

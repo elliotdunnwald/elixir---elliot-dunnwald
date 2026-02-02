@@ -171,7 +171,7 @@ const AdminEquipment: React.FC = () => {
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-zinc-300 flex gap-2">
+              <div className="pt-4 border-t border-black flex gap-2">
                 <button
                   onClick={() => handleApprove(equipment)}
                   className="flex-1 bg-white text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all flex items-center justify-center gap-2"
@@ -181,7 +181,7 @@ const AdminEquipment: React.FC = () => {
                 </button>
                 <button
                   onClick={() => handleReject(equipment.id)}
-                  className="flex-1 bg-white border-2 border-zinc-300 text-zinc-900 px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:border-red-900 hover:text-red-500 transition-all flex items-center justify-center gap-2"
+                  className="flex-1 bg-white border-2 border-black text-zinc-900 px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:border-red-900 hover:text-red-500 transition-all flex items-center justify-center gap-2"
                 >
                   <X className="w-4 h-4" />
                   REJECT
@@ -240,7 +240,7 @@ const AddEquipmentModal: React.FC<{
       onClick={onClose}
     >
       <div
-        className="max-w-md w-full bg-zinc-50 border-2 border-zinc-300 rounded-3xl p-8 space-y-6"
+        className="max-w-md w-full bg-zinc-50 border-2 border-black rounded-3xl p-8 space-y-6"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
@@ -255,7 +255,7 @@ const AddEquipmentModal: React.FC<{
           </div>
           <button
             onClick={onClose}
-            className="text-zinc-900 hover:text-black transition-colors border-2 border-zinc-300 hover:border-white rounded-xl p-2"
+            className="text-zinc-900 hover:text-black transition-colors border-2 border-black hover:border-black rounded-xl p-2"
           >
             <X className="w-6 h-6" />
           </button>
@@ -304,7 +304,7 @@ const AddEquipmentModal: React.FC<{
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-6 py-4 rounded-xl border-2 border-zinc-300 text-zinc-900 hover:text-black hover:border-zinc-600 font-black text-sm uppercase tracking-wider transition-all"
+              className="flex-1 px-6 py-4 rounded-xl border-2 border-black text-zinc-900 hover:text-black hover:border-black font-black text-sm uppercase tracking-wider transition-all"
             >
               CANCEL
             </button>

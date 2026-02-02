@@ -203,7 +203,7 @@ const AdminCoffees: React.FC = () => {
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-zinc-300 flex gap-2">
+              <div className="pt-4 border-t border-black flex gap-2">
                 <button
                   onClick={() => handleApprove(coffee)}
                   className="flex-1 bg-white text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all flex items-center justify-center gap-2"
@@ -213,7 +213,7 @@ const AdminCoffees: React.FC = () => {
                 </button>
                 <button
                   onClick={() => handleReject(coffee.id)}
-                  className="flex-1 bg-white border-2 border-zinc-300 text-zinc-900 px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:border-red-900 hover:text-red-500 transition-all flex items-center justify-center gap-2"
+                  className="flex-1 bg-white border-2 border-black text-zinc-900 px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:border-red-900 hover:text-red-500 transition-all flex items-center justify-center gap-2"
                 >
                   <X className="w-4 h-4" />
                   REJECT

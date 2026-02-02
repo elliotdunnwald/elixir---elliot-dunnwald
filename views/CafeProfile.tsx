@@ -75,7 +75,7 @@ const CafeProfile: React.FC = () => {
       </button>
 
       {/* Cafe Header */}
-      <div className="bg-white border-2 border-zinc-300 rounded-[3rem] p-12 space-y-6">
+      <div className="bg-white border-2 border-black rounded-[3rem] p-12 space-y-6">
         <div className="flex items-start justify-between gap-6">
           <div className="flex-1">
             <h1 className="text-5xl font-black text-black uppercase tracking-tighter leading-tight mb-4">
@@ -107,7 +107,7 @@ const CafeProfile: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 pt-6 border-t-2 border-zinc-300">
+        <div className="grid grid-cols-2 gap-4 pt-6 border-t-2 border-black">
           <div className="bg-zinc-50 p-6 rounded-xl">
             <div className="flex items-center gap-2 text-zinc-600 mb-2">
               <Coffee className="w-4 h-4" />
@@ -132,7 +132,7 @@ const CafeProfile: React.FC = () => {
         </h2>
 
         {visits.length === 0 ? (
-          <div className="py-24 text-center border-2 border-dashed border-zinc-300 rounded-[3rem]">
+          <div className="py-24 text-center border-2 border-dashed border-black rounded-[3rem]">
             <Coffee className="w-12 h-12 text-zinc-700 mx-auto mb-4" />
             <p className="text-zinc-600 font-black uppercase text-sm tracking-widest">
               No visits yet

@@ -89,10 +89,10 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 animate-in fade-in duration-300 pointer-events-auto">
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm pointer-events-auto" onClick={onClose} />
-      <div className="relative bg-white w-full max-w-2xl max-h-[80vh] rounded-[2.5rem] shadow-2xl border border-zinc-300 overflow-hidden flex flex-col pointer-events-auto">
+      <div className="relative bg-white w-full max-w-2xl max-h-[80vh] rounded-[2.5rem] shadow-2xl border border-black overflow-hidden flex flex-col pointer-events-auto">
 
         {/* Header */}
-        <div className="px-8 py-6 border-b border-zinc-300 flex justify-between items-center bg-white">
+        <div className="px-8 py-6 border-b border-black flex justify-between items-center bg-white">
           <h2 className="text-xl font-black text-black tracking-tighter uppercase">Select Brewing Device</h2>
           <button onClick={onClose} className="text-zinc-900 hover:text-black active:text-black transition-all">
             <X className="w-6 h-6" />
@@ -116,7 +116,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
                       className={`p-4 rounded-xl border-2 text-left transition-all ${
                         isSelected
                           ? 'bg-white text-black border-white'
-                          : 'bg-black text-black border-zinc-300 hover:border-zinc-600'
+                          : 'bg-black text-black border-black hover:border-black'
                       }`}
                     >
                       <p className="font-black text-sm uppercase tracking-tight">{item.brand}</p>
@@ -138,7 +138,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 placeholder="SEARCH DEVICES..."
-                className="w-full bg-black border-2 border-zinc-300 rounded-2xl pl-12 pr-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase placeholder:text-zinc-700"
+                className="w-full bg-black border-2 border-black rounded-2xl pl-12 pr-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase placeholder:text-zinc-700"
               />
             </div>
           </div>
@@ -164,7 +164,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
                       className={`flex items-center justify-between p-4 rounded-xl border-2 transition-all ${
                         isSelected
                           ? 'bg-white text-black border-white'
-                          : 'bg-black border-zinc-300 hover:border-zinc-600'
+                          : 'bg-black border-black hover:border-black'
                       }`}
                     >
                       <button
@@ -178,7 +178,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
                       {!isInGear && (
                         <button
                           onClick={() => handleAddToGear(device)}
-                          className="ml-4 p-2 rounded-lg border-2 border-zinc-400 hover:border-white active:border-white transition-all"
+                          className="ml-4 p-2 rounded-lg border-2 border-zinc-400 hover:border-black active:border-black transition-all"
                           title="Add to your gear"
                         >
                           <Plus className="w-4 h-4" />

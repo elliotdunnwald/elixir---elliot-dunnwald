@@ -181,9 +181,9 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
       />
 
       {/* Panel */}
-      <div className="fixed right-0 top-0 bottom-0 w-full sm:w-96 bg-white border-l-2 border-zinc-300 z-50 flex flex-col">
+      <div className="fixed right-0 top-0 bottom-0 w-full sm:w-96 bg-white border-l-2 border-black z-50 flex flex-col">
         {/* Header */}
-        <div className="border-b-2 border-zinc-300 p-6">
+        <div className="border-b-2 border-black p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-black text-black uppercase tracking-tighter">
               Notifications
@@ -244,7 +244,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
                     followRequests.map(request => (
                       <div
                         key={request.id}
-                        className="bg-white border-2 border-zinc-300 rounded-xl p-4 space-y-3"
+                        className="bg-white border-2 border-black rounded-xl p-4 space-y-3"
                       >
                         <div className="flex items-center gap-3">
                           {request.requester?.avatar_url ? (
@@ -310,8 +310,8 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
                           onClick={() => handleNotificationClick(notif)}
                           className={`border-2 rounded-xl p-4 cursor-pointer transition-all ${
                             notif.read
-                              ? 'bg-white border-zinc-900 hover:border-zinc-300'
-                              : 'bg-white border-zinc-300 hover:border-white'
+                              ? 'bg-white border-zinc-900 hover:border-black'
+                              : 'bg-white border-black hover:border-black'
                           }`}
                         >
                           <div className="flex items-start gap-3">

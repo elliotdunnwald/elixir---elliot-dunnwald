@@ -80,7 +80,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
                 disabled={loading}
                 autoCapitalize="none"
                 autoCorrect="off"
-                className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-black outline-none text-base sm:text-xl font-black text-black text-center uppercase tracking-tighter py-3 sm:py-4 pl-6 sm:pl-8 disabled:opacity-50 placeholder:text-zinc-400"
+                className="w-full bg-transparent border-b-4 border-black focus:border-black outline-none text-base sm:text-xl font-black text-black text-center uppercase tracking-tighter py-3 sm:py-4 pl-6 sm:pl-8 disabled:opacity-50 placeholder:text-zinc-400"
               />
             </div>
 
@@ -94,7 +94,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
                 disabled={loading}
                 autoCapitalize="none"
                 autoCorrect="off"
-                className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-black outline-none text-base sm:text-xl font-black text-black text-center uppercase tracking-tighter py-3 sm:py-4 pl-6 sm:pl-8 disabled:opacity-50 placeholder:text-zinc-400"
+                className="w-full bg-transparent border-b-4 border-black focus:border-black outline-none text-base sm:text-xl font-black text-black text-center uppercase tracking-tighter py-3 sm:py-4 pl-6 sm:pl-8 disabled:opacity-50 placeholder:text-zinc-400"
               />
             </div>
 
@@ -109,7 +109,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
                   disabled={loading}
                   autoCapitalize="none"
                   autoCorrect="off"
-                  className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-black outline-none text-base sm:text-xl font-black text-black text-center uppercase tracking-tighter py-3 sm:py-4 pl-6 sm:pl-8 disabled:opacity-50 placeholder:text-zinc-400"
+                  className="w-full bg-transparent border-b-4 border-black focus:border-black outline-none text-base sm:text-xl font-black text-black text-center uppercase tracking-tighter py-3 sm:py-4 pl-6 sm:pl-8 disabled:opacity-50 placeholder:text-zinc-400"
                 />
               </div>
             )}
@@ -148,7 +148,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
                 setFormData({ email: '', password: '', confirmPassword: '' });
               }}
               disabled={loading}
-              className="w-full bg-zinc-100 text-zinc-600 hover:text-black border-2 border-zinc-300 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-black text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] transition-all disabled:opacity-50"
+              className="w-full bg-zinc-100 text-zinc-600 hover:text-black border-2 border-black py-4 sm:py-5 rounded-xl sm:rounded-2xl font-black text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] transition-all disabled:opacity-50"
             >
               {isSignUp ? 'ALREADY HAVE AN ACCOUNT? SIGN IN' : 'NEW USER? CREATE ACCOUNT'}
             </button>
