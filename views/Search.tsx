@@ -158,14 +158,14 @@ const ExploreView: React.FC = () => {
         <div className="flex gap-3">
           <button
             onClick={() => setActiveTab('people')}
-            className={`px-6 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'people' ? 'bg-white text-black border-white' : 'bg-zinc-50 text-zinc-600 border-zinc-300 hover:border-zinc-600'}`}
+            className={`px-6 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'people' ? 'bg-white text-black border-black' : 'bg-zinc-50 text-zinc-600 border-black hover:border-black'}`}
           >
             <Users className="inline w-4 h-4 mr-2" />
             People
           </button>
           <button
             onClick={() => setActiveTab('cafes')}
-            className={`px-6 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'cafes' ? 'bg-white text-black border-white' : 'bg-zinc-50 text-zinc-600 border-zinc-300 hover:border-zinc-600'}`}
+            className={`px-6 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'cafes' ? 'bg-white text-black border-black' : 'bg-zinc-50 text-zinc-600 border-black hover:border-black'}`}
           >
             <Coffee className="inline w-4 h-4 mr-2" />
             Cafes
@@ -179,7 +179,7 @@ const ExploreView: React.FC = () => {
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder={activeTab === 'people' ? "SEARCH THE NETWORK..." : "SEARCH CAFES OR LOCATIONS..."}
-            className="w-full bg-white border-2 border-zinc-300 rounded-3xl py-7 pl-16 pr-8 text-sm font-black text-black outline-none focus:border-white transition-all uppercase placeholder:text-zinc-700"
+            className="w-full bg-white border-2 border-black rounded-3xl py-7 pl-16 pr-8 text-sm font-black text-black outline-none focus:border-white transition-all uppercase placeholder:text-zinc-700"
           />
           {loading && (
             <div className="absolute right-7 top-1/2 -translate-y-1/2">
@@ -207,7 +207,7 @@ const ExploreView: React.FC = () => {
               <Link
                 key={person.id}
                 to={`/profile/${person.username}`}
-                className="bg-white border-2 border-zinc-300 p-8 rounded-[2.5rem] hover:border-zinc-600 hover:bg-zinc-50 active:bg-zinc-700/50 transition-all flex items-center gap-6 group shadow-lg shadow-black/5"
+                className="bg-white border-2 border-black p-8 rounded-[2.5rem] hover:border-black hover:bg-zinc-50 active:bg-zinc-700/50 transition-all flex items-center gap-6 group shadow-lg shadow-black/5"
               >
                 <div className="w-16 h-16 rounded-2xl border-2 border-white group-hover:border-white active:border-white flex items-center justify-center overflow-hidden transition-all bg-white text-black shadow-lg">
                   {person.avatar_url ? (
@@ -227,7 +227,7 @@ const ExploreView: React.FC = () => {
               </Link>
             ))
           ) : (
-            <div className="col-span-full py-24 text-center border-2 border-dashed border-zinc-300 rounded-[3rem]">
+            <div className="col-span-full py-24 text-center border-2 border-dashed border-black rounded-[3rem]">
               <p className="text-zinc-200 font-black uppercase text-sm tracking-[0.3em]">
                 {query.trim() ? (loading ? "SEARCHING..." : "NO USERS FOUND") : "SEARCH FOR PEOPLE"}
               </p>
@@ -239,7 +239,7 @@ const ExploreView: React.FC = () => {
               <Link
                 key={cafe.id}
                 to={`/cafe/${cafe.id}`}
-                className="bg-white border-2 border-zinc-300 p-8 rounded-[2.5rem] hover:border-zinc-600 hover:bg-zinc-50 active:bg-zinc-700/50 transition-all group shadow-lg shadow-black/5"
+                className="bg-white border-2 border-black p-8 rounded-[2.5rem] hover:border-black hover:bg-zinc-50 active:bg-zinc-700/50 transition-all group shadow-lg shadow-black/5"
               >
                 <div className="space-y-4">
                   <div className="flex items-start justify-between gap-3">
@@ -271,7 +271,7 @@ const ExploreView: React.FC = () => {
               </Link>
             ))
           ) : (
-            <div className="col-span-full py-24 text-center border-2 border-dashed border-zinc-300 rounded-[3rem]">
+            <div className="col-span-full py-24 text-center border-2 border-dashed border-black rounded-[3rem]">
               <p className="text-zinc-200 font-black uppercase text-sm tracking-[0.3em]">
                 {query.trim() ? (loading ? "SEARCHING..." : "NO CAFES FOUND") : "SEARCH FOR CAFES"}
               </p>

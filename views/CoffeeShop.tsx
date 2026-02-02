@@ -231,7 +231,7 @@ const CoffeeShopView: React.FC = () => {
             {/* Roasters Placard */}
             <div
               onClick={() => setActiveView('roasters')}
-              className="bg-zinc-50 border-2 border-zinc-900 rounded-3xl p-16 hover:border-white transition-all cursor-pointer group"
+              className="bg-zinc-50 border-2 border-zinc-900 rounded-3xl p-16 hover:border-black transition-all cursor-pointer group"
             >
               <div className="space-y-6 text-center">
                 <div>
@@ -246,7 +246,7 @@ const CoffeeShopView: React.FC = () => {
             {/* Equipment Placard */}
             <div
               onClick={() => setActiveView('equipment')}
-              className="bg-zinc-50 border-2 border-zinc-900 rounded-3xl p-16 hover:border-white transition-all cursor-pointer group"
+              className="bg-zinc-50 border-2 border-zinc-900 rounded-3xl p-16 hover:border-black transition-all cursor-pointer group"
             >
               <div className="space-y-6 text-center">
                 <div>
@@ -271,7 +271,7 @@ const CoffeeShopView: React.FC = () => {
               setActiveView('main');
               setSearchQuery('');
             }}
-            className="bg-zinc-50 border-2 border-zinc-900 text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:border-white transition-all"
+            className="bg-zinc-50 border-2 border-zinc-900 text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:border-black transition-all"
           >
             ← BACK
           </button>
@@ -304,7 +304,7 @@ const CoffeeShopView: React.FC = () => {
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-700 hover:text-black transition-colors border-2 border-zinc-300 hover:border-white rounded-lg p-1"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-700 hover:text-black transition-colors border-2 border-black hover:border-black rounded-lg p-1"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -345,7 +345,7 @@ const CoffeeShopView: React.FC = () => {
               <div
                 key={roaster.id}
                 onClick={() => setSelectedRoaster(roaster)}
-                className="bg-zinc-50 border-2 border-zinc-900 rounded-2xl p-10 hover:border-white transition-all cursor-pointer group"
+                className="bg-zinc-50 border-2 border-zinc-900 rounded-2xl p-10 hover:border-black transition-all cursor-pointer group"
               >
                 <div className="space-y-3">
                   <div>
@@ -361,7 +361,7 @@ const CoffeeShopView: React.FC = () => {
                       <span>EST. {roaster.foundedYear}</span>
                     </div>
                   )}
-                  <div className="pt-3 border-t border-zinc-300">
+                  <div className="pt-3 border-t border-black">
                     <div className="flex items-center gap-2 text-xs text-zinc-600 mb-2">
                       <ShoppingBag className="w-3 h-3" />
                       <span>{roaster.offerings.length} OFFERING{roaster.offerings.length !== 1 ? 'S' : ''}</span>
@@ -369,7 +369,7 @@ const CoffeeShopView: React.FC = () => {
 
                     {/* Show matching offerings preview */}
                     {matchingOfferings.length > 0 && (
-                      <div className="space-y-1 mt-3 pt-3 border-t border-zinc-300">
+                      <div className="space-y-1 mt-3 pt-3 border-t border-black">
                         <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest mb-2">Matches:</p>
                         {matchingOfferings.map(offering => (
                           <div key={offering.id} className="text-[10px] text-zinc-300 font-black uppercase tracking-wide">
@@ -399,7 +399,7 @@ const CoffeeShopView: React.FC = () => {
             </p>
             <button
               onClick={() => setSearchQuery('')}
-              className="mt-4 px-6 py-3 bg-white border-2 border-zinc-300 rounded-xl text-xs font-black uppercase tracking-wider hover:border-white transition-all"
+              className="mt-4 px-6 py-3 bg-white border-2 border-black rounded-xl text-xs font-black uppercase tracking-wider hover:border-black transition-all"
             >
               Clear Search
             </button>
@@ -415,7 +415,7 @@ const CoffeeShopView: React.FC = () => {
         <div className="flex items-center gap-4">
           <button
             onClick={() => setActiveView('main')}
-            className="bg-zinc-50 border-2 border-zinc-900 text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:border-white transition-all"
+            className="bg-zinc-50 border-2 border-zinc-900 text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:border-black transition-all"
           >
             ← BACK
           </button>
@@ -535,7 +535,7 @@ const RoasterOfferingsModal: React.FC<{
     >
       <div className="min-h-full flex items-center justify-center py-10">
         <div
-          className="max-w-6xl w-full bg-zinc-50 border-2 border-zinc-300 rounded-3xl p-8 space-y-6"
+          className="max-w-6xl w-full bg-zinc-50 border-2 border-black rounded-3xl p-8 space-y-6"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
@@ -567,7 +567,7 @@ const RoasterOfferingsModal: React.FC<{
             </div>
             <button
               onClick={onClose}
-              className="text-zinc-900 hover:text-black transition-colors border-2 border-zinc-300 hover:border-white rounded-xl p-2"
+              className="text-zinc-900 hover:text-black transition-colors border-2 border-black hover:border-black rounded-xl p-2"
             >
               <X className="w-6 h-6" />
             </button>
@@ -584,7 +584,7 @@ const RoasterOfferingsModal: React.FC<{
                 <div
                   key={offering.id}
                   onClick={() => setSelectedCoffee(offering)}
-                  className="bg-zinc-50 border-2 border-zinc-900 rounded-2xl p-5 hover:border-white transition-all cursor-pointer group"
+                  className="bg-zinc-50 border-2 border-zinc-900 rounded-2xl p-5 hover:border-black transition-all cursor-pointer group"
                 >
                   {/* Price */}
                   {offering.price && (
@@ -611,7 +611,7 @@ const RoasterOfferingsModal: React.FC<{
                     {offering.varietals.slice(0, 2).map((v, i) => (
                       <span
                         key={i}
-                        className="px-2 py-1 bg-white border border-zinc-300 rounded-lg text-[9px] font-black text-zinc-900 uppercase"
+                        className="px-2 py-1 bg-white border border-black rounded-lg text-[9px] font-black text-zinc-900 uppercase"
                       >
                         {v}
                       </span>
@@ -633,7 +633,7 @@ const RoasterOfferingsModal: React.FC<{
           </div>
 
           {/* Close button at bottom */}
-          <div className="pt-6 border-t-2 border-zinc-300">
+          <div className="pt-6 border-t-2 border-black">
             <button
               onClick={onClose}
               className="w-full bg-white text-black px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all border-2 border-white"
@@ -668,7 +668,7 @@ const CoffeeDetailModal: React.FC<{
     >
       <div className="min-h-full flex items-center justify-center py-10">
         <div
-          className="max-w-3xl w-full bg-zinc-50 border-2 border-zinc-300 rounded-3xl p-8 space-y-6"
+          className="max-w-3xl w-full bg-zinc-50 border-2 border-black rounded-3xl p-8 space-y-6"
           onClick={(e) => e.stopPropagation()}
         >
         {/* Header */}
@@ -688,7 +688,7 @@ const CoffeeDetailModal: React.FC<{
           </div>
           <button
             onClick={onClose}
-            className="text-zinc-900 hover:text-black transition-colors border-2 border-zinc-300 hover:border-white rounded-xl p-2"
+            className="text-zinc-900 hover:text-black transition-colors border-2 border-black hover:border-black rounded-xl p-2"
           >
             <X className="w-6 h-6" />
           </button>
@@ -702,7 +702,7 @@ const CoffeeDetailModal: React.FC<{
             </div>
           )}
           {coffee.size && (
-            <div className="bg-white border-2 border-zinc-300 text-black px-6 py-3 rounded-xl">
+            <div className="bg-white border-2 border-black text-black px-6 py-3 rounded-xl">
               <span className="text-sm font-black uppercase">{coffee.size}</span>
             </div>
           )}
@@ -755,7 +755,7 @@ const CoffeeDetailModal: React.FC<{
             {coffee.varietals.map((v, i) => (
               <span
                 key={i}
-                className="px-4 py-2 bg-white border-2 border-zinc-300 rounded-xl text-sm font-black text-black uppercase"
+                className="px-4 py-2 bg-white border-2 border-black rounded-xl text-sm font-black text-black uppercase"
               >
                 {v}
               </span>
@@ -793,7 +793,7 @@ const CoffeeDetailModal: React.FC<{
               {coffee.tasting_notes.map((note, i) => (
                 <span
                   key={i}
-                  className="px-4 py-2 bg-zinc-50 border-2 border-zinc-300 rounded-xl text-sm font-black text-black uppercase"
+                  className="px-4 py-2 bg-zinc-50 border-2 border-black rounded-xl text-sm font-black text-black uppercase"
                 >
                   {note}
                 </span>
@@ -803,7 +803,7 @@ const CoffeeDetailModal: React.FC<{
         )}
 
         {/* Close button at bottom */}
-        <div className="pt-6 border-t-2 border-zinc-300">
+        <div className="pt-6 border-t-2 border-black">
           <button
             onClick={onClose}
             className="w-full bg-white text-black px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all border-2 border-white"
@@ -857,14 +857,14 @@ const RoasterSubmitModal: React.FC<{
       onClick={onClose}
     >
       <div
-        className="max-w-md w-full bg-zinc-50 border-2 border-zinc-300 rounded-3xl p-8 space-y-6"
+        className="max-w-md w-full bg-zinc-50 border-2 border-black rounded-3xl p-8 space-y-6"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
           <h2 className="text-3xl font-black tracking-tighter text-black uppercase">SUBMIT ROASTER</h2>
           <button
             onClick={onClose}
-            className="text-zinc-900 hover:text-black transition-colors border-2 border-zinc-300 hover:border-white rounded-xl p-2"
+            className="text-zinc-900 hover:text-black transition-colors border-2 border-black hover:border-black rounded-xl p-2"
           >
             <X className="w-6 h-6" />
           </button>
@@ -948,7 +948,7 @@ const RoasterSubmitModal: React.FC<{
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-6 py-4 rounded-xl border-2 border-zinc-300 text-zinc-900 hover:text-black hover:border-zinc-600 font-black text-sm uppercase tracking-wider transition-all"
+              className="flex-1 px-6 py-4 rounded-xl border-2 border-black text-zinc-900 hover:text-black hover:border-black font-black text-sm uppercase tracking-wider transition-all"
             >
               CANCEL
             </button>
@@ -1011,14 +1011,14 @@ const EquipmentSubmitModal: React.FC<{
       onClick={onClose}
     >
       <div
-        className="max-w-md w-full bg-zinc-50 border-2 border-zinc-300 rounded-3xl p-8 space-y-6"
+        className="max-w-md w-full bg-zinc-50 border-2 border-black rounded-3xl p-8 space-y-6"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
           <h2 className="text-3xl font-black tracking-tighter text-black uppercase">SUBMIT EQUIPMENT</h2>
           <button
             onClick={onClose}
-            className="text-zinc-900 hover:text-black transition-colors border-2 border-zinc-300 hover:border-white rounded-xl p-2"
+            className="text-zinc-900 hover:text-black transition-colors border-2 border-black hover:border-black rounded-xl p-2"
           >
             <X className="w-6 h-6" />
           </button>
@@ -1091,7 +1091,7 @@ const EquipmentSubmitModal: React.FC<{
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-6 py-4 rounded-xl border-2 border-zinc-300 text-zinc-900 hover:text-black hover:border-zinc-600 font-black text-sm uppercase tracking-wider transition-all"
+              className="flex-1 px-6 py-4 rounded-xl border-2 border-black text-zinc-900 hover:text-black hover:border-black font-black text-sm uppercase tracking-wider transition-all"
             >
               CANCEL
             </button>

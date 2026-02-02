@@ -67,7 +67,7 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({ isOpen, imageSrc, onCom
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 animate-in fade-in duration-300">
       <div className="absolute inset-0 bg-zinc-50/90 backdrop-blur-sm" onClick={onCancel} />
       <div className="relative w-full max-w-2xl bg-white" style={{ borderRadius: '2rem', overflow: 'hidden', boxShadow: 'none' }}>
-        <div className="px-8 py-6 border-b border-zinc-300 flex justify-between items-center bg-white">
+        <div className="px-8 py-6 border-b border-black flex justify-between items-center bg-white">
           <h2 className="text-xl font-black text-black tracking-tighter uppercase">CROP AVATAR</h2>
           <button onClick={onCancel} className="text-zinc-900 hover:text-black transition-all">
             <X className="w-6 h-6" />
@@ -274,8 +274,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-300">
       <div className="absolute inset-0 bg-zinc-50/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative bg-white w-full max-w-2xl h-full sm:h-auto sm:rounded-[3.5rem] shadow-2xl shadow-black/5 border-2 border-zinc-300 overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95">
-        <div className="px-8 py-6 border-b-2 border-zinc-300 flex justify-between items-center bg-white">
+      <div className="relative bg-white w-full max-w-2xl h-full sm:h-auto sm:rounded-[3.5rem] shadow-2xl shadow-black/5 border-2 border-black overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95">
+        <div className="px-8 py-6 border-b-2 border-black flex justify-between items-center bg-white">
           <h2 className="text-xl font-black text-black tracking-tighter uppercase">EDIT PROFILE</h2>
           <button onClick={onClose} className="text-zinc-600 hover:text-black transition-all"><X className="w-6 h-6" /></button>
         </div>
@@ -300,11 +300,11 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">FIRST NAME</label>
-                <input type="text" value={formData.firstName} onChange={e => setFormData({ ...formData, firstName: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase" />
+                <input type="text" value={formData.firstName} onChange={e => setFormData({ ...formData, firstName: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-black rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase" />
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">LAST NAME</label>
-                <input type="text" value={formData.lastName} onChange={e => setFormData({ ...formData, lastName: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase" />
+                <input type="text" value={formData.lastName} onChange={e => setFormData({ ...formData, lastName: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-black rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase" />
               </div>
             </div>
             <div className="space-y-2">
@@ -314,7 +314,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
                   type="text"
                   value={formData.username}
                   onChange={e => setFormData({ ...formData, username: e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, '') })}
-                  className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-2xl px-5 py-4 pr-12 text-black font-black text-sm outline-none focus:border-white lowercase"
+                  className="w-full bg-zinc-50 border-2 border-black rounded-2xl px-5 py-4 pr-12 text-black font-black text-sm outline-none focus:border-white lowercase"
                   placeholder="choose your username"
                 />
                 <div className="absolute right-4 top-1/2 -translate-y-1/2">
@@ -337,23 +337,23 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
               )}
               <p className="text-[9px] font-black text-zinc-500 uppercase tracking-wider px-1">Letters, numbers, _ and - only</p>
             </div>
-            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">EMAIL</label><input type="email" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white" /></div>
-            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">PHONE</label><input type="tel" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white" placeholder="OPTIONAL" /></div>
-            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">PRONOUNS</label><input type="text" value={formData.pronouns} onChange={e => setFormData({ ...formData, pronouns: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase" /></div>
+            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">EMAIL</label><input type="email" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-zinc-50 border-2 border-black rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white" /></div>
+            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">PHONE</label><input type="tel" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-full bg-zinc-50 border-2 border-black rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white" placeholder="OPTIONAL" /></div>
+            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">PRONOUNS</label><input type="text" value={formData.pronouns} onChange={e => setFormData({ ...formData, pronouns: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-black rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase" /></div>
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">CITY</label><input type="text" value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase" /></div>
-              <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">COUNTRY</label><input type="text" value={formData.country} onChange={e => setFormData({ ...formData, country: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase" /></div>
+              <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">CITY</label><input type="text" value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-black rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase" /></div>
+              <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">COUNTRY</label><input type="text" value={formData.country} onChange={e => setFormData({ ...formData, country: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-black rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase" /></div>
             </div>
-            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">BIO</label><textarea value={formData.bio} onChange={e => setFormData({ ...formData, bio: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase min-h-[100px] resize-none" placeholder="SHARE YOUR BREW PHILOSOPHY..." /></div>
+            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">BIO</label><textarea value={formData.bio} onChange={e => setFormData({ ...formData, bio: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-black rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase min-h-[100px] resize-none" placeholder="SHARE YOUR BREW PHILOSOPHY..." /></div>
             <div className="space-y-2">
               <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">PRIVACY</label>
-              <button type="button" onClick={() => setFormData({ ...formData, isPrivate: !formData.isPrivate })} className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${formData.isPrivate ? 'bg-white border-zinc-400 text-zinc-600' : 'bg-white text-black border-white'}`}>
+              <button type="button" onClick={() => setFormData({ ...formData, isPrivate: !formData.isPrivate })} className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${formData.isPrivate ? 'bg-white border-zinc-400 text-zinc-600' : 'bg-white text-black border-black'}`}>
                 {formData.isPrivate ? <><EyeOff className="w-4 h-4" /> PRIVATE PROFILE</> : <><Eye className="w-4 h-4" /> PUBLIC PROFILE</>}
               </button>
             </div>
           </section>
         </div>
-        <div className="px-6 sm:px-10 py-6 border-t-2 border-zinc-300 shrink-0 bg-white">
+        <div className="px-6 sm:px-10 py-6 border-t-2 border-black shrink-0 bg-white">
           <button type="button" onClick={handleSave} className="w-full bg-white text-black font-black text-sm uppercase tracking-[0.4em] py-7 rounded-[2rem] sm:rounded-[2.5rem] transition-all active:scale-[0.98] shadow-xl">SAVE CHANGES</button>
         </div>
       </div>
@@ -627,15 +627,15 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
         </button>
       )}
 
-      <div className="bg-white rounded-[2rem] sm:rounded-[3.5rem] overflow-hidden border-2 border-zinc-300 shadow-2xl shadow-black/5 relative">
+      <div className="bg-white rounded-[2rem] sm:rounded-[3.5rem] overflow-hidden border-2 border-black shadow-2xl shadow-black/5 relative">
         <div className="h-32 sm:h-40 bg-zinc-50 flex items-center justify-center"></div>
         {viewingOwnProfile && (
           <div className="absolute top-3 right-3 sm:top-6 sm:right-6 flex gap-2 sm:gap-3">
-            <button onClick={shareProfile} className="p-2.5 sm:p-4 rounded-lg sm:rounded-2xl bg-zinc-50 border-2 border-zinc-300 text-zinc-900 hover:text-black hover:border-white active:border-white transition-all shadow-xl z-10 flex items-center gap-2">
+            <button onClick={shareProfile} className="p-2.5 sm:p-4 rounded-lg sm:rounded-2xl bg-zinc-50 border-2 border-black text-zinc-900 hover:text-black hover:border-black active:border-black transition-all shadow-xl z-10 flex items-center gap-2">
               {copied ? <Check className="w-4 h-4 sm:w-5 sm:h-5 text-black" /> : <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />}
               <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest hidden sm:inline">{copied ? 'LINK COPIED' : 'SHARE PROFILE'}</span>
             </button>
-            <button onClick={() => setIsEditModalOpen(true)} className="p-2.5 sm:p-4 rounded-lg sm:rounded-2xl bg-zinc-50 border-2 border-zinc-300 text-zinc-900 hover:text-black hover:border-white active:border-white transition-all shadow-xl z-10"><Settings2 className="w-4 h-4 sm:w-5 sm:h-5" /></button>
+            <button onClick={() => setIsEditModalOpen(true)} className="p-2.5 sm:p-4 rounded-lg sm:rounded-2xl bg-zinc-50 border-2 border-black text-zinc-900 hover:text-black hover:border-black active:border-black transition-all shadow-xl z-10"><Settings2 className="w-4 h-4 sm:w-5 sm:h-5" /></button>
           </div>
         )}
         {!viewingOwnProfile && currentProfile && (
@@ -667,16 +667,16 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
               </div>
               <div className="flex items-center justify-center sm:justify-start gap-3 mt-2 sm:mt-3">
                 <p className="text-[10px] sm:text-[11px] font-black text-zinc-900 uppercase tracking-[0.3em] sm:tracking-[0.4em]">{displayUser.location}</p>
-                {displayUser.pronouns && <span className="text-[8px] sm:text-[9px] font-black text-zinc-700 border border-zinc-300 px-2 py-0.5 rounded uppercase tracking-widest">{displayUser.pronouns}</span>}
+                {displayUser.pronouns && <span className="text-[8px] sm:text-[9px] font-black text-zinc-700 border border-black px-2 py-0.5 rounded uppercase tracking-widest">{displayUser.pronouns}</span>}
               </div>
             </div>
           </div>
           {displayUser.bio && (
-            <p className="mb-6 sm:mb-10 text-zinc-600 font-black uppercase tracking-widest text-[10px] sm:text-xs leading-relaxed max-w-2xl border-l-4 border-zinc-300 pl-4 sm:pl-6 italic mx-auto sm:mx-0">
+            <p className="mb-6 sm:mb-10 text-zinc-600 font-black uppercase tracking-widest text-[10px] sm:text-xs leading-relaxed max-w-2xl border-l-4 border-black pl-4 sm:pl-6 italic mx-auto sm:mx-0">
               "{displayUser.bio}"
             </p>
           )}
-          <div className="grid grid-cols-3 gap-3 sm:gap-8 py-5 sm:py-10 border-t-2 border-zinc-300">
+          <div className="grid grid-cols-3 gap-3 sm:gap-8 py-5 sm:py-10 border-t-2 border-black">
             {[{ label: 'FOLLOWERS', val: displayUser.stats.followers }, { label: 'FOLLOWING', val: displayUser.stats.following }, { label: 'BREWS', val: displayUser.stats.brews }].map(s => (
               <div key={s.label} className="text-center">
                 <p className="text-[8px] sm:text-[10px] font-black text-zinc-700 uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-1 sm:mb-2">{s.label}</p>
@@ -686,7 +686,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
           </div>
         </div>
       </div>
-      <div className="flex bg-zinc-50 p-1 sm:p-2 rounded-xl sm:rounded-2xl border-2 border-zinc-300 sticky top-16 sm:top-24 z-40 backdrop-blur-xl shadow-lg">
+      <div className="flex bg-zinc-50 p-1 sm:p-2 rounded-xl sm:rounded-2xl border-2 border-black sticky top-16 sm:top-24 z-40 backdrop-blur-xl shadow-lg">
         {[
           { id: 'activity', label: 'HISTORY', icon: <LayoutGrid className="w-4 h-4" /> },
           { id: 'locker', label: 'GEAR', icon: <Settings2 className="w-4 h-4" /> },
@@ -705,19 +705,19 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
             <div className="flex gap-2 justify-center">
               <button
                 onClick={() => setActivityFilter('all')}
-                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'all' ? 'bg-white text-black border-white' : 'bg-white text-zinc-600 border-zinc-300 hover:border-zinc-600 active:border-white'}`}
+                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'all' ? 'bg-white text-black border-black' : 'bg-white text-zinc-600 border-black hover:border-black active:border-black'}`}
               >
                 All
               </button>
               <button
                 onClick={() => setActivityFilter('brews')}
-                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'brews' ? 'bg-white text-black border-white' : 'bg-white text-zinc-600 border-zinc-300 hover:border-zinc-600 active:border-white'}`}
+                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'brews' ? 'bg-white text-black border-black' : 'bg-white text-zinc-600 border-black hover:border-black active:border-black'}`}
               >
                 Home Brews
               </button>
               <button
                 onClick={() => setActivityFilter('cafes')}
-                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'cafes' ? 'bg-white text-black border-white' : 'bg-white text-zinc-600 border-zinc-300 hover:border-zinc-600 active:border-white'}`}
+                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'cafes' ? 'bg-white text-black border-black' : 'bg-white text-zinc-600 border-black hover:border-black active:border-black'}`}
               >
                 Cafes
               </button>
@@ -737,7 +737,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                 />
               ))
             ) : (
-              <div className="py-20 sm:py-24 text-center border-2 border-zinc-300 bg-white rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6 px-6 shadow-2xl shadow-black/5">
+              <div className="py-20 sm:py-24 text-center border-2 border-black bg-white rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6 px-6 shadow-2xl shadow-black/5">
                 <div className="w-16 h-16 sm:w-20 sm:h-20 bg-zinc-50 rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center"><LayoutGrid className="w-8 h-8 sm:w-10 sm:h-10 text-zinc-700" /></div>
                 <h3 className="text-zinc-600 font-black uppercase text-xs sm:text-base tracking-[0.3em] sm:tracking-[0.4em]">HISTORY EMPTY</h3>
               </div>
@@ -751,7 +751,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                 {!isAddingGear ? (
                   <button
                     onClick={() => setIsAddingGear(true)}
-                    className="w-full py-5 rounded-2xl border-2 border-dashed border-zinc-300 text-zinc-900 hover:text-black hover:border-white active:border-white transition-all font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-2"
+                    className="w-full py-5 rounded-2xl border-2 border-dashed border-black text-zinc-900 hover:text-black hover:border-black active:border-black transition-all font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-2"
                   >
                     <Plus className="w-4 h-4" /> ADD GEAR
                   </button>
@@ -765,7 +765,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                         value={newGearSearch}
                         onChange={e => setNewGearSearch(e.target.value)}
                         placeholder="SEARCH OR TYPE CUSTOM GEAR..."
-                        className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-xl py-4 pl-11 pr-4 text-xs font-black text-black outline-none focus:border-white uppercase"
+                        className="w-full bg-zinc-50 border-2 border-black rounded-xl py-4 pl-11 pr-4 text-xs font-black text-black outline-none focus:border-white uppercase"
                       />
                     </div>
                     {newGearSearch.trim() && (
@@ -782,7 +782,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                               <button
                                 key={fullName}
                                 onClick={() => handleAddGear(fullName)}
-                                className="w-full text-left px-4 py-3 rounded-xl bg-white border border-zinc-300 hover:border-white text-black text-xs font-black uppercase transition-all"
+                                className="w-full text-left px-4 py-3 rounded-xl bg-white border border-black hover:border-black text-black text-xs font-black uppercase transition-all"
                               >
                                 {fullName}
                               </button>
@@ -812,7 +812,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
             {displayUser.gear.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {gear.map((item: any) => (
-                  <div key={item.id} className="bg-white p-5 sm:p-8 rounded-2xl border-2 border-zinc-300 flex items-center justify-between group hover:border-white active:border-white transition-all shadow-2xl shadow-black/5">
+                  <div key={item.id} className="bg-white p-5 sm:p-8 rounded-2xl border-2 border-black flex items-center justify-between group hover:border-black active:border-black transition-all shadow-2xl shadow-black/5">
                     <div className="space-y-1">
                       <p className="text-[8px] sm:text-[9px] font-black text-zinc-700 uppercase tracking-widest">DEVICE</p>
                       <p className="text-lg sm:text-xl font-black text-black uppercase tracking-tighter italic">{item.brand} {item.name}</p>
@@ -821,7 +821,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                       <button
                         onClick={() => handleDeleteGear(item.id)}
                         disabled={deletingGearId === item.id}
-                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-zinc-50 border-2 border-zinc-300 flex items-center justify-center hover:border-red-900 hover:bg-red-950 transition-all group"
+                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-zinc-50 border-2 border-black flex items-center justify-center hover:border-red-900 hover:bg-red-950 transition-all group"
                       >
                         {deletingGearId === item.id ? (
                           <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-700 animate-spin" />
@@ -830,7 +830,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                         )}
                       </button>
                     ) : (
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-zinc-50 border-2 border-zinc-300 flex items-center justify-center">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-zinc-50 border-2 border-black flex items-center justify-center">
                         <Settings2 className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-800 group-hover:text-black active:text-black transition-colors" />
                       </div>
                     )}
@@ -838,7 +838,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                 ))}
               </div>
             ) : (
-              <div className="py-20 sm:py-24 text-center border-2 border-zinc-300 bg-white rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6 shadow-2xl shadow-black/5">
+              <div className="py-20 sm:py-24 text-center border-2 border-black bg-white rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6 shadow-2xl shadow-black/5">
                 <div className="w-16 h-16 sm:w-20 sm:h-20 bg-zinc-50 rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center"><Settings2 className="w-8 h-8 sm:w-10 sm:h-10 text-zinc-700" /></div>
                 <h3 className="text-zinc-600 font-black uppercase text-xs sm:text-base tracking-[0.4em]">LOCKER UNSET</h3>
               </div>
@@ -847,7 +847,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
         )}
         {activeTab === 'analytics' && (
           <div className="animate-in fade-in duration-500">
-            <div className="py-20 sm:py-24 text-center border-2 border-zinc-300 bg-white rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6 shadow-2xl shadow-black/5">
+            <div className="py-20 sm:py-24 text-center border-2 border-black bg-white rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6 shadow-2xl shadow-black/5">
               <div className="w-16 h-16 sm:w-20 sm:h-20 bg-zinc-50 rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center"><BarChart3 className="w-8 h-8 sm:w-10 sm:h-10 text-zinc-700" /></div>
               <h3 className="text-zinc-600 font-black uppercase text-xs sm:text-base tracking-[0.4em]">COMING SOON</h3>
             </div>
@@ -857,7 +857,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
           <div className="animate-in fade-in duration-500 space-y-4">
             <Link
               to="/admin/roasters"
-              className="block bg-white border-2 border-zinc-300 hover:border-white rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-black/5"
+              className="block bg-white border-2 border-black hover:border-black rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-black/5"
             >
               <div className="flex items-center justify-between">
                 <div>
@@ -869,7 +869,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
             </Link>
             <Link
               to="/admin/equipment"
-              className="block bg-white border-2 border-zinc-300 hover:border-white rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-black/5"
+              className="block bg-white border-2 border-black hover:border-black rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-black/5"
             >
               <div className="flex items-center justify-between">
                 <div>
@@ -881,7 +881,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
             </Link>
             <Link
               to="/admin/coffees"
-              className="block bg-white border-2 border-zinc-300 hover:border-white rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-black/5"
+              className="block bg-white border-2 border-black hover:border-black rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-black/5"
             >
               <div className="flex items-center justify-between">
                 <div>
@@ -893,7 +893,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
             </Link>
             <Link
               to="/admin/cafes"
-              className="block bg-white border-2 border-zinc-300 hover:border-white rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-black/5"
+              className="block bg-white border-2 border-black hover:border-black rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-black/5"
             >
               <div className="flex items-center justify-between">
                 <div>
