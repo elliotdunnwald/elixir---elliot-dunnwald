@@ -212,13 +212,13 @@ const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-black flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div className="min-h-screen w-full bg-white flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
       <div className="max-w-md w-full space-y-8 sm:space-y-12 py-6 sm:py-10">
         <div className="text-center">
-          <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tighter uppercase leading-none">ELIXR</h1>
+          <h1 className="text-4xl sm:text-5xl font-black text-black tracking-tighter uppercase leading-none">ELIXR</h1>
           <div className="flex justify-center gap-1 mt-4 sm:mt-6">
             {[1, 2, 3].map(s => (
-              <div key={s} className={`h-1 w-8 rounded-full ${step >= s ? 'bg-white' : 'bg-zinc-800'}`} />
+              <div key={s} className={`h-1 w-8 rounded-full ${step >= s ? 'bg-black' : 'bg-zinc-300'}`} />
             ))}
           </div>
         </div>
@@ -326,17 +326,17 @@ const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void;
   ];
 
   return (
-    <nav className="sticky top-0 z-40 bg-black border-b-2 border-white hidden sm:block">
+    <nav className="sticky top-0 z-40 bg-white border-b-2 border-black hidden sm:block">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between h-20">
-          <Link to="/" className="flex items-center"><span className="text-2xl font-black text-white tracking-tighter uppercase leading-none">ELIXR</span></Link>
+          <Link to="/" className="flex items-center"><span className="text-2xl font-black text-black tracking-tighter uppercase leading-none">ELIXR</span></Link>
           <div className="flex items-center space-x-8">
             <div className="flex space-x-8">
               {navItems.map((item) => (
-                <Link key={item.label} to={item.path} className={`text-[11px] font-black uppercase tracking-[0.2em] transition-all ${location.pathname === item.path ? 'text-white underline underline-offset-8 decoration-4' : 'text-zinc-400 hover:text-white'}`}>{item.label}</Link>
+                <Link key={item.label} to={item.path} className={`text-[11px] font-black uppercase tracking-[0.2em] transition-all ${location.pathname === item.path ? 'text-black underline underline-offset-8 decoration-4' : 'text-zinc-600 hover:text-black active:text-black'}`}>{item.label}</Link>
               ))}
             </div>
-            <button onClick={onOpenNotifications} className="relative p-3 rounded-xl border-2 border-zinc-800 text-zinc-400 hover:text-white hover:border-white transition-all">
+            <button onClick={onOpenNotifications} className="relative p-3 rounded-xl border-2 border-zinc-300 text-zinc-600 hover:text-black hover:border-black active:border-black transition-all">
               <Bell className="w-5 h-5" />
               {notificationCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center">
@@ -344,8 +344,8 @@ const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void;
                 </span>
               )}
             </button>
-            <button onClick={onLogBrew} className="bg-white text-black px-8 py-3 rounded-2xl flex items-center gap-2 font-black text-[11px] uppercase tracking-[0.2em] active:scale-95 transition-all shadow-xl border-2 border-white hover:bg-zinc-100"><Plus className="w-4 h-4" /> <span>LOG BREW</span></button>
-            <button onClick={signOut} className="px-5 py-2 rounded-xl border-2 border-zinc-800 text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400 hover:text-white hover:border-white transition-all">SIGN OUT</button>
+            <button onClick={onLogBrew} className="bg-black text-white px-8 py-3 rounded-2xl flex items-center gap-2 font-black text-[11px] uppercase tracking-[0.2em] active:scale-95 transition-all shadow-xl border-2 border-black hover:bg-zinc-900"><Plus className="w-4 h-4" /> <span>LOG BREW</span></button>
+            <button onClick={signOut} className="px-5 py-2 rounded-xl border-2 border-zinc-300 text-[11px] font-black uppercase tracking-[0.2em] text-zinc-600 hover:text-black hover:border-black active:border-black transition-all">SIGN OUT</button>
           </div>
         </div>
       </div>
@@ -355,11 +355,11 @@ const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void;
 
 const MobileHeader: React.FC<{ onOpenNotifications: () => void; notificationCount: number }> = ({ onOpenNotifications, notificationCount }) => {
   return (
-    <div className="sm:hidden sticky top-0 z-40 bg-black border-b-2 border-white h-16 flex items-center justify-between px-6">
+    <div className="sm:hidden sticky top-0 z-40 bg-white border-b-2 border-black h-16 flex items-center justify-between px-6">
       <Link to="/" className="flex items-center">
-        <span className="text-xl font-black text-white tracking-tighter uppercase leading-none">ELIXR</span>
+        <span className="text-xl font-black text-black tracking-tighter uppercase leading-none">ELIXR</span>
       </Link>
-      <button onClick={onOpenNotifications} className="relative p-2 rounded-xl border-2 border-zinc-800 text-zinc-400">
+      <button onClick={onOpenNotifications} className="relative p-2 rounded-xl border-2 border-zinc-300 text-zinc-600 hover:text-black hover:border-black active:border-black transition-all">
         <Bell className="w-5 h-5" />
         {notificationCount > 0 && (
           <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center">
@@ -380,15 +380,15 @@ const MobileNav: React.FC = () => {
     { path: '/profile/me', label: 'PROFILE', icon: <User className="w-6 h-6" /> },
   ];
   return (
-    <nav className="bg-zinc-900 border-t-2 border-zinc-800 sm:hidden flex justify-around items-center h-20 px-2 shadow-2xl shadow-white/5">
+    <nav className="bg-zinc-100 border-t-2 border-zinc-300 sm:hidden flex justify-around items-center h-20 px-2 shadow-2xl shadow-black/5">
       {navItems.map((item) => (
         <Link
           key={item.label}
           to={item.path}
-          className={`flex flex-col items-center gap-1 px-3 py-2 rounded-xl border-2 transition-all ${
+          className={`flex flex-col items-center gap-1 px-4 py-3 rounded-xl border-2 transition-all min-h-[44px] min-w-[44px] ${
             location.pathname === item.path
-              ? 'text-white border-white bg-white/10'
-              : 'text-zinc-400 border-transparent hover:text-white hover:border-zinc-700'
+              ? 'text-black border-black bg-black/10'
+              : 'text-zinc-600 border-transparent active:text-black active:border-zinc-300'
           }`}
         >
           {item.icon}
@@ -478,7 +478,7 @@ const AppContent: React.FC = () => {
   return (
     <Router>
       <PageTitle />
-      <div className="min-h-screen flex flex-col bg-black text-white selection:bg-white selection:text-black">
+      <div className="min-h-screen flex flex-col bg-white text-black selection:bg-black selection:text-white">
         <Navbar
           onLogBrew={() => setIsLogModalOpen(true)}
           onOpenNotifications={() => setIsNotificationsOpen(true)}
@@ -503,7 +503,7 @@ const AppContent: React.FC = () => {
           </Routes>
         </main>
         <MobileNav />
-        <button onClick={() => setIsLogModalOpen(true)} className="fixed bottom-6 right-6 z-30 bg-white text-black w-16 h-16 rounded-full flex items-center justify-center shadow-2xl shadow-white/20 border-4 border-black sm:hidden active:scale-90 transition-all">
+        <button onClick={() => setIsLogModalOpen(true)} className="fixed bottom-28 right-6 z-30 bg-black text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl shadow-black/20 border-4 border-white sm:hidden active:scale-90 transition-all">
           <Plus className="w-8 h-8" />
         </button>
         <BrewLogModal isOpen={isLogModalOpen} onClose={() => setIsLogModalOpen(false)} />

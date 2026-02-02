@@ -15,8 +15,8 @@ const AdminCafes: React.FC = () => {
     return (
       <div className="max-w-7xl mx-auto">
         <div className="text-center py-32 border-4 border-dashed border-red-900 rounded-[3.5rem]">
-          <h1 className="text-5xl font-black text-white uppercase tracking-tighter mb-4">ACCESS DENIED</h1>
-          <p className="text-zinc-400 text-sm font-black uppercase tracking-wider">
+          <h1 className="text-5xl font-black text-black uppercase tracking-tighter mb-4">ACCESS DENIED</h1>
+          <p className="text-zinc-600 text-sm font-black uppercase tracking-wider">
             You must be an admin to access this page
           </p>
         </div>
@@ -122,7 +122,7 @@ const AdminCafes: React.FC = () => {
     return (
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-center py-32">
-          <Loader2 className="w-8 h-8 text-white animate-spin" />
+          <Loader2 className="w-8 h-8 text-black animate-spin" />
         </div>
       </div>
     );
@@ -132,7 +132,7 @@ const AdminCafes: React.FC = () => {
     <div className="max-w-7xl mx-auto space-y-8">
       <button
         onClick={() => navigate('/profile/me')}
-        className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors mb-4"
+        className="flex items-center gap-2 text-zinc-600 hover:text-black transition-colors mb-4"
       >
         <ArrowLeft className="w-5 h-5" />
         <span className="text-sm font-black uppercase tracking-wider">Back to Profile</span>
@@ -140,14 +140,14 @@ const AdminCafes: React.FC = () => {
 
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-5xl font-black text-white uppercase tracking-tighter mb-2">CAFE APPROVALS</h1>
-          <p className="text-zinc-400 text-sm font-black uppercase tracking-wider">
+          <h1 className="text-5xl font-black text-black uppercase tracking-tighter mb-2">CAFE APPROVALS</h1>
+          <p className="text-zinc-600 text-sm font-black uppercase tracking-wider">
             Review and approve user-submitted cafes
           </p>
         </div>
         <div className="text-right">
-          <p className="text-5xl font-black text-white">{pendingCafes.length}</p>
-          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Pending</p>
+          <p className="text-5xl font-black text-black">{pendingCafes.length}</p>
+          <p className="text-[10px] font-black text-zinc-600 uppercase tracking-widest">Pending</p>
         </div>
       </div>
 
@@ -156,10 +156,10 @@ const AdminCafes: React.FC = () => {
           <div className="bg-white p-8 rounded-[2.5rem] w-fit mx-auto mb-8">
             <Coffee className="w-12 h-12 text-black" />
           </div>
-          <h3 className="text-4xl font-black text-white uppercase tracking-tighter mb-4">
+          <h3 className="text-4xl font-black text-black uppercase tracking-tighter mb-4">
             No Pending Cafes
           </h3>
-          <p className="text-zinc-400 text-sm font-black uppercase tracking-wider">
+          <p className="text-zinc-600 text-sm font-black uppercase tracking-wider">
             All cafe submissions have been reviewed
           </p>
         </div>
@@ -168,22 +168,22 @@ const AdminCafes: React.FC = () => {
           {pendingCafes.map(cafe => (
             <div
               key={cafe.id}
-              className="bg-zinc-900 border-2 border-zinc-800 rounded-2xl p-6 space-y-4 hover:border-zinc-700 transition-all"
+              className="bg-white border-2 border-zinc-300 rounded-2xl p-6 space-y-4 hover:border-zinc-700 transition-all"
             >
               <div className="space-y-3">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1">
-                    <h3 className="text-xl font-black text-white uppercase tracking-tight leading-tight">
+                    <h3 className="text-xl font-black text-black uppercase tracking-tight leading-tight">
                       {cafe.cafe_name}
                     </h3>
                   </div>
                   <div className="flex items-center gap-2 bg-zinc-800 px-3 py-1 rounded-lg">
-                    <Users className="w-3 h-3 text-zinc-400" />
-                    <span className="text-xs font-black text-white">{cafe.submission_count}</span>
+                    <Users className="w-3 h-3 text-zinc-600" />
+                    <span className="text-xs font-black text-black">{cafe.submission_count}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 text-zinc-400">
+                <div className="flex items-center gap-2 text-zinc-600">
                   <MapPin className="w-4 h-4" />
                   <span className="text-sm font-black uppercase tracking-wide">
                     {cafe.city}, {cafe.country}
@@ -196,11 +196,11 @@ const AdminCafes: React.FC = () => {
                   </p>
                 )}
 
-                <div className="pt-2 border-t-2 border-zinc-800">
+                <div className="pt-2 border-t-2 border-zinc-300">
                   <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-1">
                     Submitted By
                   </p>
-                  <div className="flex items-center gap-2 text-zinc-400">
+                  <div className="flex items-center gap-2 text-zinc-600">
                     <Users className="w-3 h-3" />
                     <span className="text-xs font-black uppercase">
                       {cafe.submitted_by_users.length} {cafe.submitted_by_users.length === 1 ? 'User' : 'Users'}
@@ -219,7 +219,7 @@ const AdminCafes: React.FC = () => {
                 </button>
                 <button
                   onClick={() => handleReject(cafe.id)}
-                  className="bg-zinc-800 text-zinc-400 font-black text-xs uppercase tracking-wider py-3 px-4 rounded-xl hover:bg-zinc-700 hover:text-white transition-all"
+                  className="bg-zinc-800 text-zinc-600 font-black text-xs uppercase tracking-wider py-3 px-4 rounded-xl hover:bg-zinc-700 hover:text-black transition-all"
                 >
                   <X className="w-4 h-4" />
                 </button>

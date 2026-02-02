@@ -144,13 +144,13 @@ const ExploreView: React.FC = () => {
   }, [query, currentProfile, activeTab, allCafes]);
 
   return (
-    <div className="max-w-4xl mx-auto space-y-12 pb-24 animate-in fade-in duration-500">
+    <div className="max-w-4xl mx-auto space-y-12 pb-28 sm:pb-24 animate-in fade-in duration-500">
       <div className="space-y-8">
         <div className="flex justify-between items-end">
-          <h1 className="text-5xl font-black text-white tracking-tighter uppercase leading-none">EXPLORE</h1>
+          <h1 className="text-5xl font-black text-black tracking-tighter uppercase leading-none">EXPLORE</h1>
           <div className="flex items-center gap-2 text-zinc-700">
             <ShieldCheck className="w-4 h-4" />
-            <span className="text-[9px] font-black uppercase tracking-widest">RLS ENABLED</span>
+            <span className="text-[10px] font-black uppercase tracking-widest">RLS ENABLED</span>
           </div>
         </div>
 
@@ -158,14 +158,14 @@ const ExploreView: React.FC = () => {
         <div className="flex gap-3">
           <button
             onClick={() => setActiveTab('people')}
-            className={`px-6 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'people' ? 'bg-white text-black border-white' : 'bg-black text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
+            className={`px-6 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'people' ? 'bg-white text-black border-white' : 'bg-zinc-50 text-zinc-600 border-zinc-300 hover:border-zinc-600'}`}
           >
             <Users className="inline w-4 h-4 mr-2" />
             People
           </button>
           <button
             onClick={() => setActiveTab('cafes')}
-            className={`px-6 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'cafes' ? 'bg-white text-black border-white' : 'bg-black text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
+            className={`px-6 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'cafes' ? 'bg-white text-black border-white' : 'bg-zinc-50 text-zinc-600 border-zinc-300 hover:border-zinc-600'}`}
           >
             <Coffee className="inline w-4 h-4 mr-2" />
             Cafes
@@ -173,13 +173,13 @@ const ExploreView: React.FC = () => {
         </div>
 
         <div className="relative group">
-          <Search className="absolute left-7 top-1/2 -translate-y-1/2 w-6 h-6 text-zinc-200 group-focus-within:text-white transition-colors" />
+          <Search className="absolute left-7 top-1/2 -translate-y-1/2 w-6 h-6 text-zinc-200 group-focus-within:text-black transition-colors" />
           <input
             type="text"
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder={activeTab === 'people' ? "SEARCH THE NETWORK..." : "SEARCH CAFES OR LOCATIONS..."}
-            className="w-full bg-zinc-900 border-2 border-zinc-800 rounded-3xl py-7 pl-16 pr-8 text-sm font-black text-white outline-none focus:border-white transition-all uppercase placeholder:text-zinc-700"
+            className="w-full bg-white border-2 border-zinc-300 rounded-3xl py-7 pl-16 pr-8 text-sm font-black text-black outline-none focus:border-white transition-all uppercase placeholder:text-zinc-700"
           />
           {loading && (
             <div className="absolute right-7 top-1/2 -translate-y-1/2">
@@ -207,9 +207,9 @@ const ExploreView: React.FC = () => {
               <Link
                 key={person.id}
                 to={`/profile/${person.username}`}
-                className="bg-zinc-900 border-2 border-zinc-800 p-8 rounded-[2.5rem] hover:border-zinc-600 hover:bg-zinc-800/50 transition-all flex items-center gap-6 group shadow-lg shadow-white/5"
+                className="bg-white border-2 border-zinc-300 p-8 rounded-[2.5rem] hover:border-zinc-600 hover:bg-zinc-800 active:bg-zinc-700/50 transition-all flex items-center gap-6 group shadow-lg shadow-black/5"
               >
-                <div className="w-16 h-16 rounded-2xl border-2 border-white group-hover:border-white flex items-center justify-center overflow-hidden transition-all bg-white text-black shadow-lg">
+                <div className="w-16 h-16 rounded-2xl border-2 border-white group-hover:border-white active:border-white flex items-center justify-center overflow-hidden transition-all bg-white text-black shadow-lg">
                   {person.avatar_url ? (
                     <img src={person.avatar_url} className="w-full h-full object-cover" alt="" />
                   ) : (
@@ -217,7 +217,7 @@ const ExploreView: React.FC = () => {
                   )}
                 </div>
                 <div>
-                  <h4 className="font-black text-white text-xl tracking-tighter uppercase leading-none">
+                  <h4 className="font-black text-black text-xl tracking-tighter uppercase leading-none">
                     {person.first_name} {person.last_name}
                   </h4>
                   <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest mt-2">
@@ -227,7 +227,7 @@ const ExploreView: React.FC = () => {
               </Link>
             ))
           ) : (
-            <div className="col-span-full py-24 text-center border-2 border-dashed border-zinc-800 rounded-[3rem]">
+            <div className="col-span-full py-24 text-center border-2 border-dashed border-zinc-300 rounded-[3rem]">
               <p className="text-zinc-200 font-black uppercase text-sm tracking-[0.3em]">
                 {query.trim() ? (loading ? "SEARCHING..." : "NO USERS FOUND") : "SEARCH FOR PEOPLE"}
               </p>
@@ -239,15 +239,15 @@ const ExploreView: React.FC = () => {
               <Link
                 key={cafe.id}
                 to={`/cafe/${cafe.id}`}
-                className="bg-zinc-900 border-2 border-zinc-800 p-8 rounded-[2.5rem] hover:border-zinc-600 hover:bg-zinc-800/50 transition-all group shadow-lg shadow-white/5"
+                className="bg-white border-2 border-zinc-300 p-8 rounded-[2.5rem] hover:border-zinc-600 hover:bg-zinc-800 active:bg-zinc-700/50 transition-all group shadow-lg shadow-black/5"
               >
                 <div className="space-y-4">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <h4 className="font-black text-white text-xl tracking-tighter uppercase leading-tight">
+                      <h4 className="font-black text-black text-xl tracking-tighter uppercase leading-tight">
                         {cafe.name}
                       </h4>
-                      <div className="flex items-center gap-2 text-zinc-400 mt-2">
+                      <div className="flex items-center gap-2 text-zinc-600 mt-2">
                         <MapPin className="w-4 h-4" />
                         <span className="text-xs font-black uppercase tracking-wide">
                           {cafe.city}, {cafe.country}
@@ -271,7 +271,7 @@ const ExploreView: React.FC = () => {
               </Link>
             ))
           ) : (
-            <div className="col-span-full py-24 text-center border-2 border-dashed border-zinc-800 rounded-[3rem]">
+            <div className="col-span-full py-24 text-center border-2 border-dashed border-zinc-300 rounded-[3rem]">
               <p className="text-zinc-200 font-black uppercase text-sm tracking-[0.3em]">
                 {query.trim() ? (loading ? "SEARCHING..." : "NO CAFES FOUND") : "SEARCH FOR CAFES"}
               </p>

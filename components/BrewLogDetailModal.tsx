@@ -130,10 +130,10 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
   if (loading || !activity) {
     return (
       <div
-        className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center"
+        className="fixed inset-0 z-50 bg-zinc-50/80 backdrop-blur-sm flex items-center justify-center"
         onClick={onClose}
       >
-        <div className="text-white text-sm uppercase tracking-wider">Loading...</div>
+        <div className="text-black text-sm uppercase tracking-wider">Loading...</div>
       </div>
     );
   }
@@ -143,12 +143,12 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm overflow-y-auto p-6"
+      className="fixed inset-0 z-50 bg-zinc-50/80 backdrop-blur-sm overflow-y-auto p-6"
       onClick={onClose}
     >
       <div className="min-h-full flex items-center justify-center py-10">
         <div
-          className="max-w-4xl w-full bg-zinc-900 rounded-[3.5rem] border-2 border-zinc-800 shadow-2xl shadow-white/5 animate-in fade-in duration-300"
+          className="max-w-4xl w-full bg-white rounded-[3.5rem] border-2 border-zinc-300 shadow-2xl shadow-black/5 animate-in fade-in duration-300"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="px-10 pt-10 pb-10">
@@ -157,7 +157,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
               {/* User info */}
               <div className="flex gap-5 items-start">
                 <Link to={`/profile/${activity.userUsername || activity.userId}`} className="block shrink-0">
-                  <div className={`w-16 h-16 rounded-2xl border-2 transition-all hover:border-white overflow-hidden ${isDefaultWhite ? 'bg-white text-black border-white' : 'bg-black border-zinc-700'}`}>
+                  <div className={`w-16 h-16 rounded-2xl border-2 transition-all hover:border-white active:border-white overflow-hidden ${isDefaultWhite ? 'bg-white text-black border-white' : 'bg-zinc-50 border-zinc-700'}`}>
                     <div className="w-full h-full flex items-center justify-center">
                       {isDefaultWhite ? <Zap className="w-8 h-8" /> : <img src={activity.userAvatar} className="w-full h-full object-cover" alt="" />}
                     </div>
@@ -166,7 +166,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                 <div className="min-w-0">
                   <div className="flex items-center gap-3">
                     <Link to={`/profile/${activity.userUsername || activity.userId}`} className="block group">
-                      <h3 className="font-black text-white uppercase tracking-tight text-xl group-hover:underline transition-colors truncate">{activity.userName}</h3>
+                      <h3 className="font-black text-black uppercase tracking-tight text-xl group-hover:underline transition-colors truncate">{activity.userName}</h3>
                     </Link>
                     {activity.isPrivate && (
                       <span title="Private">
@@ -178,7 +178,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                     <p className="text-[11px] text-zinc-100 uppercase font-black tracking-widest flex items-center gap-2">
                       <MapPin className="w-4 h-4" /> {activity.locationName}
                     </p>
-                    <p className="text-[9px] text-zinc-200 uppercase font-black tracking-[0.25em]">
+                    <p className="text-[10px] text-zinc-200 uppercase font-black tracking-[0.25em]">
                       {formatTimestamp(activity.timestamp)}
                     </p>
                   </div>
@@ -193,7 +193,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                 </div>
                 <button
                   onClick={onClose}
-                  className="text-zinc-100 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-xl p-2"
+                  className="text-zinc-100 hover:text-black active:text-black transition-colors border-2 border-zinc-300 hover:border-white active:border-white rounded-xl p-2"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -203,7 +203,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
             {/* Image */}
             {activity.imageUrl && (
               <div className="mb-8">
-                <div className="w-full aspect-[16/9] rounded-[2.5rem] overflow-hidden border-2 border-zinc-700 shadow-inner shadow-white/5">
+                <div className="w-full aspect-[16/9] rounded-[2.5rem] overflow-hidden border-2 border-zinc-700 shadow-inner shadow-black/5">
                   <img src={activity.imageUrl} className="w-full h-full object-cover" alt="Brew session" />
                 </div>
               </div>
@@ -211,19 +211,19 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
 
             {/* Title and bean info */}
             <div className="mb-8">
-              <h2 className="text-4xl font-black text-white tracking-tighter uppercase leading-none mb-3">{activity.title}</h2>
+              <h2 className="text-4xl font-black text-black tracking-tighter uppercase leading-none mb-3">{activity.title}</h2>
 
               {activity.isCafeLog ? (
                 // Cafe Visit Display
                 <>
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                    <p className="text-white text-[13px] font-black uppercase tracking-[0.3em] border-2 border-zinc-800 px-3 py-1 rounded-lg">{activity.brewer}</p>
+                    <p className="text-black text-[13px] font-black uppercase tracking-[0.3em] border-2 border-zinc-300 px-3 py-1 rounded-lg">{activity.brewer}</p>
                     {activity.roaster &&
                      activity.roaster.trim().toUpperCase() !== activity.title.trim().toUpperCase() &&
                      activity.roaster !== 'CAFE' && (
                       <button
                         onClick={handleRoasterClick}
-                        className="text-white text-[13px] font-black uppercase tracking-[0.3em] border-2 border-zinc-800 px-3 py-1 rounded-lg hover:bg-zinc-800 transition-colors cursor-pointer"
+                        className="text-black text-[13px] font-black uppercase tracking-[0.3em] border-2 border-zinc-300 px-3 py-1 rounded-lg hover:bg-zinc-800 transition-colors cursor-pointer"
                       >
                         {activity.roaster}
                       </button>
@@ -234,10 +234,10 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                   </div>
                   {(activity.estate || activity.producer || activity.varietal || activity.process) && (
                     <div className="flex flex-wrap gap-3 mt-4 max-w-full">
-                      {activity.estate && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
-                      {activity.producer && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg whitespace-nowrap">PRODUCER: {activity.producer}</span>}
-                      {activity.varietal && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
-                      {activity.process && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
+                      {activity.estate && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-300 px-2 py-1 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
+                      {activity.producer && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-300 px-2 py-1 rounded-lg whitespace-nowrap">PRODUCER: {activity.producer}</span>}
+                      {activity.varietal && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-300 px-2 py-1 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
+                      {activity.process && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-300 px-2 py-1 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
                     </div>
                   )}
                 </>
@@ -247,7 +247,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                     <button
                       onClick={handleRoasterClick}
-                      className="text-white text-[13px] font-black uppercase tracking-[0.3em] border-2 border-zinc-800 px-3 py-1 rounded-lg hover:bg-zinc-800 transition-colors cursor-pointer"
+                      className="text-black text-[13px] font-black uppercase tracking-[0.3em] border-2 border-zinc-300 px-3 py-1 rounded-lg hover:bg-zinc-800 transition-colors cursor-pointer"
                     >
                       {activity.roaster}
                     </button>
@@ -255,10 +255,10 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                   </div>
                   {(activity.estate || activity.producer || activity.varietal || activity.process) && (
                     <div className="flex flex-wrap gap-3 mt-4 max-w-full">
-                      {activity.estate && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
-                      {activity.producer && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg whitespace-nowrap">PRODUCER: {activity.producer}</span>}
-                      {activity.varietal && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
-                      {activity.process && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-800 px-2 py-1 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
+                      {activity.estate && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-300 px-2 py-1 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
+                      {activity.producer && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-300 px-2 py-1 rounded-lg whitespace-nowrap">PRODUCER: {activity.producer}</span>}
+                      {activity.varietal && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-300 px-2 py-1 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
+                      {activity.process && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-zinc-300 px-2 py-1 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
                     </div>
                   )}
                 </>
@@ -267,26 +267,26 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
 
             {/* Parameters */}
             {activity.showParameters && (
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-8 bg-black border-2 border-zinc-800 p-8 rounded-[2.5rem]">
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-8 bg-zinc-50 border-2 border-zinc-300 p-8 rounded-[2.5rem]">
                 <div className="space-y-2">
-                  <p className="text-[9px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><FlaskConical className="w-4 h-4" /> RECIPE</p>
-                  <p className="text-sm font-black text-white">{activity.gramsIn}G / {activity.gramsOut}G</p>
+                  <p className="text-[10px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><FlaskConical className="w-4 h-4" /> RECIPE</p>
+                  <p className="text-sm font-black text-black">{activity.gramsIn}G / {activity.gramsOut}G</p>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-[9px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2">RATIO</p>
-                  <p className="text-sm font-black text-white">{activity.ratio}</p>
+                  <p className="text-[10px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2">RATIO</p>
+                  <p className="text-sm font-black text-black">{activity.ratio}</p>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-[9px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><Zap className="w-4 h-4" /> GEAR</p>
-                  <p className="text-sm font-black text-white uppercase truncate">{activity.brewer}</p>
+                  <p className="text-[10px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><Zap className="w-4 h-4" /> GEAR</p>
+                  <p className="text-sm font-black text-black uppercase truncate">{activity.brewer}</p>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-[9px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><Timer className="w-4 h-4" /> TIME</p>
-                  <p className="text-sm font-black text-white">{activity.brewTime}</p>
+                  <p className="text-[10px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><Timer className="w-4 h-4" /> TIME</p>
+                  <p className="text-sm font-black text-black">{activity.brewTime}</p>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-[9px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><Thermometer className="w-4 h-4" /> TEMP</p>
-                  <p className="text-sm font-black text-white whitespace-nowrap">{activity.temperature}°{activity.tempUnit || 'C'}</p>
+                  <p className="text-[10px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><Thermometer className="w-4 h-4" /> TEMP</p>
+                  <p className="text-sm font-black text-black whitespace-nowrap">{activity.temperature}°{activity.tempUnit || 'C'}</p>
                 </div>
               </div>
             )}
@@ -297,7 +297,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                 {activity.tds ? (
                   <div className="bg-zinc-800 px-4 py-2 rounded-xl">
                     <p className="text-[8px] font-black text-zinc-100 uppercase tracking-widest mb-1">TDS</p>
-                    <p className="text-xs font-black text-white">{activity.tds}</p>
+                    <p className="text-xs font-black text-black">{activity.tds}</p>
                   </div>
                 ) : null}
                 <div className="bg-white text-black px-4 py-2 rounded-xl">
@@ -308,26 +308,26 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
             ) : null}
 
             {/* Description */}
-            {activity.description && <p className="text-zinc-400 text-base mb-10 font-black uppercase tracking-widest leading-relaxed border-l-4 border-zinc-800 pl-6 italic">"{activity.description}"</p>}
+            {activity.description && <p className="text-zinc-400 text-base mb-10 font-black uppercase tracking-widest leading-relaxed border-l-4 border-zinc-300 pl-6 italic">"{activity.description}"</p>}
 
             {/* Action buttons */}
-            <div className="flex items-center gap-3 pt-8 border-t-2 border-zinc-800">
+            <div className="flex items-center gap-3 pt-8 border-t-2 border-zinc-300">
               <button
                 onClick={handleLike}
                 disabled={isMe}
-                className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all ${isMe ? 'text-zinc-700 border-zinc-800 cursor-not-allowed' : (hasLiked ? 'text-white border-white bg-white/10' : 'text-zinc-100 border-zinc-800 hover:text-white hover:border-zinc-600')}`}
+                className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all ${isMe ? 'text-zinc-700 border-zinc-300 cursor-not-allowed' : (hasLiked ? 'text-black border-white bg-white/10' : 'text-zinc-100 border-zinc-300 hover:text-black active:text-black hover:border-zinc-600')}`}
               >
                 <Heart className={`w-5 h-5 transition-transform ${hasLiked ? 'fill-white scale-110' : ''}`} />
                 <span className="text-[11px] font-black uppercase tracking-widest">{likes}</span>
               </button>
               <button
                 onClick={() => setShowComments(!showComments)}
-                className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all ${showComments ? 'text-white border-white bg-white/10' : 'text-zinc-100 border-zinc-800 hover:text-white hover:border-zinc-600'}`}
+                className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all ${showComments ? 'text-black border-white bg-white/10' : 'text-zinc-100 border-zinc-300 hover:text-black active:text-black hover:border-zinc-600'}`}
               >
                 <MessageCircle className="w-5 h-5" />
                 <span className="text-[11px] font-black uppercase tracking-widest">{activity.comments.length}</span>
               </button>
-              <button className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-100 border-zinc-800 hover:text-white hover:border-zinc-600 transition-all ml-auto">
+              <button className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-100 border-zinc-300 hover:text-black active:text-black hover:border-zinc-600 transition-all ml-auto">
                 <Share2 className="w-5 h-5" />
                 <span className="text-[11px] font-black uppercase tracking-widest hidden sm:inline">SHARE</span>
               </button>
@@ -337,7 +337,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                     onEdit(activity);
                     onClose();
                   }}
-                  className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-100 border-zinc-800 hover:text-white hover:border-zinc-600 transition-all"
+                  className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-100 border-zinc-300 hover:text-black active:text-black hover:border-zinc-600 transition-all"
                   title="Edit this post"
                 >
                   <Edit3 className="w-5 h-5" />
@@ -347,7 +347,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
               {isMe && onDelete && (
                 <button
                   onClick={handleDelete}
-                  className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-100 border-zinc-800 hover:text-red-500 hover:border-red-900 transition-all"
+                  className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-100 border-zinc-300 hover:text-red-500 hover:border-red-900 transition-all"
                   title="Delete this post"
                 >
                   <Trash2 className="w-5 h-5" />
@@ -358,13 +358,13 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
 
             {/* Comments section */}
             {showComments && (
-              <div className="mt-8 pt-8 border-t-2 border-zinc-800 space-y-6 animate-in fade-in duration-300">
+              <div className="mt-8 pt-8 border-t-2 border-zinc-300 space-y-6 animate-in fade-in duration-300">
                 {activity.comments.length > 0 && (
                   <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                     {activity.comments.map(comment => (
-                      <div key={comment.id} className="bg-black border border-zinc-800 rounded-2xl p-4 space-y-2">
+                      <div key={comment.id} className="bg-zinc-50 border border-zinc-300 rounded-2xl p-4 space-y-2">
                         <div className="flex items-center gap-3">
-                          <p className="font-black text-white text-sm uppercase tracking-tight">{comment.userName}</p>
+                          <p className="font-black text-black text-sm uppercase tracking-tight">{comment.userName}</p>
                           <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest">
                             {formatTimestamp(comment.timestamp)}
                           </p>
@@ -384,7 +384,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                     onChange={e => setCommentText(e.target.value)}
                     placeholder="ADD A COMMENT..."
                     disabled={submittingComment}
-                    className="flex-grow bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase placeholder:text-zinc-700 disabled:opacity-50"
+                    className="flex-grow bg-zinc-50 border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase placeholder:text-zinc-700 disabled:opacity-50"
                   />
                   <button
                     type="submit"

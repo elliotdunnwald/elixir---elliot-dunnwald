@@ -65,16 +65,16 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({ isOpen, imageSrc, onCom
 
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 animate-in fade-in duration-300">
-      <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={onCancel} />
-      <div className="relative w-full max-w-2xl bg-zinc-900" style={{ borderRadius: '2rem', overflow: 'hidden', boxShadow: 'none' }}>
-        <div className="px-8 py-6 border-b border-zinc-800 flex justify-between items-center bg-zinc-900">
-          <h2 className="text-xl font-black text-white tracking-tighter uppercase">CROP AVATAR</h2>
-          <button onClick={onCancel} className="text-zinc-100 hover:text-white transition-all">
+      <div className="absolute inset-0 bg-zinc-50/90 backdrop-blur-sm" onClick={onCancel} />
+      <div className="relative w-full max-w-2xl bg-white" style={{ borderRadius: '2rem', overflow: 'hidden', boxShadow: 'none' }}>
+        <div className="px-8 py-6 border-b border-zinc-300 flex justify-between items-center bg-white">
+          <h2 className="text-xl font-black text-black tracking-tighter uppercase">CROP AVATAR</h2>
+          <button onClick={onCancel} className="text-zinc-900 hover:text-black transition-all">
             <X className="w-6 h-6" />
           </button>
         </div>
 
-        <div className="relative h-[400px] bg-black">
+        <div className="relative h-[400px] bg-zinc-50">
           <Cropper
             image={imageSrc}
             crop={crop}
@@ -91,11 +91,11 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({ isOpen, imageSrc, onCom
         <div className="px-8 py-6 space-y-6">
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">ZOOM</label>
+              <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">ZOOM</label>
               <div className="flex items-center gap-2">
-                <ZoomOut className="w-4 h-4 text-zinc-200" />
-                <span className="text-xs font-black text-white">{Math.round(zoom * 100)}%</span>
-                <ZoomIn className="w-4 h-4 text-zinc-200" />
+                <ZoomOut className="w-4 h-4 text-zinc-700" />
+                <span className="text-xs font-black text-black">{Math.round(zoom * 100)}%</span>
+                <ZoomIn className="w-4 h-4 text-zinc-700" />
               </div>
             </div>
             <input
@@ -112,7 +112,7 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({ isOpen, imageSrc, onCom
           <div className="flex gap-3">
             <button
               onClick={onCancel}
-              className="flex-1 bg-zinc-800 text-zinc-400 py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all hover:text-white"
+              className="flex-1 bg-zinc-800 text-zinc-600 py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all hover:text-black"
             >
               CANCEL
             </button>
@@ -273,53 +273,53 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-300">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative bg-zinc-900 w-full max-w-2xl h-full sm:h-auto sm:rounded-[3.5rem] shadow-2xl shadow-white/5 border-2 border-zinc-800 overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95">
-        <div className="px-8 py-6 border-b-2 border-zinc-800 flex justify-between items-center bg-zinc-900">
-          <h2 className="text-xl font-black text-white tracking-tighter uppercase">EDIT PROFILE</h2>
-          <button onClick={onClose} className="text-zinc-400 hover:text-white transition-all"><X className="w-6 h-6" /></button>
+      <div className="absolute inset-0 bg-zinc-50/60 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative bg-white w-full max-w-2xl h-full sm:h-auto sm:rounded-[3.5rem] shadow-2xl shadow-black/5 border-2 border-zinc-300 overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95">
+        <div className="px-8 py-6 border-b-2 border-zinc-300 flex justify-between items-center bg-white">
+          <h2 className="text-xl font-black text-black tracking-tighter uppercase">EDIT PROFILE</h2>
+          <button onClick={onClose} className="text-zinc-600 hover:text-black transition-all"><X className="w-6 h-6" /></button>
         </div>
         <div className="overflow-y-auto px-6 sm:px-10 py-10 space-y-12 custom-scrollbar flex-1">
           <section className="flex flex-col items-center gap-6">
-            <div onClick={() => !uploading && mediaInputRef.current?.click()} className={`w-32 h-32 rounded-3xl border-4 border-white bg-white flex items-center justify-center overflow-hidden shadow-2xl shadow-white/10 ${uploading ? 'cursor-wait' : 'cursor-pointer hover:shadow-white/20'} transition-all group relative`}>
+            <div onClick={() => !uploading && mediaInputRef.current?.click()} className={`w-32 h-32 rounded-3xl border-4 border-white bg-white flex items-center justify-center overflow-hidden shadow-2xl shadow-black/10 ${uploading ? 'cursor-wait' : 'cursor-pointer hover:shadow-black/20'} transition-all group relative`}>
               {formData.avatar ? <img src={formData.avatar} className="w-full h-full object-cover" alt="" /> : <UserIcon className="w-12 h-12 text-black" />}
               {uploading ? (
-                <div className="absolute inset-0 bg-black/80 flex items-center justify-center">
-                  <Loader2 className="w-8 h-8 text-white animate-spin" />
+                <div className="absolute inset-0 bg-zinc-50/80 flex items-center justify-center">
+                  <Loader2 className="w-8 h-8 text-black animate-spin" />
                 </div>
               ) : (
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                  <ImageIcon className="w-8 h-8 text-white" />
+                <div className="absolute inset-0 bg-zinc-50/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                  <ImageIcon className="w-8 h-8 text-black" />
                 </div>
               )}
             </div>
             <input type="file" ref={mediaInputRef} onChange={handleAvatarSelect} className="hidden" accept="image/*" />
-            <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest">TAP TO CHANGE PHOTO</p>
+            <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">TAP TO CHANGE PHOTO</p>
           </section>
           <section className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">FIRST NAME</label>
-                <input type="text" value={formData.firstName} onChange={e => setFormData({ ...formData, firstName: e.target.value.toUpperCase() })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase" />
+                <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">FIRST NAME</label>
+                <input type="text" value={formData.firstName} onChange={e => setFormData({ ...formData, firstName: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase" />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">LAST NAME</label>
-                <input type="text" value={formData.lastName} onChange={e => setFormData({ ...formData, lastName: e.target.value.toUpperCase() })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase" />
+                <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">LAST NAME</label>
+                <input type="text" value={formData.lastName} onChange={e => setFormData({ ...formData, lastName: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase" />
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">USERNAME</label>
+              <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">USERNAME</label>
               <div className="relative">
                 <input
                   type="text"
                   value={formData.username}
                   onChange={e => setFormData({ ...formData, username: e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, '') })}
-                  className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 pr-12 text-white font-black text-sm outline-none focus:border-white lowercase"
+                  className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-2xl px-5 py-4 pr-12 text-black font-black text-sm outline-none focus:border-white lowercase"
                   placeholder="choose your username"
                 />
                 <div className="absolute right-4 top-1/2 -translate-y-1/2">
                   {checkingUsername && (
-                    <Loader2 className="w-5 h-5 text-zinc-400 animate-spin" />
+                    <Loader2 className="w-5 h-5 text-zinc-600 animate-spin" />
                   )}
                   {!checkingUsername && usernameAvailable === true && (
                     <Check className="w-5 h-5 text-green-500" />
@@ -337,23 +337,23 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
               )}
               <p className="text-[9px] font-black text-zinc-500 uppercase tracking-wider px-1">Letters, numbers, _ and - only</p>
             </div>
-            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">EMAIL</label><input type="email" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white" /></div>
-            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">PHONE</label><input type="tel" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white" placeholder="OPTIONAL" /></div>
-            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">PRONOUNS</label><input type="text" value={formData.pronouns} onChange={e => setFormData({ ...formData, pronouns: e.target.value.toUpperCase() })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase" /></div>
+            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">EMAIL</label><input type="email" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white" /></div>
+            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">PHONE</label><input type="tel" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white" placeholder="OPTIONAL" /></div>
+            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">PRONOUNS</label><input type="text" value={formData.pronouns} onChange={e => setFormData({ ...formData, pronouns: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase" /></div>
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2"><label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">CITY</label><input type="text" value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value.toUpperCase() })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase" /></div>
-              <div className="space-y-2"><label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">COUNTRY</label><input type="text" value={formData.country} onChange={e => setFormData({ ...formData, country: e.target.value.toUpperCase() })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase" /></div>
+              <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">CITY</label><input type="text" value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase" /></div>
+              <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">COUNTRY</label><input type="text" value={formData.country} onChange={e => setFormData({ ...formData, country: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase" /></div>
             </div>
-            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">BIO</label><textarea value={formData.bio} onChange={e => setFormData({ ...formData, bio: e.target.value.toUpperCase() })} className="w-full bg-black border-2 border-zinc-800 rounded-2xl px-5 py-4 text-white font-black text-sm outline-none focus:border-white uppercase min-h-[100px] resize-none" placeholder="SHARE YOUR BREW PHILOSOPHY..." /></div>
+            <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">BIO</label><textarea value={formData.bio} onChange={e => setFormData({ ...formData, bio: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase min-h-[100px] resize-none" placeholder="SHARE YOUR BREW PHILOSOPHY..." /></div>
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">PRIVACY</label>
-              <button type="button" onClick={() => setFormData({ ...formData, isPrivate: !formData.isPrivate })} className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${formData.isPrivate ? 'bg-zinc-900 border-zinc-700 text-zinc-400' : 'bg-white text-black border-white'}`}>
+              <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">PRIVACY</label>
+              <button type="button" onClick={() => setFormData({ ...formData, isPrivate: !formData.isPrivate })} className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${formData.isPrivate ? 'bg-white border-zinc-700 text-zinc-600' : 'bg-white text-black border-white'}`}>
                 {formData.isPrivate ? <><EyeOff className="w-4 h-4" /> PRIVATE PROFILE</> : <><Eye className="w-4 h-4" /> PUBLIC PROFILE</>}
               </button>
             </div>
           </section>
         </div>
-        <div className="px-6 sm:px-10 py-6 border-t-2 border-zinc-800 shrink-0 bg-zinc-900">
+        <div className="px-6 sm:px-10 py-6 border-t-2 border-zinc-300 shrink-0 bg-white">
           <button type="button" onClick={handleSave} className="w-full bg-white text-black font-black text-sm uppercase tracking-[0.4em] py-7 rounded-[2rem] sm:rounded-[2.5rem] transition-all active:scale-[0.98] shadow-xl">SAVE CHANGES</button>
         </div>
       </div>
@@ -583,7 +583,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto flex items-center justify-center py-32">
-        <Loader2 className="w-8 h-8 text-white animate-spin" />
+        <Loader2 className="w-8 h-8 text-black animate-spin" />
       </div>
     );
   }
@@ -591,7 +591,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
   if (!profileData) {
     return (
       <div className="max-w-4xl mx-auto py-32 text-center">
-        <h3 className="text-5xl font-black text-zinc-100 uppercase tracking-tighter">PROFILE NOT FOUND</h3>
+        <h3 className="text-5xl font-black text-zinc-900 uppercase tracking-tighter">PROFILE NOT FOUND</h3>
       </div>
     );
   }
@@ -616,26 +616,26 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-10 animate-in slide-in-from-bottom duration-500 pb-20">
+    <div className="max-w-4xl mx-auto space-y-10 animate-in slide-in-from-bottom duration-500 pb-28 sm:pb-0">
       {!viewingOwnProfile && (
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors"
+          className="flex items-center gap-2 text-zinc-600 hover:text-black active:text-black transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
           <span className="text-sm font-black uppercase tracking-wider">Back</span>
         </button>
       )}
 
-      <div className="bg-zinc-900 rounded-[2rem] sm:rounded-[3.5rem] overflow-hidden border-2 border-zinc-800 shadow-2xl shadow-white/5 relative">
-        <div className="h-32 sm:h-40 bg-zinc-950 flex items-center justify-center"></div>
+      <div className="bg-white rounded-[2rem] sm:rounded-[3.5rem] overflow-hidden border-2 border-zinc-300 shadow-2xl shadow-black/5 relative">
+        <div className="h-32 sm:h-40 bg-zinc-50 flex items-center justify-center"></div>
         {viewingOwnProfile && (
           <div className="absolute top-3 right-3 sm:top-6 sm:right-6 flex gap-2 sm:gap-3">
-            <button onClick={shareProfile} className="p-2.5 sm:p-4 rounded-lg sm:rounded-2xl bg-black border-2 border-zinc-800 text-zinc-100 hover:text-white hover:border-white transition-all shadow-xl z-10 flex items-center gap-2">
-              {copied ? <Check className="w-4 h-4 sm:w-5 sm:h-5 text-white" /> : <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />}
+            <button onClick={shareProfile} className="p-2.5 sm:p-4 rounded-lg sm:rounded-2xl bg-zinc-50 border-2 border-zinc-300 text-zinc-900 hover:text-black hover:border-white active:border-white transition-all shadow-xl z-10 flex items-center gap-2">
+              {copied ? <Check className="w-4 h-4 sm:w-5 sm:h-5 text-black" /> : <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />}
               <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest hidden sm:inline">{copied ? 'LINK COPIED' : 'SHARE PROFILE'}</span>
             </button>
-            <button onClick={() => setIsEditModalOpen(true)} className="p-2.5 sm:p-4 rounded-lg sm:rounded-2xl bg-black border-2 border-zinc-800 text-zinc-100 hover:text-white hover:border-white transition-all shadow-xl z-10"><Settings2 className="w-4 h-4 sm:w-5 sm:h-5" /></button>
+            <button onClick={() => setIsEditModalOpen(true)} className="p-2.5 sm:p-4 rounded-lg sm:rounded-2xl bg-zinc-50 border-2 border-zinc-300 text-zinc-900 hover:text-black hover:border-white active:border-white transition-all shadow-xl z-10"><Settings2 className="w-4 h-4 sm:w-5 sm:h-5" /></button>
           </div>
         )}
         {!viewingOwnProfile && currentProfile && (
@@ -645,7 +645,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
               disabled={followLoading || hasPendingRequest}
               className={`px-4 py-2 sm:px-6 sm:py-3 rounded-xl sm:rounded-2xl font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] transition-all shadow-xl ${
                 following
-                  ? 'bg-zinc-800 text-zinc-400 border-2 border-zinc-700 hover:border-red-900 hover:text-red-400'
+                  ? 'bg-zinc-800 text-zinc-600 border-2 border-zinc-700 hover:border-red-900 hover:text-red-400'
                   : hasPendingRequest
                   ? 'bg-yellow-900 text-yellow-400 border-2 border-yellow-700 cursor-not-allowed'
                   : 'bg-white text-black border-2 border-white hover:bg-zinc-100'
@@ -657,43 +657,43 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
         )}
         <div className="px-5 sm:px-10 pb-5 sm:pb-10">
           <div className="flex flex-col sm:flex-row items-center sm:items-end -mt-12 sm:-mt-16 mb-6 sm:mb-8 gap-4 sm:gap-8">
-            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl sm:rounded-3xl border-4 border-white bg-white flex items-center justify-center overflow-hidden shadow-2xl shadow-white/10 shrink-0">
+            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl sm:rounded-3xl border-4 border-white bg-white flex items-center justify-center overflow-hidden shadow-2xl shadow-black/10 shrink-0">
               {displayUser.avatar ? <img src={displayUser.avatar} className="w-full h-full object-cover" alt="" /> : <UserIcon className="w-10 h-10 sm:w-14 sm:h-14 text-black" />}
             </div>
             <div className="sm:pb-2 flex-grow text-center sm:text-left">
               <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
-                <h1 className="text-3xl sm:text-5xl font-black text-white uppercase tracking-tighter leading-tight sm:leading-none">{displayUser.name}</h1>
+                <h1 className="text-3xl sm:text-5xl font-black text-black uppercase tracking-tighter leading-tight sm:leading-none">{displayUser.name}</h1>
                 {displayUser.isPrivate && <span title="Private Profile"><Lock className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-700" /></span>}
               </div>
               <div className="flex items-center justify-center sm:justify-start gap-3 mt-2 sm:mt-3">
-                <p className="text-[10px] sm:text-[11px] font-black text-zinc-100 uppercase tracking-[0.3em] sm:tracking-[0.4em]">{displayUser.location}</p>
-                {displayUser.pronouns && <span className="text-[8px] sm:text-[9px] font-black text-zinc-700 border border-zinc-800 px-2 py-0.5 rounded uppercase tracking-widest">{displayUser.pronouns}</span>}
+                <p className="text-[10px] sm:text-[11px] font-black text-zinc-900 uppercase tracking-[0.3em] sm:tracking-[0.4em]">{displayUser.location}</p>
+                {displayUser.pronouns && <span className="text-[8px] sm:text-[9px] font-black text-zinc-700 border border-zinc-300 px-2 py-0.5 rounded uppercase tracking-widest">{displayUser.pronouns}</span>}
               </div>
             </div>
           </div>
           {displayUser.bio && (
-            <p className="mb-6 sm:mb-10 text-zinc-400 font-black uppercase tracking-widest text-[10px] sm:text-xs leading-relaxed max-w-2xl border-l-4 border-zinc-800 pl-4 sm:pl-6 italic mx-auto sm:mx-0">
+            <p className="mb-6 sm:mb-10 text-zinc-600 font-black uppercase tracking-widest text-[10px] sm:text-xs leading-relaxed max-w-2xl border-l-4 border-zinc-300 pl-4 sm:pl-6 italic mx-auto sm:mx-0">
               "{displayUser.bio}"
             </p>
           )}
-          <div className="grid grid-cols-3 gap-3 sm:gap-8 py-5 sm:py-10 border-t-2 border-zinc-800">
+          <div className="grid grid-cols-3 gap-3 sm:gap-8 py-5 sm:py-10 border-t-2 border-zinc-300">
             {[{ label: 'FOLLOWERS', val: displayUser.stats.followers }, { label: 'FOLLOWING', val: displayUser.stats.following }, { label: 'BREWS', val: displayUser.stats.brews }].map(s => (
               <div key={s.label} className="text-center">
-                <p className="text-[8px] sm:text-[10px] font-black text-zinc-200 uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-1 sm:mb-2">{s.label}</p>
-                <p className="text-xl sm:text-3xl font-black text-white tracking-tighter">{s.val}</p>
+                <p className="text-[8px] sm:text-[10px] font-black text-zinc-700 uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-1 sm:mb-2">{s.label}</p>
+                <p className="text-xl sm:text-3xl font-black text-black tracking-tighter">{s.val}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
-      <div className="flex bg-black p-1 sm:p-2 rounded-xl sm:rounded-2xl border-2 border-zinc-800 sticky top-18 sm:top-24 z-40 backdrop-blur-xl shadow-lg">
+      <div className="flex bg-zinc-50 p-1 sm:p-2 rounded-xl sm:rounded-2xl border-2 border-zinc-300 sticky top-16 sm:top-24 z-40 backdrop-blur-xl shadow-lg">
         {[
           { id: 'activity', label: 'HISTORY', icon: <LayoutGrid className="w-4 h-4" /> },
           { id: 'locker', label: 'GEAR', icon: <Settings2 className="w-4 h-4" /> },
           { id: 'analytics', label: 'STATS', icon: <BarChart3 className="w-4 h-4" /> },
           ...(viewingOwnProfile && currentProfile?.is_admin ? [{ id: 'admin', label: 'ADMIN', icon: <Shield className="w-4 h-4" /> }] : [])
         ].map((tab) => (
-          <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 py-4 sm:py-5 px-1 sm:px-2 rounded-xl sm:rounded-2xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] transition-all flex items-center justify-center gap-2 sm:gap-3 ${activeTab === tab.id ? 'bg-white text-black shadow-xl' : 'text-zinc-200 hover:text-white'}`}>
+          <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 py-4 sm:py-5 px-1 sm:px-2 rounded-xl sm:rounded-2xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] transition-all flex items-center justify-center gap-2 sm:gap-3 ${activeTab === tab.id ? 'bg-white text-black shadow-xl' : 'text-zinc-700 hover:text-black'}`}>
             {tab.icon} <span className="hidden xs:inline sm:inline">{tab.label}</span>
           </button>
         ))}
@@ -705,19 +705,19 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
             <div className="flex gap-2 justify-center">
               <button
                 onClick={() => setActivityFilter('all')}
-                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'all' ? 'bg-white text-black border-white' : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
+                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'all' ? 'bg-white text-black border-white' : 'bg-white text-zinc-600 border-zinc-300 hover:border-zinc-600 active:border-white'}`}
               >
                 All
               </button>
               <button
                 onClick={() => setActivityFilter('brews')}
-                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'brews' ? 'bg-white text-black border-white' : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
+                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'brews' ? 'bg-white text-black border-white' : 'bg-white text-zinc-600 border-zinc-300 hover:border-zinc-600 active:border-white'}`}
               >
                 Home Brews
               </button>
               <button
                 onClick={() => setActivityFilter('cafes')}
-                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'cafes' ? 'bg-white text-black border-white' : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
+                className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${activityFilter === 'cafes' ? 'bg-white text-black border-white' : 'bg-white text-zinc-600 border-zinc-300 hover:border-zinc-600 active:border-white'}`}
               >
                 Cafes
               </button>
@@ -725,7 +725,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
 
             {activitiesLoading ? (
               <div className="flex items-center justify-center py-32">
-                <Loader2 className="w-8 h-8 text-white animate-spin" />
+                <Loader2 className="w-8 h-8 text-black animate-spin" />
               </div>
             ) : filteredActivities.length > 0 ? (
               filteredActivities.map(a => (
@@ -737,9 +737,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                 />
               ))
             ) : (
-              <div className="py-20 sm:py-24 text-center border-2 border-zinc-800 bg-zinc-900 rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6 px-6 shadow-2xl shadow-white/5">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-black rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center"><LayoutGrid className="w-8 h-8 sm:w-10 sm:h-10 text-zinc-700" /></div>
-                <h3 className="text-zinc-400 font-black uppercase text-xs sm:text-base tracking-[0.3em] sm:tracking-[0.4em]">HISTORY EMPTY</h3>
+              <div className="py-20 sm:py-24 text-center border-2 border-zinc-300 bg-white rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6 px-6 shadow-2xl shadow-black/5">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-zinc-50 rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center"><LayoutGrid className="w-8 h-8 sm:w-10 sm:h-10 text-zinc-700" /></div>
+                <h3 className="text-zinc-600 font-black uppercase text-xs sm:text-base tracking-[0.3em] sm:tracking-[0.4em]">HISTORY EMPTY</h3>
               </div>
             )}
           </div>
@@ -751,21 +751,21 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                 {!isAddingGear ? (
                   <button
                     onClick={() => setIsAddingGear(true)}
-                    className="w-full py-5 rounded-2xl border-2 border-dashed border-zinc-800 text-zinc-100 hover:text-white hover:border-white transition-all font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-2"
+                    className="w-full py-5 rounded-2xl border-2 border-dashed border-zinc-300 text-zinc-900 hover:text-black hover:border-white active:border-white transition-all font-black text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-2"
                   >
                     <Plus className="w-4 h-4" /> ADD GEAR
                   </button>
                 ) : (
                   <div className="space-y-3">
                     <div className="relative">
-                      <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-200" />
+                      <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-700" />
                       <input
                         autoFocus
                         type="text"
                         value={newGearSearch}
                         onChange={e => setNewGearSearch(e.target.value)}
                         placeholder="SEARCH OR TYPE CUSTOM GEAR..."
-                        className="w-full bg-black border-2 border-zinc-800 rounded-xl py-4 pl-11 pr-4 text-xs font-black text-white outline-none focus:border-white uppercase"
+                        className="w-full bg-zinc-50 border-2 border-zinc-300 rounded-xl py-4 pl-11 pr-4 text-xs font-black text-black outline-none focus:border-white uppercase"
                       />
                     </div>
                     {newGearSearch.trim() && (
@@ -782,7 +782,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                               <button
                                 key={fullName}
                                 onClick={() => handleAddGear(fullName)}
-                                className="w-full text-left px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-white text-white text-xs font-black uppercase transition-all"
+                                className="w-full text-left px-4 py-3 rounded-xl bg-white border border-zinc-300 hover:border-white text-black text-xs font-black uppercase transition-all"
                               >
                                 {fullName}
                               </button>
@@ -790,7 +790,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                           })}
                         <button
                           onClick={() => handleAddGear(newGearSearch.toUpperCase())}
-                          className="w-full text-left px-4 py-3 rounded-xl bg-zinc-800 border-2 border-white text-white text-xs font-black uppercase flex items-center gap-2"
+                          className="w-full text-left px-4 py-3 rounded-xl bg-zinc-800 border-2 border-white text-black text-xs font-black uppercase flex items-center gap-2"
                         >
                           <Plus className="w-4 h-4" /> ADD CUSTOM: {newGearSearch.toUpperCase()}
                         </button>
@@ -801,7 +801,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                         setIsAddingGear(false);
                         setNewGearSearch('');
                       }}
-                      className="w-full py-3 rounded-xl bg-zinc-900 text-zinc-100 hover:text-white text-xs font-black uppercase tracking-wider transition-all"
+                      className="w-full py-3 rounded-xl bg-white text-zinc-900 hover:text-black text-xs font-black uppercase tracking-wider transition-all"
                     >
                       CANCEL
                     </button>
@@ -812,44 +812,44 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
             {displayUser.gear.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {gear.map((item: any) => (
-                  <div key={item.id} className="bg-zinc-900 p-5 sm:p-8 rounded-2xl border-2 border-zinc-800 flex items-center justify-between group hover:border-white transition-all shadow-2xl shadow-white/5">
+                  <div key={item.id} className="bg-white p-5 sm:p-8 rounded-2xl border-2 border-zinc-300 flex items-center justify-between group hover:border-white active:border-white transition-all shadow-2xl shadow-black/5">
                     <div className="space-y-1">
-                      <p className="text-[8px] sm:text-[9px] font-black text-zinc-200 uppercase tracking-widest">DEVICE</p>
-                      <p className="text-lg sm:text-xl font-black text-white uppercase tracking-tighter italic">{item.brand} {item.name}</p>
+                      <p className="text-[8px] sm:text-[9px] font-black text-zinc-700 uppercase tracking-widest">DEVICE</p>
+                      <p className="text-lg sm:text-xl font-black text-black uppercase tracking-tighter italic">{item.brand} {item.name}</p>
                     </div>
                     {viewingOwnProfile ? (
                       <button
                         onClick={() => handleDeleteGear(item.id)}
                         disabled={deletingGearId === item.id}
-                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-zinc-950 border-2 border-zinc-800 flex items-center justify-center hover:border-red-900 hover:bg-red-950 transition-all group"
+                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-zinc-50 border-2 border-zinc-300 flex items-center justify-center hover:border-red-900 hover:bg-red-950 transition-all group"
                       >
                         {deletingGearId === item.id ? (
-                          <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-200 animate-spin" />
+                          <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-700 animate-spin" />
                         ) : (
                           <Trash2 className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-800 group-hover:text-red-400 transition-colors" />
                         )}
                       </button>
                     ) : (
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-zinc-950 border-2 border-zinc-800 flex items-center justify-center">
-                        <Settings2 className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-800 group-hover:text-white transition-colors" />
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-zinc-50 border-2 border-zinc-300 flex items-center justify-center">
+                        <Settings2 className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-800 group-hover:text-black active:text-black transition-colors" />
                       </div>
                     )}
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="py-20 sm:py-24 text-center border-2 border-zinc-800 bg-zinc-900 rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6 shadow-2xl shadow-white/5">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-black rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center"><Settings2 className="w-8 h-8 sm:w-10 sm:h-10 text-zinc-700" /></div>
-                <h3 className="text-zinc-400 font-black uppercase text-xs sm:text-base tracking-[0.4em]">LOCKER UNSET</h3>
+              <div className="py-20 sm:py-24 text-center border-2 border-zinc-300 bg-white rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6 shadow-2xl shadow-black/5">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-zinc-50 rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center"><Settings2 className="w-8 h-8 sm:w-10 sm:h-10 text-zinc-700" /></div>
+                <h3 className="text-zinc-600 font-black uppercase text-xs sm:text-base tracking-[0.4em]">LOCKER UNSET</h3>
               </div>
             )}
           </div>
         )}
         {activeTab === 'analytics' && (
           <div className="animate-in fade-in duration-500">
-            <div className="py-20 sm:py-24 text-center border-2 border-zinc-800 bg-zinc-900 rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6 shadow-2xl shadow-white/5">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-black rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center"><BarChart3 className="w-8 h-8 sm:w-10 sm:h-10 text-zinc-700" /></div>
-              <h3 className="text-zinc-400 font-black uppercase text-xs sm:text-base tracking-[0.4em]">COMING SOON</h3>
+            <div className="py-20 sm:py-24 text-center border-2 border-zinc-300 bg-white rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6 shadow-2xl shadow-black/5">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-zinc-50 rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center"><BarChart3 className="w-8 h-8 sm:w-10 sm:h-10 text-zinc-700" /></div>
+              <h3 className="text-zinc-600 font-black uppercase text-xs sm:text-base tracking-[0.4em]">COMING SOON</h3>
             </div>
           </div>
         )}
@@ -857,50 +857,50 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
           <div className="animate-in fade-in duration-500 space-y-4">
             <Link
               to="/admin/roasters"
-              className="block bg-zinc-900 border-2 border-zinc-800 hover:border-white rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-white/5"
+              className="block bg-white border-2 border-zinc-300 hover:border-white rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-black/5"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-xl font-black text-white uppercase tracking-tighter group-hover:text-white transition-colors">ROASTER APPROVALS</h3>
-                  <p className="text-xs text-zinc-400 uppercase tracking-wider mt-1 font-black">Review and approve roaster submissions</p>
+                  <h3 className="text-xl font-black text-black uppercase tracking-tighter group-hover:text-black active:text-black transition-colors">ROASTER APPROVALS</h3>
+                  <p className="text-xs text-zinc-600 uppercase tracking-wider mt-1 font-black">Review and approve roaster submissions</p>
                 </div>
-                <Shield className="w-8 h-8 text-zinc-700 group-hover:text-white transition-colors" />
+                <Shield className="w-8 h-8 text-zinc-700 group-hover:text-black active:text-black transition-colors" />
               </div>
             </Link>
             <Link
               to="/admin/equipment"
-              className="block bg-zinc-900 border-2 border-zinc-800 hover:border-white rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-white/5"
+              className="block bg-white border-2 border-zinc-300 hover:border-white rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-black/5"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-xl font-black text-white uppercase tracking-tighter group-hover:text-white transition-colors">EQUIPMENT APPROVALS</h3>
-                  <p className="text-xs text-zinc-400 uppercase tracking-wider mt-1 font-black">Review and approve equipment submissions</p>
+                  <h3 className="text-xl font-black text-black uppercase tracking-tighter group-hover:text-black active:text-black transition-colors">EQUIPMENT APPROVALS</h3>
+                  <p className="text-xs text-zinc-600 uppercase tracking-wider mt-1 font-black">Review and approve equipment submissions</p>
                 </div>
-                <Shield className="w-8 h-8 text-zinc-700 group-hover:text-white transition-colors" />
+                <Shield className="w-8 h-8 text-zinc-700 group-hover:text-black active:text-black transition-colors" />
               </div>
             </Link>
             <Link
               to="/admin/coffees"
-              className="block bg-zinc-900 border-2 border-zinc-800 hover:border-white rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-white/5"
+              className="block bg-white border-2 border-zinc-300 hover:border-white rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-black/5"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-xl font-black text-white uppercase tracking-tighter group-hover:text-white transition-colors">COFFEE APPROVALS</h3>
-                  <p className="text-xs text-zinc-400 uppercase tracking-wider mt-1 font-black">Review and approve coffee submissions</p>
+                  <h3 className="text-xl font-black text-black uppercase tracking-tighter group-hover:text-black active:text-black transition-colors">COFFEE APPROVALS</h3>
+                  <p className="text-xs text-zinc-600 uppercase tracking-wider mt-1 font-black">Review and approve coffee submissions</p>
                 </div>
-                <Shield className="w-8 h-8 text-zinc-700 group-hover:text-white transition-colors" />
+                <Shield className="w-8 h-8 text-zinc-700 group-hover:text-black active:text-black transition-colors" />
               </div>
             </Link>
             <Link
               to="/admin/cafes"
-              className="block bg-zinc-900 border-2 border-zinc-800 hover:border-white rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-white/5"
+              className="block bg-white border-2 border-zinc-300 hover:border-white rounded-xl sm:rounded-2xl p-5 sm:p-6 transition-all group shadow-2xl shadow-black/5"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-xl font-black text-white uppercase tracking-tighter group-hover:text-white transition-colors">CAFE APPROVALS</h3>
-                  <p className="text-xs text-zinc-400 uppercase tracking-wider mt-1 font-black">Review and approve cafe submissions</p>
+                  <h3 className="text-xl font-black text-black uppercase tracking-tighter group-hover:text-black active:text-black transition-colors">CAFE APPROVALS</h3>
+                  <p className="text-xs text-zinc-600 uppercase tracking-wider mt-1 font-black">Review and approve cafe submissions</p>
                 </div>
-                <Shield className="w-8 h-8 text-zinc-700 group-hover:text-white transition-colors" />
+                <Shield className="w-8 h-8 text-zinc-700 group-hover:text-black active:text-black transition-colors" />
               </div>
             </Link>
           </div>

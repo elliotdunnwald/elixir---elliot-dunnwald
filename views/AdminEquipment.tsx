@@ -25,8 +25,8 @@ const AdminEquipment: React.FC = () => {
     return (
       <div className="max-w-7xl mx-auto">
         <div className="text-center py-32 border-4 border-dashed border-red-900 rounded-[3.5rem]">
-          <h1 className="text-5xl font-black text-white uppercase tracking-tighter mb-4">ACCESS DENIED</h1>
-          <p className="text-zinc-400 text-sm font-black uppercase tracking-wider">
+          <h1 className="text-5xl font-black text-black uppercase tracking-tighter mb-4">ACCESS DENIED</h1>
+          <p className="text-zinc-600 text-sm font-black uppercase tracking-wider">
             You must be an admin to access this page
           </p>
         </div>
@@ -95,7 +95,7 @@ const AdminEquipment: React.FC = () => {
     return (
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-center py-32">
-          <Loader2 className="w-8 h-8 text-white animate-spin" />
+          <Loader2 className="w-8 h-8 text-black animate-spin" />
         </div>
       </div>
     );
@@ -105,7 +105,7 @@ const AdminEquipment: React.FC = () => {
     <div className="max-w-7xl mx-auto space-y-8">
       <button
         onClick={() => navigate('/profile/me')}
-        className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors mb-4"
+        className="flex items-center gap-2 text-zinc-600 hover:text-black transition-colors mb-4"
       >
         <ArrowLeft className="w-5 h-5" />
         <span className="text-sm font-black uppercase tracking-wider">Back to Profile</span>
@@ -114,7 +114,7 @@ const AdminEquipment: React.FC = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-5xl font-black tracking-tighter uppercase">EQUIPMENT SUBMISSIONS</h1>
-          <p className="text-xs text-zinc-100 mt-2 tracking-wider uppercase">
+          <p className="text-xs text-zinc-900 mt-2 tracking-wider uppercase">
             {pendingEquipment.length} PENDING APPROVAL
           </p>
         </div>
@@ -125,10 +125,10 @@ const AdminEquipment: React.FC = () => {
           <div className="bg-white p-8 rounded-[2.5rem] inline-block mb-6">
             <Check className="w-12 h-12 text-black" />
           </div>
-          <h3 className="text-5xl font-black text-white uppercase tracking-tighter mb-3">
+          <h3 className="text-5xl font-black text-black uppercase tracking-tighter mb-3">
             ALL CAUGHT UP
           </h3>
-          <p className="text-zinc-100 text-sm font-black uppercase tracking-widest">
+          <p className="text-zinc-900 text-sm font-black uppercase tracking-widest">
             NO PENDING EQUIPMENT SUBMISSIONS
           </p>
         </div>
@@ -137,16 +137,16 @@ const AdminEquipment: React.FC = () => {
           {pendingEquipment.map(equipment => (
             <div
               key={equipment.id}
-              className="bg-zinc-950 border-2 border-zinc-900 rounded-2xl p-6 space-y-4"
+              className="bg-zinc-50 border-2 border-zinc-900 rounded-2xl p-6 space-y-4"
             >
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <Package className="w-4 h-4 text-zinc-400" />
-                  <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">
+                  <Package className="w-4 h-4 text-zinc-600" />
+                  <span className="text-[10px] font-black text-zinc-600 uppercase tracking-widest">
                     {EQUIPMENT_TYPE_LABELS[equipment.equipment_type]}
                   </span>
                 </div>
-                <h3 className="text-xl font-black text-white uppercase tracking-tighter">
+                <h3 className="text-xl font-black text-black uppercase tracking-tighter">
                   {equipment.equipment_name}
                 </h3>
                 {equipment.brand && (
@@ -155,23 +155,23 @@ const AdminEquipment: React.FC = () => {
                   </p>
                 )}
                 {equipment.description && (
-                  <p className="text-xs text-zinc-400 mt-2 line-clamp-2">
+                  <p className="text-xs text-zinc-600 mt-2 line-clamp-2">
                     {equipment.description}
                   </p>
                 )}
                 <div className="flex items-center gap-4 mt-3">
-                  <div className="flex items-center gap-2 text-xs text-zinc-200">
+                  <div className="flex items-center gap-2 text-xs text-zinc-700">
                     <TrendingUp className="w-4 h-4" />
                     <span className="font-black uppercase">{equipment.submission_count} SUBMISSIONS</span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-zinc-200">
+                  <div className="flex items-center gap-2 text-xs text-zinc-700">
                     <Users className="w-4 h-4" />
                     <span className="font-black uppercase">{equipment.submitted_by_users.length} USERS</span>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-zinc-800 flex gap-2">
+              <div className="pt-4 border-t border-zinc-300 flex gap-2">
                 <button
                   onClick={() => handleApprove(equipment)}
                   className="flex-1 bg-white text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all flex items-center justify-center gap-2"
@@ -181,7 +181,7 @@ const AdminEquipment: React.FC = () => {
                 </button>
                 <button
                   onClick={() => handleReject(equipment.id)}
-                  className="flex-1 bg-zinc-900 border-2 border-zinc-800 text-zinc-100 px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:border-red-900 hover:text-red-500 transition-all flex items-center justify-center gap-2"
+                  className="flex-1 bg-white border-2 border-zinc-300 text-zinc-900 px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:border-red-900 hover:text-red-500 transition-all flex items-center justify-center gap-2"
                 >
                   <X className="w-4 h-4" />
                   REJECT
@@ -236,26 +236,26 @@ const AddEquipmentModal: React.FC<{
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-6"
+      className="fixed inset-0 z-50 bg-zinc-50/80 backdrop-blur-sm flex items-center justify-center p-6"
       onClick={onClose}
     >
       <div
-        className="max-w-md w-full bg-zinc-950 border-2 border-zinc-800 rounded-3xl p-8 space-y-6"
+        className="max-w-md w-full bg-zinc-50 border-2 border-zinc-300 rounded-3xl p-8 space-y-6"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-3xl font-black tracking-tighter text-white uppercase">ADD EQUIPMENT</h2>
-            <p className="text-sm text-zinc-200 mt-1 font-black uppercase tracking-wider">
+            <h2 className="text-3xl font-black tracking-tighter text-black uppercase">ADD EQUIPMENT</h2>
+            <p className="text-sm text-zinc-700 mt-1 font-black uppercase tracking-wider">
               {equipment.brand ? `${equipment.brand} ` : ''}{equipment.equipment_name}
             </p>
-            <p className="text-xs text-zinc-400 mt-1 uppercase tracking-wider">
+            <p className="text-xs text-zinc-600 mt-1 uppercase tracking-wider">
               {EQUIPMENT_TYPE_LABELS[equipment.equipment_type]}
             </p>
           </div>
           <button
             onClick={onClose}
-            className="text-zinc-100 hover:text-white transition-colors border-2 border-zinc-800 hover:border-white rounded-xl p-2"
+            className="text-zinc-900 hover:text-black transition-colors border-2 border-zinc-300 hover:border-white rounded-xl p-2"
           >
             <X className="w-6 h-6" />
           </button>
@@ -263,13 +263,13 @@ const AddEquipmentModal: React.FC<{
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-zinc-100 uppercase tracking-widest px-1">
+            <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">
               Description
             </label>
             <textarea
               value={formData.description}
               onChange={e => setFormData({ ...formData, description: e.target.value })}
-              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm text-white outline-none focus:border-white resize-none h-20"
+              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm text-black outline-none focus:border-white resize-none h-20"
               placeholder="Brief description of the equipment..."
             />
           </div>
@@ -279,7 +279,7 @@ const AddEquipmentModal: React.FC<{
             placeholder="IMAGE URL"
             value={formData.imageUrl}
             onChange={e => setFormData({ ...formData, imageUrl: e.target.value })}
-            className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white"
+            className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white"
           />
 
           <div className="grid grid-cols-2 gap-4">
@@ -289,14 +289,14 @@ const AddEquipmentModal: React.FC<{
               placeholder="PRICE"
               value={formData.price}
               onChange={e => setFormData({ ...formData, price: e.target.value })}
-              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white uppercase"
+              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
             />
             <input
               type="url"
               placeholder="WEBSITE"
               value={formData.websiteUrl}
               onChange={e => setFormData({ ...formData, websiteUrl: e.target.value })}
-              className="w-full bg-black border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-white outline-none focus:border-white"
+              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white"
             />
           </div>
 
@@ -304,7 +304,7 @@ const AddEquipmentModal: React.FC<{
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-6 py-4 rounded-xl border-2 border-zinc-800 text-zinc-100 hover:text-white hover:border-zinc-600 font-black text-sm uppercase tracking-wider transition-all"
+              className="flex-1 px-6 py-4 rounded-xl border-2 border-zinc-300 text-zinc-900 hover:text-black hover:border-zinc-600 font-black text-sm uppercase tracking-wider transition-all"
             >
               CANCEL
             </button>

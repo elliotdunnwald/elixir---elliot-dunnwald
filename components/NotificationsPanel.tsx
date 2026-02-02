@@ -145,7 +145,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
       case 'follow_accepted':
         return <UserCheck className="w-5 h-5 text-green-500" />;
       case 'follow':
-        return <UserPlus className="w-5 h-5 text-white" />;
+        return <UserPlus className="w-5 h-5 text-black" />;
       default:
         return <Bell className="w-5 h-5" />;
     }
@@ -181,16 +181,16 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
       />
 
       {/* Panel */}
-      <div className="fixed right-0 top-0 bottom-0 w-full sm:w-96 bg-zinc-950 border-l-2 border-zinc-800 z-50 flex flex-col">
+      <div className="fixed right-0 top-0 bottom-0 w-full sm:w-96 bg-white border-l-2 border-zinc-300 z-50 flex flex-col">
         {/* Header */}
-        <div className="border-b-2 border-zinc-800 p-6">
+        <div className="border-b-2 border-zinc-300 p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-black text-white uppercase tracking-tighter">
+            <h2 className="text-2xl font-black text-black uppercase tracking-tighter">
               Notifications
             </h2>
             <button
               onClick={onClose}
-              className="text-zinc-400 hover:text-white transition-colors"
+              className="text-zinc-400 hover:text-black active:text-black transition-colors"
             >
               <X className="w-6 h-6" />
             </button>
@@ -203,7 +203,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
               className={`flex-1 py-2 px-4 rounded-xl font-black text-[10px] uppercase tracking-wider transition-all ${
                 activeTab === 'all'
                   ? 'bg-white text-black'
-                  : 'bg-zinc-900 text-zinc-400 hover:text-white'
+                  : 'bg-zinc-900 text-zinc-400 hover:text-black'
               }`}
             >
               All {notifications.filter(n => !n.read).length > 0 && (
@@ -215,7 +215,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
               className={`flex-1 py-2 px-4 rounded-xl font-black text-[10px] uppercase tracking-wider transition-all ${
                 activeTab === 'requests'
                   ? 'bg-white text-black'
-                  : 'bg-zinc-900 text-zinc-400 hover:text-white'
+                  : 'bg-zinc-900 text-zinc-400 hover:text-black'
               }`}
             >
               Requests {followRequests.length > 0 && (
@@ -244,7 +244,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
                     followRequests.map(request => (
                       <div
                         key={request.id}
-                        className="bg-zinc-900 border-2 border-zinc-800 rounded-xl p-4 space-y-3"
+                        className="bg-zinc-900 border-2 border-zinc-300 rounded-xl p-4 space-y-3"
                       >
                         <div className="flex items-center gap-3">
                           {request.requester?.avatar_url ? (
@@ -259,7 +259,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
                             </div>
                           )}
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-black text-white uppercase truncate">
+                            <p className="text-sm font-black text-black uppercase truncate">
                               {request.requester?.first_name} {request.requester?.last_name}
                             </p>
                             <p className="text-[10px] font-black text-zinc-500 uppercase">
@@ -276,7 +276,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
                           </button>
                           <button
                             onClick={() => handleRejectRequest(request.id)}
-                            className="flex-1 bg-zinc-800 text-zinc-400 py-2 px-4 rounded-xl font-black text-[10px] uppercase tracking-wider hover:text-white hover:bg-zinc-700 active:scale-95 transition-all"
+                            className="flex-1 bg-zinc-800 text-zinc-400 py-2 px-4 rounded-xl font-black text-[10px] uppercase tracking-wider hover:text-black hover:bg-zinc-700 active:scale-95 transition-all"
                           >
                             Decline
                           </button>
@@ -299,7 +299,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
                       {notifications.filter(n => !n.read).length > 0 && (
                         <button
                           onClick={handleMarkAllAsRead}
-                          className="w-full text-center text-[10px] font-black uppercase tracking-wider text-zinc-400 hover:text-white py-2"
+                          className="w-full text-center text-[10px] font-black uppercase tracking-wider text-zinc-400 hover:text-black py-2"
                         >
                           Mark all as read
                         </button>
@@ -310,14 +310,14 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
                           onClick={() => handleNotificationClick(notif)}
                           className={`border-2 rounded-xl p-4 cursor-pointer transition-all ${
                             notif.read
-                              ? 'bg-zinc-950 border-zinc-900 hover:border-zinc-800'
-                              : 'bg-zinc-900 border-zinc-800 hover:border-white'
+                              ? 'bg-white border-zinc-900 hover:border-zinc-300'
+                              : 'bg-zinc-900 border-zinc-300 hover:border-white'
                           }`}
                         >
                           <div className="flex items-start gap-3">
                             <div className="mt-0.5">{getNotificationIcon(notif.type)}</div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm font-black text-white">
+                              <p className="text-sm font-black text-black">
                                 {getNotificationText(notif)}
                               </p>
                               <p className="text-[10px] font-black text-zinc-500 uppercase mt-1">

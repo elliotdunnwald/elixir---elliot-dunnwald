@@ -51,7 +51,7 @@ const FeedView: React.FC = () => {
     return (
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center justify-center py-32">
-          <Loader2 className="w-8 h-8 text-white animate-spin" />
+          <Loader2 className="w-8 h-8 text-black animate-spin" />
         </div>
       </div>
     );
@@ -70,26 +70,26 @@ const FeedView: React.FC = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="max-w-3xl mx-auto pb-28 sm:pb-0">
       <div className="mb-12">
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-[11px] font-black text-zinc-100 uppercase tracking-[0.4em]">GLOBAL FEED</h2>
+          <h2 className="text-[11px] font-black text-zinc-900 uppercase tracking-[0.4em]">GLOBAL FEED</h2>
           <div className="flex gap-2">
             <button
               onClick={() => setFeedFilter('all')}
-              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${feedFilter === 'all' ? 'bg-white text-black border-white' : 'bg-black text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
+              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${feedFilter === 'all' ? 'bg-white text-black border-white' : 'bg-white text-zinc-600 border-zinc-300 hover:border-zinc-600 active:border-white'}`}
             >
               All
             </button>
             <button
               onClick={() => setFeedFilter('brews')}
-              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${feedFilter === 'brews' ? 'bg-white text-black border-white' : 'bg-black text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
+              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${feedFilter === 'brews' ? 'bg-white text-black border-white' : 'bg-white text-zinc-600 border-zinc-300 hover:border-zinc-600 active:border-white'}`}
             >
               Home Brews
             </button>
             <button
               onClick={() => setFeedFilter('cafes')}
-              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${feedFilter === 'cafes' ? 'bg-white text-black border-white' : 'bg-black text-zinc-400 border-zinc-800 hover:border-zinc-600'}`}
+              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${feedFilter === 'cafes' ? 'bg-white text-black border-white' : 'bg-white text-zinc-600 border-zinc-300 hover:border-zinc-600 active:border-white'}`}
             >
               Cafes
             </button>
@@ -99,8 +99,8 @@ const FeedView: React.FC = () => {
           <div className="py-32 px-10 text-center border-4 border-dashed border-zinc-900 rounded-[4rem] flex flex-col items-center gap-8 animate-in fade-in duration-700">
             <div className="bg-white p-8 rounded-[2.5rem]"><Users className="w-12 h-12 text-black" /></div>
             <div className="space-y-4">
-              <h3 className="text-5xl font-black text-white uppercase tracking-tighter leading-none">FEED EMPTY</h3>
-              <p className="text-zinc-100 text-sm font-black uppercase tracking-widest max-w-xs mx-auto leading-relaxed">
+              <h3 className="text-5xl font-black text-black uppercase tracking-tighter leading-none">FEED EMPTY</h3>
+              <p className="text-zinc-900 text-sm font-black uppercase tracking-widest max-w-xs mx-auto leading-relaxed">
                 LOG A BREW OR FOLLOW OTHERS TO SEE THEIR POSTS HERE.
               </p>
             </div>

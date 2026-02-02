@@ -42,7 +42,7 @@ const CafeProfile: React.FC = () => {
     return (
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-center py-32">
-          <Loader2 className="w-8 h-8 text-white animate-spin" />
+          <Loader2 className="w-8 h-8 text-black animate-spin" />
         </div>
       </div>
     );
@@ -52,7 +52,7 @@ const CafeProfile: React.FC = () => {
     return (
       <div className="max-w-4xl mx-auto">
         <div className="py-32 text-center border-4 border-dashed border-red-900 rounded-[3.5rem]">
-          <h1 className="text-5xl font-black text-white uppercase tracking-tighter mb-4">CAFE NOT FOUND</h1>
+          <h1 className="text-5xl font-black text-black uppercase tracking-tighter mb-4">CAFE NOT FOUND</h1>
           <button
             onClick={() => navigate('/explore')}
             className="mt-8 bg-white text-black px-8 py-4 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-200 transition-all"
@@ -68,17 +68,17 @@ const CafeProfile: React.FC = () => {
     <div className="max-w-4xl mx-auto space-y-12 pb-24">
       <button
         onClick={() => navigate('/explore')}
-        className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors"
+        className="flex items-center gap-2 text-zinc-600 hover:text-black transition-colors"
       >
         <ArrowLeft className="w-5 h-5" />
         <span className="text-sm font-black uppercase tracking-wider">Back to Explore</span>
       </button>
 
       {/* Cafe Header */}
-      <div className="bg-zinc-900 border-2 border-zinc-800 rounded-[3rem] p-12 space-y-6">
+      <div className="bg-white border-2 border-zinc-300 rounded-[3rem] p-12 space-y-6">
         <div className="flex items-start justify-between gap-6">
           <div className="flex-1">
-            <h1 className="text-5xl font-black text-white uppercase tracking-tighter leading-tight mb-4">
+            <h1 className="text-5xl font-black text-black uppercase tracking-tighter leading-tight mb-4">
               {cafe.name}
             </h1>
             <div className="flex items-center gap-3 text-zinc-300">
@@ -107,34 +107,34 @@ const CafeProfile: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 pt-6 border-t-2 border-zinc-800">
-          <div className="bg-zinc-950 p-6 rounded-xl">
-            <div className="flex items-center gap-2 text-zinc-400 mb-2">
+        <div className="grid grid-cols-2 gap-4 pt-6 border-t-2 border-zinc-300">
+          <div className="bg-zinc-50 p-6 rounded-xl">
+            <div className="flex items-center gap-2 text-zinc-600 mb-2">
               <Coffee className="w-4 h-4" />
               <span className="text-[10px] font-black uppercase tracking-widest">Total Visits</span>
             </div>
-            <p className="text-3xl font-black text-white">{cafe.visit_count}</p>
+            <p className="text-3xl font-black text-black">{cafe.visit_count}</p>
           </div>
-          <div className="bg-zinc-950 p-6 rounded-xl">
-            <div className="flex items-center gap-2 text-zinc-400 mb-2">
+          <div className="bg-zinc-50 p-6 rounded-xl">
+            <div className="flex items-center gap-2 text-zinc-600 mb-2">
               <Star className="w-4 h-4" />
               <span className="text-[10px] font-black uppercase tracking-widest">Reviews</span>
             </div>
-            <p className="text-3xl font-black text-white">{visits.length}</p>
+            <p className="text-3xl font-black text-black">{visits.length}</p>
           </div>
         </div>
       </div>
 
       {/* Visits/Reviews Section */}
       <div className="space-y-6">
-        <h2 className="text-2xl font-black text-white uppercase tracking-tight">
+        <h2 className="text-2xl font-black text-black uppercase tracking-tight">
           Recent Visits
         </h2>
 
         {visits.length === 0 ? (
-          <div className="py-24 text-center border-2 border-dashed border-zinc-800 rounded-[3rem]">
+          <div className="py-24 text-center border-2 border-dashed border-zinc-300 rounded-[3rem]">
             <Coffee className="w-12 h-12 text-zinc-700 mx-auto mb-4" />
-            <p className="text-zinc-400 font-black uppercase text-sm tracking-widest">
+            <p className="text-zinc-600 font-black uppercase text-sm tracking-widest">
               No visits yet
             </p>
           </div>
