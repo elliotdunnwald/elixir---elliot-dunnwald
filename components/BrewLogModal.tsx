@@ -626,32 +626,42 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           {/* Home Brew / Cafe Visit Toggle */}
           <section className="space-y-3">
             <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Log Type</p>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => {
-                  setFormData(p => ({ ...p, isCafeVisit: false, drinksOrdered: [] }));
-                  setPendingDrink(null);
-                  setSelectedMilk('');
-                }}
-                disabled={uploading || !!editActivity}
-                className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${!formData.isCafeVisit ? 'bg-white text-black border-black' : 'bg-white text-zinc-700 border-black hover:border-black'}`}
-              >
-                Home Brew
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setFormData(p => ({ ...p, isCafeVisit: true, drinksOrdered: [] }));
-                  setPendingDrink(null);
-                  setSelectedMilk('');
-                }}
-                disabled={uploading || !!editActivity}
-                className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.isCafeVisit ? 'bg-white text-black border-black' : 'bg-white text-zinc-700 border-black hover:border-black'}`}
-              >
-                Cafe Visit
-              </button>
-            </div>
+            {editActivity ? (
+              // Show single locked tab when editing
+              <div className="px-4 py-4 rounded-xl border-2 border-black bg-white text-center">
+                <span className="text-[10px] font-black uppercase tracking-widest text-black">
+                  {formData.isCafeVisit ? 'Cafe Visit' : 'Home Brew'}
+                </span>
+              </div>
+            ) : (
+              // Show toggle buttons when creating new
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFormData(p => ({ ...p, isCafeVisit: false, drinksOrdered: [] }));
+                    setPendingDrink(null);
+                    setSelectedMilk('');
+                  }}
+                  disabled={uploading}
+                  className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${!formData.isCafeVisit ? 'bg-white text-black border-black' : 'bg-white text-zinc-700 border-black hover:border-black'}`}
+                >
+                  Home Brew
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFormData(p => ({ ...p, isCafeVisit: true, drinksOrdered: [] }));
+                    setPendingDrink(null);
+                    setSelectedMilk('');
+                  }}
+                  disabled={uploading}
+                  className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.isCafeVisit ? 'bg-white text-black border-black' : 'bg-white text-zinc-700 border-black hover:border-black'}`}
+                >
+                  Cafe Visit
+                </button>
+              </div>
+            )}
           </section>
 
           {/* Title - Only for Home Brews */}
