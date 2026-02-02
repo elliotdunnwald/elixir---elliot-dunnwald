@@ -1218,7 +1218,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
             <section className="space-y-6">
               <div className="flex justify-between items-center border-b-2 border-zinc-300 pb-2">
                 <h3 className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Settings2 className="w-4 h-4" /> Brew Parameters</h3>
-                <div onClick={() => setFormData(p => ({...p, showParameters: !p.showParameters}))} className={`w-10 h-5 rounded-full relative cursor-pointer transition-all ${formData.showParameters ? 'bg-white' : 'bg-zinc-800'}`}>
+                <div onClick={() => setFormData(p => ({...p, showParameters: !p.showParameters}))} className={`w-10 h-5 rounded-full relative cursor-pointer transition-all ${formData.showParameters ? 'bg-white' : 'bg-zinc-50'}`}>
                   <div className={`absolute top-1 w-3 h-3 rounded-full transition-all ${formData.showParameters ? 'left-6 bg-white' : 'left-1 bg-white'}`} />
                 </div>
               </div>
@@ -1314,7 +1314,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           <section className="space-y-6">
             <div className="flex justify-between items-center border-b-2 border-zinc-300 pb-2">
               <h3 className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Coffee className="w-4 h-4" /> Milk</h3>
-              <div onClick={() => setFormData(p => ({...p, showMilk: !p.showMilk}))} className={`w-10 h-5 rounded-full relative cursor-pointer transition-all ${formData.showMilk ? 'bg-white' : 'bg-zinc-800'}`}>
+              <div onClick={() => setFormData(p => ({...p, showMilk: !p.showMilk}))} className={`w-10 h-5 rounded-full relative cursor-pointer transition-all ${formData.showMilk ? 'bg-white' : 'bg-zinc-50'}`}>
                 <div className={`absolute top-1 w-3 h-3 rounded-full transition-all ${formData.showMilk ? 'left-6 bg-white' : 'left-1 bg-white'}`} />
               </div>
             </div>
@@ -1385,7 +1385,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                         value={formData.drinkSize}
                         onChange={e => setFormData({...formData, drinkSize: parseInt(e.target.value)})}
                         disabled={uploading}
-                        className="w-full slider h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer disabled:opacity-50"
+                        className="w-full slider h-2 bg-zinc-50 rounded-lg appearance-none cursor-pointer disabled:opacity-50"
                       />
                       <div className="flex justify-between text-[10px] font-black text-zinc-500 uppercase tracking-widest">
                         <span>4 oz</span>
@@ -1410,7 +1410,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                       value={formData.coldMilkOz}
                       onChange={e => setFormData({...formData, coldMilkOz: parseFloat(e.target.value)})}
                       disabled={uploading}
-                      className="w-full slider h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer disabled:opacity-50"
+                      className="w-full slider h-2 bg-zinc-50 rounded-lg appearance-none cursor-pointer disabled:opacity-50"
                     />
                     <div className="flex justify-between text-[10px] font-black text-zinc-500 uppercase tracking-widest">
                       <span>0.5 oz</span>
@@ -1432,7 +1432,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
               value={formData.rating}
               onChange={e => setFormData({...formData, rating: parseFloat(e.target.value)})}
               disabled={uploading}
-              className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer disabled:opacity-50"
+              className="w-full h-2 bg-zinc-50 rounded-lg appearance-none cursor-pointer disabled:opacity-50"
               style={{
                 WebkitAppearance: 'none',
                 background: '#27272a'

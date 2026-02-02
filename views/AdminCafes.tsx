@@ -168,7 +168,7 @@ const AdminCafes: React.FC = () => {
           {pendingCafes.map(cafe => (
             <div
               key={cafe.id}
-              className="bg-white border-2 border-zinc-300 rounded-2xl p-6 space-y-4 hover:border-zinc-700 transition-all"
+              className="bg-white border-2 border-zinc-300 rounded-2xl p-6 space-y-4 hover:border-zinc-400 transition-all"
             >
               <div className="space-y-3">
                 <div className="flex items-start justify-between gap-3">
@@ -177,7 +177,7 @@ const AdminCafes: React.FC = () => {
                       {cafe.cafe_name}
                     </h3>
                   </div>
-                  <div className="flex items-center gap-2 bg-zinc-800 px-3 py-1 rounded-lg">
+                  <div className="flex items-center gap-2 bg-zinc-50 px-3 py-1 rounded-lg">
                     <Users className="w-3 h-3 text-zinc-600" />
                     <span className="text-xs font-black text-black">{cafe.submission_count}</span>
                   </div>
@@ -219,7 +219,7 @@ const AdminCafes: React.FC = () => {
                 </button>
                 <button
                   onClick={() => handleReject(cafe.id)}
-                  className="bg-zinc-800 text-zinc-600 font-black text-xs uppercase tracking-wider py-3 px-4 rounded-xl hover:bg-zinc-700 hover:text-black transition-all"
+                  className="bg-zinc-50 text-zinc-600 font-black text-xs uppercase tracking-wider py-3 px-4 rounded-xl hover:bg-zinc-700 hover:text-black transition-all"
                 >
                   <X className="w-4 h-4" />
                 </button>

@@ -178,7 +178,7 @@ const CafeMap: React.FC<CafeMapProps> = ({ cafes, center, onCafeClick }) => {
                 </div>
                 <button
                   onClick={() => handleViewCafe(cafe.id)}
-                  className="w-full bg-zinc-50 text-black px-3 py-2 rounded-lg font-black text-xs uppercase tracking-wider hover:bg-zinc-800 transition-all"
+                  className="w-full bg-zinc-50 text-black px-3 py-2 rounded-lg font-black text-xs uppercase tracking-wider hover:bg-zinc-50 transition-all"
                 >
                   View Cafe
                 </button>

@@ -227,17 +227,17 @@ const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
           {step === 1 && (
             <div className="space-y-6 sm:space-y-8 text-center animate-in fade-in slide-in-from-bottom-4">
               <div className="space-y-5 sm:space-y-6">
-                <p className="text-[11px] sm:text-[12px] font-black text-zinc-100 uppercase tracking-[0.3em]">IDENTITY</p>
+                <p className="text-[11px] sm:text-[12px] font-black text-zinc-900 uppercase tracking-[0.3em]">IDENTITY</p>
                 <div className="space-y-3 sm:space-y-4">
-                  <input type="text" value={formData.firstName} onChange={e => setFormData(p => ({...p, firstName: e.target.value.toUpperCase()}))} placeholder="FIRST NAME" autoCapitalize="words" className="w-full bg-transparent border-b-4 border-zinc-800 focus:border-white outline-none text-xl sm:text-3xl font-black text-white text-center uppercase tracking-tighter py-3 sm:py-4" />
-                  <input type="text" value={formData.lastName} onChange={e => setFormData(p => ({...p, lastName: e.target.value.toUpperCase()}))} placeholder="LAST NAME" autoCapitalize="words" className="w-full bg-transparent border-b-4 border-zinc-800 focus:border-white outline-none text-xl sm:text-3xl font-black text-white text-center uppercase tracking-tighter py-3 sm:py-4" />
+                  <input type="text" value={formData.firstName} onChange={e => setFormData(p => ({...p, firstName: e.target.value.toUpperCase()}))} placeholder="FIRST NAME" autoCapitalize="words" className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-white outline-none text-xl sm:text-3xl font-black text-white text-center uppercase tracking-tighter py-3 sm:py-4" />
+                  <input type="text" value={formData.lastName} onChange={e => setFormData(p => ({...p, lastName: e.target.value.toUpperCase()}))} placeholder="LAST NAME" autoCapitalize="words" className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-white outline-none text-xl sm:text-3xl font-black text-white text-center uppercase tracking-tighter py-3 sm:py-4" />
                 </div>
               </div>
               <div className="space-y-4">
                 <p className="text-[10px] font-black text-zinc-200 uppercase tracking-[0.2em]">PRONOUNS</p>
                 <div className="flex flex-wrap justify-center gap-2">
                   {PRONOUN_OPTIONS.map(opt => (
-                    <button key={opt} onClick={() => setFormData(p => ({...p, pronouns: p.pronouns === opt ? '' : opt}))} className={`px-4 py-2 rounded-xl border-2 font-black text-[10px] uppercase tracking-widest transition-all ${formData.pronouns === opt ? 'bg-white text-black border-white' : 'bg-zinc-900 border-zinc-800 text-zinc-100'}`}>{opt}</button>
+                    <button key={opt} onClick={() => setFormData(p => ({...p, pronouns: p.pronouns === opt ? '' : opt}))} className={`px-4 py-2 rounded-xl border-2 font-black text-[10px] uppercase tracking-widest transition-all ${formData.pronouns === opt ? 'bg-white text-black border-white' : 'bg-white border-zinc-300 text-zinc-900'}`}>{opt}</button>
                   ))}
                 </div>
               </div>
@@ -248,16 +248,16 @@ const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
             <div className="space-y-10 text-center animate-in fade-in slide-in-from-bottom-4">
               <div className="space-y-6">
                 <div className="flex flex-col items-center gap-2">
-                  <p className="text-[12px] font-black text-zinc-100 uppercase tracking-[0.3em]">LOCATION</p>
+                  <p className="text-[12px] font-black text-zinc-900 uppercase tracking-[0.3em]">LOCATION</p>
                   {isDetecting && <div className="flex items-center gap-2 text-[8px] font-black text-white animate-pulse"><Loader2 className="w-3 h-3 animate-spin" /> DISCOVERING...</div>}
                 </div>
                 <div className="space-y-4">
-                  <input autoFocus type="text" value={formData.city} onChange={e => setFormData(p => ({...p, city: e.target.value.toUpperCase()}))} placeholder="CITY" className="w-full bg-transparent border-b-4 border-zinc-800 focus:border-white outline-none text-3xl font-black text-white text-center uppercase tracking-tighter py-4" />
-                  <input type="text" value={formData.country} onChange={e => setFormData(p => ({...p, country: formatCountryAcronym(e.target.value)}))} placeholder="COUNTRY" className="w-full bg-transparent border-b-4 border-zinc-800 focus:border-white outline-none text-3xl font-black text-white text-center uppercase tracking-tighter py-4" />
+                  <input autoFocus type="text" value={formData.city} onChange={e => setFormData(p => ({...p, city: e.target.value.toUpperCase()}))} placeholder="CITY" className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-white outline-none text-3xl font-black text-white text-center uppercase tracking-tighter py-4" />
+                  <input type="text" value={formData.country} onChange={e => setFormData(p => ({...p, country: formatCountryAcronym(e.target.value)}))} placeholder="COUNTRY" className="w-full bg-transparent border-b-4 border-zinc-300 focus:border-white outline-none text-3xl font-black text-white text-center uppercase tracking-tighter py-4" />
                 </div>
               </div>
               <div className="space-y-4">
-                <button onClick={() => setFormData(p => ({...p, isPrivate: !p.isPrivate}))} className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${formData.isPrivate ? 'bg-zinc-900 border-zinc-700 text-zinc-400' : 'bg-white text-black border-white'}`}>
+                <button onClick={() => setFormData(p => ({...p, isPrivate: !p.isPrivate}))} className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${formData.isPrivate ? 'bg-white border-zinc-400 text-zinc-400' : 'bg-white text-black border-white'}`}>
                   {formData.isPrivate ? <><EyeOff className="w-4 h-4" /> PRIVATE PROFILE</> : <><Eye className="w-4 h-4" /> PUBLIC PROFILE</>}
                 </button>
               </div>
@@ -266,10 +266,10 @@ const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
 
           {step === 3 && (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
-              <p className="text-[12px] font-black text-zinc-100 uppercase tracking-[0.3em] text-center">GEAR</p>
+              <p className="text-[12px] font-black text-zinc-900 uppercase tracking-[0.3em] text-center">GEAR</p>
               <div className="relative mb-4">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-200" />
-                <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="SEARCH OR ADD GEAR..." className="w-full bg-zinc-950 border-2 border-zinc-900 rounded-xl py-3 pl-10 pr-4 text-[10px] font-black text-white outline-none focus:border-white uppercase" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+                <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="SEARCH OR ADD GEAR..." className="w-full bg-white border-2 border-zinc-300 rounded-xl py-3 pl-10 pr-4 text-[10px] font-black text-black outline-none focus:border-black uppercase placeholder:text-zinc-400" />
               </div>
 
               <div className="grid grid-cols-2 gap-3 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar">
@@ -279,14 +279,14 @@ const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
                       toggleMethod(searchQuery.toUpperCase());
                       setSearchQuery('');
                     }}
-                    className="col-span-full py-5 rounded-2xl border-2 border-white bg-zinc-800 text-white font-black text-[10px] uppercase tracking-widest transition-all flex items-center justify-center gap-2"
+                    className="col-span-full py-5 rounded-2xl border-2 border-white bg-zinc-50 text-white font-black text-[10px] uppercase tracking-widest transition-all flex items-center justify-center gap-2"
                   >
                     <Plus className="w-3 h-3" /> ADD CUSTOM: {searchQuery.toUpperCase()}
                   </button>
                 )}
 
                 {filteredDevices.map(d => (
-                  <button key={`${d.brand}-${d.name}`} onClick={() => toggleMethod(`${d.brand} ${d.name}`.toUpperCase())} className={`py-5 rounded-2xl border-2 font-black text-[10px] uppercase tracking-widest transition-all ${formData.methods.includes(`${d.brand} ${d.name}`.toUpperCase()) ? 'bg-white text-black border-white' : 'bg-zinc-900 border-zinc-800 text-zinc-100 hover:border-zinc-700'}`}>{d.brand} {d.name}</button>
+                  <button key={`${d.brand}-${d.name}`} onClick={() => toggleMethod(`${d.brand} ${d.name}`.toUpperCase())} className={`py-5 rounded-2xl border-2 font-black text-[10px] uppercase tracking-widest transition-all ${formData.methods.includes(`${d.brand} ${d.name}`.toUpperCase()) ? 'bg-white text-black border-white' : 'bg-white border-zinc-300 text-zinc-900 hover:border-zinc-400'}`}>{d.brand} {d.name}</button>
                 ))}
 
                 {filteredDevices.length === 0 && searchQuery.trim() === '' && (
@@ -299,8 +299,8 @@ const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
           )}
 
           <div className="flex items-center gap-4">
-            {step > 1 && <button onClick={() => setStep(step - 1)} className="bg-zinc-900 text-zinc-100 p-7 rounded-3xl font-black hover:text-white transition-all"><X className="w-6 h-6" /></button>}
-            <button disabled={!isStepValid() || loading} onClick={() => step < 3 ? setStep(step + 1) : handleComplete()} className="flex-grow bg-white text-black disabled:bg-zinc-900 disabled:text-zinc-700 py-7 rounded-3xl font-black text-sm uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-3 active:scale-95">
+            {step > 1 && <button onClick={() => setStep(step - 1)} className="bg-white text-zinc-900 p-7 rounded-3xl font-black hover:text-black border-2 border-zinc-300 transition-all"><X className="w-6 h-6" /></button>}
+            <button disabled={!isStepValid() || loading} onClick={() => step < 3 ? setStep(step + 1) : handleComplete()} className="flex-grow bg-white text-black disabled:bg-white disabled:text-zinc-700 py-7 rounded-3xl font-black text-sm uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-3 active:scale-95">
               {loading ? (
                 <><Loader2 className="w-5 h-5 animate-spin" /> CREATING</>
               ) : (
@@ -344,7 +344,7 @@ const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void;
                 </span>
               )}
             </button>
-            <button onClick={onLogBrew} className="bg-black text-white px-8 py-3 rounded-2xl flex items-center gap-2 font-black text-[11px] uppercase tracking-[0.2em] active:scale-95 transition-all shadow-xl border-2 border-black hover:bg-zinc-900"><Plus className="w-4 h-4" /> <span>LOG BREW</span></button>
+            <button onClick={onLogBrew} className="bg-black text-white px-8 py-3 rounded-2xl flex items-center gap-2 font-black text-[11px] uppercase tracking-[0.2em] active:scale-95 transition-all shadow-xl border-2 border-black hover:bg-white"><Plus className="w-4 h-4" /> <span>LOG BREW</span></button>
             <button onClick={signOut} className="px-5 py-2 rounded-xl border-2 border-zinc-300 text-[11px] font-black uppercase tracking-[0.2em] text-zinc-600 hover:text-black hover:border-black active:border-black transition-all">SIGN OUT</button>
           </div>
         </div>

@@ -103,7 +103,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
       <div className="p-5 sm:p-10 flex justify-between items-start gap-3">
         <div className="flex gap-3 sm:gap-5 items-start flex-1 min-w-0">
           <Link to={`/profile/${activity.userUsername || activity.userId}`} className="block shrink-0" onClick={(e) => e.stopPropagation()}>
-            <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl border-2 transition-all hover:border-white overflow-hidden ${isDefaultWhite ? 'bg-white text-black border-white' : 'bg-zinc-50 border-zinc-700'}`}>
+            <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl border-2 transition-all hover:border-white overflow-hidden ${isDefaultWhite ? 'bg-white text-black border-white' : 'bg-zinc-50 border-zinc-400'}`}>
               <div className="w-full h-full flex items-center justify-center">
                 {isDefaultWhite ? <Zap className="w-6 h-6 sm:w-8 sm:h-8" /> : <img src={activity.userAvatar} className="w-full h-full object-cover" alt="" />}
               </div>
@@ -139,7 +139,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
 
       {activity.imageUrl && (
         <div className="px-5 pb-5 sm:px-10 sm:pb-8">
-          <div className="w-full aspect-[16/9] rounded-2xl sm:rounded-[2.5rem] overflow-hidden border-2 border-zinc-700 hover:border-zinc-600 shadow-inner shadow-black/5 group relative transition-all">
+          <div className="w-full aspect-[16/9] rounded-2xl sm:rounded-[2.5rem] overflow-hidden border-2 border-zinc-400 hover:border-zinc-600 shadow-inner shadow-black/5 group relative transition-all">
             <img src={activity.imageUrl} className="w-full h-full object-cover transition-all duration-700" alt="Brew session" />
           </div>
         </div>
@@ -219,8 +219,8 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
         {activity.eyPercentage ? (
           <div className="mb-6 sm:mb-8 flex flex-wrap gap-3 sm:gap-4">
             {activity.tds ? (
-              <div className="bg-zinc-800 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl">
-                <p className="text-[9px] sm:text-[10px] font-black text-zinc-900 uppercase tracking-widest mb-0.5 sm:mb-1">TDS</p>
+              <div className="bg-zinc-50 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 border-zinc-300">
+                <p className="text-[9px] sm:text-[10px] font-black text-zinc-600 uppercase tracking-widest mb-0.5 sm:mb-1">TDS</p>
                 <p className="text-[10px] sm:text-xs font-black text-black">{activity.tds}</p>
               </div>
             ) : null}
@@ -307,7 +307,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
               <button
                 type="submit"
                 disabled={!commentText.trim() || submittingComment}
-                className="bg-white text-black px-4 py-3 sm:px-6 sm:py-4 rounded-xl sm:rounded-2xl font-black text-xs uppercase tracking-widest transition-all active:scale-95 disabled:bg-zinc-800 disabled:text-zinc-400 flex items-center gap-2"
+                className="bg-white text-black px-4 py-3 sm:px-6 sm:py-4 rounded-xl sm:rounded-2xl font-black text-xs uppercase tracking-widest transition-all active:scale-95 disabled:bg-zinc-100 disabled:text-zinc-400 flex items-center gap-2"
               >
                 <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </button>

@@ -77,12 +77,12 @@ const RoasterLogo: React.FC<{ roasterName?: string; size?: number }> = ({ roaste
 
 // Helper function for roast level colors
 const getRoastLevelColor = (level?: string) => {
-  if (!level) return 'bg-zinc-800';
+  if (!level) return 'bg-zinc-50';
   const l = level.toLowerCase();
   if (l.includes('light')) return 'bg-amber-900';
   if (l.includes('medium')) return 'bg-orange-900';
   if (l.includes('dark')) return 'bg-stone-900';
-  return 'bg-zinc-800';
+  return 'bg-zinc-50';
 };
 
 const CoffeeShopView: React.FC = () => {

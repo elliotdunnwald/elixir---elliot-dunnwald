@@ -203,7 +203,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
               className={`flex-1 py-2 px-4 rounded-xl font-black text-[10px] uppercase tracking-wider transition-all ${
                 activeTab === 'all'
                   ? 'bg-white text-black'
-                  : 'bg-zinc-900 text-zinc-400 hover:text-black'
+                  : 'bg-white text-zinc-400 hover:text-black'
               }`}
             >
               All {notifications.filter(n => !n.read).length > 0 && (
@@ -215,7 +215,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
               className={`flex-1 py-2 px-4 rounded-xl font-black text-[10px] uppercase tracking-wider transition-all ${
                 activeTab === 'requests'
                   ? 'bg-white text-black'
-                  : 'bg-zinc-900 text-zinc-400 hover:text-black'
+                  : 'bg-white text-zinc-400 hover:text-black'
               }`}
             >
               Requests {followRequests.length > 0 && (
@@ -244,7 +244,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
                     followRequests.map(request => (
                       <div
                         key={request.id}
-                        className="bg-zinc-900 border-2 border-zinc-300 rounded-xl p-4 space-y-3"
+                        className="bg-white border-2 border-zinc-300 rounded-xl p-4 space-y-3"
                       >
                         <div className="flex items-center gap-3">
                           {request.requester?.avatar_url ? (
@@ -254,7 +254,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
                               className="w-10 h-10 rounded-full object-cover"
                             />
                           ) : (
-                            <div className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center">
+                            <div className="w-10 h-10 rounded-full bg-zinc-50 flex items-center justify-center">
                               <UserPlus className="w-5 h-5 text-zinc-600" />
                             </div>
                           )}
@@ -276,7 +276,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
                           </button>
                           <button
                             onClick={() => handleRejectRequest(request.id)}
-                            className="flex-1 bg-zinc-800 text-zinc-400 py-2 px-4 rounded-xl font-black text-[10px] uppercase tracking-wider hover:text-black hover:bg-zinc-700 active:scale-95 transition-all"
+                            className="flex-1 bg-zinc-50 text-zinc-400 py-2 px-4 rounded-xl font-black text-[10px] uppercase tracking-wider hover:text-black hover:bg-zinc-700 active:scale-95 transition-all"
                           >
                             Decline
                           </button>
@@ -311,7 +311,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
                           className={`border-2 rounded-xl p-4 cursor-pointer transition-all ${
                             notif.read
                               ? 'bg-white border-zinc-900 hover:border-zinc-300'
-                              : 'bg-zinc-900 border-zinc-300 hover:border-white'
+                              : 'bg-white border-zinc-300 hover:border-white'
                           }`}
                         >
                           <div className="flex items-start gap-3">

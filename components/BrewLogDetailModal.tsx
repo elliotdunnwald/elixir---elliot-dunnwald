@@ -157,7 +157,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
               {/* User info */}
               <div className="flex gap-5 items-start">
                 <Link to={`/profile/${activity.userUsername || activity.userId}`} className="block shrink-0">
-                  <div className={`w-16 h-16 rounded-2xl border-2 transition-all hover:border-white active:border-white overflow-hidden ${isDefaultWhite ? 'bg-white text-black border-white' : 'bg-zinc-50 border-zinc-700'}`}>
+                  <div className={`w-16 h-16 rounded-2xl border-2 transition-all hover:border-white active:border-white overflow-hidden ${isDefaultWhite ? 'bg-white text-black border-white' : 'bg-zinc-50 border-zinc-400'}`}>
                     <div className="w-full h-full flex items-center justify-center">
                       {isDefaultWhite ? <Zap className="w-8 h-8" /> : <img src={activity.userAvatar} className="w-full h-full object-cover" alt="" />}
                     </div>
@@ -175,7 +175,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                     )}
                   </div>
                   <div className="flex flex-col gap-1 mt-1">
-                    <p className="text-[11px] text-zinc-100 uppercase font-black tracking-widest flex items-center gap-2">
+                    <p className="text-[11px] text-zinc-900 uppercase font-black tracking-widest flex items-center gap-2">
                       <MapPin className="w-4 h-4" /> {activity.locationName}
                     </p>
                     <p className="text-[10px] text-zinc-200 uppercase font-black tracking-[0.25em]">
@@ -193,7 +193,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                 </div>
                 <button
                   onClick={onClose}
-                  className="text-zinc-100 hover:text-black active:text-black transition-colors border-2 border-zinc-300 hover:border-white active:border-white rounded-xl p-2"
+                  className="text-zinc-900 hover:text-black active:text-black transition-colors border-2 border-zinc-300 hover:border-white active:border-white rounded-xl p-2"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -203,7 +203,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
             {/* Image */}
             {activity.imageUrl && (
               <div className="mb-8">
-                <div className="w-full aspect-[16/9] rounded-[2.5rem] overflow-hidden border-2 border-zinc-700 shadow-inner shadow-black/5">
+                <div className="w-full aspect-[16/9] rounded-[2.5rem] overflow-hidden border-2 border-zinc-400 shadow-inner shadow-black/5">
                   <img src={activity.imageUrl} className="w-full h-full object-cover" alt="Brew session" />
                 </div>
               </div>
@@ -223,7 +223,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                      activity.roaster !== 'CAFE' && (
                       <button
                         onClick={handleRoasterClick}
-                        className="text-black text-[13px] font-black uppercase tracking-[0.3em] border-2 border-zinc-300 px-3 py-1 rounded-lg hover:bg-zinc-800 transition-colors cursor-pointer"
+                        className="text-black text-[13px] font-black uppercase tracking-[0.3em] border-2 border-zinc-300 px-3 py-1 rounded-lg hover:bg-zinc-50 transition-colors cursor-pointer"
                       >
                         {activity.roaster}
                       </button>
@@ -247,7 +247,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                     <button
                       onClick={handleRoasterClick}
-                      className="text-black text-[13px] font-black uppercase tracking-[0.3em] border-2 border-zinc-300 px-3 py-1 rounded-lg hover:bg-zinc-800 transition-colors cursor-pointer"
+                      className="text-black text-[13px] font-black uppercase tracking-[0.3em] border-2 border-zinc-300 px-3 py-1 rounded-lg hover:bg-zinc-50 transition-colors cursor-pointer"
                     >
                       {activity.roaster}
                     </button>
@@ -295,13 +295,13 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
             {activity.eyPercentage ? (
               <div className="mb-8 flex flex-wrap gap-4">
                 {activity.tds ? (
-                  <div className="bg-zinc-800 px-4 py-2 rounded-xl">
-                    <p className="text-[8px] font-black text-zinc-100 uppercase tracking-widest mb-1">TDS</p>
+                  <div className="bg-zinc-50 px-4 py-2 rounded-xl">
+                    <p className="text-[8px] font-black text-zinc-900 uppercase tracking-widest mb-1">TDS</p>
                     <p className="text-xs font-black text-black">{activity.tds}</p>
                   </div>
                 ) : null}
                 <div className="bg-white text-black px-4 py-2 rounded-xl">
-                  <p className="text-[8px] font-black text-zinc-100 uppercase tracking-widest mb-1">EXT YIELD</p>
+                  <p className="text-[8px] font-black text-zinc-900 uppercase tracking-widest mb-1">EXT YIELD</p>
                   <p className="text-xs font-black">{activity.eyPercentage}%</p>
                 </div>
               </div>
@@ -315,19 +315,19 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
               <button
                 onClick={handleLike}
                 disabled={isMe}
-                className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all ${isMe ? 'text-zinc-700 border-zinc-300 cursor-not-allowed' : (hasLiked ? 'text-black border-white bg-white/10' : 'text-zinc-100 border-zinc-300 hover:text-black active:text-black hover:border-zinc-600')}`}
+                className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all ${isMe ? 'text-zinc-700 border-zinc-300 cursor-not-allowed' : (hasLiked ? 'text-black border-white bg-white/10' : 'text-zinc-900 border-zinc-300 hover:text-black active:text-black hover:border-zinc-600')}`}
               >
                 <Heart className={`w-5 h-5 transition-transform ${hasLiked ? 'fill-white scale-110' : ''}`} />
                 <span className="text-[11px] font-black uppercase tracking-widest">{likes}</span>
               </button>
               <button
                 onClick={() => setShowComments(!showComments)}
-                className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all ${showComments ? 'text-black border-white bg-white/10' : 'text-zinc-100 border-zinc-300 hover:text-black active:text-black hover:border-zinc-600'}`}
+                className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all ${showComments ? 'text-black border-white bg-white/10' : 'text-zinc-900 border-zinc-300 hover:text-black active:text-black hover:border-zinc-600'}`}
               >
                 <MessageCircle className="w-5 h-5" />
                 <span className="text-[11px] font-black uppercase tracking-widest">{activity.comments.length}</span>
               </button>
-              <button className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-100 border-zinc-300 hover:text-black active:text-black hover:border-zinc-600 transition-all ml-auto">
+              <button className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-900 border-zinc-300 hover:text-black active:text-black hover:border-zinc-600 transition-all ml-auto">
                 <Share2 className="w-5 h-5" />
                 <span className="text-[11px] font-black uppercase tracking-widest hidden sm:inline">SHARE</span>
               </button>
@@ -337,7 +337,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                     onEdit(activity);
                     onClose();
                   }}
-                  className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-100 border-zinc-300 hover:text-black active:text-black hover:border-zinc-600 transition-all"
+                  className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-900 border-zinc-300 hover:text-black active:text-black hover:border-zinc-600 transition-all"
                   title="Edit this post"
                 >
                   <Edit3 className="w-5 h-5" />
@@ -347,7 +347,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
               {isMe && onDelete && (
                 <button
                   onClick={handleDelete}
-                  className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-100 border-zinc-300 hover:text-red-500 hover:border-red-900 transition-all"
+                  className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-900 border-zinc-300 hover:text-red-500 hover:border-red-900 transition-all"
                   title="Delete this post"
                 >
                   <Trash2 className="w-5 h-5" />
@@ -389,7 +389,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                   <button
                     type="submit"
                     disabled={!commentText.trim() || submittingComment}
-                    className="bg-white text-black px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all active:scale-95 disabled:bg-zinc-800 disabled:text-zinc-700 flex items-center gap-2"
+                    className="bg-white text-black px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all active:scale-95 disabled:bg-zinc-50 disabled:text-zinc-700 flex items-center gap-2"
                   >
                     <Send className="w-4 h-4" />
                   </button>

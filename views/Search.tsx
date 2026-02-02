@@ -207,7 +207,7 @@ const ExploreView: React.FC = () => {
               <Link
                 key={person.id}
                 to={`/profile/${person.username}`}
-                className="bg-white border-2 border-zinc-300 p-8 rounded-[2.5rem] hover:border-zinc-600 hover:bg-zinc-800 active:bg-zinc-700/50 transition-all flex items-center gap-6 group shadow-lg shadow-black/5"
+                className="bg-white border-2 border-zinc-300 p-8 rounded-[2.5rem] hover:border-zinc-600 hover:bg-zinc-50 active:bg-zinc-700/50 transition-all flex items-center gap-6 group shadow-lg shadow-black/5"
               >
                 <div className="w-16 h-16 rounded-2xl border-2 border-white group-hover:border-white active:border-white flex items-center justify-center overflow-hidden transition-all bg-white text-black shadow-lg">
                   {person.avatar_url ? (
@@ -220,7 +220,7 @@ const ExploreView: React.FC = () => {
                   <h4 className="font-black text-black text-xl tracking-tighter uppercase leading-none">
                     {person.first_name} {person.last_name}
                   </h4>
-                  <p className="text-[10px] font-black text-zinc-100 uppercase tracking-widest mt-2">
+                  <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest mt-2">
                     @{person.username} • {person.city}, {person.country}
                   </p>
                 </div>
@@ -239,7 +239,7 @@ const ExploreView: React.FC = () => {
               <Link
                 key={cafe.id}
                 to={`/cafe/${cafe.id}`}
-                className="bg-white border-2 border-zinc-300 p-8 rounded-[2.5rem] hover:border-zinc-600 hover:bg-zinc-800 active:bg-zinc-700/50 transition-all group shadow-lg shadow-black/5"
+                className="bg-white border-2 border-zinc-300 p-8 rounded-[2.5rem] hover:border-zinc-600 hover:bg-zinc-50 active:bg-zinc-700/50 transition-all group shadow-lg shadow-black/5"
               >
                 <div className="space-y-4">
                   <div className="flex items-start justify-between gap-3">

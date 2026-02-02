@@ -160,7 +160,7 @@ const RoasterDatabase: React.FC = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-4xl font-black tracking-tighter">ROASTER DATABASE</h1>
-          <p className="text-xs text-zinc-100 mt-2 tracking-wider">{roasters.length} ROASTERS • {roasters.reduce((sum, r) => sum + r.offerings.length, 0)} OFFERINGS</p>
+          <p className="text-xs text-zinc-900 mt-2 tracking-wider">{roasters.length} ROASTERS • {roasters.reduce((sum, r) => sum + r.offerings.length, 0)} OFFERINGS</p>
         </div>
         <button
           onClick={() => setIsAddingRoaster(true)}
@@ -322,7 +322,7 @@ const RoasterDetailModal: React.FC<{
         <div className="flex items-start justify-between">
           <div className="space-y-2">
             <h2 className="text-4xl font-black tracking-tighter text-black">{roaster.name}</h2>
-            <div className="flex items-center gap-4 text-sm text-zinc-100">
+            <div className="flex items-center gap-4 text-sm text-zinc-900">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
                 <span>{roaster.city}, {roaster.country}</span>
@@ -348,7 +348,7 @@ const RoasterDetailModal: React.FC<{
           </div>
           <button
             onClick={onClose}
-            className="text-zinc-100 hover:text-black active:text-black transition-colors border-2 border-zinc-300 hover:border-white rounded-xl p-2"
+            className="text-zinc-900 hover:text-black active:text-black transition-colors border-2 border-zinc-300 hover:border-white rounded-xl p-2"
           >
             <X className="w-6 h-6" />
           </button>
@@ -379,7 +379,7 @@ const RoasterDetailModal: React.FC<{
                   <div>
                     <h4 className="text-lg font-black tracking-tighter">{offering.name}</h4>
                     {offering.lot && (
-                      <p className="text-xs text-zinc-100 mt-1">LOT: {offering.lot}</p>
+                      <p className="text-xs text-zinc-900 mt-1">LOT: {offering.lot}</p>
                     )}
                   </div>
                   <div className="space-y-2 text-xs">
@@ -502,7 +502,7 @@ const AddRoasterModal: React.FC<{
           <h2 className="text-2xl font-black tracking-tighter text-black">ADD ROASTER</h2>
           <button
             onClick={onClose}
-            className="text-zinc-100 hover:text-black active:text-black transition-colors border-2 border-zinc-300 hover:border-white rounded-xl p-2"
+            className="text-zinc-900 hover:text-black active:text-black transition-colors border-2 border-zinc-300 hover:border-white rounded-xl p-2"
           >
             <X className="w-6 h-6" />
           </button>
@@ -632,11 +632,11 @@ const AddOfferingModal: React.FC<{
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-black tracking-tighter text-black">ADD OFFERING</h2>
-            <p className="text-xs text-zinc-100 mt-1">{roaster.name}</p>
+            <p className="text-xs text-zinc-900 mt-1">{roaster.name}</p>
           </div>
           <button
             onClick={onClose}
-            className="text-zinc-100 hover:text-black active:text-black transition-colors border-2 border-zinc-300 hover:border-white rounded-xl p-2"
+            className="text-zinc-900 hover:text-black active:text-black transition-colors border-2 border-zinc-300 hover:border-white rounded-xl p-2"
           >
             <X className="w-6 h-6" />
           </button>
