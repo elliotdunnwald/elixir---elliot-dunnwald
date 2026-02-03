@@ -217,7 +217,7 @@ const CoffeeShopView: React.FC = () => {
     <>
       {/* Main view with 2 placards */}
       {activeView === 'main' && (
-        <div className="max-w-7xl mx-auto space-y-8">
+        <div className="max-w-7xl mx-auto space-y-8 pb-28 sm:pb-0">
           {/* Header */}
           <div>
             <h1 className="text-5xl font-black tracking-tighter uppercase">MARKETPLACE</h1>
@@ -263,7 +263,7 @@ const CoffeeShopView: React.FC = () => {
 
       {/* Roasters view */}
       {activeView === 'roasters' && (
-        <div className="max-w-7xl mx-auto space-y-8">
+        <div className="max-w-7xl mx-auto space-y-8 pb-28 sm:pb-0">
         {/* Header with back button */}
         <div className="flex items-center gap-4">
           <button
@@ -382,7 +382,7 @@ const CoffeeShopView: React.FC = () => {
 
       {/* Equipment view */}
       {activeView === 'equipment' && (
-        <div className="max-w-7xl mx-auto space-y-8">
+        <div className="max-w-7xl mx-auto space-y-8 pb-28 sm:pb-0">
         {/* Header with back button */}
         <div className="flex items-center gap-4">
           <button

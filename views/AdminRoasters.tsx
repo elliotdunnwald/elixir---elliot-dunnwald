@@ -88,7 +88,7 @@ const AdminRoasters: React.FC = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8">
+    <div className="max-w-7xl mx-auto space-y-8 pb-28 sm:pb-0">
       <button
         onClick={() => navigate('/profile/me')}
         className="flex items-center gap-2 text-black hover:text-black transition-colors mb-4"

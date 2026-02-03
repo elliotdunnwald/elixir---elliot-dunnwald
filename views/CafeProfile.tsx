@@ -65,7 +65,7 @@ const CafeProfile: React.FC = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-12 pb-24">
+    <div className="max-w-4xl mx-auto space-y-12 pb-28 sm:pb-0">
       <button
         onClick={() => navigate('/explore')}
         className="flex items-center gap-2 text-black hover:text-black transition-colors"
