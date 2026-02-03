@@ -16,7 +16,7 @@ const AdminRoasters: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center py-32 border-4 border-dashed border-red-900 rounded-[3.5rem]">
           <h1 className="text-5xl font-black text-black uppercase tracking-tighter mb-4">ACCESS DENIED</h1>
-          <p className="text-zinc-600 text-sm font-black uppercase tracking-wider">
+          <p className="text-black text-sm font-black uppercase tracking-wider">
             You must be an admin to access this page
           </p>
         </div>
@@ -91,7 +91,7 @@ const AdminRoasters: React.FC = () => {
     <div className="max-w-7xl mx-auto space-y-8">
       <button
         onClick={() => navigate('/profile/me')}
-        className="flex items-center gap-2 text-zinc-600 hover:text-black transition-colors mb-4"
+        className="flex items-center gap-2 text-black hover:text-black transition-colors mb-4"
       >
         <ArrowLeft className="w-5 h-5" />
         <span className="text-sm font-black uppercase tracking-wider">Back to Profile</span>
@@ -132,7 +132,7 @@ const AdminRoasters: React.FC = () => {
 
                 {/* Location Info */}
                 {(roaster.city || roaster.country) && (
-                  <div className="flex items-center gap-2 mt-2 text-xs text-zinc-300">
+                  <div className="flex items-center gap-2 mt-2 text-xs text-black">
                     <MapPin className="w-3 h-3" />
                     <span className="font-black uppercase">
                       {roaster.city && roaster.country ? `${roaster.city}, ${roaster.state ? roaster.state + ', ' : ''}${roaster.country}` : roaster.city || roaster.country || 'Location not provided'}
@@ -142,7 +142,7 @@ const AdminRoasters: React.FC = () => {
 
                 {/* Website */}
                 {roaster.website && (
-                  <div className="flex items-center gap-2 mt-2 text-xs text-zinc-300">
+                  <div className="flex items-center gap-2 mt-2 text-xs text-black">
                     <Globe className="w-3 h-3" />
                     <a
                       href={roaster.website}
@@ -157,11 +157,11 @@ const AdminRoasters: React.FC = () => {
 
                 {/* Stats */}
                 <div className="flex items-center gap-4 mt-3">
-                  <div className="flex items-center gap-2 text-xs text-zinc-700">
+                  <div className="flex items-center gap-2 text-xs text-black">
                     <TrendingUp className="w-4 h-4" />
                     <span className="font-black uppercase">{roaster.submission_count} BREWS</span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-zinc-700">
+                  <div className="flex items-center gap-2 text-xs text-black">
                     <Users className="w-4 h-4" />
                     <span className="font-black uppercase">{roaster.submitted_by_users.length} USERS</span>
                   </div>

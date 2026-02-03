@@ -148,7 +148,7 @@ const ExploreView: React.FC = () => {
       <div className="space-y-8">
         <div className="flex justify-between items-end">
           <h1 className="text-5xl font-black text-black tracking-tighter uppercase leading-none">EXPLORE</h1>
-          <div className="flex items-center gap-2 text-zinc-700">
+          <div className="flex items-center gap-2 text-black">
             <ShieldCheck className="w-4 h-4" />
             <span className="text-[10px] font-black uppercase tracking-widest">RLS ENABLED</span>
           </div>
@@ -179,7 +179,7 @@ const ExploreView: React.FC = () => {
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder={activeTab === 'people' ? "SEARCH THE NETWORK..." : "SEARCH CAFES OR LOCATIONS..."}
-            className="w-full bg-white border-2 border-black rounded-3xl py-7 pl-16 pr-8 text-sm font-black text-black outline-none focus:border-white transition-all uppercase placeholder:text-zinc-700"
+            className="w-full bg-white border-2 border-black rounded-3xl py-7 pl-16 pr-8 text-sm font-black text-black outline-none focus:border-white transition-all uppercase placeholder:text-black"
           />
           {loading && (
             <div className="absolute right-7 top-1/2 -translate-y-1/2">
@@ -247,7 +247,7 @@ const ExploreView: React.FC = () => {
                       <h4 className="font-black text-black text-xl tracking-tighter uppercase leading-tight">
                         {cafe.name}
                       </h4>
-                      <div className="flex items-center gap-2 text-zinc-600 mt-2">
+                      <div className="flex items-center gap-2 text-black mt-2">
                         <MapPin className="w-4 h-4" />
                         <span className="text-xs font-black uppercase tracking-wide">
                           {cafe.city}, {cafe.country}
@@ -261,7 +261,7 @@ const ExploreView: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 text-zinc-500">
+                  <div className="flex items-center gap-2 text-black">
                     <Coffee className="w-3 h-3" />
                     <span className="text-xs font-black uppercase tracking-wide">
                       {cafe.visit_count} {cafe.visit_count === 1 ? 'Visit' : 'Visits'}

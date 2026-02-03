@@ -190,7 +190,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
             </h2>
             <button
               onClick={onClose}
-              className="text-zinc-400 hover:text-black active:text-black transition-colors"
+              className="text-black hover:text-black active:text-black transition-colors"
             >
               <X className="w-6 h-6" />
             </button>
@@ -203,7 +203,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
               className={`flex-1 py-2 px-4 rounded-xl font-black text-[10px] uppercase tracking-wider transition-all ${
                 activeTab === 'all'
                   ? 'bg-white text-black'
-                  : 'bg-white text-zinc-400 hover:text-black'
+                  : 'bg-white text-black hover:text-black'
               }`}
             >
               All {notifications.filter(n => !n.read).length > 0 && (
@@ -215,7 +215,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
               className={`flex-1 py-2 px-4 rounded-xl font-black text-[10px] uppercase tracking-wider transition-all ${
                 activeTab === 'requests'
                   ? 'bg-white text-black'
-                  : 'bg-white text-zinc-400 hover:text-black'
+                  : 'bg-white text-black hover:text-black'
               }`}
             >
               Requests {followRequests.length > 0 && (
@@ -228,7 +228,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-4 space-y-2">
           {loading ? (
-            <div className="text-center text-zinc-500 text-sm uppercase tracking-wider py-10">
+            <div className="text-center text-black text-sm uppercase tracking-wider py-10">
               Loading...
             </div>
           ) : (
@@ -237,7 +237,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
               {activeTab === 'requests' && (
                 <>
                   {followRequests.length === 0 ? (
-                    <div className="text-center text-zinc-500 text-sm uppercase tracking-wider py-10">
+                    <div className="text-center text-black text-sm uppercase tracking-wider py-10">
                       No pending requests
                     </div>
                   ) : (
@@ -255,14 +255,14 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
                             />
                           ) : (
                             <div className="w-10 h-10 rounded-full bg-zinc-50 flex items-center justify-center">
-                              <UserPlus className="w-5 h-5 text-zinc-600" />
+                              <UserPlus className="w-5 h-5 text-black" />
                             </div>
                           )}
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-black text-black uppercase truncate">
                               {request.requester?.first_name} {request.requester?.last_name}
                             </p>
-                            <p className="text-[10px] font-black text-zinc-500 uppercase">
+                            <p className="text-[10px] font-black text-black uppercase">
                               Wants to follow you
                             </p>
                           </div>
@@ -276,7 +276,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
                           </button>
                           <button
                             onClick={() => handleRejectRequest(request.id)}
-                            className="flex-1 bg-zinc-50 text-zinc-400 py-2 px-4 rounded-xl font-black text-[10px] uppercase tracking-wider hover:text-black hover:bg-zinc-700 active:scale-95 transition-all"
+                            className="flex-1 bg-zinc-50 text-black py-2 px-4 rounded-xl font-black text-[10px] uppercase tracking-wider hover:text-black hover:bg-zinc-700 active:scale-95 transition-all"
                           >
                             Decline
                           </button>
@@ -291,7 +291,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
               {activeTab === 'all' && (
                 <>
                   {notifications.length === 0 ? (
-                    <div className="text-center text-zinc-500 text-sm uppercase tracking-wider py-10">
+                    <div className="text-center text-black text-sm uppercase tracking-wider py-10">
                       No notifications
                     </div>
                   ) : (
@@ -299,7 +299,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
                       {notifications.filter(n => !n.read).length > 0 && (
                         <button
                           onClick={handleMarkAllAsRead}
-                          className="w-full text-center text-[10px] font-black uppercase tracking-wider text-zinc-400 hover:text-black py-2"
+                          className="w-full text-center text-[10px] font-black uppercase tracking-wider text-black hover:text-black py-2"
                         >
                           Mark all as read
                         </button>
@@ -320,7 +320,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
                               <p className="text-sm font-black text-black">
                                 {getNotificationText(notif)}
                               </p>
-                              <p className="text-[10px] font-black text-zinc-500 uppercase mt-1">
+                              <p className="text-[10px] font-black text-black uppercase mt-1">
                                 {new Date(notif.created_at).toLocaleDateString()} at{' '}
                                 {new Date(notif.created_at).toLocaleTimeString([], {
                                   hour: '2-digit',

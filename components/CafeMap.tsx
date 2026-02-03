@@ -101,11 +101,11 @@ const CafeMap: React.FC<CafeMapProps> = ({ cafes, center, onCafeClick }) => {
     return (
       <div className="w-full h-[600px] bg-white border-2 border-black rounded-[2rem] flex items-center justify-center">
         <div className="text-center">
-          <MapPin className="w-12 h-12 text-zinc-700 mx-auto mb-4" />
-          <p className="text-zinc-600 text-sm font-black uppercase tracking-widest">
+          <MapPin className="w-12 h-12 text-black mx-auto mb-4" />
+          <p className="text-black text-sm font-black uppercase tracking-widest">
             No Cafes with Location Data
           </p>
-          <p className="text-zinc-600 text-xs font-bold uppercase tracking-wider mt-2">
+          <p className="text-black text-xs font-bold uppercase tracking-wider mt-2">
             Search for a location or add cafes with addresses
           </p>
         </div>
@@ -165,14 +165,14 @@ const CafeMap: React.FC<CafeMapProps> = ({ cafes, center, onCafeClick }) => {
                 <h3 className="text-base font-black uppercase tracking-tight mb-2">
                   {cafe.name}
                 </h3>
-                <div className="flex items-center gap-2 text-xs text-zinc-600 mb-2">
+                <div className="flex items-center gap-2 text-xs text-black mb-2">
                   <MapPin className="w-3 h-3" />
                   <span className="font-bold uppercase tracking-wide">
                     {cafe.city}, {cafe.country}
                   </span>
                 </div>
                 {cafe.address && (
-                  <p className="text-xs text-zinc-500 mb-2">
+                  <p className="text-xs text-black mb-2">
                     {cafe.address}
                   </p>
                 )}
@@ -182,7 +182,7 @@ const CafeMap: React.FC<CafeMapProps> = ({ cafes, center, onCafeClick }) => {
                     <span className="font-bold">{cafe.average_rating.toFixed(1)}</span>
                   </div>
                 )}
-                <div className="flex items-center gap-2 text-xs text-zinc-600 mb-3">
+                <div className="flex items-center gap-2 text-xs text-black mb-3">
                   <Coffee className="w-3 h-3" />
                   <span className="font-bold">{cafe.visit_count} visits</span>
                 </div>

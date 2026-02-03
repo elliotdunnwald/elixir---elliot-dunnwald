@@ -55,7 +55,7 @@ const CafeProfile: React.FC = () => {
           <h1 className="text-5xl font-black text-black uppercase tracking-tighter mb-4">CAFE NOT FOUND</h1>
           <button
             onClick={() => navigate('/explore')}
-            className="mt-8 bg-white text-black px-8 py-4 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-200 transition-all"
+            className="mt-8 bg-white text-black px-8 py-4 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-200 transition-all border-2 border-black"
           >
             Back to Explore
           </button>
@@ -68,7 +68,7 @@ const CafeProfile: React.FC = () => {
     <div className="max-w-4xl mx-auto space-y-12 pb-24">
       <button
         onClick={() => navigate('/explore')}
-        className="flex items-center gap-2 text-zinc-600 hover:text-black transition-colors"
+        className="flex items-center gap-2 text-black hover:text-black transition-colors"
       >
         <ArrowLeft className="w-5 h-5" />
         <span className="text-sm font-black uppercase tracking-wider">Back to Explore</span>
@@ -81,42 +81,42 @@ const CafeProfile: React.FC = () => {
             <h1 className="text-5xl font-black text-black uppercase tracking-tighter leading-tight mb-4">
               {cafe.name}
             </h1>
-            <div className="flex items-center gap-3 text-zinc-300">
+            <div className="flex items-center gap-3 text-black">
               <MapPin className="w-5 h-5" />
               <span className="text-lg font-black uppercase tracking-wide">
                 {cafe.city}, {cafe.country}
               </span>
             </div>
             {cafe.address && (
-              <p className="text-sm font-black text-zinc-500 uppercase tracking-wide mt-2">
+              <p className="text-sm font-black text-black uppercase tracking-wide mt-2">
                 {cafe.address}
               </p>
             )}
           </div>
 
-          <div className="bg-white text-black px-8 py-6 rounded-2xl text-center min-w-[120px]">
+          <div className="bg-white text-black px-8 py-6 rounded-2xl text-center min-w-[120px] border-2 border-black">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Star className="w-6 h-6 fill-current" />
             </div>
             <p className="text-4xl font-black">
               {cafe.average_rating > 0 ? cafe.average_rating.toFixed(1) : 'N/A'}
             </p>
-            <p className="text-[10px] font-black uppercase tracking-widest mt-1 opacity-60">
+            <p className="text-[10px] font-black uppercase tracking-widest mt-1 text-black">
               Average
             </p>
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4 pt-6 border-t-2 border-black">
-          <div className="bg-zinc-50 p-6 rounded-xl">
-            <div className="flex items-center gap-2 text-zinc-600 mb-2">
+          <div className="bg-zinc-50 p-6 rounded-xl border-2 border-black">
+            <div className="flex items-center gap-2 text-black mb-2">
               <Coffee className="w-4 h-4" />
               <span className="text-[10px] font-black uppercase tracking-widest">Total Visits</span>
             </div>
             <p className="text-3xl font-black text-black">{cafe.visit_count}</p>
           </div>
-          <div className="bg-zinc-50 p-6 rounded-xl">
-            <div className="flex items-center gap-2 text-zinc-600 mb-2">
+          <div className="bg-zinc-50 p-6 rounded-xl border-2 border-black">
+            <div className="flex items-center gap-2 text-black mb-2">
               <Star className="w-4 h-4" />
               <span className="text-[10px] font-black uppercase tracking-widest">Reviews</span>
             </div>
@@ -133,8 +133,8 @@ const CafeProfile: React.FC = () => {
 
         {visits.length === 0 ? (
           <div className="py-24 text-center border-2 border-dashed border-black rounded-[3rem]">
-            <Coffee className="w-12 h-12 text-zinc-700 mx-auto mb-4" />
-            <p className="text-zinc-600 font-black uppercase text-sm tracking-widest">
+            <Coffee className="w-12 h-12 text-black mx-auto mb-4" />
+            <p className="text-black font-black uppercase text-sm tracking-widest">
               No visits yet
             </p>
           </div>

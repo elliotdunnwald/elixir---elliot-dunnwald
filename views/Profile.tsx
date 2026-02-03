@@ -93,9 +93,9 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({ isOpen, imageSrc, onCom
             <div className="flex items-center justify-between">
               <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">ZOOM</label>
               <div className="flex items-center gap-2">
-                <ZoomOut className="w-4 h-4 text-zinc-700" />
+                <ZoomOut className="w-4 h-4 text-black" />
                 <span className="text-xs font-black text-black">{Math.round(zoom * 100)}%</span>
-                <ZoomIn className="w-4 h-4 text-zinc-700" />
+                <ZoomIn className="w-4 h-4 text-black" />
               </div>
             </div>
             <input
@@ -112,14 +112,14 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({ isOpen, imageSrc, onCom
           <div className="flex gap-3">
             <button
               onClick={onCancel}
-              className="flex-1 bg-zinc-50 text-zinc-600 py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all hover:text-black"
+              className="flex-1 bg-zinc-50 text-black py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all hover:text-black"
             >
               CANCEL
             </button>
             <button
               onClick={handleComplete}
               disabled={processing}
-              className="flex-1 bg-white text-black py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
+              className="flex-1 bg-white text-black py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2 border-2 border-black"
             >
               {processing ? (
                 <>
@@ -277,7 +277,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
       <div className="relative bg-white w-full max-w-2xl h-full sm:h-auto sm:rounded-[3.5rem] shadow-2xl shadow-black/5 border-2 border-black overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95">
         <div className="px-8 py-6 border-b-2 border-black flex justify-between items-center bg-white">
           <h2 className="text-xl font-black text-black tracking-tighter uppercase">EDIT PROFILE</h2>
-          <button onClick={onClose} className="text-zinc-600 hover:text-black transition-all"><X className="w-6 h-6" /></button>
+          <button onClick={onClose} className="text-black hover:text-black transition-all"><X className="w-6 h-6" /></button>
         </div>
         <div className="overflow-y-auto px-6 sm:px-10 py-10 space-y-12 custom-scrollbar flex-1">
           <section className="flex flex-col items-center gap-6">
@@ -319,7 +319,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
                 />
                 <div className="absolute right-4 top-1/2 -translate-y-1/2">
                   {checkingUsername && (
-                    <Loader2 className="w-5 h-5 text-zinc-600 animate-spin" />
+                    <Loader2 className="w-5 h-5 text-black animate-spin" />
                   )}
                   {!checkingUsername && usernameAvailable === true && (
                     <Check className="w-5 h-5 text-green-500" />
@@ -333,9 +333,9 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
                 <p className="text-[9px] font-black text-red-500 uppercase tracking-wider px-1">Username taken</p>
               )}
               {formData.username && formData.username.length < 3 && (
-                <p className="text-[9px] font-black text-zinc-500 uppercase tracking-wider px-1">Minimum 3 characters</p>
+                <p className="text-[9px] font-black text-black uppercase tracking-wider px-1">Minimum 3 characters</p>
               )}
-              <p className="text-[9px] font-black text-zinc-500 uppercase tracking-wider px-1">Letters, numbers, _ and - only</p>
+              <p className="text-[9px] font-black text-black uppercase tracking-wider px-1">Letters, numbers, _ and - only</p>
             </div>
             <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">EMAIL</label><input type="email" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-zinc-50 border-2 border-black rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white" /></div>
             <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">PHONE</label><input type="tel" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-full bg-zinc-50 border-2 border-black rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white" placeholder="OPTIONAL" /></div>
@@ -347,14 +347,14 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
             <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">BIO</label><textarea value={formData.bio} onChange={e => setFormData({ ...formData, bio: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-black rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase min-h-[100px] resize-none" placeholder="SHARE YOUR BREW PHILOSOPHY..." /></div>
             <div className="space-y-2">
               <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">PRIVACY</label>
-              <button type="button" onClick={() => setFormData({ ...formData, isPrivate: !formData.isPrivate })} className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${formData.isPrivate ? 'bg-white border-zinc-400 text-zinc-600' : 'bg-white text-black border-black'}`}>
+              <button type="button" onClick={() => setFormData({ ...formData, isPrivate: !formData.isPrivate })} className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${formData.isPrivate ? 'bg-white border-zinc-400 text-black' : 'bg-white text-black border-black'}`}>
                 {formData.isPrivate ? <><EyeOff className="w-4 h-4" /> PRIVATE PROFILE</> : <><Eye className="w-4 h-4" /> PUBLIC PROFILE</>}
               </button>
             </div>
           </section>
         </div>
         <div className="px-6 sm:px-10 py-6 border-t-2 border-black shrink-0 bg-white">
-          <button type="button" onClick={handleSave} className="w-full bg-white text-black font-black text-sm uppercase tracking-[0.4em] py-7 rounded-[2rem] sm:rounded-[2.5rem] transition-all active:scale-[0.98] shadow-xl">SAVE CHANGES</button>
+          <button type="button" onClick={handleSave} className="w-full bg-white text-black font-black text-sm uppercase tracking-[0.4em] py-7 rounded-[2rem] sm:rounded-[2.5rem] transition-all active:scale-[0.98] shadow-xl border-2 border-black">SAVE CHANGES</button>
         </div>
       </div>
       <ImageCropModal
@@ -620,7 +620,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
       {!viewingOwnProfile && (
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-zinc-600 hover:text-black active:text-black transition-colors"
+          className="flex items-center gap-2 text-black hover:text-black active:text-black transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
           <span className="text-sm font-black uppercase tracking-wider">Back</span>
@@ -645,7 +645,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
               disabled={followLoading || hasPendingRequest}
               className={`px-4 py-2 sm:px-6 sm:py-3 rounded-xl sm:rounded-2xl font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] transition-all shadow-xl ${
                 following
-                  ? 'bg-zinc-50 text-zinc-600 border-2 border-zinc-400 hover:border-red-900 hover:text-red-400'
+                  ? 'bg-zinc-50 text-black border-2 border-zinc-400 hover:border-red-900 hover:text-red-400'
                   : hasPendingRequest
                   ? 'bg-yellow-900 text-yellow-400 border-2 border-yellow-700 cursor-not-allowed'
                   : 'bg-white text-black border-2 border-white hover:bg-zinc-100'
@@ -663,23 +663,23 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
             <div className="sm:pb-2 flex-grow text-center sm:text-left">
               <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
                 <h1 className="text-3xl sm:text-5xl font-black text-black uppercase tracking-tighter leading-tight sm:leading-none">{displayUser.name}</h1>
-                {displayUser.isPrivate && <span title="Private Profile"><Lock className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-700" /></span>}
+                {displayUser.isPrivate && <span title="Private Profile"><Lock className="w-4 h-4 sm:w-5 sm:h-5 text-black" /></span>}
               </div>
               <div className="flex items-center justify-center sm:justify-start gap-3 mt-2 sm:mt-3">
                 <p className="text-[10px] sm:text-[11px] font-black text-zinc-900 uppercase tracking-[0.3em] sm:tracking-[0.4em]">{displayUser.location}</p>
-                {displayUser.pronouns && <span className="text-[8px] sm:text-[9px] font-black text-zinc-700 border border-black px-2 py-0.5 rounded uppercase tracking-widest">{displayUser.pronouns}</span>}
+                {displayUser.pronouns && <span className="text-[8px] sm:text-[9px] font-black text-black border border-black px-2 py-0.5 rounded uppercase tracking-widest">{displayUser.pronouns}</span>}
               </div>
             </div>
           </div>
           {displayUser.bio && (
-            <p className="mb-6 sm:mb-10 text-zinc-600 font-black uppercase tracking-widest text-[10px] sm:text-xs leading-relaxed max-w-2xl border-l-4 border-black pl-4 sm:pl-6 italic mx-auto sm:mx-0">
+            <p className="mb-6 sm:mb-10 text-black font-black uppercase tracking-widest text-[10px] sm:text-xs leading-relaxed max-w-2xl border-l-4 border-black pl-4 sm:pl-6 italic mx-auto sm:mx-0">
               "{displayUser.bio}"
             </p>
           )}
           <div className="grid grid-cols-3 gap-3 sm:gap-8 py-5 sm:py-10 border-t-2 border-black">
             {[{ label: 'FOLLOWERS', val: displayUser.stats.followers }, { label: 'FOLLOWING', val: displayUser.stats.following }, { label: 'BREWS', val: displayUser.stats.brews }].map(s => (
               <div key={s.label} className="text-center">
-                <p className="text-[8px] sm:text-[10px] font-black text-zinc-700 uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-1 sm:mb-2">{s.label}</p>
+                <p className="text-[8px] sm:text-[10px] font-black text-black uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-1 sm:mb-2">{s.label}</p>
                 <p className="text-xl sm:text-3xl font-black text-black tracking-tighter">{s.val}</p>
               </div>
             ))}
@@ -693,7 +693,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
           { id: 'analytics', label: 'STATS', icon: <BarChart3 className="w-4 h-4" /> },
           ...(viewingOwnProfile && currentProfile?.is_admin ? [{ id: 'admin', label: 'ADMIN', icon: <Shield className="w-4 h-4" /> }] : [])
         ].map((tab) => (
-          <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 py-4 sm:py-5 px-1 sm:px-2 rounded-xl sm:rounded-2xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] transition-all flex items-center justify-center gap-2 sm:gap-3 ${activeTab === tab.id ? 'bg-white text-black shadow-xl' : 'text-zinc-700 hover:text-black'}`}>
+          <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 py-4 sm:py-5 px-1 sm:px-2 rounded-xl sm:rounded-2xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] transition-all flex items-center justify-center gap-2 sm:gap-3 ${activeTab === tab.id ? 'bg-white text-black shadow-xl' : 'text-black hover:text-black'}`}>
             {tab.icon} <span className="hidden xs:inline sm:inline">{tab.label}</span>
           </button>
         ))}
@@ -738,8 +738,8 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
               ))
             ) : (
               <div className="py-20 sm:py-24 text-center border-2 border-black bg-white rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6 px-6 shadow-2xl shadow-black/5">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-zinc-50 rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center"><LayoutGrid className="w-8 h-8 sm:w-10 sm:h-10 text-zinc-700" /></div>
-                <h3 className="text-zinc-600 font-black uppercase text-xs sm:text-base tracking-[0.3em] sm:tracking-[0.4em]">HISTORY EMPTY</h3>
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-zinc-50 rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center"><LayoutGrid className="w-8 h-8 sm:w-10 sm:h-10 text-black" /></div>
+                <h3 className="text-black font-black uppercase text-xs sm:text-base tracking-[0.3em] sm:tracking-[0.4em]">HISTORY EMPTY</h3>
               </div>
             )}
           </div>
@@ -758,7 +758,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                 ) : (
                   <div className="space-y-3">
                     <div className="relative">
-                      <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-700" />
+                      <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-black" />
                       <input
                         autoFocus
                         type="text"
@@ -814,7 +814,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                 {gear.map((item: any) => (
                   <div key={item.id} className="bg-white p-5 sm:p-8 rounded-2xl border-2 border-black flex items-center justify-between group hover:border-black active:border-black transition-all shadow-2xl shadow-black/5">
                     <div className="space-y-1">
-                      <p className="text-[8px] sm:text-[9px] font-black text-zinc-700 uppercase tracking-widest">DEVICE</p>
+                      <p className="text-[8px] sm:text-[9px] font-black text-black uppercase tracking-widest">DEVICE</p>
                       <p className="text-lg sm:text-xl font-black text-black uppercase tracking-tighter italic">{item.brand} {item.name}</p>
                     </div>
                     {viewingOwnProfile ? (
@@ -824,7 +824,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                         className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-zinc-50 border-2 border-black flex items-center justify-center hover:border-red-900 hover:bg-red-950 transition-all group"
                       >
                         {deletingGearId === item.id ? (
-                          <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-700 animate-spin" />
+                          <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 text-black animate-spin" />
                         ) : (
                           <Trash2 className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-800 group-hover:text-red-400 transition-colors" />
                         )}
@@ -839,8 +839,8 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
               </div>
             ) : (
               <div className="py-20 sm:py-24 text-center border-2 border-black bg-white rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6 shadow-2xl shadow-black/5">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-zinc-50 rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center"><Settings2 className="w-8 h-8 sm:w-10 sm:h-10 text-zinc-700" /></div>
-                <h3 className="text-zinc-600 font-black uppercase text-xs sm:text-base tracking-[0.4em]">LOCKER UNSET</h3>
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-zinc-50 rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center"><Settings2 className="w-8 h-8 sm:w-10 sm:h-10 text-black" /></div>
+                <h3 className="text-black font-black uppercase text-xs sm:text-base tracking-[0.4em]">LOCKER UNSET</h3>
               </div>
             )}
           </div>
@@ -848,8 +848,8 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
         {activeTab === 'analytics' && (
           <div className="animate-in fade-in duration-500">
             <div className="py-20 sm:py-24 text-center border-2 border-black bg-white rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6 shadow-2xl shadow-black/5">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-zinc-50 rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center"><BarChart3 className="w-8 h-8 sm:w-10 sm:h-10 text-zinc-700" /></div>
-              <h3 className="text-zinc-600 font-black uppercase text-xs sm:text-base tracking-[0.4em]">COMING SOON</h3>
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-zinc-50 rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center"><BarChart3 className="w-8 h-8 sm:w-10 sm:h-10 text-black" /></div>
+              <h3 className="text-black font-black uppercase text-xs sm:text-base tracking-[0.4em]">COMING SOON</h3>
             </div>
           </div>
         )}
@@ -862,9 +862,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-xl font-black text-black uppercase tracking-tighter group-hover:text-black active:text-black transition-colors">ROASTER APPROVALS</h3>
-                  <p className="text-xs text-zinc-600 uppercase tracking-wider mt-1 font-black">Review and approve roaster submissions</p>
+                  <p className="text-xs text-black uppercase tracking-wider mt-1 font-black">Review and approve roaster submissions</p>
                 </div>
-                <Shield className="w-8 h-8 text-zinc-700 group-hover:text-black active:text-black transition-colors" />
+                <Shield className="w-8 h-8 text-black group-hover:text-black active:text-black transition-colors" />
               </div>
             </Link>
             <Link
@@ -874,9 +874,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-xl font-black text-black uppercase tracking-tighter group-hover:text-black active:text-black transition-colors">EQUIPMENT APPROVALS</h3>
-                  <p className="text-xs text-zinc-600 uppercase tracking-wider mt-1 font-black">Review and approve equipment submissions</p>
+                  <p className="text-xs text-black uppercase tracking-wider mt-1 font-black">Review and approve equipment submissions</p>
                 </div>
-                <Shield className="w-8 h-8 text-zinc-700 group-hover:text-black active:text-black transition-colors" />
+                <Shield className="w-8 h-8 text-black group-hover:text-black active:text-black transition-colors" />
               </div>
             </Link>
             <Link
@@ -886,9 +886,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-xl font-black text-black uppercase tracking-tighter group-hover:text-black active:text-black transition-colors">COFFEE APPROVALS</h3>
-                  <p className="text-xs text-zinc-600 uppercase tracking-wider mt-1 font-black">Review and approve coffee submissions</p>
+                  <p className="text-xs text-black uppercase tracking-wider mt-1 font-black">Review and approve coffee submissions</p>
                 </div>
-                <Shield className="w-8 h-8 text-zinc-700 group-hover:text-black active:text-black transition-colors" />
+                <Shield className="w-8 h-8 text-black group-hover:text-black active:text-black transition-colors" />
               </div>
             </Link>
             <Link
@@ -898,9 +898,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-xl font-black text-black uppercase tracking-tighter group-hover:text-black active:text-black transition-colors">CAFE APPROVALS</h3>
-                  <p className="text-xs text-zinc-600 uppercase tracking-wider mt-1 font-black">Review and approve cafe submissions</p>
+                  <p className="text-xs text-black uppercase tracking-wider mt-1 font-black">Review and approve cafe submissions</p>
                 </div>
-                <Shield className="w-8 h-8 text-zinc-700 group-hover:text-black active:text-black transition-colors" />
+                <Shield className="w-8 h-8 text-black group-hover:text-black active:text-black transition-colors" />
               </div>
             </Link>
           </div>

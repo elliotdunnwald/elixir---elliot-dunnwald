@@ -17,7 +17,7 @@ const AdminCoffees: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center py-32 border-4 border-dashed border-red-900 rounded-[3.5rem]">
           <h1 className="text-5xl font-black text-black uppercase tracking-tighter mb-4">ACCESS DENIED</h1>
-          <p className="text-zinc-600 text-sm font-black uppercase tracking-wider">
+          <p className="text-black text-sm font-black uppercase tracking-wider">
             You must be an admin to access this page
           </p>
         </div>
@@ -107,7 +107,7 @@ const AdminCoffees: React.FC = () => {
     <div className="max-w-7xl mx-auto space-y-8">
       <button
         onClick={() => navigate('/profile/me')}
-        className="flex items-center gap-2 text-zinc-600 hover:text-black transition-colors mb-4"
+        className="flex items-center gap-2 text-black hover:text-black transition-colors mb-4"
       >
         <ArrowLeft className="w-5 h-5" />
         <span className="text-sm font-black uppercase tracking-wider">Back to Profile</span>
@@ -151,8 +151,8 @@ const AdminCoffees: React.FC = () => {
             >
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <Coffee className="w-4 h-4 text-zinc-600" />
-                  <span className="text-[10px] font-black text-zinc-600 uppercase tracking-widest">
+                  <Coffee className="w-4 h-4 text-black" />
+                  <span className="text-[10px] font-black text-black uppercase tracking-widest">
                     {coffee.roaster_name}
                   </span>
                 </div>
@@ -161,7 +161,7 @@ const AdminCoffees: React.FC = () => {
                 </h3>
 
                 {/* Origin */}
-                <div className="flex items-center gap-2 mt-2 text-xs text-zinc-300">
+                <div className="flex items-center gap-2 mt-2 text-xs text-black">
                   <MapPin className="w-3 h-3" />
                   <span className="font-black uppercase">{coffee.origin}</span>
                 </div>
@@ -169,22 +169,22 @@ const AdminCoffees: React.FC = () => {
                 {/* Details */}
                 <div className="space-y-1 mt-3">
                   {coffee.estate && (
-                    <p className="text-[10px] text-zinc-600 font-black uppercase tracking-widest">
+                    <p className="text-[10px] text-black font-black uppercase tracking-widest">
                       ESTATE: {coffee.estate}
                     </p>
                   )}
                   {coffee.lot && (
-                    <p className="text-[10px] text-zinc-600 font-black uppercase tracking-widest">
+                    <p className="text-[10px] text-black font-black uppercase tracking-widest">
                       LOT: {coffee.lot}
                     </p>
                   )}
                   {coffee.varietal && (
-                    <p className="text-[10px] text-zinc-600 font-black uppercase tracking-widest">
+                    <p className="text-[10px] text-black font-black uppercase tracking-widest">
                       VARIETAL: {coffee.varietal}
                     </p>
                   )}
                   {coffee.process && (
-                    <p className="text-[10px] text-zinc-600 font-black uppercase tracking-widest">
+                    <p className="text-[10px] text-black font-black uppercase tracking-widest">
                       PROCESS: {coffee.process}
                     </p>
                   )}
@@ -192,11 +192,11 @@ const AdminCoffees: React.FC = () => {
 
                 {/* Stats */}
                 <div className="flex items-center gap-4 mt-3">
-                  <div className="flex items-center gap-2 text-xs text-zinc-700">
+                  <div className="flex items-center gap-2 text-xs text-black">
                     <TrendingUp className="w-4 h-4" />
                     <span className="font-black uppercase">{coffee.submission_count} BREWS</span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-zinc-700">
+                  <div className="flex items-center gap-2 text-xs text-black">
                     <Users className="w-4 h-4" />
                     <span className="font-black uppercase">{coffee.submitted_by_users.length} USERS</span>
                   </div>

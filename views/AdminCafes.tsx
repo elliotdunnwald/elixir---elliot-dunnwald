@@ -17,7 +17,7 @@ const AdminCafes: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center py-32 border-4 border-dashed border-red-900 rounded-[3.5rem]">
           <h1 className="text-5xl font-black text-black uppercase tracking-tighter mb-4">ACCESS DENIED</h1>
-          <p className="text-zinc-600 text-sm font-black uppercase tracking-wider">
+          <p className="text-black text-sm font-black uppercase tracking-wider">
             You must be an admin to access this page
           </p>
         </div>
@@ -150,7 +150,7 @@ const AdminCafes: React.FC = () => {
     <div className="max-w-7xl mx-auto space-y-8">
       <button
         onClick={() => navigate('/profile/me')}
-        className="flex items-center gap-2 text-zinc-600 hover:text-black transition-colors mb-4"
+        className="flex items-center gap-2 text-black hover:text-black transition-colors mb-4"
       >
         <ArrowLeft className="w-5 h-5" />
         <span className="text-sm font-black uppercase tracking-wider">Back to Profile</span>
@@ -159,7 +159,7 @@ const AdminCafes: React.FC = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-5xl font-black text-black uppercase tracking-tighter mb-2">CAFE APPROVALS</h1>
-          <p className="text-zinc-600 text-sm font-black uppercase tracking-wider">
+          <p className="text-black text-sm font-black uppercase tracking-wider">
             Review and approve user-submitted cafes
           </p>
         </div>
@@ -177,7 +177,7 @@ const AdminCafes: React.FC = () => {
           </button>
           <div className="text-right">
             <p className="text-5xl font-black text-black">{pendingCafes.length}</p>
-            <p className="text-[10px] font-black text-zinc-600 uppercase tracking-widest">Pending</p>
+            <p className="text-[10px] font-black text-black uppercase tracking-widest">Pending</p>
           </div>
         </div>
       </div>
@@ -190,7 +190,7 @@ const AdminCafes: React.FC = () => {
           <h3 className="text-4xl font-black text-black uppercase tracking-tighter mb-4">
             No Pending Cafes
           </h3>
-          <p className="text-zinc-600 text-sm font-black uppercase tracking-wider">
+          <p className="text-black text-sm font-black uppercase tracking-wider">
             All cafe submissions have been reviewed
           </p>
         </div>
@@ -209,12 +209,12 @@ const AdminCafes: React.FC = () => {
                     </h3>
                   </div>
                   <div className="flex items-center gap-2 bg-zinc-50 px-3 py-1 rounded-lg">
-                    <Users className="w-3 h-3 text-zinc-600" />
+                    <Users className="w-3 h-3 text-black" />
                     <span className="text-xs font-black text-black">{cafe.submission_count}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 text-zinc-600">
+                <div className="flex items-center gap-2 text-black">
                   <MapPin className="w-4 h-4" />
                   <span className="text-sm font-black uppercase tracking-wide">
                     {cafe.city}, {cafe.country}
@@ -222,16 +222,16 @@ const AdminCafes: React.FC = () => {
                 </div>
 
                 {cafe.address && (
-                  <p className="text-xs font-black text-zinc-500 uppercase tracking-wider">
+                  <p className="text-xs font-black text-black uppercase tracking-wider">
                     {cafe.address}
                   </p>
                 )}
 
                 <div className="pt-2 border-t-2 border-black">
-                  <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-1">
+                  <p className="text-[10px] font-black text-black uppercase tracking-widest mb-1">
                     Submitted By
                   </p>
-                  <div className="flex items-center gap-2 text-zinc-600">
+                  <div className="flex items-center gap-2 text-black">
                     <Users className="w-3 h-3" />
                     <span className="text-xs font-black uppercase">
                       {cafe.submitted_by_users.length} {cafe.submitted_by_users.length === 1 ? 'User' : 'Users'}
@@ -250,7 +250,7 @@ const AdminCafes: React.FC = () => {
                 </button>
                 <button
                   onClick={() => handleReject(cafe.id)}
-                  className="bg-zinc-50 text-zinc-600 font-black text-xs uppercase tracking-wider py-3 px-4 rounded-xl hover:bg-zinc-700 hover:text-black transition-all"
+                  className="bg-zinc-50 text-black font-black text-xs uppercase tracking-wider py-3 px-4 rounded-xl hover:bg-zinc-700 hover:text-black transition-all"
                 >
                   <X className="w-4 h-4" />
                 </button>

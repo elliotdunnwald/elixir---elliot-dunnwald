@@ -229,7 +229,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                       </button>
                     )}
                     {activity.beanOrigin !== 'UNKNOWN' && (
-                      <p className="text-zinc-400 text-[13px] font-black uppercase tracking-[0.3em]">{activity.beanOrigin}</p>
+                      <p className="text-black text-[13px] font-black uppercase tracking-[0.3em]">{activity.beanOrigin}</p>
                     )}
                   </div>
                   {(activity.estate || activity.producer || activity.varietal || activity.process) && (
@@ -251,7 +251,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                     >
                       {activity.roaster}
                     </button>
-                    <p className="text-zinc-400 text-[13px] font-black uppercase tracking-[0.3em]">{activity.beanOrigin}</p>
+                    <p className="text-black text-[13px] font-black uppercase tracking-[0.3em]">{activity.beanOrigin}</p>
                   </div>
                   {(activity.estate || activity.producer || activity.varietal || activity.process) && (
                     <div className="flex flex-wrap gap-3 mt-4 max-w-full">
@@ -308,14 +308,14 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
             ) : null}
 
             {/* Description */}
-            {activity.description && <p className="text-zinc-400 text-base mb-10 font-black uppercase tracking-widest leading-relaxed border-l-4 border-black pl-6 italic">"{activity.description}"</p>}
+            {activity.description && <p className="text-black text-base mb-10 font-black uppercase tracking-widest leading-relaxed border-l-4 border-black pl-6 italic">"{activity.description}"</p>}
 
             {/* Action buttons */}
             <div className="flex items-center gap-3 pt-8 border-t-2 border-black">
               <button
                 onClick={handleLike}
                 disabled={isMe}
-                className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all ${isMe ? 'text-zinc-700 border-black cursor-not-allowed' : (hasLiked ? 'text-black border-white bg-white/10' : 'text-zinc-900 border-black hover:text-black active:text-black hover:border-zinc-600')}`}
+                className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all ${isMe ? 'text-black border-black cursor-not-allowed' : (hasLiked ? 'text-black border-white bg-white/10' : 'text-zinc-900 border-black hover:text-black active:text-black hover:border-zinc-600')}`}
               >
                 <Heart className={`w-5 h-5 transition-transform ${hasLiked ? 'fill-white scale-110' : ''}`} />
                 <span className="text-[11px] font-black uppercase tracking-widest">{likes}</span>
@@ -369,7 +369,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                             {formatTimestamp(comment.timestamp)}
                           </p>
                         </div>
-                        <p className="text-zinc-400 text-sm font-bold uppercase tracking-wide leading-relaxed">
+                        <p className="text-black text-sm font-bold uppercase tracking-wide leading-relaxed">
                           {comment.text}
                         </p>
                       </div>
@@ -384,12 +384,12 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                     onChange={e => setCommentText(e.target.value)}
                     placeholder="ADD A COMMENT..."
                     disabled={submittingComment}
-                    className="flex-grow bg-zinc-50 border-2 border-black rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase placeholder:text-zinc-700 disabled:opacity-50"
+                    className="flex-grow bg-zinc-50 border-2 border-black rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase placeholder:text-black disabled:opacity-50"
                   />
                   <button
                     type="submit"
                     disabled={!commentText.trim() || submittingComment}
-                    className="bg-white text-black px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all active:scale-95 disabled:bg-zinc-50 disabled:text-zinc-700 flex items-center gap-2"
+                    className="bg-white text-black px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all active:scale-95 disabled:bg-zinc-50 disabled:text-black flex items-center gap-2"
                   >
                     <Send className="w-4 h-4" />
                   </button>

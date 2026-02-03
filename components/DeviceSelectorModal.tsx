@@ -104,7 +104,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
           {/* User's Gear */}
           {userGear.length > 0 && (
             <div className="space-y-4">
-              <h3 className="text-[10px] font-black text-zinc-700 uppercase tracking-[0.3em]">Your Gear</h3>
+              <h3 className="text-[10px] font-black text-black uppercase tracking-[0.3em]">Your Gear</h3>
               <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-3">
                 {userGear.map(item => {
                   const deviceName = `${item.brand} ${item.name}`.trim();
@@ -130,15 +130,15 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
 
           {/* Search */}
           <div className="space-y-4">
-            <h3 className="text-[10px] font-black text-zinc-700 uppercase tracking-[0.3em]">Search All Devices</h3>
+            <h3 className="text-[10px] font-black text-black uppercase tracking-[0.3em]">Search All Devices</h3>
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-black" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 placeholder="SEARCH DEVICES..."
-                className="w-full bg-white border-2 border-black rounded-2xl pl-12 pr-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase placeholder:text-zinc-700"
+                className="w-full bg-white border-2 border-black rounded-2xl pl-12 pr-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase placeholder:text-black"
               />
             </div>
           </div>
@@ -146,11 +146,11 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
           {/* Search Results */}
           {searchQuery && (
             <div className="space-y-4">
-              <h3 className="text-[10px] font-black text-zinc-700 uppercase tracking-[0.3em]">Search Results</h3>
+              <h3 className="text-[10px] font-black text-black uppercase tracking-[0.3em]">Search Results</h3>
               {loading ? (
-                <p className="text-zinc-500 text-sm uppercase tracking-widest">Loading...</p>
+                <p className="text-black text-sm uppercase tracking-widest">Loading...</p>
               ) : filteredDevices.length === 0 ? (
-                <p className="text-zinc-500 text-sm uppercase tracking-widest">No devices found</p>
+                <p className="text-black text-sm uppercase tracking-widest">No devices found</p>
               ) : (
               <div className="grid grid-cols-1 gap-2">
                 {filteredDevices.slice(0, 50).map((device, idx) => {

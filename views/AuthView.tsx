@@ -63,7 +63,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
       <div className="max-w-md w-full space-y-8 sm:space-y-12 py-6 sm:py-10">
         <div className="text-center space-y-3 sm:space-y-4">
           <h1 className="text-4xl sm:text-5xl font-black text-black tracking-tighter uppercase leading-none">ELIXR</h1>
-          <p className="text-[10px] sm:text-[11px] font-black text-zinc-600 uppercase tracking-[0.3em]">
+          <p className="text-[10px] sm:text-[11px] font-black text-black uppercase tracking-[0.3em]">
             {isSignUp ? 'CREATE ACCOUNT' : 'SIGN IN'}
           </p>
         </div>
@@ -71,7 +71,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
         <form onSubmit={handleSubmit} className="space-y-8 sm:space-y-10">
           <div className="space-y-5 sm:space-y-6">
             <div className="relative group">
-              <Mail className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-zinc-400 group-focus-within:text-black transition-colors" />
+              <Mail className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-black group-focus-within:text-black transition-colors" />
               <input
                 type="email"
                 value={formData.email}
@@ -80,12 +80,12 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
                 disabled={loading}
                 autoCapitalize="none"
                 autoCorrect="off"
-                className="w-full bg-transparent border-b-4 border-black focus:border-black outline-none text-base sm:text-xl font-black text-black text-center uppercase tracking-tighter py-3 sm:py-4 pl-6 sm:pl-8 disabled:opacity-50 placeholder:text-zinc-400"
+                className="w-full bg-transparent border-b-4 border-black focus:border-black outline-none text-base sm:text-xl font-black text-black text-center uppercase tracking-tighter py-3 sm:py-4 pl-6 sm:pl-8 disabled:opacity-50 placeholder:text-black"
               />
             </div>
 
             <div className="relative group">
-              <Lock className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-zinc-400 group-focus-within:text-black transition-colors" />
+              <Lock className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-black group-focus-within:text-black transition-colors" />
               <input
                 type="password"
                 value={formData.password}
@@ -94,13 +94,13 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
                 disabled={loading}
                 autoCapitalize="none"
                 autoCorrect="off"
-                className="w-full bg-transparent border-b-4 border-black focus:border-black outline-none text-base sm:text-xl font-black text-black text-center uppercase tracking-tighter py-3 sm:py-4 pl-6 sm:pl-8 disabled:opacity-50 placeholder:text-zinc-400"
+                className="w-full bg-transparent border-b-4 border-black focus:border-black outline-none text-base sm:text-xl font-black text-black text-center uppercase tracking-tighter py-3 sm:py-4 pl-6 sm:pl-8 disabled:opacity-50 placeholder:text-black"
               />
             </div>
 
             {isSignUp && (
               <div className="relative group animate-in fade-in slide-in-from-bottom-4">
-                <Lock className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-zinc-400 group-focus-within:text-black transition-colors" />
+                <Lock className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-black group-focus-within:text-black transition-colors" />
                 <input
                   type="password"
                   value={formData.confirmPassword}
@@ -109,7 +109,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
                   disabled={loading}
                   autoCapitalize="none"
                   autoCorrect="off"
-                  className="w-full bg-transparent border-b-4 border-black focus:border-black outline-none text-base sm:text-xl font-black text-black text-center uppercase tracking-tighter py-3 sm:py-4 pl-6 sm:pl-8 disabled:opacity-50 placeholder:text-zinc-400"
+                  className="w-full bg-transparent border-b-4 border-black focus:border-black outline-none text-base sm:text-xl font-black text-black text-center uppercase tracking-tighter py-3 sm:py-4 pl-6 sm:pl-8 disabled:opacity-50 placeholder:text-black"
                 />
               </div>
             )}
@@ -127,7 +127,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
             <button
               type="submit"
               disabled={!isFormValid() || loading}
-              className="w-full bg-white text-black disabled:bg-white disabled:text-zinc-700 py-5 sm:py-7 rounded-2xl sm:rounded-3xl font-black text-xs sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.3em] transition-all flex items-center justify-center gap-2 sm:gap-3 active:scale-95 disabled:active:scale-100"
+              className="w-full bg-white text-black disabled:bg-white disabled:text-black py-5 sm:py-7 rounded-2xl sm:rounded-3xl font-black text-xs sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.3em] transition-all flex items-center justify-center gap-2 sm:gap-3 active:scale-95 disabled:active:scale-100"
             >
               {loading ? (
                 <>
@@ -148,7 +148,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
                 setFormData({ email: '', password: '', confirmPassword: '' });
               }}
               disabled={loading}
-              className="w-full bg-zinc-100 text-zinc-600 hover:text-black border-2 border-black py-4 sm:py-5 rounded-xl sm:rounded-2xl font-black text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] transition-all disabled:opacity-50"
+              className="w-full bg-zinc-100 text-black hover:text-black border-2 border-black py-4 sm:py-5 rounded-xl sm:rounded-2xl font-black text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] transition-all disabled:opacity-50"
             >
               {isSignUp ? 'ALREADY HAVE AN ACCOUNT? SIGN IN' : 'NEW USER? CREATE ACCOUNT'}
             </button>
@@ -156,7 +156,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthComplete }) => {
 
           {isSignUp && (
             <div className="text-center animate-in fade-in">
-              <p className="text-[9px] font-bold text-zinc-600 uppercase tracking-wider leading-relaxed">
+              <p className="text-[9px] font-bold text-black uppercase tracking-wider leading-relaxed">
                 By creating an account, you'll be able to<br />
                 share your brews and connect with coffee lovers worldwide
               </p>

@@ -178,7 +178,7 @@ const RoasterDatabase: React.FC = () => {
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="SEARCH BY ROASTER, ORIGIN, VARIETAL, PROCESS, OR ESTATE..."
-            className="w-full bg-zinc-50 border-2 border-black rounded-2xl py-4 pl-12 pr-12 text-sm font-black text-black outline-none focus:border-white uppercase placeholder:text-zinc-700"
+            className="w-full bg-zinc-50 border-2 border-black rounded-2xl py-4 pl-12 pr-12 text-sm font-black text-black outline-none focus:border-white uppercase placeholder:text-black"
           />
           {searchQuery && (
             <button
@@ -192,7 +192,7 @@ const RoasterDatabase: React.FC = () => {
 
         {/* Quick Filters */}
         <div className="flex flex-wrap gap-2">
-          <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest flex items-center px-2">
+          <span className="text-[10px] font-black text-black uppercase tracking-widest flex items-center px-2">
             Quick Search:
           </span>
           {quickFilters.map((filter) => (
@@ -214,11 +214,11 @@ const RoasterDatabase: React.FC = () => {
 
       {searchQuery && searchResults.length > 0 && (
         <div className="flex items-center gap-3 text-sm">
-          <span className="text-zinc-400 font-black uppercase tracking-wider">
+          <span className="text-black font-black uppercase tracking-wider">
             {searchResults.length} roaster{searchResults.length !== 1 ? 's' : ''} found
           </span>
-          <span className="text-zinc-600">•</span>
-          <span className="text-zinc-400 font-black uppercase tracking-wider">
+          <span className="text-black">•</span>
+          <span className="text-black font-black uppercase tracking-wider">
             {searchResults.reduce((sum, r) => sum + r.offerings.length, 0)} total offerings
           </span>
         </div>
@@ -236,12 +236,12 @@ const RoasterDatabase: React.FC = () => {
               <h3 className="text-sm font-black tracking-tight uppercase group-hover:text-black active:text-black transition-colors truncate">
                 {roaster.name}
               </h3>
-              <div className="flex items-center gap-1 text-[10px] text-zinc-500">
+              <div className="flex items-center gap-1 text-[10px] text-black">
                 <MapPin className="w-2.5 h-2.5" />
                 <span className="font-bold uppercase tracking-wide whitespace-nowrap">{roaster.city}, {roaster.country}</span>
               </div>
             </div>
-            <div className="flex items-center gap-3 text-[10px] text-zinc-600 font-bold uppercase whitespace-nowrap">
+            <div className="flex items-center gap-3 text-[10px] text-black font-bold uppercase whitespace-nowrap">
               {roaster.foundedYear && (
                 <span>EST. {roaster.foundedYear}</span>
               )}
@@ -257,7 +257,7 @@ const RoasterDatabase: React.FC = () => {
       {searchResults.length === 0 && searchQuery && (
         <div className="text-center py-20 space-y-4">
           <p className="text-zinc-200 text-lg font-black uppercase tracking-wider">NO RESULTS FOUND</p>
-          <p className="text-zinc-400 text-xs font-black uppercase tracking-wider">
+          <p className="text-black text-xs font-black uppercase tracking-wider">
             Try searching for: Ethiopia, Kenya, Gesha, Natural, Washed, or a roaster name
           </p>
           <button
@@ -558,7 +558,7 @@ const AddRoasterModal: React.FC<{
         <button
           onClick={handleSubmit}
           disabled={!formData.name || !formData.city || !formData.country}
-          className="w-full bg-white text-black disabled:bg-white disabled:text-zinc-700 py-4 rounded-2xl font-black text-sm uppercase tracking-wider transition-all active:scale-95 shadow-xl"
+          className="w-full bg-white text-black disabled:bg-white disabled:text-black py-4 rounded-2xl font-black text-sm uppercase tracking-wider transition-all active:scale-95 shadow-xl"
         >
           ADD ROASTER
         </button>
@@ -763,7 +763,7 @@ const AddOfferingModal: React.FC<{
         <button
           onClick={handleSubmit}
           disabled={!formData.name || !formData.lot || !formData.origin || !formData.varietals || !formData.processing}
-          className="w-full bg-white text-black disabled:bg-white disabled:text-zinc-700 py-4 rounded-2xl font-black text-sm uppercase tracking-wider transition-all active:scale-95 shadow-xl"
+          className="w-full bg-white text-black disabled:bg-white disabled:text-black py-4 rounded-2xl font-black text-sm uppercase tracking-wider transition-all active:scale-95 shadow-xl"
         >
           ADD OFFERING
         </button>

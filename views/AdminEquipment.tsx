@@ -26,7 +26,7 @@ const AdminEquipment: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center py-32 border-4 border-dashed border-red-900 rounded-[3.5rem]">
           <h1 className="text-5xl font-black text-black uppercase tracking-tighter mb-4">ACCESS DENIED</h1>
-          <p className="text-zinc-600 text-sm font-black uppercase tracking-wider">
+          <p className="text-black text-sm font-black uppercase tracking-wider">
             You must be an admin to access this page
           </p>
         </div>
@@ -105,7 +105,7 @@ const AdminEquipment: React.FC = () => {
     <div className="max-w-7xl mx-auto space-y-8">
       <button
         onClick={() => navigate('/profile/me')}
-        className="flex items-center gap-2 text-zinc-600 hover:text-black transition-colors mb-4"
+        className="flex items-center gap-2 text-black hover:text-black transition-colors mb-4"
       >
         <ArrowLeft className="w-5 h-5" />
         <span className="text-sm font-black uppercase tracking-wider">Back to Profile</span>
@@ -141,8 +141,8 @@ const AdminEquipment: React.FC = () => {
             >
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <Package className="w-4 h-4 text-zinc-600" />
-                  <span className="text-[10px] font-black text-zinc-600 uppercase tracking-widest">
+                  <Package className="w-4 h-4 text-black" />
+                  <span className="text-[10px] font-black text-black uppercase tracking-widest">
                     {EQUIPMENT_TYPE_LABELS[equipment.equipment_type]}
                   </span>
                 </div>
@@ -150,21 +150,21 @@ const AdminEquipment: React.FC = () => {
                   {equipment.equipment_name}
                 </h3>
                 {equipment.brand && (
-                  <p className="text-sm text-zinc-300 font-black uppercase tracking-wider mt-1">
+                  <p className="text-sm text-black font-black uppercase tracking-wider mt-1">
                     {equipment.brand}
                   </p>
                 )}
                 {equipment.description && (
-                  <p className="text-xs text-zinc-600 mt-2 line-clamp-2">
+                  <p className="text-xs text-black mt-2 line-clamp-2">
                     {equipment.description}
                   </p>
                 )}
                 <div className="flex items-center gap-4 mt-3">
-                  <div className="flex items-center gap-2 text-xs text-zinc-700">
+                  <div className="flex items-center gap-2 text-xs text-black">
                     <TrendingUp className="w-4 h-4" />
                     <span className="font-black uppercase">{equipment.submission_count} SUBMISSIONS</span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-zinc-700">
+                  <div className="flex items-center gap-2 text-xs text-black">
                     <Users className="w-4 h-4" />
                     <span className="font-black uppercase">{equipment.submitted_by_users.length} USERS</span>
                   </div>
@@ -246,10 +246,10 @@ const AddEquipmentModal: React.FC<{
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-3xl font-black tracking-tighter text-black uppercase">ADD EQUIPMENT</h2>
-            <p className="text-sm text-zinc-700 mt-1 font-black uppercase tracking-wider">
+            <p className="text-sm text-black mt-1 font-black uppercase tracking-wider">
               {equipment.brand ? `${equipment.brand} ` : ''}{equipment.equipment_name}
             </p>
-            <p className="text-xs text-zinc-600 mt-1 uppercase tracking-wider">
+            <p className="text-xs text-black mt-1 uppercase tracking-wider">
               {EQUIPMENT_TYPE_LABELS[equipment.equipment_type]}
             </p>
           </div>

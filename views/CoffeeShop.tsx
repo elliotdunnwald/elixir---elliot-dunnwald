@@ -825,7 +825,7 @@ const RoasterSubmitModal: React.FC<{
           </button>
         </div>
 
-        <p className="text-sm text-zinc-300 leading-relaxed">
+        <p className="text-sm text-black leading-relaxed">
           Know a great roaster that should be in the marketplace? Submit it for review!
         </p>
 
@@ -978,7 +978,7 @@ const EquipmentSubmitModal: React.FC<{
           </button>
         </div>
 
-        <p className="text-sm text-zinc-300 leading-relaxed">
+        <p className="text-sm text-black leading-relaxed">
           Submit brewers, grinders, filters, water equipment, or accessories to help grow the marketplace!
         </p>
 
