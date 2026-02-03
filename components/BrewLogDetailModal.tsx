@@ -157,7 +157,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
               {/* User info */}
               <div className="flex gap-5 items-start">
                 <Link to={`/profile/${activity.userUsername || activity.userId}`} className="block shrink-0">
-                  <div className={`w-16 h-16 rounded-2xl border-2 transition-all hover:border-black active:border-white overflow-hidden ${isDefaultWhite ? 'bg-white text-black border-white' : 'bg-zinc-50 border-zinc-400'}`}>
+                  <div className={`w-16 h-16 rounded-2xl border-2 transition-all hover:border-black active:border-black overflow-hidden ${isDefaultWhite ? 'bg-white text-black border-black' : 'bg-zinc-50 border-black'}`}>
                     <div className="w-full h-full flex items-center justify-center">
                       {isDefaultWhite ? <Zap className="w-8 h-8" /> : <img src={activity.userAvatar} className="w-full h-full object-cover" alt="" />}
                     </div>
@@ -170,7 +170,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                     </Link>
                     {activity.isPrivate && (
                       <span title="Private">
-                        <Lock className="w-4 h-4 text-zinc-200" />
+                        <Lock className="w-4 h-4 text-black" />
                       </span>
                     )}
                   </div>
@@ -178,7 +178,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                     <p className="text-[11px] text-zinc-900 uppercase font-black tracking-widest flex items-center gap-2">
                       <MapPin className="w-4 h-4" /> {activity.locationName}
                     </p>
-                    <p className="text-[10px] text-zinc-200 uppercase font-black tracking-[0.25em]">
+                    <p className="text-[10px] text-black uppercase font-black tracking-[0.25em]">
                       {formatTimestamp(activity.timestamp)}
                     </p>
                   </div>
@@ -203,7 +203,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
             {/* Image */}
             {activity.imageUrl && (
               <div className="mb-8">
-                <div className="w-full aspect-[16/9] rounded-[2.5rem] overflow-hidden border-2 border-zinc-400 shadow-inner shadow-black/5">
+                <div className="w-full aspect-[16/9] rounded-[2.5rem] overflow-hidden border-2 border-black shadow-inner shadow-black/5">
                   <img src={activity.imageUrl} className="w-full h-full object-cover" alt="Brew session" />
                 </div>
               </div>
@@ -286,23 +286,23 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
             {activity.showParameters && (
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-8 bg-zinc-50 border-2 border-black p-8 rounded-[2.5rem]">
                 <div className="space-y-2">
-                  <p className="text-[10px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><FlaskConical className="w-4 h-4" /> RECIPE</p>
+                  <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><FlaskConical className="w-4 h-4" /> RECIPE</p>
                   <p className="text-sm font-black text-black">{activity.gramsIn}G / {activity.gramsOut}G</p>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-[10px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2">RATIO</p>
+                  <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2">RATIO</p>
                   <p className="text-sm font-black text-black">{activity.ratio}</p>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-[10px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><Zap className="w-4 h-4" /> GEAR</p>
+                  <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Zap className="w-4 h-4" /> GEAR</p>
                   <p className="text-sm font-black text-black uppercase truncate">{activity.brewer}</p>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-[10px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><Timer className="w-4 h-4" /> TIME</p>
+                  <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Timer className="w-4 h-4" /> TIME</p>
                   <p className="text-sm font-black text-black">{activity.brewTime}</p>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-[10px] font-black text-zinc-200 uppercase tracking-widest flex items-center gap-2"><Thermometer className="w-4 h-4" /> TEMP</p>
+                  <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Thermometer className="w-4 h-4" /> TEMP</p>
                   <p className="text-sm font-black text-black whitespace-nowrap">{activity.temperature}°{activity.tempUnit || 'C'}</p>
                 </div>
               </div>
@@ -382,7 +382,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                       <div key={comment.id} className="bg-zinc-50 border border-black rounded-2xl p-4 space-y-2">
                         <div className="flex items-center gap-3">
                           <p className="font-black text-black text-sm uppercase tracking-tight">{comment.userName}</p>
-                          <p className="text-[8px] font-black text-zinc-200 uppercase tracking-widest">
+                          <p className="text-[8px] font-black text-black uppercase tracking-widest">
                             {formatTimestamp(comment.timestamp)}
                           </p>
                         </div>

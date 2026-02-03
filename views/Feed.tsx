@@ -177,7 +177,7 @@ const FeedView: React.FC = () => {
             ))}
             {loading && (
               <div className="flex items-center justify-center py-8">
-                <Loader2 className="w-6 h-6 text-zinc-200 animate-spin" />
+                <Loader2 className="w-6 h-6 text-black animate-spin" />
               </div>
             )}
           </div>

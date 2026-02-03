@@ -173,7 +173,7 @@ const ExploreView: React.FC = () => {
         </div>
 
         <div className="relative group">
-          <Search className="absolute left-7 top-1/2 -translate-y-1/2 w-6 h-6 text-zinc-200 group-focus-within:text-black transition-colors" />
+          <Search className="absolute left-7 top-1/2 -translate-y-1/2 w-6 h-6 text-black transition-colors" />
           <input
             type="text"
             value={query}
@@ -183,7 +183,7 @@ const ExploreView: React.FC = () => {
           />
           {loading && (
             <div className="absolute right-7 top-1/2 -translate-y-1/2">
-              <Loader2 className="w-5 h-5 text-zinc-200 animate-spin" />
+              <Loader2 className="w-5 h-5 text-black animate-spin" />
             </div>
           )}
         </div>
@@ -228,7 +228,7 @@ const ExploreView: React.FC = () => {
             ))
           ) : (
             <div className="col-span-full py-24 text-center border-2 border-dashed border-black rounded-[3rem]">
-              <p className="text-zinc-200 font-black uppercase text-sm tracking-[0.3em]">
+              <p className="text-black font-black uppercase text-sm tracking-[0.3em]">
                 {query.trim() ? (loading ? "SEARCHING..." : "NO USERS FOUND") : "SEARCH FOR PEOPLE"}
               </p>
             </div>
@@ -272,7 +272,7 @@ const ExploreView: React.FC = () => {
             ))
           ) : (
             <div className="col-span-full py-24 text-center border-2 border-dashed border-black rounded-[3rem]">
-              <p className="text-zinc-200 font-black uppercase text-sm tracking-[0.3em]">
+              <p className="text-black font-black uppercase text-sm tracking-[0.3em]">
                 {query.trim() ? (loading ? "SEARCHING..." : "NO CAFES FOUND") : "SEARCH FOR CAFES"}
               </p>
             </div>

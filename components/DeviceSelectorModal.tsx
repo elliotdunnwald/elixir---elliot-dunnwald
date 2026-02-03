@@ -178,7 +178,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
                       {!isInGear && (
                         <button
                           onClick={() => handleAddToGear(device)}
-                          className="ml-4 p-2 rounded-lg border-2 border-zinc-400 hover:border-black active:border-black transition-all"
+                          className="ml-4 p-2 rounded-lg border-2 border-black hover:border-black active:border-black transition-all"
                           title="Add to your gear"
                         >
                           <Plus className="w-4 h-4" />

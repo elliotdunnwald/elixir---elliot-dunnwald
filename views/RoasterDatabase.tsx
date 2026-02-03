@@ -172,7 +172,7 @@ const RoasterDatabase: React.FC = () => {
 
       <div className="space-y-4">
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-200" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-black" />
           <input
             type="text"
             value={searchQuery}
@@ -183,7 +183,7 @@ const RoasterDatabase: React.FC = () => {
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-200 hover:text-black active:text-black transition-colors border-2 border-black hover:border-black rounded-lg p-1"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-black hover:text-black active:text-black transition-colors border-2 border-black hover:border-black rounded-lg p-1"
             >
               <X className="w-4 h-4" />
             </button>
@@ -202,7 +202,7 @@ const RoasterDatabase: React.FC = () => {
               className={`px-3 py-1.5 rounded-xl border-2 text-[10px] font-black uppercase tracking-wider transition-all ${
                 searchQuery.toLowerCase() === filter.label.toLowerCase()
                   ? 'bg-white text-black border-black'
-                  : 'bg-transparent border-black text-zinc-200 hover:border-black'
+                  : 'bg-transparent border-black text-black hover:border-black'
               }`}
             >
               <span className="mr-1">{filter.icon}</span>
@@ -256,7 +256,7 @@ const RoasterDatabase: React.FC = () => {
 
       {searchResults.length === 0 && searchQuery && (
         <div className="text-center py-20 space-y-4">
-          <p className="text-zinc-200 text-lg font-black uppercase tracking-wider">NO RESULTS FOUND</p>
+          <p className="text-black text-lg font-black uppercase tracking-wider">NO RESULTS FOUND</p>
           <p className="text-black text-xs font-black uppercase tracking-wider">
             Try searching for: Ethiopia, Kenya, Gesha, Natural, Washed, or a roaster name
           </p>
@@ -384,38 +384,38 @@ const RoasterDetailModal: React.FC<{
                   </div>
                   <div className="space-y-2 text-xs">
                     <div className="flex justify-between">
-                      <span className="text-zinc-200">ORIGIN:</span>
+                      <span className="text-black">ORIGIN:</span>
                       <span className="text-black font-black">{offering.origin} {offering.region && `• ${offering.region}`}</span>
                     </div>
                     {offering.producer && (
                       <div className="flex justify-between">
-                        <span className="text-zinc-200">PRODUCER:</span>
+                        <span className="text-black">PRODUCER:</span>
                         <span className="text-black font-black">{offering.producer}</span>
                       </div>
                     )}
                     {offering.estate && (
                       <div className="flex justify-between">
-                        <span className="text-zinc-200">ESTATE:</span>
+                        <span className="text-black">ESTATE:</span>
                         <span className="text-black font-black">{offering.estate}</span>
                       </div>
                     )}
                     <div className="flex justify-between">
-                      <span className="text-zinc-200">VARIETALS:</span>
+                      <span className="text-black">VARIETALS:</span>
                       <span className="text-black font-black">{offering.varietals.join(', ')}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-zinc-200">PROCESSING:</span>
+                      <span className="text-black">PROCESSING:</span>
                       <span className="text-black font-black">{offering.processing}</span>
                     </div>
                     {offering.elevation && (
                       <div className="flex justify-between">
-                        <span className="text-zinc-200">ELEVATION:</span>
+                        <span className="text-black">ELEVATION:</span>
                         <span className="text-black font-black">{offering.elevation}</span>
                       </div>
                     )}
                     {offering.tastingNotes && offering.tastingNotes.length > 0 && (
                       <div className="pt-2 border-t border-zinc-900">
-                        <span className="text-zinc-200">NOTES:</span>
+                        <span className="text-black">NOTES:</span>
                         <div className="flex flex-wrap gap-2 mt-2">
                           {offering.tastingNotes.map((note, i) => (
                             <span key={i} className="bg-white px-2 py-1 rounded text-black font-black text-[10px]">
@@ -428,7 +428,7 @@ const RoasterDetailModal: React.FC<{
                   </div>
                   {offering.price && (
                     <div className="pt-3 border-t border-zinc-900 flex justify-between items-center">
-                      <span className="text-zinc-200 text-xs">PRICE:</span>
+                      <span className="text-black text-xs">PRICE:</span>
                       <span className="text-black font-black">${offering.price} / {offering.size}</span>
                     </div>
                   )}

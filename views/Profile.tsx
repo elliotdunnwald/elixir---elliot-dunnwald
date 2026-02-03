@@ -347,7 +347,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
             <div className="space-y-2"><label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">BIO</label><textarea value={formData.bio} onChange={e => setFormData({ ...formData, bio: e.target.value.toUpperCase() })} className="w-full bg-zinc-50 border-2 border-black rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase min-h-[100px] resize-none" placeholder="SHARE YOUR BREW PHILOSOPHY..." /></div>
             <div className="space-y-2">
               <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">PRIVACY</label>
-              <button type="button" onClick={() => setFormData({ ...formData, isPrivate: !formData.isPrivate })} className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${formData.isPrivate ? 'bg-white border-zinc-400 text-black' : 'bg-white text-black border-black'}`}>
+              <button type="button" onClick={() => setFormData({ ...formData, isPrivate: !formData.isPrivate })} className={`w-full py-5 rounded-2xl border-2 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 ${formData.isPrivate ? 'bg-white border-black text-black' : 'bg-white text-black border-black'}`}>
                 {formData.isPrivate ? <><EyeOff className="w-4 h-4" /> PRIVATE PROFILE</> : <><Eye className="w-4 h-4" /> PUBLIC PROFILE</>}
               </button>
             </div>
@@ -645,7 +645,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
               disabled={followLoading || hasPendingRequest}
               className={`px-4 py-2 sm:px-6 sm:py-3 rounded-xl sm:rounded-2xl font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] transition-all shadow-xl ${
                 following
-                  ? 'bg-zinc-50 text-black border-2 border-zinc-400 hover:border-red-900 hover:text-red-400'
+                  ? 'bg-zinc-50 text-black border-2 border-black hover:border-red-900 hover:text-red-400'
                   : hasPendingRequest
                   ? 'bg-yellow-900 text-yellow-400 border-2 border-yellow-700 cursor-not-allowed'
                   : 'bg-white text-black border-2 border-black hover:bg-zinc-100'

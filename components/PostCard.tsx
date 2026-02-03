@@ -259,26 +259,26 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
           <button
             onClick={(e) => { e.stopPropagation(); handleLike(); }}
             disabled={isMe}
-            className={`flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 transition-all ${isMe ? 'text-black border-zinc-300 cursor-not-allowed' : (hasLiked ? 'text-black border-black bg-black/10' : 'text-black border-zinc-300 hover:text-black hover:border-black active:text-black active:border-black')}`}
+            className={`flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 transition-all ${isMe ? 'text-black border-black cursor-not-allowed opacity-50' : (hasLiked ? 'text-black border-black bg-black/10' : 'text-black border-black hover:border-black active:border-black')}`}
           >
             <Heart className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform ${hasLiked ? 'fill-white scale-110' : ''}`} />
             <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest">{likes}</span>
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); setShowComments(!showComments); }}
-            className={`flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 transition-all ${showComments ? 'text-black border-black bg-black/10' : 'text-black border-zinc-300 hover:text-black hover:border-black active:text-black active:border-black'}`}
+            className={`flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 transition-all ${showComments ? 'text-black border-black bg-black/10' : 'text-black border-black hover:border-black active:border-black'}`}
           >
             <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
             <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest">{activity.comments.length}</span>
           </button>
-          <button onClick={(e) => e.stopPropagation()} className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-black border-zinc-300 hover:text-black hover:border-black active:text-black active:border-black transition-all ml-auto">
+          <button onClick={(e) => e.stopPropagation()} className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-black border-black hover:border-black active:border-black transition-all ml-auto">
             <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
             <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest hidden sm:inline">SHARE</span>
           </button>
           {isMe && onEdit && (
             <button
               onClick={(e) => { e.stopPropagation(); onEdit(activity); }}
-              className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-black border-zinc-300 hover:text-black hover:border-black active:text-black active:border-black transition-all"
+              className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-black border-black hover:border-black active:border-black transition-all"
               title="Edit this post"
             >
               <Edit3 className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -288,7 +288,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
           {isMe && onDelete && (
             <button
               onClick={(e) => { e.stopPropagation(); handleDelete(); }}
-              className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-black border-zinc-300 hover:text-red-500 hover:border-red-900 active:text-red-500 active:border-red-900 transition-all"
+              className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-black border-black hover:text-red-500 hover:border-red-900 active:text-red-500 active:border-red-900 transition-all"
               title="Delete this post"
             >
               <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
