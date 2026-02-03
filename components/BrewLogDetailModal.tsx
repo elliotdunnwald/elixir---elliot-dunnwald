@@ -233,11 +233,11 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                     )}
                   </div>
                   {(activity.estate || activity.producer || activity.varietal || activity.process) && (
-                    <div className="flex flex-wrap gap-3 mt-4 max-w-full">
-                      {activity.estate && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
-                      {activity.producer && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PRODUCER: {activity.producer}</span>}
-                      {activity.varietal && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
-                      {activity.process && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
+                    <div className="flex flex-wrap gap-2 mt-2 max-w-full">
+                      {activity.estate && <span className="text-black text-[9px] font-black uppercase tracking-wider border-2 border-black px-1.5 py-0.5 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
+                      {activity.producer && <span className="text-black text-[9px] font-black uppercase tracking-wider border-2 border-black px-1.5 py-0.5 rounded-lg whitespace-nowrap">PRODUCER: {activity.producer}</span>}
+                      {activity.varietal && <span className="text-black text-[9px] font-black uppercase tracking-wider border-2 border-black px-1.5 py-0.5 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
+                      {activity.process && <span className="text-black text-[9px] font-black uppercase tracking-wider border-2 border-black px-1.5 py-0.5 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
                     </div>
                   )}
                 </>
@@ -254,11 +254,11 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                     <p className="text-black text-[13px] font-black uppercase tracking-[0.3em]">{activity.beanOrigin}</p>
                   </div>
                   {(activity.estate || activity.producer || activity.varietal || activity.process) && (
-                    <div className="flex flex-wrap gap-3 mt-4 max-w-full">
-                      {activity.estate && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
-                      {activity.producer && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PRODUCER: {activity.producer}</span>}
-                      {activity.varietal && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
-                      {activity.process && <span className="text-zinc-200 text-[10px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
+                    <div className="flex flex-wrap gap-2 mt-2 max-w-full">
+                      {activity.estate && <span className="text-black text-[9px] font-black uppercase tracking-wider border-2 border-black px-1.5 py-0.5 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
+                      {activity.producer && <span className="text-black text-[9px] font-black uppercase tracking-wider border-2 border-black px-1.5 py-0.5 rounded-lg whitespace-nowrap">PRODUCER: {activity.producer}</span>}
+                      {activity.varietal && <span className="text-black text-[9px] font-black uppercase tracking-wider border-2 border-black px-1.5 py-0.5 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
+                      {activity.process && <span className="text-black text-[9px] font-black uppercase tracking-wider border-2 border-black px-1.5 py-0.5 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
                     </div>
                   )}
                 </>
