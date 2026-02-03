@@ -2,6 +2,88 @@ import { supabase } from './supabase';
 import type { BrewActivity, User, GearItem } from '../types';
 
 // =====================================================
+// HELPER FUNCTIONS
+// =====================================================
+
+// Normalize location data to ensure consistency
+export function normalizeLocationData(city: string, country: string): { city: string; country: string } {
+  // Country name mappings to common acronyms
+  const countryMappings: Record<string, string> = {
+    'united states': 'USA',
+    'united states of america': 'USA',
+    'us': 'USA',
+    'u.s.': 'USA',
+    'u.s.a.': 'USA',
+    'america': 'USA',
+    'united kingdom': 'UK',
+    'great britain': 'UK',
+    'england': 'UK',
+    'scotland': 'UK',
+    'wales': 'UK',
+    'northern ireland': 'UK',
+    'canada': 'CANADA',
+    'australia': 'AUSTRALIA',
+    'new zealand': 'NEW ZEALAND',
+    'france': 'FRANCE',
+    'germany': 'GERMANY',
+    'italy': 'ITALY',
+    'spain': 'SPAIN',
+    'japan': 'JAPAN',
+    'china': 'CHINA',
+    'south korea': 'SOUTH KOREA',
+    'mexico': 'MEXICO',
+    'brazil': 'BRAZIL',
+    'netherlands': 'NETHERLANDS',
+    'belgium': 'BELGIUM',
+    'switzerland': 'SWITZERLAND',
+    'austria': 'AUSTRIA',
+    'sweden': 'SWEDEN',
+    'norway': 'NORWAY',
+    'denmark': 'DENMARK',
+    'finland': 'FINLAND',
+    'portugal': 'PORTUGAL',
+    'greece': 'GREECE',
+    'turkey': 'TURKEY',
+    'india': 'INDIA',
+    'thailand': 'THAILAND',
+    'vietnam': 'VIETNAM',
+    'indonesia': 'INDONESIA',
+    'philippines': 'PHILIPPINES',
+    'singapore': 'SINGAPORE',
+    'malaysia': 'MALAYSIA',
+    'hong kong': 'HONG KONG',
+    'taiwan': 'TAIWAN',
+    'ireland': 'IRELAND',
+    'poland': 'POLAND',
+    'czech republic': 'CZECH REPUBLIC',
+    'czechia': 'CZECH REPUBLIC',
+    'hungary': 'HUNGARY',
+    'romania': 'ROMANIA',
+    'russia': 'RUSSIA',
+    'south africa': 'SOUTH AFRICA',
+    'egypt': 'EGYPT',
+    'morocco': 'MOROCCO',
+    'argentina': 'ARGENTINA',
+    'chile': 'CHILE',
+    'colombia': 'COLOMBIA',
+    'peru': 'PERU',
+    'costa rica': 'COSTA RICA',
+  };
+
+  // Normalize city: uppercase and trim
+  const normalizedCity = city.trim().toUpperCase();
+
+  // Normalize country: check mappings first, then uppercase
+  const countryLower = country.trim().toLowerCase();
+  const normalizedCountry = countryMappings[countryLower] || country.trim().toUpperCase();
+
+  return {
+    city: normalizedCity,
+    country: normalizedCountry
+  };
+}
+
+// =====================================================
 // PROFILE FUNCTIONS
 // =====================================================
 
@@ -284,6 +366,17 @@ export interface DbBrewActivity {
 }
 
 export async function createActivity(profileId: string, data: Partial<DbBrewActivity>): Promise<DbBrewActivity | null> {
+  // Normalize cafe location data if this is a cafe visit
+  if (data.is_cafe_log && data.cafe_city && data.cafe_country) {
+    const normalized = normalizeLocationData(data.cafe_city, data.cafe_country);
+    data.cafe_city = normalized.city;
+    data.cafe_country = normalized.country;
+    // Also normalize cafe name (uppercase, trim)
+    if (data.cafe_name) {
+      data.cafe_name = data.cafe_name.trim().toUpperCase();
+    }
+  }
+
   const { data: activity, error } = await supabase
     .from('brew_activities')
     .insert({
@@ -577,6 +670,17 @@ export async function getActivityById(activityId: string): Promise<BrewActivity 
 
 export async function updateActivity(activityId: string, updates: Partial<DbBrewActivity>): Promise<DbBrewActivity | null> {
   console.log('updateActivity called with:', { activityId, updates });
+
+  // Normalize cafe location data if this is a cafe visit
+  if (updates.is_cafe_log && updates.cafe_city && updates.cafe_country) {
+    const normalized = normalizeLocationData(updates.cafe_city, updates.cafe_country);
+    updates.cafe_city = normalized.city;
+    updates.cafe_country = normalized.country;
+    // Also normalize cafe name (uppercase, trim)
+    if (updates.cafe_name) {
+      updates.cafe_name = updates.cafe_name.trim().toUpperCase();
+    }
+  }
 
   const { data, error } = await supabase
     .from('brew_activities')
@@ -2047,13 +2151,17 @@ export async function addApprovedCafeToDatabase(
   latitude?: number,
   longitude?: number
 ): Promise<boolean> {
+  // Normalize location data
+  const normalized = normalizeLocationData(city, country);
+  const normalizedName = name.trim().toUpperCase();
+
   // Check if cafe already exists
   const { data: existing } = await supabase
     .from('cafes')
     .select('id')
-    .eq('name', name.toUpperCase())
-    .eq('city', city.toUpperCase())
-    .eq('country', country.toUpperCase())
+    .eq('name', normalizedName)
+    .eq('city', normalized.city)
+    .eq('country', normalized.country)
     .maybeSingle();
 
   if (existing) {
@@ -2064,7 +2172,7 @@ export async function addApprovedCafeToDatabase(
       .update({
         latitude: latitude,
         longitude: longitude,
-        address: address?.toUpperCase()
+        address: address?.trim().toUpperCase()
       })
       .eq('id', existing.id);
 
@@ -2079,10 +2187,10 @@ export async function addApprovedCafeToDatabase(
   const { error } = await supabase
     .from('cafes')
     .insert({
-      name: name.toUpperCase(),
-      city: city.toUpperCase(),
-      country: country.toUpperCase(),
-      address: address?.toUpperCase(),
+      name: normalizedName,
+      city: normalized.city,
+      country: normalized.country,
+      address: address?.trim().toUpperCase(),
       latitude: latitude,
       longitude: longitude,
       average_rating: 0,
