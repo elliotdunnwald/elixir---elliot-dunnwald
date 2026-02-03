@@ -372,27 +372,34 @@ export async function recalculateAllCafeStats(): Promise<void> {
 // Helper function to update cafe statistics from logged visits
 async function updateCafeStats(cafeName: string, city: string, country: string): Promise<void> {
   try {
+    // Normalize the inputs (trim and uppercase)
+    const normalizedName = cafeName.trim().toUpperCase();
+    const normalizedCity = city.trim().toUpperCase();
+    const normalizedCountry = country.trim().toUpperCase();
+
     // Find the cafe
     const { data: cafe, error: cafeError } = await supabase
       .from('cafes')
-      .select('id')
-      .eq('name', cafeName.toUpperCase())
-      .eq('city', city.toUpperCase())
-      .eq('country', country.toUpperCase())
+      .select('id, name, city, country')
+      .eq('name', normalizedName)
+      .eq('city', normalizedCity)
+      .eq('country', normalizedCountry)
       .single();
 
     if (cafeError || !cafe) {
-      console.log('Cafe not found in cafes table:', cafeName);
+      console.log(`Cafe not found: "${normalizedName}", "${normalizedCity}", "${normalizedCountry}"`, cafeError?.message);
       return;
     }
 
-    // Get all visits to this cafe
+    console.log(`Found cafe: ${cafe.name} in ${cafe.city}, ${cafe.country}`);
+
+    // Get all visits to this cafe - match exactly on normalized uppercase values
     const { data: visits, error: visitsError } = await supabase
       .from('brew_activities')
-      .select('rating')
-      .eq('cafe_name', cafeName.toUpperCase())
-      .eq('cafe_city', city.toUpperCase())
-      .eq('cafe_country', country.toUpperCase())
+      .select('rating, cafe_name, cafe_city, cafe_country')
+      .eq('cafe_name', normalizedName)
+      .eq('cafe_city', normalizedCity)
+      .eq('cafe_country', normalizedCountry)
       .eq('is_cafe_log', true);
 
     if (visitsError) {
@@ -400,10 +407,14 @@ async function updateCafeStats(cafeName: string, city: string, country: string):
       return;
     }
 
+    console.log(`Found ${visits?.length || 0} visits for ${cafe.name}:`, visits);
+
     // Calculate stats
     const visitCount = visits?.length || 0;
     const ratingsSum = visits?.reduce((sum, v) => sum + (v.rating || 0), 0) || 0;
     const averageRating = visitCount > 0 ? Math.round((ratingsSum / visitCount) * 10) / 10 : 0;
+
+    console.log(`Stats for ${cafe.name}: ${visitCount} visits, avg rating ${averageRating}`);
 
     // Update the cafe
     const { error: updateError } = await supabase
