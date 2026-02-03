@@ -488,7 +488,7 @@ const AppContent: React.FC = () => {
           onOpenNotifications={() => setIsNotificationsOpen(true)}
           notificationCount={notificationCount}
         />
-        <main className="flex-grow max-w-6xl mx-auto w-full px-4 py-8 sm:py-12">
+        <main className="flex-grow max-w-6xl mx-auto w-full px-4 pt-24 pb-8 sm:pt-28 sm:pb-12">
           <Routes>
             <Route path="/" element={<FeedView />} />
             <Route path="/explore" element={<ExploreView />} />
