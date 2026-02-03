@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Check, X, Coffee, TrendingUp, Loader2, MapPin, Users, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { getPendingCafes, approveCafe, rejectCafe, addApprovedCafeToDatabase, type PendingCafe } from '../lib/database';
+import { getPendingCafes, approveCafe, rejectCafe, addApprovedCafeToDatabase, recalculateAllCafeStats, type PendingCafe } from '../lib/database';
 import { useAuth } from '../hooks/useAuth';
 
 const AdminCafes: React.FC = () => {
@@ -9,6 +9,7 @@ const AdminCafes: React.FC = () => {
   const navigate = useNavigate();
   const [pendingCafes, setPendingCafes] = useState<PendingCafe[]>([]);
   const [loading, setLoading] = useState(true);
+  const [recalculating, setRecalculating] = useState(false);
 
   // Admin check
   if (!profile?.is_admin) {
@@ -33,6 +34,23 @@ const AdminCafes: React.FC = () => {
     const data = await getPendingCafes();
     setPendingCafes(data);
     setLoading(false);
+  }
+
+  async function handleRecalculateStats() {
+    if (!confirm('Recalculate ratings and visit counts for all cafes? This will fix cafes showing N/A.')) {
+      return;
+    }
+
+    setRecalculating(true);
+    try {
+      await recalculateAllCafeStats();
+      alert('✅ Successfully recalculated cafe stats! All cafes should now show correct ratings.');
+    } catch (error) {
+      console.error('Error recalculating stats:', error);
+      alert('❌ Failed to recalculate stats. Check console for details.');
+    } finally {
+      setRecalculating(false);
+    }
   }
 
   async function geocodeCafe(cafe: PendingCafe): Promise<{ lat: number; lng: number } | null> {
@@ -145,9 +163,22 @@ const AdminCafes: React.FC = () => {
             Review and approve user-submitted cafes
           </p>
         </div>
-        <div className="text-right">
-          <p className="text-5xl font-black text-black">{pendingCafes.length}</p>
-          <p className="text-[10px] font-black text-zinc-600 uppercase tracking-widest">Pending</p>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={handleRecalculateStats}
+            disabled={recalculating}
+            className="px-6 py-3 bg-white text-black border-2 border-black rounded-xl text-xs font-black uppercase tracking-wider hover:bg-zinc-100 transition-all disabled:opacity-50 flex items-center gap-2"
+          >
+            {recalculating ? (
+              <><Loader2 className="w-4 h-4 animate-spin" /> Recalculating...</>
+            ) : (
+              <><TrendingUp className="w-4 h-4" /> Recalculate All Stats</>
+            )}
+          </button>
+          <div className="text-right">
+            <p className="text-5xl font-black text-black">{pendingCafes.length}</p>
+            <p className="text-[10px] font-black text-zinc-600 uppercase tracking-widest">Pending</p>
+          </div>
         </div>
       </div>
 
