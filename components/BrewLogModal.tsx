@@ -644,7 +644,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     setSelectedMilk('');
                   }}
                   disabled={uploading}
-                  className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${!formData.isCafeVisit ? 'bg-white text-black border-black' : 'bg-white text-black border-black hover:border-black'}`}
+                  className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${!formData.isCafeVisit ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-zinc-100'}`}
                 >
                   Home Brew
                 </button>
@@ -656,7 +656,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     setSelectedMilk('');
                   }}
                   disabled={uploading}
-                  className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.isCafeVisit ? 'bg-white text-black border-black' : 'bg-white text-black border-black hover:border-black'}`}
+                  className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.isCafeVisit ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-zinc-100'}`}
                 >
                   Cafe Visit
                 </button>
@@ -744,7 +744,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                   type="button"
                   onClick={() => setFormData(p => ({ ...p, showAddress: !p.showAddress }))}
                   disabled={uploading}
-                  className={`w-full px-4 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showAddress ? 'bg-white text-black border-black' : 'bg-zinc-100 border-black text-black hover:border-black hover:bg-zinc-200'}`}
+                  className={`w-full px-4 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showAddress ? 'bg-black text-white border-black' : 'bg-white border-black text-black hover:bg-zinc-100'}`}
                 >
                   {formData.showAddress ? '✓ ' : ''}Add Address (Optional)
                 </button>
@@ -984,7 +984,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                   type="button"
                   onClick={() => setFormData(p => ({ ...p, showCoffeeDetails: !p.showCoffeeDetails }))}
                   disabled={uploading}
-                  className={`w-full px-4 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showCoffeeDetails ? 'bg-white text-black border-black' : 'bg-zinc-100 border-black text-black hover:border-black hover:bg-zinc-200'}`}
+                  className={`w-full px-4 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showCoffeeDetails ? 'bg-black text-white border-black' : 'bg-white border-black text-black hover:bg-zinc-100'}`}
                 >
                   {formData.showCoffeeDetails ? '✓ ' : ''}Include Coffee Details (Optional)
                 </button>
@@ -1228,8 +1228,8 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
             <section className="space-y-6">
               <div className="flex justify-between items-center border-b-2 border-black pb-2">
                 <h3 className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Settings2 className="w-4 h-4" /> Brew Parameters</h3>
-                <div onClick={() => setFormData(p => ({...p, showParameters: !p.showParameters}))} className={`w-10 h-5 rounded-full relative cursor-pointer transition-all ${formData.showParameters ? 'bg-white' : 'bg-zinc-50'}`}>
-                  <div className={`absolute top-1 w-3 h-3 rounded-full transition-all ${formData.showParameters ? 'left-6 bg-white' : 'left-1 bg-white'}`} />
+                <div onClick={() => setFormData(p => ({...p, showParameters: !p.showParameters}))} className={`w-10 h-5 rounded-full relative cursor-pointer transition-all border-2 ${formData.showParameters ? 'bg-black border-black' : 'bg-white border-black'}`}>
+                  <div className={`absolute top-0.5 w-3 h-3 rounded-full transition-all ${formData.showParameters ? 'left-6 bg-white' : 'left-0.5 bg-black'}`} />
                 </div>
               </div>
 
@@ -1324,8 +1324,8 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           <section className="space-y-6">
             <div className="flex justify-between items-center border-b-2 border-black pb-2">
               <h3 className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Coffee className="w-4 h-4" /> Milk</h3>
-              <div onClick={() => setFormData(p => ({...p, showMilk: !p.showMilk}))} className={`w-10 h-5 rounded-full relative cursor-pointer transition-all ${formData.showMilk ? 'bg-white' : 'bg-zinc-50'}`}>
-                <div className={`absolute top-1 w-3 h-3 rounded-full transition-all ${formData.showMilk ? 'left-6 bg-white' : 'left-1 bg-white'}`} />
+              <div onClick={() => setFormData(p => ({...p, showMilk: !p.showMilk}))} className={`w-10 h-5 rounded-full relative cursor-pointer transition-all border-2 ${formData.showMilk ? 'bg-black border-black' : 'bg-white border-black'}`}>
+                <div className={`absolute top-0.5 w-3 h-3 rounded-full transition-all ${formData.showMilk ? 'left-6 bg-white' : 'left-0.5 bg-black'}`} />
               </div>
             </div>
 
@@ -1458,7 +1458,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
               type="button"
               onClick={() => setFormData(p => ({ ...p, showDescription: !p.showDescription }))}
               disabled={uploading}
-              className={`flex-1 sm:flex-none px-6 py-4 rounded-xl border-2 text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showDescription ? 'bg-white text-black border-black shadow-lg' : 'bg-zinc-100 border-black text-black hover:border-black hover:bg-zinc-200'}`}
+              className={`flex-1 sm:flex-none px-6 py-4 rounded-xl border-2 text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showDescription ? 'bg-black text-white border-black shadow-lg' : 'bg-white border-black text-black hover:bg-zinc-100'}`}
             >
               <MessageSquare className="inline w-4 h-4 mr-2" />
               {formData.showDescription ? '✓ ' : ''}Notes
@@ -1476,7 +1476,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
               type="button"
               onClick={() => setFormData(p => ({ ...p, showWhen: !p.showWhen }))}
               disabled={uploading}
-              className={`flex-1 sm:flex-none px-6 py-4 rounded-xl border-2 text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showWhen ? 'bg-white text-black border-black shadow-lg' : 'bg-zinc-100 border-black text-black hover:border-black hover:bg-zinc-200'}`}
+              className={`flex-1 sm:flex-none px-6 py-4 rounded-xl border-2 text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showWhen ? 'bg-black text-white border-black shadow-lg' : 'bg-white border-black text-black hover:bg-zinc-100'}`}
             >
               <ArrowRight className="inline w-4 h-4 mr-2" />
               {formData.showWhen ? '✓ ' : ''}When
