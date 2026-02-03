@@ -147,48 +147,70 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
 
       <div className="px-5 pb-5 sm:px-10 sm:pb-10">
         <div className="mb-6 sm:mb-8">
-          <h2 className="text-2xl sm:text-4xl font-black text-black tracking-tighter uppercase leading-none mb-3">{activity.title}</h2>
+          <h2 className="text-2xl sm:text-4xl font-black text-black tracking-tighter uppercase leading-none mb-3 sm:mb-4">{activity.title}</h2>
 
-          {activity.isCafeLog ? (
-            // Cafe Visit Display
-            <>
-              <div className="flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-2">
-                <p className="text-black text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] border-2 border-black px-2.5 py-1 sm:px-3 sm:py-1 rounded-lg">{activity.brewer}</p>
-                {activity.roaster &&
-                 activity.roaster.trim().toUpperCase() !== activity.title.trim().toUpperCase() &&
-                 activity.roaster !== 'CAFE' && (
-                  <p className="text-black text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] border-2 border-black px-2.5 py-1 sm:px-3 sm:py-1 rounded-lg">{activity.roaster}</p>
-                )}
-                {activity.beanOrigin !== 'UNKNOWN' && (
-                  <p className="text-black text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em]">{activity.beanOrigin}</p>
-                )}
-              </div>
-              {(activity.estate || activity.producer || activity.varietal || activity.process) && (
-                <div className="flex flex-wrap gap-2 sm:gap-3 mt-3 sm:mt-4 max-w-full">
-                  {activity.estate && <span className="text-black text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
-                  {activity.producer && <span className="text-black text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PRODUCER: {activity.producer}</span>}
-                  {activity.varietal && <span className="text-black text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
-                  {activity.process && <span className="text-black text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
+          {/* Coffee Details Box */}
+          <div className="bg-zinc-50 border-2 border-black rounded-xl sm:rounded-2xl p-4 sm:p-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+              {/* Brewer (Cafe logs only) */}
+              {activity.isCafeLog && (
+                <div>
+                  <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest mb-0.5 sm:mb-1">Brewer</p>
+                  <p className="text-xs sm:text-sm font-black text-black uppercase">{activity.brewer}</p>
                 </div>
               )}
-            </>
-          ) : (
-            // Home Brew Display
-            <>
-              <div className="flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-2">
-                <p className="text-black text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] border-2 border-black px-2.5 py-1 sm:px-3 sm:py-1 rounded-lg">{activity.roaster}</p>
-                <p className="text-black text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em]">{activity.beanOrigin}</p>
-              </div>
-              {(activity.estate || activity.producer || activity.varietal || activity.process) && (
-                <div className="flex flex-wrap gap-2 sm:gap-3 mt-3 sm:mt-4 max-w-full">
-                  {activity.estate && <span className="text-black text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
-                  {activity.producer && <span className="text-black text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PRODUCER: {activity.producer}</span>}
-                  {activity.varietal && <span className="text-black text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
-                  {activity.process && <span className="text-black text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
+
+              {/* Roaster */}
+              {activity.roaster &&
+               (!activity.isCafeLog ||
+                (activity.roaster.trim().toUpperCase() !== activity.title.trim().toUpperCase() && activity.roaster !== 'CAFE')) && (
+                <div>
+                  <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest mb-0.5 sm:mb-1">Roaster</p>
+                  <p className="text-xs sm:text-sm font-black text-black uppercase">{activity.roaster}</p>
                 </div>
               )}
-            </>
-          )}
+
+              {/* Origin */}
+              {activity.beanOrigin && activity.beanOrigin !== 'UNKNOWN' && (
+                <div>
+                  <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest mb-0.5 sm:mb-1">Origin</p>
+                  <p className="text-xs sm:text-sm font-black text-black uppercase">{activity.beanOrigin}</p>
+                </div>
+              )}
+
+              {/* Estate */}
+              {activity.estate && (
+                <div>
+                  <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest mb-0.5 sm:mb-1">Estate</p>
+                  <p className="text-xs sm:text-sm font-black text-black uppercase">{activity.estate}</p>
+                </div>
+              )}
+
+              {/* Producer */}
+              {activity.producer && (
+                <div>
+                  <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest mb-0.5 sm:mb-1">Producer</p>
+                  <p className="text-xs sm:text-sm font-black text-black uppercase">{activity.producer}</p>
+                </div>
+              )}
+
+              {/* Varietal */}
+              {activity.varietal && (
+                <div>
+                  <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest mb-0.5 sm:mb-1">Varietal</p>
+                  <p className="text-xs sm:text-sm font-black text-black uppercase">{activity.varietal}</p>
+                </div>
+              )}
+
+              {/* Process */}
+              {activity.process && (
+                <div>
+                  <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest mb-0.5 sm:mb-1">Process</p>
+                  <p className="text-xs sm:text-sm font-black text-black uppercase">{activity.process}</p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         {activity.showParameters && (
