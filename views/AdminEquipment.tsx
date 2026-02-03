@@ -269,7 +269,7 @@ const AddEquipmentModal: React.FC<{
             <textarea
               value={formData.description}
               onChange={e => setFormData({ ...formData, description: e.target.value })}
-              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm text-black outline-none focus:border-white resize-none h-20"
+              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm text-black outline-none focus:border-black resize-none h-20"
               placeholder="Brief description of the equipment..."
             />
           </div>
@@ -279,7 +279,7 @@ const AddEquipmentModal: React.FC<{
             placeholder="IMAGE URL"
             value={formData.imageUrl}
             onChange={e => setFormData({ ...formData, imageUrl: e.target.value })}
-            className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white"
+            className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black"
           />
 
           <div className="grid grid-cols-2 gap-4">
@@ -289,14 +289,14 @@ const AddEquipmentModal: React.FC<{
               placeholder="PRICE"
               value={formData.price}
               onChange={e => setFormData({ ...formData, price: e.target.value })}
-              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
+              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black uppercase"
             />
             <input
               type="url"
               placeholder="WEBSITE"
               value={formData.websiteUrl}
               onChange={e => setFormData({ ...formData, websiteUrl: e.target.value })}
-              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white"
+              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black"
             />
           </div>
 

@@ -261,7 +261,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
             disabled={isMe}
             className={`flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 transition-all ${isMe ? 'text-black border-black cursor-not-allowed opacity-50' : (hasLiked ? 'text-black border-black bg-black/10' : 'text-black border-black hover:border-black active:border-black')}`}
           >
-            <Heart className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform ${hasLiked ? 'fill-white scale-110' : ''}`} />
+            <Heart className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform ${hasLiked ? 'fill-black scale-110' : ''}`} />
             <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest">{likes}</span>
           </button>
           <button

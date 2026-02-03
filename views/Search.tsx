@@ -179,7 +179,7 @@ const ExploreView: React.FC = () => {
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder={activeTab === 'people' ? "SEARCH THE NETWORK..." : "SEARCH CAFES OR LOCATIONS..."}
-            className="w-full bg-white border-2 border-black rounded-3xl py-7 pl-16 pr-8 text-sm font-black text-black outline-none focus:border-white transition-all uppercase placeholder:text-black"
+            className="w-full bg-white border-2 border-black rounded-3xl py-7 pl-16 pr-8 text-sm font-black text-black outline-none focus:border-black transition-all uppercase placeholder:text-black"
           />
           {loading && (
             <div className="absolute right-7 top-1/2 -translate-y-1/2">
@@ -209,7 +209,7 @@ const ExploreView: React.FC = () => {
                 to={`/profile/${person.username}`}
                 className="bg-white border-2 border-black p-8 rounded-[2.5rem] hover:border-black hover:bg-zinc-50 active:bg-zinc-700/50 transition-all flex items-center gap-6 group shadow-lg shadow-black/5"
               >
-                <div className="w-16 h-16 rounded-2xl border-2 border-black group-hover:border-white active:border-white flex items-center justify-center overflow-hidden transition-all bg-white text-black shadow-lg">
+                <div className="w-16 h-16 rounded-2xl border-2 border-black group-hover:border-black active:border-black flex items-center justify-center overflow-hidden transition-all bg-white text-black shadow-lg">
                   {person.avatar_url ? (
                     <img src={person.avatar_url} className="w-full h-full object-cover" alt="" />
                   ) : (

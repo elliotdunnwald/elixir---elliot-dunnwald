@@ -299,7 +299,7 @@ const CoffeeShopView: React.FC = () => {
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               placeholder="SEARCH BY ROASTER, ORIGIN, VARIETAL, PROCESS, OR ESTATE..."
-              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-2xl py-4 pl-12 pr-12 text-sm font-black text-black outline-none focus:border-white uppercase placeholder:text-black"
+              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-2xl py-4 pl-12 pr-12 text-sm font-black text-black outline-none focus:border-black uppercase placeholder:text-black"
             />
             {searchQuery && (
               <button
@@ -839,7 +839,7 @@ const RoasterSubmitModal: React.FC<{
               value={formData.name}
               onChange={e => setFormData({ ...formData, name: e.target.value })}
               placeholder="ONYX COFFEE LAB"
-              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-4 px-5 text-black font-black text-sm outline-none focus:border-white uppercase"
+              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-4 px-5 text-black font-black text-sm outline-none focus:border-black uppercase"
               required
             />
           </div>
@@ -854,7 +854,7 @@ const RoasterSubmitModal: React.FC<{
                 value={formData.city}
                 onChange={e => setFormData({ ...formData, city: e.target.value })}
                 placeholder="BENTONVILLE"
-                className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-4 px-5 text-black font-black text-sm outline-none focus:border-white uppercase"
+                className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-4 px-5 text-black font-black text-sm outline-none focus:border-black uppercase"
                 required
               />
             </div>
@@ -867,7 +867,7 @@ const RoasterSubmitModal: React.FC<{
                 value={formData.state}
                 onChange={e => setFormData({ ...formData, state: e.target.value })}
                 placeholder="ARKANSAS"
-                className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-4 px-5 text-black font-black text-sm outline-none focus:border-white uppercase"
+                className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-4 px-5 text-black font-black text-sm outline-none focus:border-black uppercase"
               />
             </div>
           </div>
@@ -881,7 +881,7 @@ const RoasterSubmitModal: React.FC<{
               value={formData.country}
               onChange={e => setFormData({ ...formData, country: e.target.value })}
               placeholder="USA"
-              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-4 px-5 text-black font-black text-sm outline-none focus:border-white uppercase"
+              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-4 px-5 text-black font-black text-sm outline-none focus:border-black uppercase"
               required
             />
           </div>
@@ -895,7 +895,7 @@ const RoasterSubmitModal: React.FC<{
               value={formData.website}
               onChange={e => setFormData({ ...formData, website: e.target.value })}
               placeholder="https://onyxcoffeelab.com"
-              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-4 px-5 text-black text-sm outline-none focus:border-white"
+              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-4 px-5 text-black text-sm outline-none focus:border-black"
             />
           </div>
 
@@ -990,7 +990,7 @@ const EquipmentSubmitModal: React.FC<{
             <select
               value={formData.type}
               onChange={e => setFormData({ ...formData, type: e.target.value })}
-              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-4 px-5 text-black font-black text-sm outline-none focus:border-white uppercase"
+              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-4 px-5 text-black font-black text-sm outline-none focus:border-black uppercase"
             >
               {equipmentTypes.map(type => (
                 <option key={type.value} value={type.value}>
@@ -1010,7 +1010,7 @@ const EquipmentSubmitModal: React.FC<{
                 value={formData.brand}
                 onChange={e => setFormData({ ...formData, brand: e.target.value })}
                 placeholder="HARIO"
-                className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-4 px-5 text-black font-black text-sm outline-none focus:border-white uppercase"
+                className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-4 px-5 text-black font-black text-sm outline-none focus:border-black uppercase"
                 required
               />
             </div>
@@ -1023,7 +1023,7 @@ const EquipmentSubmitModal: React.FC<{
                 value={formData.name}
                 onChange={e => setFormData({ ...formData, name: e.target.value })}
                 placeholder="V60"
-                className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-4 px-5 text-black font-black text-sm outline-none focus:border-white uppercase"
+                className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-4 px-5 text-black font-black text-sm outline-none focus:border-black uppercase"
                 required
               />
             </div>
@@ -1037,7 +1037,7 @@ const EquipmentSubmitModal: React.FC<{
               value={formData.description}
               onChange={e => setFormData({ ...formData, description: e.target.value })}
               placeholder="Brief description (optional)"
-              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-3 px-5 text-black text-sm outline-none focus:border-white resize-none h-20"
+              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-xl py-3 px-5 text-black text-sm outline-none focus:border-black resize-none h-20"
             />
           </div>
 

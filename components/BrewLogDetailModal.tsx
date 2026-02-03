@@ -193,7 +193,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                 </div>
                 <button
                   onClick={onClose}
-                  className="text-zinc-900 hover:text-black active:text-black transition-colors border-2 border-black hover:border-black active:border-white rounded-xl p-2"
+                  className="text-zinc-900 hover:text-black active:text-black transition-colors border-2 border-black hover:border-black active:border-black rounded-xl p-2"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -332,14 +332,14 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
               <button
                 onClick={handleLike}
                 disabled={isMe}
-                className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all ${isMe ? 'text-black border-black cursor-not-allowed' : (hasLiked ? 'text-black border-white bg-white/10' : 'text-zinc-900 border-black hover:text-black active:text-black hover:border-zinc-600')}`}
+                className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all ${isMe ? 'text-black border-black cursor-not-allowed opacity-50' : (hasLiked ? 'text-black border-black bg-black/10' : 'text-black border-black hover:border-black active:border-black')}`}
               >
-                <Heart className={`w-5 h-5 transition-transform ${hasLiked ? 'fill-white scale-110' : ''}`} />
+                <Heart className={`w-5 h-5 transition-transform ${hasLiked ? 'fill-black scale-110' : ''}`} />
                 <span className="text-[11px] font-black uppercase tracking-widest">{likes}</span>
               </button>
               <button
                 onClick={() => setShowComments(!showComments)}
-                className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all ${showComments ? 'text-black border-white bg-white/10' : 'text-zinc-900 border-black hover:text-black active:text-black hover:border-zinc-600'}`}
+                className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all ${showComments ? 'text-black border-black bg-black/10' : 'text-black border-black hover:border-black active:border-black'}`}
               >
                 <MessageCircle className="w-5 h-5" />
                 <span className="text-[11px] font-black uppercase tracking-widest">{activity.comments.length}</span>
@@ -401,7 +401,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                     onChange={e => setCommentText(e.target.value)}
                     placeholder="ADD A COMMENT..."
                     disabled={submittingComment}
-                    className="flex-grow bg-zinc-50 border-2 border-black rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase placeholder:text-black disabled:opacity-50"
+                    className="flex-grow bg-zinc-50 border-2 border-black rounded-2xl px-5 py-4 text-black font-black text-sm outline-none focus:border-black uppercase placeholder:text-black disabled:opacity-50"
                   />
                   <button
                     type="submit"

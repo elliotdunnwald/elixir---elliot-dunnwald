@@ -671,7 +671,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
               <input
                 type="text" required value={formData.title} onChange={e => handleInputChange('title', e.target.value)}
                 disabled={uploading}
-                className="w-full bg-white border-2 border-black focus:border-white rounded-xl outline-none text-sm font-black text-black uppercase px-6 py-4 placeholder:text-black transition-all disabled:opacity-50"
+                className="w-full bg-white border-2 border-black focus:border-black rounded-xl outline-none text-sm font-black text-black uppercase px-6 py-4 placeholder:text-black transition-all disabled:opacity-50"
                 placeholder="NAME THIS SESSION"
               />
             </section>
@@ -693,7 +693,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     }
                   }}
                   disabled={uploading}
-                  className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50"
+                  className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50"
                   placeholder="BLUE BOTTLE / VERVE / ETC"
                 />
                 {showCafeDropdown && Array.isArray(cafeSuggestions) && cafeSuggestions.length > 0 && (
@@ -725,7 +725,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     value={formData.cafeCity}
                     onChange={e => setFormData(p => ({ ...p, cafeCity: e.target.value.toUpperCase() }))}
                     disabled={uploading}
-                    className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50"
+                    className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50"
                     placeholder="CITY"
                   />
                   <input
@@ -734,7 +734,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     value={formData.cafeCountry}
                     onChange={e => setFormData(p => ({ ...p, cafeCountry: e.target.value.toUpperCase() }))}
                     disabled={uploading}
-                    className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50"
+                    className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50"
                     placeholder="COUNTRY"
                   />
                 </div>
@@ -755,7 +755,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     value={formData.cafeAddress}
                     onChange={e => setFormData(p => ({ ...p, cafeAddress: e.target.value.toUpperCase() }))}
                     disabled={uploading}
-                    className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50 animate-in slide-in-from-top-1"
+                    className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50 animate-in slide-in-from-top-1"
                     placeholder="STREET ADDRESS"
                   />
                 )}
@@ -957,7 +957,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                       value={formData.specialtyDrink}
                       onChange={e => setFormData(p => ({ ...p, specialtyDrink: e.target.value.toUpperCase() }))}
                       disabled={uploading}
-                      className="flex-1 bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50"
+                      className="flex-1 bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50"
                       placeholder="ENTER SPECIALTY DRINK"
                     />
                     <button
@@ -1035,7 +1035,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                       }
                     }}
                     disabled={uploading}
-                    className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50"
+                    className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50"
                     placeholder="SEY / ONYX / ETC"
                   />
                   {showRoasterDropdown && roasterSuggestions.length > 0 && (
@@ -1072,7 +1072,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                 </div>
                 <div className="space-y-3">
                   <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Origin</label>
-                  <input type="text" value={formData.origin} onChange={e => handleInputChange('origin', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="ETHIOPIA / KENYA" />
+                  <input type="text" value={formData.origin} onChange={e => handleInputChange('origin', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50" placeholder="ETHIOPIA / KENYA" />
                 </div>
               </div>
 
@@ -1089,31 +1089,31 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                   {formData.showEstate && (
                     <div className="space-y-3 animate-in slide-in-from-top-1">
                       <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Estate</label>
-                      <input type="text" value={formData.estate} onChange={e => handleInputChange('estate', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="FARM NAME" />
+                      <input type="text" value={formData.estate} onChange={e => handleInputChange('estate', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50" placeholder="FARM NAME" />
                     </div>
                   )}
                   {formData.showProducer && (
                     <div className="space-y-3 animate-in slide-in-from-top-1">
                       <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Producer</label>
-                      <input type="text" value={formData.producer} onChange={e => handleInputChange('producer', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="PRODUCER NAME" />
+                      <input type="text" value={formData.producer} onChange={e => handleInputChange('producer', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50" placeholder="PRODUCER NAME" />
                     </div>
                   )}
                   {formData.showLot && (
                     <div className="space-y-3 animate-in slide-in-from-top-1">
                       <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Lot / Name</label>
-                      <input type="text" value={formData.lot} onChange={e => handleInputChange('lot', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="LOT NUMBER" />
+                      <input type="text" value={formData.lot} onChange={e => handleInputChange('lot', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50" placeholder="LOT NUMBER" />
                     </div>
                   )}
                   {formData.showVarietal && (
                     <div className="space-y-3 animate-in slide-in-from-top-1">
                       <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Varietal</label>
-                      <input type="text" value={formData.varietal} onChange={e => handleInputChange('varietal', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="SL28, GESHA, ETC" />
+                      <input type="text" value={formData.varietal} onChange={e => handleInputChange('varietal', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50" placeholder="SL28, GESHA, ETC" />
                     </div>
                   )}
                   {formData.showProcess && (
                     <div className="space-y-3 animate-in slide-in-from-top-1">
                       <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Processing</label>
-                      <input type="text" value={formData.process} onChange={e => handleInputChange('process', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="WASHED, NATURAL, ETC" />
+                      <input type="text" value={formData.process} onChange={e => handleInputChange('process', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50" placeholder="WASHED, NATURAL, ETC" />
                     </div>
                   )}
                 </div>
@@ -1137,7 +1137,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                       }
                     }}
                     disabled={uploading}
-                    className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50"
+                    className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50"
                     placeholder="SEY / ONYX / ETC"
                   />
                   {showRoasterDropdown && roasterSuggestions.length > 0 && (
@@ -1174,7 +1174,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                 </div>
                 <div className="space-y-3">
                   <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Origin</label>
-                  <input type="text" value={formData.origin} onChange={e => handleInputChange('origin', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="ETHIOPIA / KENYA" />
+                  <input type="text" value={formData.origin} onChange={e => handleInputChange('origin', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50" placeholder="ETHIOPIA / KENYA" />
                 </div>
               </div>
 
@@ -1191,31 +1191,31 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                   {formData.showEstate && (
                     <div className="space-y-3 animate-in slide-in-from-top-1">
                       <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Estate</label>
-                      <input type="text" value={formData.estate} onChange={e => handleInputChange('estate', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="FARM NAME" />
+                      <input type="text" value={formData.estate} onChange={e => handleInputChange('estate', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50" placeholder="FARM NAME" />
                     </div>
                   )}
                   {formData.showProducer && (
                     <div className="space-y-3 animate-in slide-in-from-top-1">
                       <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Producer</label>
-                      <input type="text" value={formData.producer} onChange={e => handleInputChange('producer', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="PRODUCER NAME" />
+                      <input type="text" value={formData.producer} onChange={e => handleInputChange('producer', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50" placeholder="PRODUCER NAME" />
                     </div>
                   )}
                   {formData.showLot && (
                     <div className="space-y-3 animate-in slide-in-from-top-1">
                       <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Lot / Name</label>
-                      <input type="text" value={formData.lot} onChange={e => handleInputChange('lot', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="LOT NUMBER" />
+                      <input type="text" value={formData.lot} onChange={e => handleInputChange('lot', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50" placeholder="LOT NUMBER" />
                     </div>
                   )}
                   {formData.showVarietal && (
                     <div className="space-y-3 animate-in slide-in-from-top-1">
                       <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Varietal</label>
-                      <input type="text" value={formData.varietal} onChange={e => handleInputChange('varietal', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="SL28, GESHA, ETC" />
+                      <input type="text" value={formData.varietal} onChange={e => handleInputChange('varietal', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50" placeholder="SL28, GESHA, ETC" />
                     </div>
                   )}
                   {formData.showProcess && (
                     <div className="space-y-3 animate-in slide-in-from-top-1">
                       <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Processing</label>
-                      <input type="text" value={formData.process} onChange={e => handleInputChange('process', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="WASHED, NATURAL, ETC" />
+                      <input type="text" value={formData.process} onChange={e => handleInputChange('process', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50" placeholder="WASHED, NATURAL, ETC" />
                     </div>
                   )}
                 </div>
@@ -1238,11 +1238,11 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 bg-white border-2 border-black p-6 rounded-xl">
                     <div className="flex flex-col items-center">
                       <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest mb-3">DOSE (G)</p>
-                      <input type="number" step="0.1" value={formData.gramsIn} onChange={e => setFormData({...formData, gramsIn: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-white disabled:opacity-50" />
+                      <input type="number" step="0.1" value={formData.gramsIn} onChange={e => setFormData({...formData, gramsIn: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-black disabled:opacity-50" />
                     </div>
                     <div className="flex flex-col items-center">
                       <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest mb-3">WATER (G)</p>
-                      <input type="number" step="1" value={formData.gramsOut} onChange={e => setFormData({...formData, gramsOut: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-white disabled:opacity-50" />
+                      <input type="number" step="1" value={formData.gramsOut} onChange={e => setFormData({...formData, gramsOut: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-black disabled:opacity-50" />
                     </div>
                     <div className="flex flex-col items-center">
                       <div className="flex items-center gap-2 mb-3">
@@ -1252,7 +1252,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                           <button type="button" onClick={() => handleTempUnitToggle('F')} disabled={uploading} className={`px-2 py-1 rounded text-[10px] font-black transition-all disabled:opacity-50 ${tempUnit === 'F' ? 'bg-white text-black' : 'text-black'}`}>°F</button>
                         </div>
                       </div>
-                      <input type="number" value={formData.temp} onChange={e => setFormData({...formData, temp: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-white disabled:opacity-50" />
+                      <input type="number" value={formData.temp} onChange={e => setFormData({...formData, temp: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-black disabled:opacity-50" />
                     </div>
                     <div className="flex flex-col items-center">
                       <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest mb-3">RATIO</p>
@@ -1266,7 +1266,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                         onChange={e => setFormData({...formData, brewTime: e.target.value})}
                         disabled={uploading}
                         placeholder="02:30"
-                        className="w-full sm:w-32 bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-white disabled:opacity-50"
+                        className="w-full sm:w-32 bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-black disabled:opacity-50"
                       />
                     </div>
                   </div>
@@ -1279,7 +1279,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     <div className="space-y-4 animate-in slide-in-from-top-1">
                       <div className="bg-white border-2 border-black p-6 rounded-xl space-y-2">
                         <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><FlaskConical className="w-3 h-3" /> TDS</p>
-                        <input type="number" step="0.01" value={formData.tds} onChange={e => setFormData({...formData, tds: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-sm outline-none focus:border-white disabled:opacity-50" placeholder="1.40" />
+                        <input type="number" step="0.01" value={formData.tds} onChange={e => setFormData({...formData, tds: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-sm outline-none focus:border-black disabled:opacity-50" placeholder="1.40" />
                       </div>
                       <div className="bg-white text-black p-6 rounded-xl flex justify-between items-center border-2 border-black">
                         <p className="text-[10px] font-black uppercase tracking-widest">Calculated EY%</p>
@@ -1296,7 +1296,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                   <div className="grid grid-cols-1 gap-4">
                     <div className="space-y-3">
                       <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Pod Name</label>
-                      <input type="text" value={formData.podName} onChange={e => handleInputChange('podName', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-white uppercase disabled:opacity-50" placeholder="STARBUCKS PIKE PLACE" />
+                      <input type="text" value={formData.podName} onChange={e => handleInputChange('podName', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50" placeholder="STARBUCKS PIKE PLACE" />
                     </div>
                     <div className="space-y-3">
                       <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Cup Size</label>
@@ -1487,7 +1487,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           {formData.showDescription && (
             <section className="space-y-3 animate-in slide-in-from-top-1">
               <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Notes & Thoughts</p>
-              <textarea value={formData.description} onChange={e => handleInputChange('description', e.target.value)} disabled={uploading} placeholder="CUPS NOTES, TEXTURE, PHILOSOPHY..." className="w-full bg-white border-2 border-black rounded-xl p-6 text-sm text-black font-black focus:border-white outline-none min-h-[140px] resize-none uppercase disabled:opacity-50" />
+              <textarea value={formData.description} onChange={e => handleInputChange('description', e.target.value)} disabled={uploading} placeholder="CUPS NOTES, TEXTURE, PHILOSOPHY..." className="w-full bg-white border-2 border-black rounded-xl p-6 text-sm text-black font-black focus:border-black outline-none min-h-[140px] resize-none uppercase disabled:opacity-50" />
             </section>
           )}
 
@@ -1520,7 +1520,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                 max={new Date().toISOString().slice(0, 16)}
                 onChange={e => setFormData(p => ({ ...p, brewedAt: e.target.value }))}
                 disabled={uploading}
-                className="w-full bg-white border-2 border-black focus:border-white rounded-xl outline-none text-sm font-black text-black px-6 py-4 transition-all disabled:opacity-50"
+                className="w-full bg-white border-2 border-black focus:border-black rounded-xl outline-none text-sm font-black text-black px-6 py-4 transition-all disabled:opacity-50"
               />
             </section>
           )}
@@ -1578,7 +1578,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                       type="text"
                       value={newRoasterDetails.city}
                       onChange={e => setNewRoasterDetails(p => ({ ...p, city: e.target.value }))}
-                      className="mt-2 w-full bg-white border-2 border-black rounded-xl px-4 py-3 text-black font-black text-sm uppercase focus:border-white outline-none"
+                      className="mt-2 w-full bg-white border-2 border-black rounded-xl px-4 py-3 text-black font-black text-sm uppercase focus:border-black outline-none"
                       placeholder="NEW YORK"
                     />
                   </div>
@@ -1588,7 +1588,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                       type="text"
                       value={newRoasterDetails.country}
                       onChange={e => setNewRoasterDetails(p => ({ ...p, country: e.target.value }))}
-                      className="mt-2 w-full bg-white border-2 border-black rounded-xl px-4 py-3 text-black font-black text-sm uppercase focus:border-white outline-none"
+                      className="mt-2 w-full bg-white border-2 border-black rounded-xl px-4 py-3 text-black font-black text-sm uppercase focus:border-black outline-none"
                       placeholder="USA"
                     />
                   </div>
@@ -1600,7 +1600,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     type="text"
                     value={newRoasterDetails.state}
                     onChange={e => setNewRoasterDetails(p => ({ ...p, state: e.target.value }))}
-                    className="mt-2 w-full bg-white border-2 border-black rounded-xl px-4 py-3 text-black font-black text-sm uppercase focus:border-white outline-none"
+                    className="mt-2 w-full bg-white border-2 border-black rounded-xl px-4 py-3 text-black font-black text-sm uppercase focus:border-black outline-none"
                     placeholder="NY"
                   />
                 </div>
@@ -1611,7 +1611,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     type="url"
                     value={newRoasterDetails.website}
                     onChange={e => setNewRoasterDetails(p => ({ ...p, website: e.target.value }))}
-                    className="mt-2 w-full bg-white border-2 border-black rounded-xl px-4 py-3 text-black font-black text-sm lowercase focus:border-white outline-none"
+                    className="mt-2 w-full bg-white border-2 border-black rounded-xl px-4 py-3 text-black font-black text-sm lowercase focus:border-black outline-none"
                     placeholder="https://example.com"
                   />
                 </div>
