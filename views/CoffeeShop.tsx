@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Coffee, Search, X, MapPin, Sparkles, Flame, Loader2, ShoppingBag, Calendar, DollarSign, Plus, Package } from 'lucide-react';
+import { Search, X, MapPin, Loader2 } from 'lucide-react';
 import Fuse from 'fuse.js';
 import { getCoffeeOfferings, getRoasters, trackRoasterSubmission, trackEquipmentSubmission } from '../lib/database';
 import { useAuth } from '../hooks/useAuth';
@@ -72,7 +72,7 @@ const RoasterLogo: React.FC<{ roasterName?: string; size?: number }> = ({ roaste
     );
   }
 
-  return <Coffee className="text-black" style={{ width: size, height: size }} />;
+  return null;
 };
 
 // Helper function for roast level colors
@@ -283,10 +283,10 @@ const CoffeeShopView: React.FC = () => {
           </div>
           <button
             onClick={() => setShowRoasterSubmit(true)}
-            className="bg-white text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all flex items-center gap-2"
+            className="bg-white text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all"
           >
-            <Coffee className="w-4 h-4" />
             <span className="hidden sm:inline">SUBMIT ROASTER</span>
+            <span className="sm:hidden">SUBMIT</span>
           </button>
         </div>
 
@@ -345,44 +345,18 @@ const CoffeeShopView: React.FC = () => {
               <div
                 key={roaster.id}
                 onClick={() => setSelectedRoaster(roaster)}
-                className="bg-zinc-50 border-2 border-zinc-900 rounded-2xl p-10 hover:border-black transition-all cursor-pointer group"
+                className="bg-zinc-50 border-2 border-zinc-900 rounded-xl p-4 hover:border-black transition-all cursor-pointer group"
               >
-                <div className="space-y-3">
+                <div className="space-y-2">
                   <div>
-                    <h3 className="text-xl font-black tracking-tighter group-hover:text-black transition-colors">{roaster.name}</h3>
-                    <div className="flex items-center gap-2 mt-1 text-xs text-zinc-900">
+                    <h3 className="text-sm font-black tracking-tight group-hover:text-black transition-colors">{roaster.name}</h3>
+                    <div className="flex items-center gap-1.5 mt-1 text-[10px] text-zinc-900">
                       <MapPin className="w-3 h-3" />
                       <span>{roaster.city}, {roaster.country}</span>
                     </div>
                   </div>
-                  {roaster.foundedYear && (
-                    <div className="flex items-center gap-2 text-xs text-zinc-700">
-                      <Calendar className="w-3 h-3" />
-                      <span>EST. {roaster.foundedYear}</span>
-                    </div>
-                  )}
-                  <div className="pt-3 border-t border-black">
-                    <div className="flex items-center gap-2 text-xs text-zinc-600 mb-2">
-                      <ShoppingBag className="w-3 h-3" />
-                      <span>{roaster.offerings.length} OFFERING{roaster.offerings.length !== 1 ? 'S' : ''}</span>
-                    </div>
-
-                    {/* Show matching offerings preview */}
-                    {matchingOfferings.length > 0 && (
-                      <div className="space-y-1 mt-3 pt-3 border-t border-black">
-                        <p className="text-[9px] font-black text-zinc-500 uppercase tracking-widest mb-2">Matches:</p>
-                        {matchingOfferings.map(offering => (
-                          <div key={offering.id} className="text-[10px] text-zinc-300 font-black uppercase tracking-wide">
-                            • {offering.name} - {offering.origin}
-                          </div>
-                        ))}
-                        {roaster.offerings.length > matchingOfferings.length && (
-                          <p className="text-[9px] text-zinc-500 font-black uppercase mt-1">
-                            +{roaster.offerings.length - matchingOfferings.length} more
-                          </p>
-                        )}
-                      </div>
-                    )}
+                  <div className="pt-2 border-t border-zinc-900">
+                    <span className="text-[10px] text-zinc-600">{roaster.offerings.length} OFFERING{roaster.offerings.length !== 1 ? 'S' : ''}</span>
                   </div>
                 </div>
               </div>
@@ -427,16 +401,15 @@ const CoffeeShopView: React.FC = () => {
           </div>
           <button
             onClick={() => setShowEquipmentSubmit(true)}
-            className="bg-white text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all flex items-center gap-2"
+            className="bg-white text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all"
           >
-            <Package className="w-4 h-4" />
             <span className="hidden sm:inline">SUBMIT EQUIPMENT</span>
+            <span className="sm:hidden">SUBMIT</span>
           </button>
         </div>
 
         {/* Coming soon placeholder */}
         <div className="text-center py-32 space-y-6">
-          <Package className="w-24 h-24 text-zinc-700 mx-auto" />
           <div>
             <h2 className="text-3xl font-black tracking-tighter text-zinc-600 uppercase mb-3">COMING SOON</h2>
             <p className="text-sm text-zinc-500 uppercase tracking-wider font-black">
@@ -542,24 +515,16 @@ const RoasterOfferingsModal: React.FC<{
           <div className="flex items-start justify-between">
             <div className="space-y-2">
               <h2 className="text-4xl font-black tracking-tighter text-black">{roaster.name}</h2>
-              <div className="flex items-center gap-4 text-sm text-zinc-900">
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4" />
-                  <span>{roaster.city}, {roaster.country}</span>
-                </div>
-                {roaster.foundedYear && (
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4" />
-                    <span>EST. {roaster.foundedYear}</span>
-                  </div>
-                )}
+              <div className="flex items-center gap-2 text-sm text-zinc-900">
+                <MapPin className="w-4 h-4" />
+                <span>{roaster.city}, {roaster.country}</span>
               </div>
               {roaster.website && (
                 <a
                   href={roaster.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-xs text-black hover:underline"
+                  className="text-xs text-black hover:underline"
                 >
                   VISIT WEBSITE
                 </a>
@@ -673,18 +638,13 @@ const CoffeeDetailModal: React.FC<{
         >
         {/* Header */}
         <div className="flex items-start justify-between">
-          <div className="flex items-center gap-4">
-            <div className="bg-white p-3 rounded-2xl">
-              <RoasterLogo roasterName={coffee.roaster?.name} size={32} />
-            </div>
-            <div>
-              <h2 className="text-5xl font-black text-black uppercase tracking-tighter leading-tight">
-                {coffee.name}
-              </h2>
-              <p className="text-sm font-black text-zinc-900 uppercase tracking-widest mt-1">
-                {coffee.roaster?.name}
-              </p>
-            </div>
+          <div>
+            <h2 className="text-5xl font-black text-black uppercase tracking-tighter leading-tight">
+              {coffee.name}
+            </h2>
+            <p className="text-sm font-black text-zinc-900 uppercase tracking-widest mt-1">
+              {coffee.roaster?.name}
+            </p>
           </div>
           <button
             onClick={onClose}
@@ -731,7 +691,7 @@ const CoffeeDetailModal: React.FC<{
           )}
 
           {/* Elevation */}
-          {coffee.elevation && (
+          {coffee.elevation && coffee.elevation !== 'N/A' && (
             <div className="space-y-2">
               <h3 className="text-xs font-black text-zinc-900 uppercase tracking-widest">Elevation</h3>
               <p className="text-lg font-black text-black uppercase">{coffee.elevation}</p>
@@ -739,18 +699,17 @@ const CoffeeDetailModal: React.FC<{
           )}
 
           {/* Lot */}
-          <div className="space-y-2">
-            <h3 className="text-xs font-black text-zinc-900 uppercase tracking-widest">Lot</h3>
-            <p className="text-lg font-black text-black uppercase">{coffee.lot}</p>
-          </div>
+          {coffee.lot && coffee.lot !== 'N/A' && coffee.lot !== 'Varies' && (
+            <div className="space-y-2">
+              <h3 className="text-xs font-black text-zinc-900 uppercase tracking-widest">Lot</h3>
+              <p className="text-lg font-black text-black uppercase">{coffee.lot}</p>
+            </div>
+          )}
         </div>
 
         {/* Varietals */}
         <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <Coffee className="w-5 h-5 text-black" />
-            <h3 className="text-xs font-black text-zinc-900 uppercase tracking-widest">Varietals</h3>
-          </div>
+          <h3 className="text-xs font-black text-zinc-900 uppercase tracking-widest">Varietals</h3>
           <div className="flex flex-wrap gap-2">
             {coffee.varietals.map((v, i) => (
               <span
@@ -765,20 +724,14 @@ const CoffeeDetailModal: React.FC<{
 
         {/* Processing */}
         <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-black" />
-            <h3 className="text-xs font-black text-zinc-900 uppercase tracking-widest">Processing</h3>
-          </div>
+          <h3 className="text-xs font-black text-zinc-900 uppercase tracking-widest">Processing</h3>
           <p className="text-xl font-black text-black uppercase">{coffee.processing}</p>
         </div>
 
         {/* Roast Level */}
-        {coffee.roast_level && (
+        {coffee.roast_level && coffee.roast_level !== 'N/A' && (
           <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <Flame className="w-5 h-5 text-black" />
-              <h3 className="text-xs font-black text-zinc-900 uppercase tracking-widest">Roast Level</h3>
-            </div>
+            <h3 className="text-xs font-black text-zinc-900 uppercase tracking-widest">Roast Level</h3>
             <div className={`${getRoastLevelColor(coffee.roast_level)} inline-block px-6 py-3 rounded-xl`}>
               <span className="text-lg font-black text-black uppercase">{coffee.roast_level} ROAST</span>
             </div>
@@ -954,9 +907,8 @@ const RoasterSubmitModal: React.FC<{
             </button>
             <button
               type="submit"
-              className="flex-1 bg-white text-black px-6 py-4 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all flex items-center justify-center gap-2"
+              className="flex-1 bg-white text-black px-6 py-4 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all"
             >
-              <Coffee className="w-4 h-4" />
               SUBMIT
             </button>
           </div>
@@ -1097,9 +1049,8 @@ const EquipmentSubmitModal: React.FC<{
             </button>
             <button
               type="submit"
-              className="flex-1 bg-white text-black px-6 py-4 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all flex items-center justify-center gap-2"
+              className="flex-1 bg-white text-black px-6 py-4 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all"
             >
-              <Package className="w-4 h-4" />
               SUBMIT
             </button>
           </div>
