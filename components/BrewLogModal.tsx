@@ -1281,7 +1281,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                         <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><FlaskConical className="w-3 h-3" /> TDS</p>
                         <input type="number" step="0.01" value={formData.tds} onChange={e => setFormData({...formData, tds: e.target.value})} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-sm outline-none focus:border-white disabled:opacity-50" placeholder="1.40" />
                       </div>
-                      <div className="bg-white text-black p-6 rounded-xl flex justify-between items-center border-2 border-white">
+                      <div className="bg-white text-black p-6 rounded-xl flex justify-between items-center border-2 border-black">
                         <p className="text-[10px] font-black uppercase tracking-widest">Calculated EY%</p>
                         <p className="text-xl font-black">{formData.eyPercentage}%</p>
                       </div>
@@ -1645,7 +1645,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     setShowNewRoasterPrompt(false);
                   }}
                   disabled={!newRoasterDetails.city || !newRoasterDetails.country}
-                  className="flex-1 bg-white text-black border-2 border-white rounded-xl px-6 py-4 text-sm font-black uppercase tracking-wider hover:bg-zinc-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 bg-white text-black border-2 border-black rounded-xl px-6 py-4 text-sm font-black uppercase tracking-wider hover:bg-zinc-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Submit
                 </button>

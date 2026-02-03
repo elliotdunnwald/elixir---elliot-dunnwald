@@ -599,7 +599,7 @@ const RoasterOfferingsModal: React.FC<{
           <div className="pt-6 border-t-2 border-black">
             <button
               onClick={onClose}
-              className="w-full bg-white text-black px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all border-2 border-white"
+              className="w-full bg-white text-black px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all border-2 border-black"
             >
               BACK TO MARKETPLACE
             </button>

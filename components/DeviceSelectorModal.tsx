@@ -115,7 +115,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
                       onClick={() => handleSelectDevice(item.name, item.brand, item.notes || 'pourover')}
                       className={`p-4 rounded-xl border-2 text-left transition-all ${
                         isSelected
-                          ? 'bg-white text-black border-white'
+                          ? 'bg-white text-black border-black'
                           : 'bg-white text-black border-black hover:border-black'
                       }`}
                     >
@@ -138,7 +138,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 placeholder="SEARCH DEVICES..."
-                className="w-full bg-white border-2 border-black rounded-2xl pl-12 pr-5 py-4 text-black font-black text-sm outline-none focus:border-white uppercase placeholder:text-black"
+                className="w-full bg-white border-2 border-black rounded-2xl pl-12 pr-5 py-4 text-black font-black text-sm outline-none focus:border-black uppercase placeholder:text-black"
               />
             </div>
           </div>
@@ -163,7 +163,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
                       key={idx}
                       className={`flex items-center justify-between p-4 rounded-xl border-2 transition-all ${
                         isSelected
-                          ? 'bg-white text-black border-white'
+                          ? 'bg-white text-black border-black'
                           : 'bg-white border-black hover:border-black'
                       }`}
                     >

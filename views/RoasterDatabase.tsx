@@ -178,7 +178,7 @@ const RoasterDatabase: React.FC = () => {
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="SEARCH BY ROASTER, ORIGIN, VARIETAL, PROCESS, OR ESTATE..."
-            className="w-full bg-zinc-50 border-2 border-black rounded-2xl py-4 pl-12 pr-12 text-sm font-black text-black outline-none focus:border-white uppercase placeholder:text-black"
+            className="w-full bg-zinc-50 border-2 border-black rounded-2xl py-4 pl-12 pr-12 text-sm font-black text-black outline-none focus:border-black uppercase placeholder:text-black"
           />
           {searchQuery && (
             <button
@@ -201,7 +201,7 @@ const RoasterDatabase: React.FC = () => {
               onClick={() => handleQuickFilter(filter.label)}
               className={`px-3 py-1.5 rounded-xl border-2 text-[10px] font-black uppercase tracking-wider transition-all ${
                 searchQuery.toLowerCase() === filter.label.toLowerCase()
-                  ? 'bg-white text-black border-white'
+                  ? 'bg-white text-black border-black'
                   : 'bg-transparent border-black text-zinc-200 hover:border-black'
               }`}
             >
@@ -359,7 +359,7 @@ const RoasterDetailModal: React.FC<{
             <h3 className="text-xl font-black tracking-tighter text-black">CURRENT OFFERINGS</h3>
             <button
               onClick={onAddOffering}
-              className="bg-white text-black px-4 py-2 rounded-xl flex items-center gap-2 font-black text-xs uppercase tracking-wider active:scale-95 transition-all border-2 border-white"
+              className="bg-white text-black px-4 py-2 rounded-xl flex items-center gap-2 font-black text-xs uppercase tracking-wider active:scale-95 transition-all border-2 border-black"
             >
               <Plus className="w-3 h-3" /> ADD OFFERING
             </button>
@@ -442,7 +442,7 @@ const RoasterDetailModal: React.FC<{
         <div className="pt-6 border-t-2 border-black">
           <button
             onClick={onClose}
-            className="w-full bg-white text-black px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all border-2 border-white shadow-xl"
+            className="w-full bg-white text-black px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all border-2 border-black shadow-xl"
           >
             BACK TO ROASTERS
           </button>
@@ -514,7 +514,7 @@ const AddRoasterModal: React.FC<{
             placeholder="ROASTER NAME *"
             value={formData.name}
             onChange={e => setFormData({ ...formData, name: e.target.value })}
-            className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
+            className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black uppercase"
           />
           <div className="grid grid-cols-2 gap-4">
             <input
@@ -522,14 +522,14 @@ const AddRoasterModal: React.FC<{
               placeholder="CITY *"
               value={formData.city}
               onChange={e => setFormData({ ...formData, city: e.target.value })}
-              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
+              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black uppercase"
             />
             <input
               type="text"
               placeholder="STATE"
               value={formData.state}
               onChange={e => setFormData({ ...formData, state: e.target.value })}
-              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
+              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black uppercase"
             />
           </div>
           <input
@@ -537,21 +537,21 @@ const AddRoasterModal: React.FC<{
             placeholder="COUNTRY *"
             value={formData.country}
             onChange={e => setFormData({ ...formData, country: e.target.value })}
-            className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
+            className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black uppercase"
           />
           <input
             type="url"
             placeholder="WEBSITE"
             value={formData.website}
             onChange={e => setFormData({ ...formData, website: e.target.value })}
-            className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white"
+            className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black"
           />
           <input
             type="number"
             placeholder="FOUNDED YEAR"
             value={formData.foundedYear}
             onChange={e => setFormData({ ...formData, foundedYear: e.target.value })}
-            className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
+            className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black uppercase"
           />
         </div>
 
@@ -649,14 +649,14 @@ const AddOfferingModal: React.FC<{
               placeholder="COFFEE NAME *"
               value={formData.name}
               onChange={e => setFormData({ ...formData, name: e.target.value })}
-              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
+              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black uppercase"
             />
             <input
               type="text"
               placeholder="LOT NUMBER *"
               value={formData.lot}
               onChange={e => setFormData({ ...formData, lot: e.target.value })}
-              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
+              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black uppercase"
             />
           </div>
 
@@ -666,14 +666,14 @@ const AddOfferingModal: React.FC<{
               placeholder="ORIGIN *"
               value={formData.origin}
               onChange={e => setFormData({ ...formData, origin: e.target.value })}
-              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
+              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black uppercase"
             />
             <input
               type="text"
               placeholder="REGION"
               value={formData.region}
               onChange={e => setFormData({ ...formData, region: e.target.value })}
-              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
+              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black uppercase"
             />
           </div>
 
@@ -682,7 +682,7 @@ const AddOfferingModal: React.FC<{
             placeholder="ESTATE/FARM"
             value={formData.estate}
             onChange={e => setFormData({ ...formData, estate: e.target.value })}
-            className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
+            className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black uppercase"
           />
 
           <input
@@ -690,7 +690,7 @@ const AddOfferingModal: React.FC<{
             placeholder="PRODUCER"
             value={formData.producer}
             onChange={e => setFormData({ ...formData, producer: e.target.value })}
-            className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
+            className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black uppercase"
           />
 
           <input
@@ -698,7 +698,7 @@ const AddOfferingModal: React.FC<{
             placeholder="VARIETALS (COMMA SEPARATED) *"
             value={formData.varietals}
             onChange={e => setFormData({ ...formData, varietals: e.target.value })}
-            className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
+            className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black uppercase"
           />
 
           <div className="grid grid-cols-2 gap-4">
@@ -707,14 +707,14 @@ const AddOfferingModal: React.FC<{
               placeholder="PROCESSING *"
               value={formData.processing}
               onChange={e => setFormData({ ...formData, processing: e.target.value })}
-              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
+              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black uppercase"
             />
             <input
               type="text"
               placeholder="ROAST LEVEL"
               value={formData.roastLevel}
               onChange={e => setFormData({ ...formData, roastLevel: e.target.value })}
-              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
+              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black uppercase"
             />
           </div>
 
@@ -723,7 +723,7 @@ const AddOfferingModal: React.FC<{
             placeholder="TASTING NOTES (COMMA SEPARATED)"
             value={formData.tastingNotes}
             onChange={e => setFormData({ ...formData, tastingNotes: e.target.value })}
-            className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white"
+            className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black"
           />
 
           <input
@@ -731,7 +731,7 @@ const AddOfferingModal: React.FC<{
             placeholder="ELEVATION (e.g. 1800-2000m)"
             value={formData.elevation}
             onChange={e => setFormData({ ...formData, elevation: e.target.value })}
-            className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
+            className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black uppercase"
           />
 
           <div className="grid grid-cols-3 gap-4">
@@ -741,21 +741,21 @@ const AddOfferingModal: React.FC<{
               placeholder="PRICE"
               value={formData.price}
               onChange={e => setFormData({ ...formData, price: e.target.value })}
-              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
+              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black uppercase"
             />
             <input
               type="text"
               placeholder="SIZE"
               value={formData.size}
               onChange={e => setFormData({ ...formData, size: e.target.value })}
-              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
+              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black uppercase"
             />
             <input
               type="month"
               placeholder="HARVEST"
               value={formData.harvestDate}
               onChange={e => setFormData({ ...formData, harvestDate: e.target.value })}
-              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-white uppercase"
+              className="w-full bg-zinc-50 border-2 border-black rounded-xl py-3 px-4 text-sm font-black text-black outline-none focus:border-black uppercase"
             />
           </div>
         </div>

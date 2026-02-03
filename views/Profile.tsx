@@ -648,7 +648,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                   ? 'bg-zinc-50 text-black border-2 border-zinc-400 hover:border-red-900 hover:text-red-400'
                   : hasPendingRequest
                   ? 'bg-yellow-900 text-yellow-400 border-2 border-yellow-700 cursor-not-allowed'
-                  : 'bg-white text-black border-2 border-white hover:bg-zinc-100'
+                  : 'bg-white text-black border-2 border-black hover:bg-zinc-100'
               }`}
             >
               {followLoading ? <Loader2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-spin" /> : following ? 'UNFOLLOW' : hasPendingRequest ? 'REQUESTED' : 'FOLLOW'}
@@ -790,7 +790,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                           })}
                         <button
                           onClick={() => handleAddGear(newGearSearch.toUpperCase())}
-                          className="w-full text-left px-4 py-3 rounded-xl bg-zinc-50 border-2 border-white text-black text-xs font-black uppercase flex items-center gap-2"
+                          className="w-full text-left px-4 py-3 rounded-xl bg-zinc-50 border-2 border-black text-black text-xs font-black uppercase flex items-center gap-2"
                         >
                           <Plus className="w-4 h-4" /> ADD CUSTOM: {newGearSearch.toUpperCase()}
                         </button>
