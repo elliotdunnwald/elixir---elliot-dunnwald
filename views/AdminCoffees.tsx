@@ -123,7 +123,7 @@ const AdminCoffees: React.FC = () => {
         <button
           onClick={handleBackfill}
           disabled={backfilling}
-          className="bg-white text-black px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-white text-black px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed border-2 border-black"
         >
           <RefreshCw className={`w-4 h-4 ${backfilling ? 'animate-spin' : ''}`} />
           {backfilling ? 'PROCESSING...' : 'BACKFILL FROM LOGS'}
@@ -206,7 +206,7 @@ const AdminCoffees: React.FC = () => {
               <div className="pt-4 border-t border-black flex gap-2">
                 <button
                   onClick={() => handleApprove(coffee)}
-                  className="flex-1 bg-white text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all flex items-center justify-center gap-2"
+                  className="flex-1 bg-white text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all flex items-center justify-center gap-2 border-2 border-black"
                 >
                   <Check className="w-4 h-4" />
                   APPROVE

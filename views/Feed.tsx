@@ -160,7 +160,7 @@ const FeedView: React.FC = () => {
                 LOG A BREW OR FOLLOW OTHERS TO SEE THEIR POSTS HERE.
               </p>
             </div>
-            <Link to="/explore" className="bg-white text-black px-12 py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] flex items-center gap-3 hover:bg-zinc-200 transition-all shadow-2xl active:scale-95">
+            <Link to="/explore" className="bg-white text-black px-12 py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] flex items-center gap-3 hover:bg-zinc-200 transition-all shadow-2xl active:scale-95 border-2 border-black">
               FIND PEOPLE <ArrowRight className="w-5 h-5" />
             </Link>
           </div>

@@ -777,7 +777,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     {formData.drinksOrdered.map((drink, idx) => (
                       <div
                         key={idx}
-                        className="bg-white text-black px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wide flex items-center gap-2"
+                        className="bg-white text-black px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wide flex items-center gap-2 border-2 border-black"
                       >
                         {drink}
                         <button
@@ -942,7 +942,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                           setSelectedMilk('');
                         }}
                         disabled={uploading || !selectedMilk}
-                        className="flex-1 px-4 py-3 bg-white text-black rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-zinc-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex-1 px-4 py-3 bg-white text-black rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-zinc-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed border-2 border-black"
                       >
                         Add
                       </button>
@@ -973,7 +973,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                         }
                       }}
                       disabled={uploading || !formData.specialtyDrink.trim()}
-                      className="px-6 py-4 bg-white text-black rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="px-6 py-4 bg-white text-black rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed border-2 border-black"
                     >
                       Add
                     </button>
@@ -1526,7 +1526,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           )}
 
           <section className="pt-4 pb-4">
-            <button type="submit" disabled={uploading} className="w-full bg-white text-black font-black text-sm uppercase tracking-widest py-6 rounded-xl transition-all active:scale-[0.98] flex items-center justify-center gap-3 disabled:bg-zinc-400 disabled:text-black">
+            <button type="submit" disabled={uploading} className="w-full bg-white text-black font-black text-sm uppercase tracking-widest py-6 rounded-xl transition-all active:scale-[0.98] flex items-center justify-center gap-3 disabled:bg-zinc-400 disabled:text-black border-2 border-black">
               {uploading ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" /> {editActivity ? 'UPDATING...' : 'UPLOADING...'}

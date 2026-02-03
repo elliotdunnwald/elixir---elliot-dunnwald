@@ -164,7 +164,7 @@ const RoasterDatabase: React.FC = () => {
         </div>
         <button
           onClick={() => setIsAddingRoaster(true)}
-          className="bg-white text-black px-6 py-3 rounded-2xl flex items-center gap-2 font-black text-xs uppercase tracking-wider active:scale-95 transition-all shadow-xl"
+          className="bg-white text-black px-6 py-3 rounded-2xl flex items-center gap-2 font-black text-xs uppercase tracking-wider active:scale-95 transition-all shadow-xl border-2 border-black"
         >
           <Plus className="w-4 h-4" /> ADD ROASTER
         </button>
@@ -558,7 +558,7 @@ const AddRoasterModal: React.FC<{
         <button
           onClick={handleSubmit}
           disabled={!formData.name || !formData.city || !formData.country}
-          className="w-full bg-white text-black disabled:bg-white disabled:text-black py-4 rounded-2xl font-black text-sm uppercase tracking-wider transition-all active:scale-95 shadow-xl"
+          className="w-full bg-white text-black disabled:bg-white disabled:text-black py-4 rounded-2xl font-black text-sm uppercase tracking-wider transition-all active:scale-95 shadow-xl border-2 border-black"
         >
           ADD ROASTER
         </button>
@@ -763,7 +763,7 @@ const AddOfferingModal: React.FC<{
         <button
           onClick={handleSubmit}
           disabled={!formData.name || !formData.lot || !formData.origin || !formData.varietals || !formData.processing}
-          className="w-full bg-white text-black disabled:bg-white disabled:text-black py-4 rounded-2xl font-black text-sm uppercase tracking-wider transition-all active:scale-95 shadow-xl"
+          className="w-full bg-white text-black disabled:bg-white disabled:text-black py-4 rounded-2xl font-black text-sm uppercase tracking-wider transition-all active:scale-95 shadow-xl border-2 border-black"
         >
           ADD OFFERING
         </button>

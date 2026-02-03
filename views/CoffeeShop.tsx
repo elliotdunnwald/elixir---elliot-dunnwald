@@ -283,7 +283,7 @@ const CoffeeShopView: React.FC = () => {
           </div>
           <button
             onClick={() => setShowRoasterSubmit(true)}
-            className="bg-white text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all"
+            className="bg-white text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all border-2 border-black"
           >
             <span className="hidden sm:inline">SUBMIT ROASTER</span>
             <span className="sm:hidden">SUBMIT</span>
@@ -399,7 +399,7 @@ const CoffeeShopView: React.FC = () => {
           </div>
           <button
             onClick={() => setShowEquipmentSubmit(true)}
-            className="bg-white text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all"
+            className="bg-white text-black px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-100 transition-all border-2 border-black"
           >
             <span className="hidden sm:inline">SUBMIT EQUIPMENT</span>
             <span className="sm:hidden">SUBMIT</span>
@@ -552,7 +552,7 @@ const RoasterOfferingsModal: React.FC<{
                   {/* Price */}
                   {offering.price && (
                     <div className="flex justify-end mb-3">
-                      <div className="bg-white text-black px-3 py-2 rounded-xl">
+                      <div className="bg-white text-black px-3 py-2 rounded-xl border-2 border-black">
                         <span className="text-sm font-black">${offering.price.toFixed(2)}</span>
                       </div>
                     </div>
@@ -909,7 +909,7 @@ const RoasterSubmitModal: React.FC<{
             </button>
             <button
               type="submit"
-              className="flex-1 bg-white text-black px-6 py-4 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all"
+              className="flex-1 bg-white text-black px-6 py-4 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all border-2 border-black"
             >
               SUBMIT
             </button>
@@ -1051,7 +1051,7 @@ const EquipmentSubmitModal: React.FC<{
             </button>
             <button
               type="submit"
-              className="flex-1 bg-white text-black px-6 py-4 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all"
+              className="flex-1 bg-white text-black px-6 py-4 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all border-2 border-black"
             >
               SUBMIT
             </button>

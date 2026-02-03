@@ -243,7 +243,7 @@ const AdminCafes: React.FC = () => {
               <div className="flex gap-2 pt-2">
                 <button
                   onClick={() => handleApprove(cafe)}
-                  className="flex-1 bg-white text-black font-black text-xs uppercase tracking-wider py-3 px-4 rounded-xl hover:bg-zinc-200 transition-all flex items-center justify-center gap-2"
+                  className="flex-1 bg-white text-black font-black text-xs uppercase tracking-wider py-3 px-4 rounded-xl hover:bg-zinc-200 transition-all flex items-center justify-center gap-2 border-2 border-black"
                 >
                   <Check className="w-4 h-4" />
                   Approve
