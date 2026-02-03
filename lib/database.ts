@@ -337,7 +337,92 @@ export async function createActivity(profileId: string, data: Partial<DbBrewActi
     );
   }
 
+  // Update cafe stats if this is a cafe visit
+  if (data.is_cafe_log && data.cafe_name && data.cafe_city && data.cafe_country) {
+    await updateCafeStats(data.cafe_name, data.cafe_city, data.cafe_country);
+  }
+
   return activity;
+}
+
+// Recalculate stats for all cafes (admin/maintenance function)
+export async function recalculateAllCafeStats(): Promise<void> {
+  try {
+    const { data: cafes, error: cafesError } = await supabase
+      .from('cafes')
+      .select('id, name, city, country');
+
+    if (cafesError) {
+      console.error('Error fetching cafes:', cafesError);
+      return;
+    }
+
+    console.log(`Recalculating stats for ${cafes?.length || 0} cafes...`);
+
+    for (const cafe of cafes || []) {
+      await updateCafeStats(cafe.name, cafe.city, cafe.country);
+    }
+
+    console.log('Finished recalculating cafe stats');
+  } catch (err) {
+    console.error('Error in recalculateAllCafeStats:', err);
+  }
+}
+
+// Helper function to update cafe statistics from logged visits
+async function updateCafeStats(cafeName: string, city: string, country: string): Promise<void> {
+  try {
+    // Find the cafe
+    const { data: cafe, error: cafeError } = await supabase
+      .from('cafes')
+      .select('id')
+      .eq('name', cafeName.toUpperCase())
+      .eq('city', city.toUpperCase())
+      .eq('country', country.toUpperCase())
+      .single();
+
+    if (cafeError || !cafe) {
+      console.log('Cafe not found in cafes table:', cafeName);
+      return;
+    }
+
+    // Get all visits to this cafe
+    const { data: visits, error: visitsError } = await supabase
+      .from('brew_activities')
+      .select('rating')
+      .eq('cafe_name', cafeName.toUpperCase())
+      .eq('cafe_city', city.toUpperCase())
+      .eq('cafe_country', country.toUpperCase())
+      .eq('is_cafe_log', true);
+
+    if (visitsError) {
+      console.error('Error fetching cafe visits:', visitsError);
+      return;
+    }
+
+    // Calculate stats
+    const visitCount = visits?.length || 0;
+    const ratingsSum = visits?.reduce((sum, v) => sum + (v.rating || 0), 0) || 0;
+    const averageRating = visitCount > 0 ? Math.round((ratingsSum / visitCount) * 10) / 10 : 0;
+
+    // Update the cafe
+    const { error: updateError } = await supabase
+      .from('cafes')
+      .update({
+        visit_count: visitCount,
+        average_rating: averageRating,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', cafe.id);
+
+    if (updateError) {
+      console.error('Error updating cafe stats:', updateError);
+    } else {
+      console.log(`Updated cafe stats: ${cafeName} - ${visitCount} visits, ${averageRating} rating`);
+    }
+  } catch (err) {
+    console.error('Error in updateCafeStats:', err);
+  }
 }
 
 export async function getActivitiesFeed(userId: string, limit = 20, offset = 0): Promise<DbBrewActivity[]> {
@@ -501,6 +586,12 @@ export async function updateActivity(activityId: string, updates: Partial<DbBrew
   }
 
   console.log('Activity updated successfully:', data);
+
+  // Update cafe stats if this is a cafe visit
+  if (data.is_cafe_log && data.cafe_name && data.cafe_city && data.cafe_country) {
+    await updateCafeStats(data.cafe_name, data.cafe_city, data.cafe_country);
+  }
+
   return data;
 }
 
