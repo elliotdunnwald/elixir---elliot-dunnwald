@@ -221,7 +221,7 @@ const CoffeeShopView: React.FC = () => {
           {/* Header */}
           <div>
             <h1 className="text-5xl font-black tracking-tighter uppercase">MARKETPLACE</h1>
-            <p className="text-xs text-zinc-900 mt-2 tracking-wider uppercase">
+            <p className="text-xs text-black mt-2 tracking-wider uppercase">
               EXPLORE ROASTERS & EQUIPMENT
             </p>
           </div>
@@ -236,7 +236,7 @@ const CoffeeShopView: React.FC = () => {
               <div className="space-y-6 text-center">
                 <div>
                   <h2 className="text-5xl font-black tracking-tighter uppercase mb-3 group-hover:text-black transition-colors">ROASTERS</h2>
-                  <p className="text-lg text-zinc-600 uppercase tracking-wider font-black">
+                  <p className="text-lg text-black uppercase tracking-wider font-black">
                     {roastersWithOfferings.length} ROASTERS • {totalOfferings} OFFERINGS
                   </p>
                 </div>
@@ -251,7 +251,7 @@ const CoffeeShopView: React.FC = () => {
               <div className="space-y-6 text-center">
                 <div>
                   <h2 className="text-5xl font-black tracking-tighter uppercase mb-3 group-hover:text-black transition-colors">EQUIPMENT</h2>
-                  <p className="text-lg text-zinc-600 uppercase tracking-wider font-black">
+                  <p className="text-lg text-black uppercase tracking-wider font-black">
                     BREWERS • GRINDERS • ACCESSORIES
                   </p>
                 </div>
@@ -277,7 +277,7 @@ const CoffeeShopView: React.FC = () => {
           </button>
           <div className="flex-1">
             <h1 className="text-5xl font-black tracking-tighter uppercase">ROASTERS</h1>
-            <p className="text-xs text-zinc-900 mt-2 tracking-wider uppercase">
+            <p className="text-xs text-black mt-2 tracking-wider uppercase">
               {roastersWithOfferings.length} ROASTERS • {totalOfferings} OFFERINGS
             </p>
           </div>
@@ -293,18 +293,18 @@ const CoffeeShopView: React.FC = () => {
         {/* Search */}
         <div className="space-y-4">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-700" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-black" />
             <input
               type="text"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               placeholder="SEARCH BY ROASTER, ORIGIN, VARIETAL, PROCESS, OR ESTATE..."
-              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-2xl py-4 pl-12 pr-12 text-sm font-black text-black outline-none focus:border-white uppercase placeholder:text-zinc-700"
+              className="w-full bg-zinc-50 border-2 border-zinc-900 rounded-2xl py-4 pl-12 pr-12 text-sm font-black text-black outline-none focus:border-white uppercase placeholder:text-black"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-700 hover:text-black transition-colors border-2 border-black hover:border-black rounded-lg p-1"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-black hover:text-black transition-colors border-2 border-black hover:border-black rounded-lg p-1"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -315,11 +315,11 @@ const CoffeeShopView: React.FC = () => {
         {/* Search Results Count */}
         {searchQuery && searchResults.length > 0 && (
           <div className="flex items-center gap-3 text-sm">
-            <span className="text-zinc-600 font-black uppercase tracking-wider">
+            <span className="text-black font-black uppercase tracking-wider">
               {searchResults.length} roaster{searchResults.length !== 1 ? 's' : ''} found
             </span>
-            <span className="text-zinc-600">•</span>
-            <span className="text-zinc-600 font-black uppercase tracking-wider">
+            <span className="text-black">•</span>
+            <span className="text-black font-black uppercase tracking-wider">
               {searchResults.reduce((sum, r) => sum + r.offerings.length, 0)} total offerings
             </span>
           </div>
@@ -350,12 +350,12 @@ const CoffeeShopView: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-xs font-black tracking-tight group-hover:text-black transition-colors">{roaster.name}</h3>
-                    <div className="flex items-center gap-1.5 mt-0.5 text-[9px] text-zinc-900">
+                    <div className="flex items-center gap-1.5 mt-0.5 text-[9px] text-black">
                       <MapPin className="w-2.5 h-2.5" />
                       <span>{roaster.city}, {roaster.country}</span>
                     </div>
                   </div>
-                  <span className="text-[9px] text-zinc-600 font-black">{roaster.offerings.length} OFFERING{roaster.offerings.length !== 1 ? 'S' : ''}</span>
+                  <span className="text-[9px] text-black font-black">{roaster.offerings.length} OFFERING{roaster.offerings.length !== 1 ? 'S' : ''}</span>
                 </div>
               </div>
             );
@@ -365,8 +365,8 @@ const CoffeeShopView: React.FC = () => {
         {/* No Results */}
         {searchResults.length === 0 && searchQuery && (
           <div className="text-center py-20 space-y-4">
-            <p className="text-zinc-700 text-lg font-black uppercase tracking-wider">NO RESULTS FOUND</p>
-            <p className="text-zinc-600 text-xs font-black uppercase tracking-wider">
+            <p className="text-black text-lg font-black uppercase tracking-wider">NO RESULTS FOUND</p>
+            <p className="text-black text-xs font-black uppercase tracking-wider">
               Try searching for: Ethiopia, Kenya, Gesha, Natural, Washed, or a roaster name
             </p>
             <button
@@ -393,7 +393,7 @@ const CoffeeShopView: React.FC = () => {
           </button>
           <div className="flex-1">
             <h1 className="text-5xl font-black tracking-tighter uppercase">EQUIPMENT</h1>
-            <p className="text-xs text-zinc-900 mt-2 tracking-wider uppercase">
+            <p className="text-xs text-black mt-2 tracking-wider uppercase">
               BREWERS • GRINDERS • ACCESSORIES
             </p>
           </div>
@@ -409,8 +409,8 @@ const CoffeeShopView: React.FC = () => {
         {/* Coming soon placeholder */}
         <div className="text-center py-32 space-y-6">
           <div>
-            <h2 className="text-3xl font-black tracking-tighter text-zinc-600 uppercase mb-3">COMING SOON</h2>
-            <p className="text-sm text-zinc-500 uppercase tracking-wider font-black">
+            <h2 className="text-3xl font-black tracking-tighter text-black uppercase mb-3">COMING SOON</h2>
+            <p className="text-sm text-black uppercase tracking-wider font-black">
               Equipment marketplace launching soon
             </p>
           </div>
@@ -513,7 +513,7 @@ const RoasterOfferingsModal: React.FC<{
           <div className="flex items-start justify-between">
             <div className="space-y-2">
               <h2 className="text-4xl font-black tracking-tighter text-black">{roaster.name}</h2>
-              <div className="flex items-center gap-2 text-sm text-zinc-900">
+              <div className="flex items-center gap-2 text-sm text-black">
                 <MapPin className="w-4 h-4" />
                 <span>{roaster.city}, {roaster.country}</span>
               </div>
@@ -530,7 +530,7 @@ const RoasterOfferingsModal: React.FC<{
             </div>
             <button
               onClick={onClose}
-              className="text-zinc-900 hover:text-black transition-colors border-2 border-black hover:border-black rounded-xl p-2"
+              className="text-black hover:text-black transition-colors border-2 border-black hover:border-black rounded-xl p-2"
             >
               <X className="w-6 h-6" />
             </button>
@@ -559,12 +559,12 @@ const RoasterOfferingsModal: React.FC<{
                   )}
 
                   {/* Coffee name */}
-                  <h4 className="text-lg font-black text-black uppercase tracking-tighter leading-tight mb-3 group-hover:text-zinc-900 transition-colors">
+                  <h4 className="text-lg font-black text-black uppercase tracking-tighter leading-tight mb-3 group-hover:text-black transition-colors">
                     {offering.name}
                   </h4>
 
                   {/* Origin */}
-                  <div className="flex items-center gap-2 text-zinc-900 mb-3">
+                  <div className="flex items-center gap-2 text-black mb-3">
                     <MapPin className="w-3 h-3" />
                     <span className="text-xs font-black uppercase">{offering.origin}</span>
                   </div>
@@ -574,20 +574,20 @@ const RoasterOfferingsModal: React.FC<{
                     {offering.varietals.slice(0, 2).map((v, i) => (
                       <span
                         key={i}
-                        className="px-2 py-1 bg-white border border-black rounded-lg text-[9px] font-black text-zinc-900 uppercase"
+                        className="px-2 py-1 bg-white border border-black rounded-lg text-[9px] font-black text-black uppercase"
                       >
                         {v}
                       </span>
                     ))}
                     {offering.varietals.length > 2 && (
-                      <span className="px-2 py-1 text-[9px] font-black text-zinc-500 uppercase">
+                      <span className="px-2 py-1 text-[9px] font-black text-black uppercase">
                         +{offering.varietals.length - 2}
                       </span>
                     )}
                   </div>
 
                   {/* Processing */}
-                  <div className="text-[10px] font-black text-zinc-600 uppercase tracking-wider">
+                  <div className="text-[10px] font-black text-black uppercase tracking-wider">
                     {offering.processing}
                   </div>
                 </div>
@@ -640,13 +640,13 @@ const CoffeeDetailModal: React.FC<{
             <h2 className="text-3xl font-black text-black uppercase tracking-tighter leading-tight">
               {coffee.name}
             </h2>
-            <p className="text-xs font-black text-zinc-900 uppercase tracking-widest mt-1">
+            <p className="text-xs font-black text-black uppercase tracking-widest mt-1">
               {coffee.roaster?.name}
             </p>
           </div>
           <button
             onClick={onClose}
-            className="text-zinc-900 hover:text-black transition-colors border-2 border-black rounded-xl p-2"
+            className="text-black hover:text-black transition-colors border-2 border-black rounded-xl p-2"
           >
             <X className="w-5 h-5" />
           </button>
@@ -656,7 +656,7 @@ const CoffeeDetailModal: React.FC<{
         {(coffee.price || coffee.size) && (
           <div className="flex items-center gap-3">
             {coffee.price && (
-              <div className="bg-white text-black px-4 py-2 rounded-xl">
+              <div className="bg-white text-black px-4 py-2 rounded-xl border-2 border-black">
                 <span className="text-lg font-black">${coffee.price.toFixed(2)}</span>
               </div>
             )}
@@ -668,92 +668,94 @@ const CoffeeDetailModal: React.FC<{
           </div>
         )}
 
-        {/* Details Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Origin */}
-          <div className="space-y-1">
-            <div className="flex items-center gap-1.5">
-              <MapPin className="w-4 h-4 text-black" />
-              <h3 className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Origin</h3>
+        {/* Condensed Details Box */}
+        <div className="bg-white border-2 border-black rounded-2xl p-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+            {/* Origin */}
+            <div>
+              <div className="flex items-center gap-1.5 mb-1">
+                <MapPin className="w-4 h-4 text-black" />
+                <h3 className="text-[10px] font-black text-black uppercase tracking-widest">Origin</h3>
+              </div>
+              <p className="text-base font-black text-black uppercase">{coffee.origin}</p>
+              {coffee.region && (
+                <p className="text-xs font-black text-black uppercase">{coffee.region}</p>
+              )}
             </div>
-            <p className="text-base font-black text-black uppercase">{coffee.origin}</p>
-            {coffee.region && (
-              <p className="text-xs font-black text-zinc-700 uppercase">{coffee.region}</p>
+
+            {/* Estate */}
+            {coffee.estate && coffee.estate !== 'N/A' && coffee.estate !== 'Varies' && (
+              <div>
+                <h3 className="text-[10px] font-black text-black uppercase tracking-widest mb-1">Estate</h3>
+                <p className="text-sm font-black text-black uppercase">{coffee.estate}</p>
+              </div>
+            )}
+
+            {/* Elevation */}
+            {coffee.elevation && coffee.elevation !== 'N/A' && (
+              <div>
+                <h3 className="text-[10px] font-black text-black uppercase tracking-widest mb-1">Elevation</h3>
+                <p className="text-sm font-black text-black uppercase">{coffee.elevation}</p>
+              </div>
+            )}
+
+            {/* Lot */}
+            {coffee.lot && coffee.lot !== 'N/A' && coffee.lot !== 'Varies' && (
+              <div>
+                <h3 className="text-[10px] font-black text-black uppercase tracking-widest mb-1">Lot</h3>
+                <p className="text-sm font-black text-black uppercase">{coffee.lot}</p>
+              </div>
+            )}
+
+            {/* Varietals */}
+            <div className="md:col-span-2">
+              <h3 className="text-[10px] font-black text-black uppercase tracking-widest mb-2">Varietals</h3>
+              <div className="flex flex-wrap gap-1.5">
+                {coffee.varietals.map((v, i) => (
+                  <span
+                    key={i}
+                    className="px-3 py-1.5 bg-zinc-50 border-2 border-black rounded-lg text-xs font-black text-black uppercase"
+                  >
+                    {v}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Processing */}
+            <div>
+              <h3 className="text-[10px] font-black text-black uppercase tracking-widest mb-1">Processing</h3>
+              <p className="text-base font-black text-black uppercase">{coffee.processing}</p>
+            </div>
+
+            {/* Roast Level */}
+            {coffee.roast_level && coffee.roast_level !== 'N/A' && (
+              <div>
+                <h3 className="text-[10px] font-black text-black uppercase tracking-widest mb-1">Roast Level</h3>
+                <div className={`${getRoastLevelColor(coffee.roast_level)} inline-block px-4 py-2 rounded-lg`}>
+                  <span className="text-sm font-black text-black uppercase">{coffee.roast_level} ROAST</span>
+                </div>
+              </div>
+            )}
+
+            {/* Tasting Notes */}
+            {coffee.tasting_notes && coffee.tasting_notes.length > 0 && (
+              <div className="md:col-span-2">
+                <h3 className="text-[10px] font-black text-black uppercase tracking-widest mb-2">Tasting Notes</h3>
+                <div className="flex flex-wrap gap-1.5">
+                  {coffee.tasting_notes.map((note, i) => (
+                    <span
+                      key={i}
+                      className="px-3 py-1.5 bg-zinc-50 border-2 border-black rounded-lg text-xs font-black text-black uppercase"
+                    >
+                      {note}
+                    </span>
+                  ))}
+                </div>
+              </div>
             )}
           </div>
-
-          {/* Estate */}
-          {coffee.estate && coffee.estate !== 'N/A' && coffee.estate !== 'Varies' && (
-            <div className="space-y-1">
-              <h3 className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Estate</h3>
-              <p className="text-sm font-black text-black uppercase">{coffee.estate}</p>
-            </div>
-          )}
-
-          {/* Elevation */}
-          {coffee.elevation && coffee.elevation !== 'N/A' && (
-            <div className="space-y-1">
-              <h3 className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Elevation</h3>
-              <p className="text-sm font-black text-black uppercase">{coffee.elevation}</p>
-            </div>
-          )}
-
-          {/* Lot */}
-          {coffee.lot && coffee.lot !== 'N/A' && coffee.lot !== 'Varies' && (
-            <div className="space-y-1">
-              <h3 className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Lot</h3>
-              <p className="text-sm font-black text-black uppercase">{coffee.lot}</p>
-            </div>
-          )}
         </div>
-
-        {/* Varietals */}
-        <div className="space-y-2">
-          <h3 className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Varietals</h3>
-          <div className="flex flex-wrap gap-1.5">
-            {coffee.varietals.map((v, i) => (
-              <span
-                key={i}
-                className="px-3 py-1.5 bg-white border-2 border-black rounded-lg text-xs font-black text-black uppercase"
-              >
-                {v}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Processing */}
-        <div className="space-y-2">
-          <h3 className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Processing</h3>
-          <p className="text-base font-black text-black uppercase">{coffee.processing}</p>
-        </div>
-
-        {/* Roast Level */}
-        {coffee.roast_level && coffee.roast_level !== 'N/A' && (
-          <div className="space-y-2">
-            <h3 className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Roast Level</h3>
-            <div className={`${getRoastLevelColor(coffee.roast_level)} inline-block px-4 py-2 rounded-lg`}>
-              <span className="text-sm font-black text-black uppercase">{coffee.roast_level} ROAST</span>
-            </div>
-          </div>
-        )}
-
-        {/* Tasting Notes */}
-        {coffee.tasting_notes && coffee.tasting_notes.length > 0 && (
-          <div className="space-y-2">
-            <h3 className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Tasting Notes</h3>
-            <div className="flex flex-wrap gap-1.5">
-              {coffee.tasting_notes.map((note, i) => (
-                <span
-                  key={i}
-                  className="px-3 py-1.5 bg-zinc-50 border-2 border-black rounded-lg text-xs font-black text-black uppercase"
-                >
-                  {note}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* Close button at bottom */}
         <div className="pt-4 border-t-2 border-black">
@@ -817,7 +819,7 @@ const RoasterSubmitModal: React.FC<{
           <h2 className="text-3xl font-black tracking-tighter text-black uppercase">SUBMIT ROASTER</h2>
           <button
             onClick={onClose}
-            className="text-zinc-900 hover:text-black transition-colors border-2 border-black hover:border-black rounded-xl p-2"
+            className="text-black hover:text-black transition-colors border-2 border-black hover:border-black rounded-xl p-2"
           >
             <X className="w-6 h-6" />
           </button>
@@ -829,7 +831,7 @@ const RoasterSubmitModal: React.FC<{
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">
+            <label className="text-[10px] font-black text-black uppercase tracking-widest px-1">
               Roaster Name *
             </label>
             <input
@@ -844,7 +846,7 @@ const RoasterSubmitModal: React.FC<{
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">
+              <label className="text-[10px] font-black text-black uppercase tracking-widest px-1">
                 City *
               </label>
               <input
@@ -857,7 +859,7 @@ const RoasterSubmitModal: React.FC<{
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">
+              <label className="text-[10px] font-black text-black uppercase tracking-widest px-1">
                 State/Region
               </label>
               <input
@@ -871,7 +873,7 @@ const RoasterSubmitModal: React.FC<{
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">
+            <label className="text-[10px] font-black text-black uppercase tracking-widest px-1">
               Country *
             </label>
             <input
@@ -885,7 +887,7 @@ const RoasterSubmitModal: React.FC<{
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">
+            <label className="text-[10px] font-black text-black uppercase tracking-widest px-1">
               Website
             </label>
             <input
@@ -901,7 +903,7 @@ const RoasterSubmitModal: React.FC<{
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-6 py-4 rounded-xl border-2 border-black text-zinc-900 hover:text-black hover:border-black font-black text-sm uppercase tracking-wider transition-all"
+              className="flex-1 px-6 py-4 rounded-xl border-2 border-black text-black hover:text-black hover:border-black font-black text-sm uppercase tracking-wider transition-all"
             >
               CANCEL
             </button>
@@ -970,7 +972,7 @@ const EquipmentSubmitModal: React.FC<{
           <h2 className="text-3xl font-black tracking-tighter text-black uppercase">SUBMIT EQUIPMENT</h2>
           <button
             onClick={onClose}
-            className="text-zinc-900 hover:text-black transition-colors border-2 border-black hover:border-black rounded-xl p-2"
+            className="text-black hover:text-black transition-colors border-2 border-black hover:border-black rounded-xl p-2"
           >
             <X className="w-6 h-6" />
           </button>
@@ -982,7 +984,7 @@ const EquipmentSubmitModal: React.FC<{
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">
+            <label className="text-[10px] font-black text-black uppercase tracking-widest px-1">
               Equipment Type *
             </label>
             <select
@@ -1000,7 +1002,7 @@ const EquipmentSubmitModal: React.FC<{
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">
+              <label className="text-[10px] font-black text-black uppercase tracking-widest px-1">
                 Brand *
               </label>
               <input
@@ -1013,7 +1015,7 @@ const EquipmentSubmitModal: React.FC<{
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">
+              <label className="text-[10px] font-black text-black uppercase tracking-widest px-1">
                 Model *
               </label>
               <input
@@ -1028,7 +1030,7 @@ const EquipmentSubmitModal: React.FC<{
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">
+            <label className="text-[10px] font-black text-black uppercase tracking-widest px-1">
               Description
             </label>
             <textarea
@@ -1043,7 +1045,7 @@ const EquipmentSubmitModal: React.FC<{
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-6 py-4 rounded-xl border-2 border-black text-zinc-900 hover:text-black hover:border-black font-black text-sm uppercase tracking-wider transition-all"
+              className="flex-1 px-6 py-4 rounded-xl border-2 border-black text-black hover:text-black hover:border-black font-black text-sm uppercase tracking-wider transition-all"
             >
               CANCEL
             </button>

@@ -116,15 +116,15 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
               </Link>
               {activity.isPrivate && (
                 <span title="Private">
-                  <Lock className="w-3 h-3 sm:w-4 sm:h-4 text-zinc-400" />
+                  <Lock className="w-3 h-3 sm:w-4 sm:h-4 text-black" />
                 </span>
               )}
             </div>
             <div className="flex flex-col gap-0.5 sm:gap-1 mt-1">
-              <p className="text-[10px] sm:text-[11px] text-zinc-900 uppercase font-black tracking-widest flex items-center gap-1.5">
+              <p className="text-[10px] sm:text-[11px] text-black uppercase font-black tracking-widest flex items-center gap-1.5">
                 <MapPin className="w-3 h-3 sm:w-4 sm:h-4" /> {activity.locationName}
               </p>
-              <p className="text-[9px] sm:text-[10px] text-zinc-400 uppercase font-black tracking-[0.25em]">
+              <p className="text-[9px] sm:text-[10px] text-black uppercase font-black tracking-[0.25em]">
                 {formatTimestamp(activity.timestamp)}
               </p>
             </div>
@@ -160,15 +160,15 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
                   <p className="text-black text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] border-2 border-black px-2.5 py-1 sm:px-3 sm:py-1 rounded-lg">{activity.roaster}</p>
                 )}
                 {activity.beanOrigin !== 'UNKNOWN' && (
-                  <p className="text-zinc-600 text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em]">{activity.beanOrigin}</p>
+                  <p className="text-black text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em]">{activity.beanOrigin}</p>
                 )}
               </div>
               {(activity.estate || activity.producer || activity.varietal || activity.process) && (
                 <div className="flex flex-wrap gap-2 sm:gap-3 mt-3 sm:mt-4 max-w-full">
-                  {activity.estate && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
-                  {activity.producer && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PRODUCER: {activity.producer}</span>}
-                  {activity.varietal && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
-                  {activity.process && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
+                  {activity.estate && <span className="text-black text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
+                  {activity.producer && <span className="text-black text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PRODUCER: {activity.producer}</span>}
+                  {activity.varietal && <span className="text-black text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
+                  {activity.process && <span className="text-black text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
                 </div>
               )}
             </>
@@ -177,14 +177,14 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
             <>
               <div className="flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-2">
                 <p className="text-black text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] border-2 border-black px-2.5 py-1 sm:px-3 sm:py-1 rounded-lg">{activity.roaster}</p>
-                <p className="text-zinc-600 text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em]">{activity.beanOrigin}</p>
+                <p className="text-black text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em]">{activity.beanOrigin}</p>
               </div>
               {(activity.estate || activity.producer || activity.varietal || activity.process) && (
                 <div className="flex flex-wrap gap-2 sm:gap-3 mt-3 sm:mt-4 max-w-full">
-                  {activity.estate && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
-                  {activity.producer && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PRODUCER: {activity.producer}</span>}
-                  {activity.varietal && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
-                  {activity.process && <span className="text-zinc-400 text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
+                  {activity.estate && <span className="text-black text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">ESTATE: {activity.estate}</span>}
+                  {activity.producer && <span className="text-black text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PRODUCER: {activity.producer}</span>}
+                  {activity.varietal && <span className="text-black text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">VARIETAL: {activity.varietal}</span>}
+                  {activity.process && <span className="text-black text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 border-black px-2 py-1 rounded-lg whitespace-nowrap">PROCESS: {activity.process}</span>}
                 </div>
               )}
             </>
@@ -194,23 +194,23 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
         {activity.showParameters && (
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4 mb-6 sm:mb-8 bg-zinc-50 border-2 border-black p-4 sm:p-8 rounded-2xl sm:rounded-[2.5rem]">
             <div className="space-y-1 sm:space-y-2">
-              <p className="text-[9px] sm:text-[10px] font-black text-zinc-400 uppercase tracking-widest flex items-center gap-1.5"><FlaskConical className="w-3 h-3 sm:w-4 sm:h-4" /> RECIPE</p>
+              <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-1.5"><FlaskConical className="w-3 h-3 sm:w-4 sm:h-4" /> RECIPE</p>
               <p className="text-xs sm:text-sm font-black text-black">{activity.gramsIn}G / {activity.gramsOut}G</p>
             </div>
             <div className="space-y-1 sm:space-y-2">
-              <p className="text-[9px] sm:text-[10px] font-black text-zinc-400 uppercase tracking-widest flex items-center gap-1.5">RATIO</p>
+              <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-1.5">RATIO</p>
               <p className="text-xs sm:text-sm font-black text-black">{activity.ratio}</p>
             </div>
             <div className="space-y-1 sm:space-y-2">
-              <p className="text-[9px] sm:text-[10px] font-black text-zinc-400 uppercase tracking-widest flex items-center gap-1.5"><Zap className="w-3 h-3 sm:w-4 sm:h-4" /> GEAR</p>
+              <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-1.5"><Zap className="w-3 h-3 sm:w-4 sm:h-4" /> GEAR</p>
               <p className="text-xs sm:text-sm font-black text-black uppercase truncate">{activity.brewer}</p>
             </div>
             <div className="space-y-1 sm:space-y-2">
-              <p className="text-[9px] sm:text-[10px] font-black text-zinc-400 uppercase tracking-widest flex items-center gap-1.5"><Timer className="w-3 h-3 sm:w-4 sm:h-4" /> TIME</p>
+              <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-1.5"><Timer className="w-3 h-3 sm:w-4 sm:h-4" /> TIME</p>
               <p className="text-xs sm:text-sm font-black text-black">{activity.brewTime}</p>
             </div>
             <div className="space-y-1 sm:space-y-2">
-              <p className="text-[9px] sm:text-[10px] font-black text-zinc-400 uppercase tracking-widest flex items-center gap-1.5"><Thermometer className="w-3 h-3 sm:w-4 sm:h-4" /> TEMP</p>
+              <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-1.5"><Thermometer className="w-3 h-3 sm:w-4 sm:h-4" /> TEMP</p>
               <p className="text-xs sm:text-sm font-black text-black whitespace-nowrap">{activity.temperature}°{activity.tempUnit || 'C'}</p>
             </div>
           </div>
@@ -220,43 +220,43 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
           <div className="mb-6 sm:mb-8 flex flex-wrap gap-3 sm:gap-4">
             {activity.tds ? (
               <div className="bg-zinc-50 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border-2 border-black">
-                <p className="text-[9px] sm:text-[10px] font-black text-zinc-600 uppercase tracking-widest mb-0.5 sm:mb-1">TDS</p>
+                <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest mb-0.5 sm:mb-1">TDS</p>
                 <p className="text-[10px] sm:text-xs font-black text-black">{activity.tds}</p>
               </div>
             ) : null}
             <div className="bg-white text-black px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl">
-              <p className="text-[9px] sm:text-[10px] font-black text-zinc-800 uppercase tracking-widest mb-0.5 sm:mb-1">EXT YIELD</p>
+              <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest mb-0.5 sm:mb-1">EXT YIELD</p>
               <p className="text-[10px] sm:text-xs font-black">{activity.eyPercentage}%</p>
             </div>
           </div>
         ) : null}
 
-        {activity.description && <p className="text-zinc-600 text-sm sm:text-base mb-6 sm:mb-10 font-black uppercase tracking-wide leading-relaxed border-l-4 border-black pl-4 sm:pl-6">{activity.description}</p>}
+        {activity.description && <p className="text-black text-sm sm:text-base mb-6 sm:mb-10 font-black uppercase tracking-wide leading-relaxed border-l-4 border-black pl-4 sm:pl-6">{activity.description}</p>}
 
         <div className="flex items-center gap-2 sm:gap-3 pt-5 sm:pt-8 border-t-2 border-black" onClick={(e) => e.stopPropagation()}>
           <button
             onClick={(e) => { e.stopPropagation(); handleLike(); }}
             disabled={isMe}
-            className={`flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 transition-all ${isMe ? 'text-zinc-400 border-zinc-300 cursor-not-allowed' : (hasLiked ? 'text-black border-black bg-black/10' : 'text-zinc-900 border-zinc-300 hover:text-black hover:border-black active:text-black active:border-black')}`}
+            className={`flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 transition-all ${isMe ? 'text-black border-zinc-300 cursor-not-allowed' : (hasLiked ? 'text-black border-black bg-black/10' : 'text-black border-zinc-300 hover:text-black hover:border-black active:text-black active:border-black')}`}
           >
             <Heart className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform ${hasLiked ? 'fill-white scale-110' : ''}`} />
             <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest">{likes}</span>
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); setShowComments(!showComments); }}
-            className={`flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 transition-all ${showComments ? 'text-black border-black bg-black/10' : 'text-zinc-900 border-zinc-300 hover:text-black hover:border-black active:text-black active:border-black'}`}
+            className={`flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 transition-all ${showComments ? 'text-black border-black bg-black/10' : 'text-black border-zinc-300 hover:text-black hover:border-black active:text-black active:border-black'}`}
           >
             <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
             <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest">{activity.comments.length}</span>
           </button>
-          <button onClick={(e) => e.stopPropagation()} className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-zinc-900 border-zinc-300 hover:text-black hover:border-black active:text-black active:border-black transition-all ml-auto">
+          <button onClick={(e) => e.stopPropagation()} className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-black border-zinc-300 hover:text-black hover:border-black active:text-black active:border-black transition-all ml-auto">
             <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
             <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest hidden sm:inline">SHARE</span>
           </button>
           {isMe && onEdit && (
             <button
               onClick={(e) => { e.stopPropagation(); onEdit(activity); }}
-              className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-zinc-900 border-zinc-300 hover:text-black hover:border-black active:text-black active:border-black transition-all"
+              className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-black border-zinc-300 hover:text-black hover:border-black active:text-black active:border-black transition-all"
               title="Edit this post"
             >
               <Edit3 className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -266,7 +266,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
           {isMe && onDelete && (
             <button
               onClick={(e) => { e.stopPropagation(); handleDelete(); }}
-              className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-zinc-900 border-zinc-300 hover:text-red-500 hover:border-red-900 active:text-red-500 active:border-red-900 transition-all"
+              className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-black border-zinc-300 hover:text-red-500 hover:border-red-900 active:text-red-500 active:border-red-900 transition-all"
               title="Delete this post"
             >
               <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -283,11 +283,11 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
                   <div key={comment.id} className="bg-zinc-50 border-2 border-black rounded-xl sm:rounded-2xl p-3 sm:p-4 space-y-1.5 sm:space-y-2">
                     <div className="flex items-center gap-2 sm:gap-3">
                       <p className="font-black text-black text-xs sm:text-sm uppercase tracking-tight">{comment.userName}</p>
-                      <p className="text-[9px] sm:text-[10px] font-black text-zinc-400 uppercase tracking-widest">
+                      <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest">
                         {formatTimestamp(comment.timestamp)}
                       </p>
                     </div>
-                    <p className="text-zinc-600 text-xs sm:text-sm font-bold uppercase tracking-wide leading-relaxed">
+                    <p className="text-black text-xs sm:text-sm font-bold uppercase tracking-wide leading-relaxed">
                       {comment.text}
                     </p>
                   </div>
@@ -302,12 +302,12 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
                 onChange={e => setCommentText(e.target.value)}
                 placeholder="ADD A COMMENT..."
                 disabled={submittingComment}
-                className="flex-grow bg-zinc-50 border-2 border-black rounded-xl sm:rounded-2xl px-4 py-3 sm:px-5 sm:py-4 text-black font-black text-xs sm:text-sm outline-none focus:border-black uppercase placeholder:text-zinc-400 disabled:opacity-50"
+                className="flex-grow bg-zinc-50 border-2 border-black rounded-xl sm:rounded-2xl px-4 py-3 sm:px-5 sm:py-4 text-black font-black text-xs sm:text-sm outline-none focus:border-black uppercase placeholder:text-black disabled:opacity-50"
               />
               <button
                 type="submit"
                 disabled={!commentText.trim() || submittingComment}
-                className="bg-white text-black px-4 py-3 sm:px-6 sm:py-4 rounded-xl sm:rounded-2xl font-black text-xs uppercase tracking-widest transition-all active:scale-95 disabled:bg-zinc-100 disabled:text-zinc-400 flex items-center gap-2"
+                className="bg-white text-black px-4 py-3 sm:px-6 sm:py-4 rounded-xl sm:rounded-2xl font-black text-xs uppercase tracking-widest transition-all active:scale-95 disabled:bg-zinc-100 disabled:text-black flex items-center gap-2"
               >
                 <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </button>
