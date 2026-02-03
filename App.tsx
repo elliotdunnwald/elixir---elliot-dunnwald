@@ -380,7 +380,7 @@ const MobileNav: React.FC = () => {
     { path: '/profile/me', label: 'PROFILE', icon: <User className="w-6 h-6" /> },
   ];
   return (
-    <nav className="bg-zinc-100 border-t-2 border-black sm:hidden flex justify-around items-center h-20 px-2 shadow-2xl shadow-black/5">
+    <nav className="fixed bottom-0 left-0 right-0 bg-zinc-100 border-t-2 border-black sm:hidden flex justify-around items-center h-20 px-2 shadow-2xl shadow-black/5 z-40">
       {navItems.map((item) => (
         <Link
           key={item.label}
@@ -488,7 +488,7 @@ const AppContent: React.FC = () => {
           onOpenNotifications={() => setIsNotificationsOpen(true)}
           notificationCount={notificationCount}
         />
-        <main className="flex-grow max-w-6xl mx-auto w-full px-4 pt-24 pb-8 sm:pt-28 sm:pb-12">
+        <main className="flex-grow max-w-6xl mx-auto w-full px-4 pt-24 pb-28 sm:pt-28 sm:pb-12">
           <Routes>
             <Route path="/" element={<FeedView />} />
             <Route path="/explore" element={<ExploreView />} />
