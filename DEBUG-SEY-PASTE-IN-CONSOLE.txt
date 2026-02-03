@@ -1,0 +1,74 @@
+// ======================================
+// PASTE THIS INTO BROWSER CONSOLE
+// ======================================
+// Open the app, press F12 to open console, paste this entire block and hit Enter
+
+(async function debugSEY() {
+  const { supabase } = window;
+
+  if (!supabase) {
+    console.error('Supabase not found - make sure you are on the Elixr app page');
+    return;
+  }
+
+  console.log('\n=== DEBUGGING SEY CAFE ===\n');
+
+  // Check cafes table
+  const { data: cafes } = await supabase
+    .from('cafes')
+    .select('*')
+    .ilike('name', '%SEY%');
+
+  console.log('1. SEY in cafes table:', cafes);
+
+  if (cafes && cafes[0]) {
+    const c = cafes[0];
+    console.log(`   Name: "${c.name}" | Uppercase: "${c.name.toUpperCase()}"`);
+    console.log(`   City: "${c.city}" | Uppercase: "${c.city.toUpperCase()}"`);
+    console.log(`   Country: "${c.country}" | Uppercase: "${c.country.toUpperCase()}"`);
+    console.log(`   Visit count: ${c.visit_count}, Rating: ${c.average_rating}`);
+  }
+
+  // Check brew_activities
+  const { data: visits } = await supabase
+    .from('brew_activities')
+    .select('*')
+    .ilike('cafe_name', '%SEY%')
+    .eq('is_cafe_log', true);
+
+  console.log('\n2. SEY visits in brew_activities:', visits);
+
+  if (visits && visits[0]) {
+    const v = visits[0];
+    console.log(`   Cafe name: "${v.cafe_name}" | Uppercase: "${v.cafe_name?.toUpperCase()}"`);
+    console.log(`   City: "${v.cafe_city}" | Uppercase: "${v.cafe_city?.toUpperCase()}"`);
+    console.log(`   Country: "${v.cafe_country}" | Uppercase: "${v.cafe_country?.toUpperCase()}"`);
+    console.log(`   Rating: ${v.rating}`);
+  }
+
+  // Compare
+  if (cafes && cafes[0] && visits && visits[0]) {
+    const c = cafes[0];
+    const v = visits[0];
+
+    console.log('\n3. COMPARISON:');
+    console.log(`   Names match? ${c.name.toUpperCase().trim() === v.cafe_name?.toUpperCase().trim()}`);
+    console.log(`     Cafe: "${c.name.toUpperCase().trim()}"`);
+    console.log(`     Visit: "${v.cafe_name?.toUpperCase().trim()}"`);
+
+    console.log(`\n   Cities match? ${c.city.toUpperCase().trim() === v.cafe_city?.toUpperCase().trim()}`);
+    console.log(`     Cafe: "${c.city.toUpperCase().trim()}"`);
+    console.log(`     Visit: "${v.cafe_city?.toUpperCase().trim()}"`);
+
+    console.log(`\n   Countries match? ${c.country.toUpperCase().trim() === v.cafe_country?.toUpperCase().trim()}`);
+    console.log(`     Cafe: "${c.country.toUpperCase().trim()}"`);
+    console.log(`     Visit: "${v.cafe_country?.toUpperCase().trim()}"`);
+
+    // Show exact character bytes (to detect hidden whitespace)
+    console.log('\n4. CHARACTER ANALYSIS (to find hidden spaces/chars):');
+    console.log(`   Cafe name chars:`, c.name.split('').map(ch => `'${ch}'(${ch.charCodeAt(0)})`).join(' '));
+    console.log(`   Visit name chars:`, (v.cafe_name || '').split('').map(ch => `'${ch}'(${ch.charCodeAt(0)})`).join(' '));
+  }
+
+  console.log('\n=== DEBUG COMPLETE ===\n');
+})();
