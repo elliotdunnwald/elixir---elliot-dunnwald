@@ -149,11 +149,11 @@ const AdminCafes: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-28 sm:pb-0">
       <button
-        onClick={() => navigate('/profile/me')}
+        onClick={() => navigate(-1)}
         className="flex items-center gap-2 text-black hover:text-black transition-colors mb-4"
       >
         <ArrowLeft className="w-5 h-5" />
-        <span className="text-sm font-black uppercase tracking-wider">Back to Profile</span>
+        <span className="text-sm font-black uppercase tracking-wider">Back</span>
       </button>
 
       <div className="flex items-center justify-between">

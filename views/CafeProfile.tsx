@@ -73,10 +73,10 @@ const CafeProfile: React.FC = () => {
         <div className="py-32 text-center border-4 border-dashed border-red-900 rounded-[3.5rem]">
           <h1 className="text-5xl font-black text-black uppercase tracking-tighter mb-4">CAFE NOT FOUND</h1>
           <button
-            onClick={() => navigate('/explore')}
+            onClick={() => navigate(-1)}
             className="mt-8 bg-white text-black px-8 py-4 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-zinc-200 transition-all border-2 border-black"
           >
-            Back to Explore
+            Back
           </button>
         </div>
       </div>
