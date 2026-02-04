@@ -119,7 +119,6 @@ const CafeProfile: React.FC = () => {
         <div className="grid grid-cols-2 gap-4 pt-6 border-t-2 border-black">
           <div className="bg-zinc-50 p-6 rounded-xl border-2 border-black">
             <div className="flex items-center gap-2 text-black mb-2">
-              <Coffee className="w-4 h-4" />
               <span className="text-[10px] font-black uppercase tracking-widest">Total Visits</span>
             </div>
             <p className="text-3xl font-black text-black">{allVisits.length}</p>
