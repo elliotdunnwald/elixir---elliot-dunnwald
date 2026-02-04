@@ -598,7 +598,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
       <div className="absolute inset-0 bg-white/60 backdrop-blur-sm pointer-events-auto" onClick={onClose} />
       <div className="relative bg-zinc-50 w-full max-w-2xl h-full sm:h-auto sm:rounded-xl shadow-2xl sm:border-4 border-black overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95 pointer-events-auto">
 
-        <div className="px-8 py-6 border-b-2 border-black bg-white sticky top-0 z-20">
+        <div className="px-6 sm:px-8 pt-16 sm:pt-6 pb-6 border-b-2 border-black bg-white sticky top-0 z-20">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-black text-black uppercase tracking-wider">{editActivity ? 'Edit Brew' : 'Log Brew'}</h2>
             <button onClick={onClose} className="text-black hover:text-black transition-all" disabled={uploading}><X className="w-6 h-6" /></button>
@@ -623,7 +623,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="overflow-y-auto px-8 py-6 space-y-6 custom-scrollbar bg-zinc-50">
+        <form onSubmit={handleSubmit} className="overflow-y-auto px-6 sm:px-8 py-6 space-y-6 custom-scrollbar bg-zinc-50">
 
           {/* Home Brew / Cafe Visit Toggle */}
           <section className="space-y-3">
@@ -1538,7 +1538,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
             </section>
           )}
 
-          <section className="pt-4 pb-8 sm:pb-4">
+          <section className="pt-4 pb-12 sm:pb-4">
             <button type="submit" disabled={uploading} className="w-full bg-white text-black font-black text-sm uppercase tracking-widest py-6 rounded-xl transition-all active:scale-[0.98] flex items-center justify-center gap-3 disabled:bg-zinc-400 disabled:text-black border-2 border-black">
               {uploading ? (
                 <>
