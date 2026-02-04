@@ -5,3 +5,7 @@ dist/
 .DS_Store
 *.log
 .vercel
+
+# Capacitor native platforms
+ios/
+android/
