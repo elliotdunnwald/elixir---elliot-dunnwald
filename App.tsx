@@ -486,11 +486,11 @@ const AppContent: React.FC = () => {
       today.setHours(0, 0, 0, 0);
 
       const { data, error } = await supabase
-        .from('activities')
-        .select('grams_in, brew_type, is_cafe_log, timestamp')
+        .from('brew_activities')
+        .select('grams_in, brew_type, is_cafe_log, created_at')
         .eq('profile_id', profile.id)
-        .gte('timestamp', today.toISOString())
-        .order('timestamp', { ascending: false });
+        .gte('created_at', today.toISOString())
+        .order('created_at', { ascending: false });
 
       if (error) {
         console.error('Error loading caffeine data:', error);
@@ -516,7 +516,7 @@ const AppContent: React.FC = () => {
         {
           event: '*',
           schema: 'public',
-          table: 'activities',
+          table: 'brew_activities',
           filter: `profile_id=eq.${profile.id}`
         },
         loadTodayCaffeine
