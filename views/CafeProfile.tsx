@@ -86,11 +86,11 @@ const CafeProfile: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-12 pb-28 sm:pb-0">
       <button
-        onClick={() => navigate('/explore')}
+        onClick={() => navigate(-1)}
         className="flex items-center gap-2 text-black hover:text-black transition-colors"
       >
         <ArrowLeft className="w-5 h-5" />
-        <span className="text-sm font-black uppercase tracking-wider">Back to Explore</span>
+        <span className="text-sm font-black uppercase tracking-wider">Back</span>
       </button>
 
       {/* Cafe Header */}
