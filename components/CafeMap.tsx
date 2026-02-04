@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap, Circle } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap, Circle, ZoomControl } from 'react-leaflet';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Star, Coffee, Navigation } from 'lucide-react';
 import type { Cafe } from '../lib/database';
@@ -120,11 +120,12 @@ const CafeMap: React.FC<CafeMapProps> = ({ cafes, center, onCafeClick }) => {
         zoom={12}
         scrollWheelZoom={true}
         style={{ width: '100%', height: '100%' }}
-        zoomControl={true}
+        zoomControl={false}
         whenReady={() => {
           console.log('Map is ready');
         }}
       >
+        <ZoomControl position="bottomright" />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
