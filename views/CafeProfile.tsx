@@ -114,9 +114,8 @@ const CafeProfile: React.FC = () => {
             {matchingRoaster && (
               <button
                 onClick={() => navigate('/marketplace', { state: { selectedRoaster: matchingRoaster.name } })}
-                className="mt-4 bg-black text-white px-4 py-2 rounded-xl border-2 border-black hover:bg-zinc-800 transition-all text-xs font-black uppercase tracking-wider inline-flex items-center gap-2"
+                className="mt-3 bg-black text-white px-3 py-1.5 rounded-lg border-2 border-black hover:bg-zinc-800 transition-all text-[10px] font-black uppercase tracking-wider"
               >
-                <Coffee className="w-4 h-4" />
                 View Roaster Page
               </button>
             )}
