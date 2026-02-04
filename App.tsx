@@ -326,7 +326,7 @@ const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void;
   ];
 
   return (
-    <nav className="sticky top-0 z-40 bg-white border-b-2 border-black hidden sm:block">
+    <nav className="sticky top-0 z-[1000] bg-white border-b-2 border-black hidden sm:block">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between h-20">
           <Link to="/" className="flex items-center"><span className="text-2xl font-black text-black tracking-tighter uppercase leading-none">ELIXR</span></Link>
@@ -355,7 +355,7 @@ const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void;
 
 const MobileHeader: React.FC<{ onOpenNotifications: () => void; notificationCount: number }> = ({ onOpenNotifications, notificationCount }) => {
   return (
-    <div className="sm:hidden sticky top-0 z-40 bg-white border-b-2 border-black h-16 flex items-center justify-between px-6">
+    <div className="sm:hidden sticky top-0 z-[1000] bg-white border-b-2 border-black h-16 flex items-center justify-between px-6">
       <Link to="/" className="flex items-center">
         <span className="text-xl font-black text-black tracking-tighter uppercase leading-none">ELIXR</span>
       </Link>
@@ -380,7 +380,7 @@ const MobileNav: React.FC = () => {
     { path: '/profile/me', label: 'PROFILE', icon: <User className="w-6 h-6" /> },
   ];
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-zinc-100 border-t-2 border-black sm:hidden flex justify-around items-center h-20 px-2 shadow-2xl shadow-black/5 z-40">
+    <nav className="fixed bottom-0 left-0 right-0 bg-zinc-100 border-t-2 border-black sm:hidden flex justify-around items-center h-20 px-2 shadow-2xl shadow-black/5 z-[1000]">
       {navItems.map((item) => (
         <Link
           key={item.label}
