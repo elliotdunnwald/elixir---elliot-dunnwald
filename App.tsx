@@ -565,11 +565,13 @@ const AppContent: React.FC = () => {
           notificationCount={notificationCount}
           todayCaffeine={todayCaffeine}
         />
-        <MobileHeader
-          onOpenNotifications={() => setIsNotificationsOpen(true)}
-          notificationCount={notificationCount}
-          todayCaffeine={todayCaffeine}
-        />
+        {!isLogModalOpen && (
+          <MobileHeader
+            onOpenNotifications={() => setIsNotificationsOpen(true)}
+            notificationCount={notificationCount}
+            todayCaffeine={todayCaffeine}
+          />
+        )}
         <main className="flex-grow max-w-6xl mx-auto w-full px-4 pt-24 pb-28 sm:pt-28 sm:pb-12">
           <Routes>
             <Route path="/" element={<FeedView />} />
@@ -584,10 +586,12 @@ const AppContent: React.FC = () => {
             <Route path="/profile/:userId" element={<ProfileView />} />
           </Routes>
         </main>
-        <MobileNav />
-        <button onClick={() => setIsLogModalOpen(true)} className="fixed bottom-28 right-6 z-30 bg-white text-black w-16 h-16 rounded-full flex items-center justify-center shadow-2xl shadow-black/20 border-4 border-black sm:hidden active:scale-90 transition-all">
-          <Plus className="w-8 h-8" />
-        </button>
+        {!isLogModalOpen && <MobileNav />}
+        {!isLogModalOpen && (
+          <button onClick={() => setIsLogModalOpen(true)} className="fixed bottom-28 right-6 z-30 bg-white text-black w-16 h-16 rounded-full flex items-center justify-center shadow-2xl shadow-black/20 border-4 border-black sm:hidden active:scale-90 transition-all">
+            <Plus className="w-8 h-8" />
+          </button>
+        )}
         <BrewLogModal isOpen={isLogModalOpen} onClose={() => setIsLogModalOpen(false)} />
         <NotificationsPanel
           isOpen={isNotificationsOpen}
