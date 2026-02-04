@@ -135,14 +135,14 @@ const CafeProfile: React.FC = () => {
 
       {/* Visits/Reviews Section */}
       <div className="space-y-6">
-        <div className="flex items-center justify-between flex-wrap gap-4">
+        <div className="space-y-4">
           <h2 className="text-2xl font-black text-black uppercase tracking-tight">
             {filter === 'reviews' ? 'Reviews' : filter === 'visits' ? 'Visits' : 'All Activity'}
           </h2>
 
           {/* Filter Controls */}
-          <div className="flex gap-3 flex-wrap">
-            {/* View Filter */}
+          <div className="space-y-3">
+            {/* View Filter Pills */}
             <div className="flex gap-2">
               <button
                 onClick={() => setFilter('all')}
@@ -170,25 +170,16 @@ const CafeProfile: React.FC = () => {
               </button>
             </div>
 
-            {/* Following Filter */}
-            <div className="flex gap-2">
-              <button
-                onClick={() => setFollowingOnly(false)}
-                className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${
-                  !followingOnly ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-zinc-100'
-                }`}
-              >
-                Public
-              </button>
-              <button
-                onClick={() => setFollowingOnly(true)}
-                className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${
-                  followingOnly ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-zinc-100'
-                }`}
-              >
-                Following
-              </button>
-            </div>
+            {/* Following Toggle */}
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={followingOnly}
+                onChange={(e) => setFollowingOnly(e.target.checked)}
+                className="w-4 h-4 border-2 border-black rounded bg-white checked:bg-black cursor-pointer"
+              />
+              <span className="text-[10px] font-black text-black uppercase tracking-widest">Following Only</span>
+            </label>
           </div>
         </div>
 
