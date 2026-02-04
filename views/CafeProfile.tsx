@@ -94,20 +94,20 @@ const CafeProfile: React.FC = () => {
       </button>
 
       {/* Cafe Header */}
-      <div className="bg-white border-2 border-black rounded-[3rem] p-12 space-y-6">
-        <div className="flex items-start justify-between gap-6">
-          <div className="flex-1">
-            <h1 className="text-5xl font-black text-black uppercase tracking-tighter leading-tight mb-4">
+      <div className="bg-white border-2 border-black rounded-[3rem] p-6 sm:p-12 space-y-6">
+        <div className="flex flex-col sm:flex-row items-start justify-between gap-4 sm:gap-6">
+          <div className="flex-1 w-full">
+            <h1 className="text-3xl sm:text-5xl font-black text-black uppercase tracking-tighter leading-tight mb-3 sm:mb-4">
               {cafe.name}
             </h1>
-            <div className="flex items-center gap-3 text-black">
-              <MapPin className="w-5 h-5" />
-              <span className="text-lg font-black uppercase tracking-wide">
+            <div className="flex items-center gap-2 sm:gap-3 text-black">
+              <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="text-sm sm:text-lg font-black uppercase tracking-wide">
                 {cafe.city}, {cafe.country}
               </span>
             </div>
             {cafe.address && (
-              <p className="text-sm font-black text-black uppercase tracking-wide mt-2">
+              <p className="text-xs sm:text-sm font-black text-black uppercase tracking-wide mt-2">
                 {cafe.address}
               </p>
             )}
@@ -121,8 +121,8 @@ const CafeProfile: React.FC = () => {
             )}
           </div>
 
-          <div className="bg-white text-black px-8 py-6 rounded-2xl text-center min-w-[120px] border-2 border-black">
-            <p className="text-4xl font-black">
+          <div className="bg-white text-black px-6 py-4 sm:px-8 sm:py-6 rounded-2xl text-center min-w-[100px] sm:min-w-[120px] border-2 border-black">
+            <p className="text-3xl sm:text-4xl font-black">
               {cafe.average_rating > 0 ? cafe.average_rating.toFixed(1) : 'N/A'}
             </p>
             <p className="text-[10px] font-black uppercase tracking-widest mt-1 text-black">
@@ -131,19 +131,19 @@ const CafeProfile: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 pt-6 border-t-2 border-black">
-          <div className="bg-zinc-50 p-6 rounded-xl border-2 border-black">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 pt-6 border-t-2 border-black">
+          <div className="bg-zinc-50 p-4 sm:p-6 rounded-xl border-2 border-black">
             <div className="flex items-center gap-2 text-black mb-2">
               <span className="text-[10px] font-black uppercase tracking-widest">Total Visits</span>
             </div>
-            <p className="text-3xl font-black text-black">{allVisits.length}</p>
+            <p className="text-2xl sm:text-3xl font-black text-black">{allVisits.length}</p>
           </div>
-          <div className="bg-zinc-50 p-6 rounded-xl border-2 border-black">
+          <div className="bg-zinc-50 p-4 sm:p-6 rounded-xl border-2 border-black">
             <div className="flex items-center gap-2 text-black mb-2">
               <Star className="w-4 h-4" />
               <span className="text-[10px] font-black uppercase tracking-widest">Reviews</span>
             </div>
-            <p className="text-3xl font-black text-black">{allVisits.filter(v => v.rating !== undefined && v.rating !== null).length}</p>
+            <p className="text-2xl sm:text-3xl font-black text-black">{allVisits.filter(v => v.rating !== undefined && v.rating !== null).length}</p>
           </div>
         </div>
       </div>
