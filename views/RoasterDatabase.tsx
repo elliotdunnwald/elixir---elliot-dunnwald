@@ -311,12 +311,12 @@ const RoasterDetailModal: React.FC<{
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-zinc-50/80 backdrop-blur-sm overflow-y-auto p-6"
+      className="fixed inset-0 z-50 bg-zinc-50/80 backdrop-blur-sm overflow-y-auto p-4 sm:p-6"
       onClick={onClose}
     >
       <div className="min-h-full flex items-center justify-center py-10">
         <div
-          className="max-w-4xl w-full bg-white border-2 border-black rounded-[3.5rem] p-8 space-y-6 shadow-2xl shadow-black/5"
+          className="max-w-4xl w-full bg-white border-2 border-black rounded-2xl sm:rounded-[3.5rem] p-5 sm:p-8 space-y-6 shadow-2xl shadow-black/5"
           onClick={(e) => e.stopPropagation()}
         >
         <div className="flex items-start justify-between">
@@ -491,11 +491,11 @@ const AddRoasterModal: React.FC<{
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-zinc-50/80 backdrop-blur-sm flex items-center justify-center p-6"
+      className="fixed inset-0 z-50 bg-zinc-50/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
       onClick={onClose}
     >
       <div
-        className="max-w-md w-full bg-white border-2 border-black rounded-[3.5rem] p-8 space-y-6 shadow-2xl shadow-black/5"
+        className="max-w-md w-full bg-white border-2 border-black rounded-2xl sm:rounded-[3.5rem] p-6 sm:p-8 space-y-6 shadow-2xl shadow-black/5"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
@@ -622,11 +622,11 @@ const AddOfferingModal: React.FC<{
 
   return (
     <div
-      className="fixed inset-0 z-[60] bg-zinc-50/80 backdrop-blur-sm flex items-center justify-center p-6 overflow-y-auto"
+      className="fixed inset-0 z-[60] bg-zinc-50/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
       onClick={onClose}
     >
       <div
-        className="max-w-2xl w-full bg-white border-2 border-black rounded-[3.5rem] p-8 space-y-6 my-10 shadow-2xl shadow-black/5"
+        className="max-w-2xl w-full bg-white border-2 border-black rounded-2xl sm:rounded-[3.5rem] p-6 sm:p-8 space-y-6 my-10 shadow-2xl shadow-black/5"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">

@@ -236,11 +236,11 @@ const AddEquipmentModal: React.FC<{
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-zinc-50/80 backdrop-blur-sm flex items-center justify-center p-6"
+      className="fixed inset-0 z-50 bg-zinc-50/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
       onClick={onClose}
     >
       <div
-        className="max-w-md w-full bg-zinc-50 border-2 border-black rounded-3xl p-8 space-y-6"
+        className="max-w-md w-full bg-zinc-50 border-2 border-black rounded-2xl sm:rounded-3xl p-6 sm:p-8 space-y-6"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">

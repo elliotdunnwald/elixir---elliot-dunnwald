@@ -501,12 +501,12 @@ const RoasterOfferingsModal: React.FC<{
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-zinc-50/80 backdrop-blur-sm overflow-y-auto p-6"
+      className="fixed inset-0 z-50 bg-zinc-50/80 backdrop-blur-sm overflow-y-auto p-4 sm:p-6"
       onClick={onClose}
     >
       <div className="min-h-full flex items-center justify-center py-10">
         <div
-          className="max-w-6xl w-full bg-zinc-50 border-2 border-black rounded-3xl p-8 space-y-6"
+          className="max-w-6xl w-full bg-zinc-50 border-2 border-black rounded-2xl sm:rounded-3xl p-5 sm:p-8 space-y-6"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
@@ -626,12 +626,12 @@ const CoffeeDetailModal: React.FC<{
 
   return (
     <div
-      className="fixed inset-0 z-[60] bg-zinc-50/80 backdrop-blur-sm overflow-y-auto p-6"
+      className="fixed inset-0 z-[60] bg-zinc-50/80 backdrop-blur-sm overflow-y-auto p-4 sm:p-6"
       onClick={onClose}
     >
       <div className="min-h-full flex items-center justify-center py-6">
         <div
-          className="max-w-3xl w-full bg-zinc-50 border-2 border-black rounded-2xl p-6 space-y-4"
+          className="max-w-3xl w-full bg-zinc-50 border-2 border-black rounded-2xl p-5 sm:p-6 space-y-4"
           onClick={(e) => e.stopPropagation()}
         >
         {/* Header */}
@@ -808,11 +808,11 @@ const RoasterSubmitModal: React.FC<{
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-zinc-50/80 backdrop-blur-sm flex items-center justify-center p-6"
+      className="fixed inset-0 z-50 bg-zinc-50/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
       onClick={onClose}
     >
       <div
-        className="max-w-md w-full bg-zinc-50 border-2 border-black rounded-3xl p-8 space-y-6"
+        className="max-w-md w-full bg-zinc-50 border-2 border-black rounded-2xl sm:rounded-3xl p-6 sm:p-8 space-y-6"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
@@ -961,11 +961,11 @@ const EquipmentSubmitModal: React.FC<{
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-zinc-50/80 backdrop-blur-sm flex items-center justify-center p-6"
+      className="fixed inset-0 z-50 bg-zinc-50/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
       onClick={onClose}
     >
       <div
-        className="max-w-md w-full bg-zinc-50 border-2 border-black rounded-3xl p-8 space-y-6"
+        className="max-w-md w-full bg-zinc-50 border-2 border-black rounded-2xl sm:rounded-3xl p-6 sm:p-8 space-y-6"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
