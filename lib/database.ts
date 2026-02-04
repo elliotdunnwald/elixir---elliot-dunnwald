@@ -1122,6 +1122,20 @@ export async function getRoasters(): Promise<Roaster[]> {
   return data || [];
 }
 
+export async function getRoasterByName(name: string): Promise<Roaster | null> {
+  const { data, error } = await supabase
+    .from('roasters')
+    .select('*')
+    .ilike('name', name)
+    .single();
+
+  if (error) {
+    return null;
+  }
+
+  return data;
+}
+
 export async function getCoffeeOfferings(filters?: {
   roasterId?: string;
   origin?: string;

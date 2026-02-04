@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, MapPin, Star, Coffee, Loader2 } from 'lucide-react';
-import { getCafeById, getActivitiesByCafe, getActivitiesByCafeFiltered, type Cafe, type BrewActivity } from '../lib/database';
+import { getCafeById, getActivitiesByCafe, getActivitiesByCafeFiltered, getRoasterByName, type Cafe, type BrewActivity, type Roaster } from '../lib/database';
 import { useAuth } from '../hooks/useAuth';
 import PostCard from '../components/PostCard';
 import VisitCard from '../components/VisitCard';
@@ -18,6 +18,7 @@ const CafeProfile: React.FC = () => {
   const [selectedActivityId, setSelectedActivityId] = useState<string | null>(null);
   const [filter, setFilter] = useState<'reviews' | 'visits'>('visits');
   const [followingOnly, setFollowingOnly] = useState(false);
+  const [matchingRoaster, setMatchingRoaster] = useState<Roaster | null>(null);
 
   useEffect(() => {
     if (cafeId) {
@@ -43,6 +44,12 @@ const CafeProfile: React.FC = () => {
       setCafe(cafeData);
       setAllVisits(allVisitsData || []);
       setVisits(filteredVisitsData || []);
+
+      // Check if cafe is also a roaster
+      if (cafeData) {
+        const roaster = await getRoasterByName(cafeData.name);
+        setMatchingRoaster(roaster);
+      }
     } catch (err) {
       console.error('Error loading cafe data:', err);
     } finally {
@@ -103,6 +110,15 @@ const CafeProfile: React.FC = () => {
               <p className="text-sm font-black text-black uppercase tracking-wide mt-2">
                 {cafe.address}
               </p>
+            )}
+            {matchingRoaster && (
+              <button
+                onClick={() => navigate('/marketplace', { state: { selectedRoaster: matchingRoaster.name } })}
+                className="mt-4 bg-black text-white px-4 py-2 rounded-xl border-2 border-black hover:bg-zinc-800 transition-all text-xs font-black uppercase tracking-wider inline-flex items-center gap-2"
+              >
+                <Coffee className="w-4 h-4" />
+                View Roaster Page
+              </button>
             )}
           </div>
 
