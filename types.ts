@@ -96,7 +96,7 @@ export interface BrewActivity {
   temperature: number;
   tempUnit: 'C' | 'F';
   brewTime: string;
-  rating: number;
+  rating?: number;
   comments: Comment[];
   isCafeLog?: boolean;
   cafeName?: string;

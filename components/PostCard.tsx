@@ -131,9 +131,11 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
           </div>
         </div>
 
-        <div className="bg-white text-black px-3 py-2 sm:px-6 sm:py-3 rounded-xl sm:rounded-2xl border-2 border-black flex items-center justify-center shadow-2xl shrink-0">
-          <span className="text-xl sm:text-3xl font-black tracking-tighter leading-none">{activity.rating.toFixed(1)}</span>
-        </div>
+        {activity.rating !== undefined && activity.rating !== null && (
+          <div className="bg-white text-black px-3 py-2 sm:px-6 sm:py-3 rounded-xl sm:rounded-2xl border-2 border-black flex items-center justify-center shadow-2xl shrink-0">
+            <span className="text-xl sm:text-3xl font-black tracking-tighter leading-none">{activity.rating.toFixed(1)}</span>
+          </div>
+        )}
       </div>
 
       {activity.imageUrl && (

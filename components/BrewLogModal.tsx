@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, MapPin, Coffee, Award, Eye, EyeOff, Settings2, Calculator, Plus, Image as ImageIcon, MessageSquare, ArrowRight, RotateCcw, FlaskConical, Beaker, Loader2, ChevronRight } from 'lucide-react';
+import { X, MapPin, Coffee, Award, Eye, EyeOff, Settings2, Calculator, Plus, Image as ImageIcon, MessageSquare, ArrowRight, RotateCcw, FlaskConical, Beaker, Loader2, ChevronRight, Star } from 'lucide-react';
 import { BrewActivity } from '../types';
 import { useSettings } from '../context/SettingsContext';
 import { useAuth } from '../hooks/useAuth';
@@ -87,6 +87,7 @@ const INITIAL_FORM_DATA = {
   showCoffeeDetails: false,
   showDescription: false,
   showWhen: false,
+  showRating: true,
 
   // Existing fields
   title: '',
@@ -279,6 +280,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           temp: editActivity.temperature?.toString() || '94',
           brewTime: editActivity.brewTime || '02:30',
           rating: editActivity.rating || 8.0,
+          showRating: editActivity.rating !== undefined && editActivity.rating !== null,
           tds: editActivity.tds?.toString() || '0',
           eyPercentage: editActivity.eyPercentage || 0,
           isPrivate: editActivity.isPrivate || false,
@@ -491,7 +493,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
         temperature: !formData.isCafeVisit ? (parseFloat(formData.temp) || 0) : 0,
         temp_unit: tempUnit,
         brew_time: !formData.isCafeVisit ? formData.brewTime : 'N/A',
-        rating: formData.rating,
+        rating: formData.showRating ? formData.rating : undefined,
         tds: !formData.isCafeVisit ? (parseFloat(formData.tds) || undefined) : undefined,
         ey_percentage: !formData.isCafeVisit ? (formData.eyPercentage || undefined) : undefined,
         show_parameters: !formData.isCafeVisit ? formData.showParameters : false,
@@ -1432,28 +1434,39 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
             )}
           </section>
 
-          <section className="space-y-3">
-            <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Overall Score (0-10)</p>
-            <input
-              type="number"
-              min="0"
-              max="10"
-              step="0.1"
-              value={formData.rating}
-              onChange={e => {
-                const val = parseFloat(e.target.value);
-                if (!isNaN(val) && val >= 0 && val <= 10) {
-                  setFormData({...formData, rating: val});
-                }
-              }}
-              disabled={uploading}
-              placeholder="8.0"
-              className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-center text-3xl font-black text-black outline-none focus:border-black transition-all disabled:opacity-50"
-            />
-          </section>
+          {formData.showRating && (
+            <section className="space-y-3">
+              <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Overall Score (0-10)</p>
+              <input
+                type="number"
+                min="0"
+                max="10"
+                step="0.1"
+                value={formData.rating}
+                onChange={e => {
+                  const val = parseFloat(e.target.value);
+                  if (!isNaN(val) && val >= 0 && val <= 10) {
+                    setFormData({...formData, rating: val});
+                  }
+                }}
+                disabled={uploading}
+                placeholder="8.0"
+                className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-center text-3xl font-black text-black outline-none focus:border-black transition-all disabled:opacity-50"
+              />
+            </section>
+          )}
 
           {/* Optional Sections - Toggles */}
           <div className="flex gap-3 flex-wrap">
+            <button
+              type="button"
+              onClick={() => setFormData(p => ({ ...p, showRating: !p.showRating }))}
+              disabled={uploading}
+              className={`flex-1 sm:flex-none px-6 py-4 rounded-xl border-2 text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showRating ? 'bg-black text-white border-black shadow-lg' : 'bg-white border-black text-black hover:bg-zinc-100'}`}
+            >
+              <Star className="inline w-4 h-4 mr-2" />
+              {formData.showRating ? '✓ ' : ''}Rate
+            </button>
             <button
               type="button"
               onClick={() => setFormData(p => ({ ...p, showDescription: !p.showDescription }))}

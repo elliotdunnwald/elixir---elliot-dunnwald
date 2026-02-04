@@ -1,36 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, MapPin, Star, Coffee, Loader2 } from 'lucide-react';
-import { getCafeById, getActivitiesByCafe, type Cafe, type BrewActivity } from '../lib/database';
+import { getCafeById, getActivitiesByCafe, getActivitiesByCafeFiltered, type Cafe, type BrewActivity } from '../lib/database';
+import { useAuth } from '../hooks/useAuth';
 import PostCard from '../components/PostCard';
 import BrewLogDetailModal from '../components/BrewLogDetailModal';
 
 const CafeProfile: React.FC = () => {
   const { cafeId } = useParams<{ cafeId: string }>();
   const navigate = useNavigate();
+  const { profile } = useAuth();
   const [cafe, setCafe] = useState<Cafe | null>(null);
   const [visits, setVisits] = useState<BrewActivity[]>([]);
+  const [allVisits, setAllVisits] = useState<BrewActivity[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedActivityId, setSelectedActivityId] = useState<string | null>(null);
+  const [filter, setFilter] = useState<'all' | 'reviews' | 'visits'>('all');
+  const [followingOnly, setFollowingOnly] = useState(false);
 
   useEffect(() => {
     if (cafeId) {
       loadCafeData();
     }
-  }, [cafeId]);
+  }, [cafeId, filter, followingOnly]);
 
   async function loadCafeData() {
     if (!cafeId) return;
 
     setLoading(true);
     try {
-      const [cafeData, visitsData] = await Promise.all([
+      const [cafeData, allVisitsData, filteredVisitsData] = await Promise.all([
         getCafeById(cafeId),
-        getActivitiesByCafe(cafeId)
+        getActivitiesByCafe(cafeId), // Get all for counting
+        getActivitiesByCafeFiltered(cafeId, {
+          filter,
+          followingOnly,
+          currentUserId: profile?.id
+        })
       ]);
 
       setCafe(cafeData);
-      setVisits(visitsData || []);
+      setAllVisits(allVisitsData || []);
+      setVisits(filteredVisitsData || []);
     } catch (err) {
       console.error('Error loading cafe data:', err);
     } finally {
@@ -110,30 +121,88 @@ const CafeProfile: React.FC = () => {
               <Coffee className="w-4 h-4" />
               <span className="text-[10px] font-black uppercase tracking-widest">Total Visits</span>
             </div>
-            <p className="text-3xl font-black text-black">{cafe.visit_count}</p>
+            <p className="text-3xl font-black text-black">{allVisits.length}</p>
           </div>
           <div className="bg-zinc-50 p-6 rounded-xl border-2 border-black">
             <div className="flex items-center gap-2 text-black mb-2">
               <Star className="w-4 h-4" />
               <span className="text-[10px] font-black uppercase tracking-widest">Reviews</span>
             </div>
-            <p className="text-3xl font-black text-black">{visits.length}</p>
+            <p className="text-3xl font-black text-black">{allVisits.filter(v => v.rating !== undefined && v.rating !== null).length}</p>
           </div>
         </div>
       </div>
 
       {/* Visits/Reviews Section */}
       <div className="space-y-6">
-        <h2 className="text-2xl font-black text-black uppercase tracking-tight">
-          Recent Visits
-        </h2>
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <h2 className="text-2xl font-black text-black uppercase tracking-tight">
+            {filter === 'reviews' ? 'Reviews' : filter === 'visits' ? 'Visits' : 'All Activity'}
+          </h2>
+
+          {/* Filter Controls */}
+          <div className="flex gap-3 flex-wrap">
+            {/* View Filter */}
+            <div className="flex gap-2">
+              <button
+                onClick={() => setFilter('all')}
+                className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${
+                  filter === 'all' ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-zinc-100'
+                }`}
+              >
+                All
+              </button>
+              <button
+                onClick={() => setFilter('reviews')}
+                className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${
+                  filter === 'reviews' ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-zinc-100'
+                }`}
+              >
+                Reviews
+              </button>
+              <button
+                onClick={() => setFilter('visits')}
+                className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${
+                  filter === 'visits' ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-zinc-100'
+                }`}
+              >
+                Visits
+              </button>
+            </div>
+
+            {/* Following Filter */}
+            <div className="flex gap-2">
+              <button
+                onClick={() => setFollowingOnly(false)}
+                className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${
+                  !followingOnly ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-zinc-100'
+                }`}
+              >
+                Public
+              </button>
+              <button
+                onClick={() => setFollowingOnly(true)}
+                className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${
+                  followingOnly ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-zinc-100'
+                }`}
+              >
+                Following
+              </button>
+            </div>
+          </div>
+        </div>
 
         {visits.length === 0 ? (
           <div className="py-24 text-center border-2 border-dashed border-black rounded-[3rem]">
             <Coffee className="w-12 h-12 text-black mx-auto mb-4" />
             <p className="text-black font-black uppercase text-sm tracking-widest">
-              No visits yet
+              {filter === 'reviews' ? 'No reviews yet' : filter === 'visits' ? 'No visits yet' : 'No activity yet'}
             </p>
+            {followingOnly && (
+              <p className="text-black font-bold uppercase text-xs tracking-wider mt-2">
+                from people you follow
+              </p>
+            )}
           </div>
         ) : (
           <div className="space-y-6">

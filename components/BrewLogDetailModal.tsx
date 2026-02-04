@@ -187,9 +187,11 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
 
               {/* Rating and close button */}
               <div className="flex items-start gap-3">
-                <div className="bg-white text-black px-6 py-3 rounded-2xl border-2 border-black flex items-center justify-center shadow-2xl">
-                  <span className="text-3xl font-black tracking-tighter leading-none">{activity.rating.toFixed(1)}</span>
-                </div>
+                {activity.rating !== undefined && activity.rating !== null && (
+                  <div className="bg-white text-black px-6 py-3 rounded-2xl border-2 border-black flex items-center justify-center shadow-2xl">
+                    <span className="text-3xl font-black tracking-tighter leading-none">{activity.rating.toFixed(1)}</span>
+                  </div>
+                )}
                 <button
                   onClick={onClose}
                   className="text-zinc-900 hover:text-black active:text-black transition-colors border-2 border-black hover:border-black active:border-black rounded-xl p-2"

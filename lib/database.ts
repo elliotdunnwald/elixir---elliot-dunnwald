@@ -335,7 +335,7 @@ export interface DbBrewActivity {
   temperature: number;
   temp_unit: 'C' | 'F';
   brew_time: string;
-  rating: number;
+  rating?: number;
   tds?: number;
   ey_percentage?: number;
   show_parameters: boolean;
@@ -2241,4 +2241,78 @@ export async function getActivitiesByCafe(cafeId: string): Promise<BrewActivity[
   }
 
   return (data || []).map(rawActivity => dbActivityToBrewActivity(rawActivity as DbBrewActivity));
+}
+
+export async function getActivitiesByCafeFiltered(
+  cafeId: string,
+  options: {
+    filter?: 'all' | 'reviews' | 'visits';
+    followingOnly?: boolean;
+    currentUserId?: string;
+  } = {}
+): Promise<BrewActivity[]> {
+  const { filter = 'all', followingOnly = false, currentUserId } = options;
+
+  // First get the cafe name
+  const { data: cafe, error: cafeError } = await supabase
+    .from('cafes')
+    .select('name')
+    .eq('id', cafeId)
+    .single();
+
+  if (cafeError || !cafe) {
+    console.error('Error fetching cafe:', cafeError);
+    return [];
+  }
+
+  // Build the query
+  let query = supabase
+    .from('brew_activities')
+    .select(`
+      *,
+      profiles!inner (
+        id,
+        username,
+        first_name,
+        last_name,
+        avatar_url
+      )
+    `)
+    .eq('is_cafe_log', true)
+    .eq('cafe_name', cafe.name);
+
+  // Apply rating filter
+  if (filter === 'reviews') {
+    query = query.not('rating', 'is', null);
+  } else if (filter === 'visits') {
+    query = query.is('rating', null);
+  }
+
+  query = query.order('created_at', { ascending: false }).limit(50);
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error('Error fetching cafe activities:', error);
+    return [];
+  }
+
+  let activities = (data || []).map(rawActivity => dbActivityToBrewActivity(rawActivity as DbBrewActivity));
+
+  // Apply following filter if needed
+  if (followingOnly && currentUserId) {
+    // Get list of users the current user is following
+    const { data: followingData } = await supabase
+      .from('follows')
+      .select('following_id')
+      .eq('follower_id', currentUserId);
+
+    const followingIds = new Set((followingData || []).map(f => f.following_id));
+    // Include current user's own posts
+    followingIds.add(currentUserId);
+
+    activities = activities.filter(activity => followingIds.has(activity.userId));
+  }
+
+  return activities;
 }
