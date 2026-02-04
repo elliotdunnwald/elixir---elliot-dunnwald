@@ -187,8 +187,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
 
               {/* Rating and close button */}
               <div className="flex items-start gap-3">
-                <div className="bg-white text-black px-6 py-3 rounded-2xl flex items-center gap-3 shadow-2xl">
-                  <Award className="w-6 h-6 fill-black" />
+                <div className="bg-white text-black px-6 py-3 rounded-2xl border-2 border-black flex items-center justify-center shadow-2xl">
                   <span className="text-3xl font-black tracking-tighter leading-none">{activity.rating.toFixed(1)}</span>
                 </div>
                 <button

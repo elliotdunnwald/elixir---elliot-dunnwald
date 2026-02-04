@@ -131,8 +131,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
           </div>
         </div>
 
-        <div className="bg-white text-black px-3 py-2 sm:px-6 sm:py-3 rounded-xl sm:rounded-2xl border-2 border-black flex items-center gap-1.5 sm:gap-3 shadow-2xl shrink-0">
-          <Award className="w-4 h-4 sm:w-6 sm:h-6 fill-black" />
+        <div className="bg-white text-black px-3 py-2 sm:px-6 sm:py-3 rounded-xl sm:rounded-2xl border-2 border-black flex items-center justify-center shadow-2xl shrink-0">
           <span className="text-xl sm:text-3xl font-black tracking-tighter leading-none">{activity.rating.toFixed(1)}</span>
         </div>
       </div>
@@ -214,7 +213,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
         </div>
 
         {activity.showParameters && (
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4 mb-6 sm:mb-8 bg-zinc-50 border-2 border-black p-4 sm:p-8 rounded-2xl sm:rounded-[2.5rem]">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8 bg-zinc-50 border-2 border-black p-4 sm:p-8 rounded-2xl sm:rounded-[2.5rem]">
             <div className="space-y-1 sm:space-y-2">
               <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-1.5"><FlaskConical className="w-3 h-3 sm:w-4 sm:h-4" /> RECIPE</p>
               <p className="text-xs sm:text-sm font-black text-black">{activity.gramsIn}G / {activity.gramsOut}G</p>
@@ -222,10 +221,6 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
             <div className="space-y-1 sm:space-y-2">
               <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-1.5">RATIO</p>
               <p className="text-xs sm:text-sm font-black text-black">{activity.ratio}</p>
-            </div>
-            <div className="space-y-1 sm:space-y-2">
-              <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-1.5"><Zap className="w-3 h-3 sm:w-4 sm:h-4" /> GEAR</p>
-              <p className="text-xs sm:text-sm font-black text-black uppercase truncate">{activity.brewer}</p>
             </div>
             <div className="space-y-1 sm:space-y-2">
               <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-1.5"><Timer className="w-3 h-3 sm:w-4 sm:h-4" /> TIME</p>

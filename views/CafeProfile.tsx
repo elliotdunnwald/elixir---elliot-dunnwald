@@ -95,9 +95,6 @@ const CafeProfile: React.FC = () => {
           </div>
 
           <div className="bg-white text-black px-8 py-6 rounded-2xl text-center min-w-[120px] border-2 border-black">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Star className="w-6 h-6 fill-current" />
-            </div>
             <p className="text-4xl font-black">
               {cafe.average_rating > 0 ? cafe.average_rating.toFixed(1) : 'N/A'}
             </p>

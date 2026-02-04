@@ -255,8 +255,7 @@ const ExploreView: React.FC = () => {
                       </div>
                     </div>
                     <div className="bg-white text-black px-3 py-1 rounded-lg border-2 border-black">
-                      <div className="flex items-center gap-1">
-                        <Star className="w-3 h-3 fill-current" />
+                      <div className="flex items-center justify-center">
                         <span className="text-xs font-black">{cafe.average_rating > 0 ? cafe.average_rating.toFixed(1) : 'N/A'}</span>
                       </div>
                     </div>

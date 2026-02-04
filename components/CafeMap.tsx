@@ -177,8 +177,7 @@ const CafeMap: React.FC<CafeMapProps> = ({ cafes, center, onCafeClick }) => {
                   </p>
                 )}
                 {cafe.average_rating > 0 && (
-                  <div className="flex items-center gap-2 text-xs mb-2">
-                    <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                  <div className="inline-flex items-center justify-center px-2 py-1 rounded border-2 border-black bg-white text-xs mb-2">
                     <span className="font-bold">{cafe.average_rating.toFixed(1)}</span>
                   </div>
                 )}
