@@ -16,7 +16,7 @@ const CafeProfile: React.FC = () => {
   const [allVisits, setAllVisits] = useState<BrewActivity[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedActivityId, setSelectedActivityId] = useState<string | null>(null);
-  const [filter, setFilter] = useState<'all' | 'reviews' | 'visits'>('all');
+  const [filter, setFilter] = useState<'reviews' | 'visits'>('visits');
   const [followingOnly, setFollowingOnly] = useState(false);
 
   useEffect(() => {
@@ -138,7 +138,7 @@ const CafeProfile: React.FC = () => {
       <div className="space-y-6">
         <div className="space-y-4">
           <h2 className="text-2xl font-black text-black uppercase tracking-tight">
-            {filter === 'reviews' ? 'Reviews' : filter === 'visits' ? 'Visits' : 'All Activity'}
+            {filter === 'reviews' ? 'Reviews' : 'Visits'}
           </h2>
 
           {/* Filter Controls */}
@@ -146,12 +146,12 @@ const CafeProfile: React.FC = () => {
             {/* View Filter Pills */}
             <div className="flex gap-2">
               <button
-                onClick={() => setFilter('all')}
+                onClick={() => setFilter('visits')}
                 className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${
-                  filter === 'all' ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-zinc-100'
+                  filter === 'visits' ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-zinc-100'
                 }`}
               >
-                All
+                Visits
               </button>
               <button
                 onClick={() => setFilter('reviews')}
@@ -160,14 +160,6 @@ const CafeProfile: React.FC = () => {
                 }`}
               >
                 Reviews
-              </button>
-              <button
-                onClick={() => setFilter('visits')}
-                className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${
-                  filter === 'visits' ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-zinc-100'
-                }`}
-              >
-                Visits
               </button>
             </div>
 
@@ -188,7 +180,7 @@ const CafeProfile: React.FC = () => {
           <div className="py-24 text-center border-2 border-dashed border-black rounded-[3rem]">
             <Coffee className="w-12 h-12 text-black mx-auto mb-4" />
             <p className="text-black font-black uppercase text-sm tracking-widest">
-              {filter === 'reviews' ? 'No reviews yet' : filter === 'visits' ? 'No visits yet' : 'No activity yet'}
+              {filter === 'reviews' ? 'No reviews yet' : 'No visits yet'}
             </p>
             {followingOnly && (
               <p className="text-black font-bold uppercase text-xs tracking-wider mt-2">

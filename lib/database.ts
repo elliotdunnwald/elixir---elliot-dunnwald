@@ -2247,12 +2247,12 @@ export async function getActivitiesByCafe(cafeId: string): Promise<BrewActivity[
 export async function getActivitiesByCafeFiltered(
   cafeId: string,
   options: {
-    filter?: 'all' | 'reviews' | 'visits';
+    filter?: 'reviews' | 'visits';
     followingOnly?: boolean;
     currentUserId?: string;
   } = {}
 ): Promise<BrewActivity[]> {
-  const { filter = 'all', followingOnly = false, currentUserId } = options;
+  const { filter = 'visits', followingOnly = false, currentUserId } = options;
 
   // First get the cafe name
   const { data: cafe, error: cafeError } = await supabase
@@ -2283,11 +2283,12 @@ export async function getActivitiesByCafeFiltered(
     .eq('cafe_name', cafe.name);
 
   // Apply rating filter
+  // VISITS = show all activities (everyone who visited)
+  // REVIEWS = only show activities with ratings
   if (filter === 'reviews') {
     query = query.not('rating', 'is', null);
-  } else if (filter === 'visits') {
-    query = query.is('rating', null);
   }
+  // No filter for 'visits' - show everyone
 
   query = query.order('created_at', { ascending: false }).limit(50);
 
