@@ -295,7 +295,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                 </div>
                 <div className="space-y-2">
                   <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Zap className="w-4 h-4" /> GEAR</p>
-                  <p className="text-sm font-black text-black uppercase truncate">{activity.brewer}</p>
+                  <p className="text-sm font-black text-black uppercase break-words">{activity.brewer}</p>
                 </div>
                 <div className="space-y-2">
                   <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Timer className="w-4 h-4" /> TIME</p>

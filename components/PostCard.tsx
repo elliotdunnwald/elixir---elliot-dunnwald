@@ -225,7 +225,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
             </div>
             <div className="space-y-1 sm:space-y-2">
               <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-1.5"><Zap className="w-3 h-3 sm:w-4 sm:h-4" /> GEAR</p>
-              <p className="text-xs sm:text-sm font-black text-black uppercase truncate">{activity.brewer}</p>
+              <p className="text-xs sm:text-sm font-black text-black uppercase break-words">{activity.brewer}</p>
             </div>
             <div className="space-y-1 sm:space-y-2">
               <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-1.5"><Timer className="w-3 h-3 sm:w-4 sm:h-4" /> TIME</p>
