@@ -253,7 +253,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
           </div>
         ) : null}
 
-        {activity.description && <p className="text-black text-sm sm:text-base mb-6 sm:mb-10 font-black uppercase tracking-wide leading-relaxed border-l-4 border-black pl-4 sm:pl-6">{activity.description}</p>}
+        {activity.description && <p className="text-black text-sm mb-6 sm:mb-10 font-normal leading-relaxed">{activity.description}</p>}
 
         <div className="flex items-center gap-2 sm:gap-3 pt-5 sm:pt-8 border-t-2 border-black" onClick={(e) => e.stopPropagation()}>
           <button

@@ -325,7 +325,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
             ) : null}
 
             {/* Description */}
-            {activity.description && <p className="text-black text-base mb-10 font-black uppercase tracking-widest leading-relaxed border-l-4 border-black pl-6 italic">"{activity.description}"</p>}
+            {activity.description && <p className="text-black text-sm mb-10 font-normal leading-relaxed">{activity.description}</p>}
 
             {/* Action buttons */}
             <div className="flex items-center gap-3 pt-8 border-t-2 border-black">
