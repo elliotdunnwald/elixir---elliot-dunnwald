@@ -167,7 +167,7 @@ const ExploreView: React.FC = () => {
             onClick={() => setActiveTab('cafes')}
             className={`px-6 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'cafes' ? 'bg-white text-black border-black' : 'bg-zinc-50 text-black border-black hover:border-black'}`}
           >
-            <Coffee className="inline w-4 h-4 mr-2" />
+            <MapPin className="inline w-4 h-4 mr-2" />
             Cafes
           </button>
         </div>
