@@ -314,7 +314,7 @@ const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
   );
 };
 
-const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void; notificationCount: number }> = ({ onLogBrew, onOpenNotifications, notificationCount }) => {
+const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void; notificationCount: number; todayCaffeine: number }> = ({ onLogBrew, onOpenNotifications, notificationCount, todayCaffeine }) => {
   const location = useLocation();
   const { signOut } = useAuth();
 
@@ -329,7 +329,18 @@ const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void;
     <nav className="sticky top-0 z-[1000] bg-white border-b-2 border-black hidden sm:block">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between h-20">
-          <Link to="/" className="flex items-center"><span className="text-2xl font-black text-black tracking-tighter uppercase leading-none">ELIXR</span></Link>
+          <div className="flex items-center gap-4">
+            <Link to="/" className="flex items-center"><span className="text-2xl font-black text-black tracking-tighter uppercase leading-none">ELIXR</span></Link>
+            {todayCaffeine > 0 && (
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-50 border border-amber-300 rounded-lg">
+                <Coffee className="w-3.5 h-3.5 text-amber-700" />
+                <div className="flex items-baseline gap-1">
+                  <span className="text-sm font-black text-amber-900">{todayCaffeine}</span>
+                  <span className="text-[9px] font-bold text-amber-700 uppercase">mg</span>
+                </div>
+              </div>
+            )}
+          </div>
           <div className="flex items-center space-x-8">
             <div className="flex space-x-8">
               {navItems.map((item) => (
@@ -353,12 +364,23 @@ const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void;
   );
 };
 
-const MobileHeader: React.FC<{ onOpenNotifications: () => void; notificationCount: number }> = ({ onOpenNotifications, notificationCount }) => {
+const MobileHeader: React.FC<{ onOpenNotifications: () => void; notificationCount: number; todayCaffeine: number }> = ({ onOpenNotifications, notificationCount, todayCaffeine }) => {
   return (
-    <div className="sm:hidden sticky top-0 z-[1000] bg-white border-b-2 border-black h-16 flex items-center justify-between px-6">
-      <Link to="/" className="flex items-center">
-        <span className="text-xl font-black text-black tracking-tighter uppercase leading-none">ELIXR</span>
-      </Link>
+    <div className="sm:hidden sticky top-0 z-[1000] bg-white border-b-2 border-black h-16 flex items-center justify-between px-4">
+      <div className="flex items-center gap-2">
+        <Link to="/" className="flex items-center">
+          <span className="text-xl font-black text-black tracking-tighter uppercase leading-none">ELIXR</span>
+        </Link>
+        {todayCaffeine > 0 && (
+          <div className="flex items-center gap-1 px-2 py-1 bg-amber-50 border border-amber-300 rounded-md">
+            <Coffee className="w-3 h-3 text-amber-700" />
+            <div className="flex items-baseline gap-0.5">
+              <span className="text-xs font-black text-amber-900">{todayCaffeine}</span>
+              <span className="text-[8px] font-bold text-amber-700">mg</span>
+            </div>
+          </div>
+        )}
+      </div>
       <button onClick={onOpenNotifications} className="relative p-2 rounded-xl border-2 border-black text-zinc-600 hover:text-black hover:border-black active:border-black transition-all">
         <Bell className="w-5 h-5" />
         {notificationCount > 0 && (
@@ -399,12 +421,19 @@ const MobileNav: React.FC = () => {
   );
 };
 
+// Calculate caffeine content based on brew method and grams
+const calculateCaffeine = (gramsIn: number, brewType?: 'espresso' | 'filter'): number => {
+  const caffeinePerGram = brewType === 'espresso' ? 10 : 8;
+  return Math.round(gramsIn * caffeinePerGram);
+};
+
 const AppContent: React.FC = () => {
   const { user, profile, loading, refreshProfile } = useAuth();
   const [isLogModalOpen, setIsLogModalOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [notificationCount, setNotificationCount] = useState(0);
   const [selectedActivityId, setSelectedActivityId] = useState<string | null>(null);
+  const [todayCaffeine, setTodayCaffeine] = useState(0);
 
   // Load notification count
   useEffect(() => {
@@ -448,6 +477,57 @@ const AppContent: React.FC = () => {
     };
   }, [profile]);
 
+  // Calculate today's caffeine
+  useEffect(() => {
+    if (!profile) return;
+
+    const loadTodayCaffeine = async () => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const { data, error } = await supabase
+        .from('activities')
+        .select('grams_in, brew_type, is_cafe_log, timestamp')
+        .eq('profile_id', profile.id)
+        .gte('timestamp', today.toISOString())
+        .order('timestamp', { ascending: false });
+
+      if (error) {
+        console.error('Error loading caffeine data:', error);
+        return;
+      }
+
+      const totalCaffeine = (data || [])
+        .filter(activity => !activity.is_cafe_log)
+        .reduce((total, activity) => {
+          return total + calculateCaffeine(activity.grams_in || 0, activity.brew_type);
+        }, 0);
+
+      setTodayCaffeine(totalCaffeine);
+    };
+
+    loadTodayCaffeine();
+
+    // Subscribe to activity changes
+    const caffeineChannel = supabase
+      .channel('caffeine_updates')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'activities',
+          filter: `profile_id=eq.${profile.id}`
+        },
+        loadTodayCaffeine
+      )
+      .subscribe();
+
+    return () => {
+      caffeineChannel.unsubscribe();
+    };
+  }, [profile]);
+
   // Debug logging
   console.log('AppContent state:', { loading, hasUser: !!user, hasProfile: !!profile });
 
@@ -483,10 +563,12 @@ const AppContent: React.FC = () => {
           onLogBrew={() => setIsLogModalOpen(true)}
           onOpenNotifications={() => setIsNotificationsOpen(true)}
           notificationCount={notificationCount}
+          todayCaffeine={todayCaffeine}
         />
         <MobileHeader
           onOpenNotifications={() => setIsNotificationsOpen(true)}
           notificationCount={notificationCount}
+          todayCaffeine={todayCaffeine}
         />
         <main className="flex-grow max-w-6xl mx-auto w-full px-4 pt-24 pb-28 sm:pt-28 sm:pb-12">
           <Routes>

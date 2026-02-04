@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PostCard from '../components/PostCard';
 import BrewLogModal from '../components/BrewLogModal';
@@ -6,19 +6,8 @@ import BrewLogDetailModal from '../components/BrewLogDetailModal';
 import { useActivities } from '../hooks/useActivities';
 import { useAuth } from '../hooks/useAuth';
 import { deleteActivity } from '../lib/database';
-import { Users, ArrowRight, Loader2, Zap } from 'lucide-react';
+import { Users, ArrowRight, Loader2 } from 'lucide-react';
 import type { BrewActivity } from '../types';
-
-// Calculate caffeine content based on brew method and grams
-const calculateCaffeine = (activity: BrewActivity): number => {
-  const gramsIn = activity.gramsIn || 0;
-
-  // Caffeine content varies by brew method
-  // Approximate: 8-12mg caffeine per gram of coffee
-  const caffeinePerGram = activity.brewType === 'espresso' ? 10 : 8;
-
-  return Math.round(gramsIn * caffeinePerGram);
-};
 
 const FeedView: React.FC = () => {
   const { profile } = useAuth();
@@ -28,26 +17,6 @@ const FeedView: React.FC = () => {
   const [feedFilter, setFeedFilter] = useState<'all' | 'brews' | 'cafes'>('all');
 
   console.log('FeedView render:', { profile, activitiesCount: activities.length, loading, error });
-
-  // Calculate today's caffeine intake
-  const todayCaffeine = useMemo(() => {
-    if (!profile) return 0;
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    return activities
-      .filter(activity => {
-        // Only count user's own brews, not cafe logs
-        if (activity.userId !== profile.id || activity.isCafeLog) return false;
-
-        const activityDate = new Date(activity.timestamp);
-        activityDate.setHours(0, 0, 0, 0);
-
-        return activityDate.getTime() === today.getTime();
-      })
-      .reduce((total, activity) => total + calculateCaffeine(activity), 0);
-  }, [activities, profile]);
 
   // Filter activities based on selection
   const filteredActivities = activities.filter(activity => {
@@ -103,31 +72,6 @@ const FeedView: React.FC = () => {
   return (
     <div className="max-w-3xl mx-auto pb-28 sm:pb-0">
       <div className="mb-12">
-        {/* Caffeine Tracker */}
-        {profile && todayCaffeine > 0 && (
-          <div className="mb-6 bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-200 rounded-2xl p-4 sm:p-6 animate-in fade-in slide-in-from-top duration-500">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="bg-white p-2 sm:p-3 rounded-xl border-2 border-amber-300">
-                  <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600" />
-                </div>
-                <div>
-                  <p className="text-[9px] sm:text-[10px] font-black text-amber-800 uppercase tracking-widest">Today's Caffeine</p>
-                  <p className="text-2xl sm:text-3xl font-black text-amber-900 tracking-tighter">{todayCaffeine}mg</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <p className="text-[8px] sm:text-[9px] font-black text-amber-700 uppercase tracking-wider">
-                  {todayCaffeine < 200 ? 'Light Day' : todayCaffeine < 400 ? 'Moderate' : 'Caffeinated!'}
-                </p>
-                <p className="text-[10px] sm:text-xs font-bold text-amber-600 mt-1">
-                  {Math.round((todayCaffeine / 400) * 100)}% of daily limit
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-[11px] font-black text-zinc-900 uppercase tracking-[0.4em]">GLOBAL FEED</h2>
           <div className="flex gap-2">
