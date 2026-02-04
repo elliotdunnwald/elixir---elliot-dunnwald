@@ -4,6 +4,7 @@ import { ArrowLeft, MapPin, Star, Coffee, Loader2 } from 'lucide-react';
 import { getCafeById, getActivitiesByCafe, getActivitiesByCafeFiltered, type Cafe, type BrewActivity } from '../lib/database';
 import { useAuth } from '../hooks/useAuth';
 import PostCard from '../components/PostCard';
+import VisitCard from '../components/VisitCard';
 import BrewLogDetailModal from '../components/BrewLogDetailModal';
 
 const CafeProfile: React.FC = () => {
@@ -196,13 +197,21 @@ const CafeProfile: React.FC = () => {
             )}
           </div>
         ) : (
-          <div className="space-y-6">
+          <div className={filter === 'visits' ? 'space-y-3' : 'space-y-6'}>
             {visits.map(visit => (
-              <PostCard
-                key={visit.id}
-                activity={visit}
-                onClick={() => setSelectedActivityId(visit.id)}
-              />
+              filter === 'visits' ? (
+                <VisitCard
+                  key={visit.id}
+                  activity={visit}
+                  onClick={() => setSelectedActivityId(visit.id)}
+                />
+              ) : (
+                <PostCard
+                  key={visit.id}
+                  activity={visit}
+                  onClick={() => setSelectedActivityId(visit.id)}
+                />
+              )
             ))}
           </div>
         )}

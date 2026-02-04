@@ -103,6 +103,7 @@ export interface BrewActivity {
   cafeCity?: string;
   cafeCountry?: string;
   cafeAddress?: string;
+  drinkOrdered?: string;
   isPrivate?: boolean;
   tds?: number;
   eyPercentage?: number;

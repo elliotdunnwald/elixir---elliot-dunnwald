@@ -627,6 +627,7 @@ export function dbActivityToBrewActivity(data: DbBrewActivity): BrewActivity {
     cafeCity: data.cafe_city,
     cafeCountry: data.cafe_country,
     cafeAddress: data.cafe_address,
+    drinkOrdered: data.drink_ordered,
     timestamp: data.created_at,
     milkType: data.milk_type,
     steamedDrink: data.steamed_drink,
