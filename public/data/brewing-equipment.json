@@ -511,6 +511,120 @@
       "category": "automatic"
     },
     {
+      "name": "12-CUP PROGRAMMABLE",
+      "brand": "MR. COFFEE",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "5-CUP MINI BREW",
+      "brand": "MR. COFFEE",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "10-CUP OPTIMAL BREW",
+      "brand": "MR. COFFEE",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "CAFE BARISTA",
+      "brand": "MR. COFFEE",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "12-CUP PROGRAMMABLE",
+      "brand": "BLACK+DECKER",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "5-CUP COFFEEMAKER",
+      "brand": "BLACK+DECKER",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "12-CUP THERMAL",
+      "brand": "BLACK+DECKER",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "DCC-3200",
+      "brand": "CUISINART",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "DCC-1200",
+      "brand": "CUISINART",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "SS-15",
+      "brand": "CUISINART",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "GRIND & BREW",
+      "brand": "CUISINART",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "12-CUP PROGRAMMABLE",
+      "brand": "HAMILTON BEACH",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "BREWSTATION",
+      "brand": "HAMILTON BEACH",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "HOT & COLD BREWED SYSTEM",
+      "brand": "NINJA",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "SPECIALTY COFFEE MAKER",
+      "brand": "NINJA",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "DUALBREW PRO",
+      "brand": "NINJA",
+      "type": "COMBO",
+      "category": "combo"
+    },
+    {
+      "name": "12-CUP COFFEE MAKER",
+      "brand": "WALMART (MAINSTAYS)",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "5-CUP COFFEE MAKER",
+      "brand": "WALMART (MAINSTAYS)",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
+      "name": "COFFEE MAKER",
+      "brand": "TARGET (ROOM ESSENTIALS)",
+      "type": "AUTOMATIC",
+      "category": "automatic"
+    },
+    {
       "name": "VERTUO",
       "brand": "NESPRESSO",
       "type": "POD",
@@ -551,6 +665,78 @@
       "brand": "NESPRESSO",
       "type": "POD",
       "category": "pod"
+    },
+    {
+      "name": "K-MINI",
+      "brand": "KEURIG",
+      "type": "POD",
+      "category": "pod"
+    },
+    {
+      "name": "K-MINI PLUS",
+      "brand": "KEURIG",
+      "type": "POD",
+      "category": "pod"
+    },
+    {
+      "name": "K-CLASSIC",
+      "brand": "KEURIG",
+      "type": "POD",
+      "category": "pod"
+    },
+    {
+      "name": "K-SELECT",
+      "brand": "KEURIG",
+      "type": "POD",
+      "category": "pod"
+    },
+    {
+      "name": "K-ELITE",
+      "brand": "KEURIG",
+      "type": "POD",
+      "category": "pod"
+    },
+    {
+      "name": "K-SUPREME",
+      "brand": "KEURIG",
+      "type": "POD",
+      "category": "pod"
+    },
+    {
+      "name": "K-SUPREME PLUS",
+      "brand": "KEURIG",
+      "type": "POD",
+      "category": "pod"
+    },
+    {
+      "name": "K-CAFE",
+      "brand": "KEURIG",
+      "type": "POD",
+      "category": "pod"
+    },
+    {
+      "name": "K-DUO",
+      "brand": "KEURIG",
+      "type": "COMBO",
+      "category": "combo"
+    },
+    {
+      "name": "K-DUO PLUS",
+      "brand": "KEURIG",
+      "type": "COMBO",
+      "category": "combo"
+    },
+    {
+      "name": "FLEXBREW",
+      "brand": "HAMILTON BEACH",
+      "type": "COMBO",
+      "category": "combo"
+    },
+    {
+      "name": "FLEXBREW TRIO",
+      "brand": "HAMILTON BEACH",
+      "type": "COMBO",
+      "category": "combo"
     },
     {
       "name": "MOKA EXPRESS",

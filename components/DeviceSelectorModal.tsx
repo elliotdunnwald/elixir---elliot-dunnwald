@@ -23,6 +23,8 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
   const [allDevices, setAllDevices] = useState<Device[]>([]);
   const [userGear, setUserGear] = useState<DbGearItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [pendingDevice, setPendingDevice] = useState<Device | null>(null);
+  const [showAddPrompt, setShowAddPrompt] = useState(false);
 
   useEffect(() => {
     if (isOpen && profile) {
@@ -52,9 +54,37 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
   };
 
   const handleSelectDevice = (name: string, brand: string, category: string) => {
-    const deviceName = `${brand} ${name}`.trim();
-    onSelect(deviceName, category);
-    onClose();
+    // Check if device is already in user's gear
+    const isInGear = userGear.some(g => g.brand === brand && g.name === name);
+
+    if (!isInGear && profile) {
+      // Show prompt to add to gear
+      setPendingDevice({ name, brand, type: 'brewer', category });
+      setShowAddPrompt(true);
+    } else {
+      // Device is in gear or no profile, just select it
+      const deviceName = `${brand} ${name}`.trim();
+      onSelect(deviceName, category);
+      onClose();
+    }
+  };
+
+  const handleUseWithoutAdding = () => {
+    if (pendingDevice) {
+      const deviceName = `${pendingDevice.brand} ${pendingDevice.name}`.trim();
+      onSelect(deviceName, pendingDevice.category);
+      setShowAddPrompt(false);
+      setPendingDevice(null);
+      onClose();
+    }
+  };
+
+  const handleAddAndUse = async () => {
+    if (pendingDevice && profile) {
+      await handleAddToGear(pendingDevice);
+      setShowAddPrompt(false);
+      setPendingDevice(null);
+    }
   };
 
   const handleAddToGear = async (device: Device) => {
@@ -159,32 +189,19 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
                   const isSelected = currentDevice === deviceName;
 
                   return (
-                    <div
+                    <button
                       key={idx}
-                      className={`flex items-center justify-between p-4 rounded-xl border-2 transition-all ${
+                      onClick={() => handleSelectDevice(device.name, device.brand, device.category)}
+                      className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
                         isSelected
                           ? 'bg-white text-black border-black'
                           : 'bg-white border-black hover:border-black'
                       }`}
                     >
-                      <button
-                        onClick={() => handleSelectDevice(device.name, device.brand, device.category)}
-                        className="flex-1 text-left"
-                      >
-                        <p className="font-black text-sm uppercase tracking-tight">{device.brand}</p>
-                        <p className="text-xs uppercase tracking-wider mt-1 opacity-70">{device.name}</p>
-                        <p className="text-[8px] uppercase tracking-widest mt-1 opacity-50">{device.category}</p>
-                      </button>
-                      {!isInGear && (
-                        <button
-                          onClick={() => handleAddToGear(device)}
-                          className="ml-4 p-2 rounded-lg border-2 border-black hover:border-black active:border-black transition-all"
-                          title="Add to your gear"
-                        >
-                          <Plus className="w-4 h-4" />
-                        </button>
-                      )}
-                    </div>
+                      <p className="font-black text-sm uppercase tracking-tight">{device.brand}</p>
+                      <p className="text-xs uppercase tracking-wider mt-1 opacity-70">{device.name}</p>
+                      <p className="text-[8px] uppercase tracking-widest mt-1 opacity-50">{device.category}</p>
+                    </button>
                   );
                 })}
               </div>
@@ -193,6 +210,39 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
           )}
         </div>
       </div>
+
+      {/* Add to Gear Prompt */}
+      {showAddPrompt && pendingDevice && (
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-10 animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl border-2 border-black p-8 max-w-md w-full space-y-6 animate-in zoom-in-95 duration-200">
+            <div className="text-center space-y-2">
+              <Coffee className="w-12 h-12 text-black mx-auto" />
+              <h3 className="text-xl font-black text-black uppercase tracking-tight">Add to Your Gear?</h3>
+              <p className="text-sm font-black text-black uppercase tracking-wider">
+                {pendingDevice.brand} {pendingDevice.name}
+              </p>
+              <p className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">
+                Save this device to your collection for quick access next time
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              <button
+                onClick={handleAddAndUse}
+                className="w-full bg-white text-black border-2 border-black rounded-xl py-4 font-black text-sm uppercase tracking-widest hover:bg-zinc-50 active:scale-[0.98] transition-all"
+              >
+                Add to Gear & Use
+              </button>
+              <button
+                onClick={handleUseWithoutAdding}
+                className="w-full bg-zinc-50 text-black border-2 border-black rounded-xl py-4 font-black text-[11px] uppercase tracking-widest hover:bg-zinc-100 active:scale-[0.98] transition-all"
+              >
+                Just Use This Once
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

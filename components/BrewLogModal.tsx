@@ -190,6 +190,9 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
   // Show pod-specific fields
   const showPodFields = isPodMachine;
 
+  // Debug logging
+  console.log('🎯 Category:', deviceCategory, '| Detailed:', showDetailedBeanInfo, '| Simplified:', showSimplifiedBeanInfo, '| FullParams:', showFullBrewParameters, '| Pod:', showPodFields);
+
   // Load roasters and cafes from database
   useEffect(() => {
     if (isOpen) {
@@ -408,22 +411,40 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
   const handleInputChange = (field: string, value: string) => setFormData(prev => ({ ...prev, [field]: value.toUpperCase() }));
 
   const handleDeviceSelect = (deviceName: string, category: string) => {
+    console.log('🔧 Device selected:', deviceName, '| Category:', category);
     setDeviceCategory(category);
 
     // Auto-detect brew type based on category
     const brewType = category === 'espresso' ? 'espresso' : 'filter';
     const isPod = category === 'pod';
+    const isAutoOrCombo = category === 'automatic' || category === 'combo';
 
     // Set default values based on brew type
     if (isPod) {
-      // Pod machines don't show parameters
+      // Pod machines: no parameters, just pod fields
       setFormData(prev => ({
         ...prev,
         brewer: deviceName,
-        brewType: 'espresso',
-        showParameters: false
+        brewType: 'filter',
+        showParameters: false,
+        roaster: '',
+        origin: ''
+      }));
+    } else if (isAutoOrCombo) {
+      // Automatic/combo machines: simplified, no detailed parameters
+      setFormData(prev => ({
+        ...prev,
+        brewer: deviceName,
+        brewType: 'filter',
+        showParameters: false,
+        gramsIn: '15.0',
+        gramsOut: '225.0',
+        ratio: '1:15',
+        temp: '94',
+        brewTime: '02:30'
       }));
     } else if (brewType === 'espresso') {
+      // Espresso machines: full parameters
       setFormData(prev => ({
         ...prev,
         brewer: deviceName,
@@ -436,6 +457,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
         brewTime: '00:28'
       }));
     } else {
+      // Pourover/immersion/etc: full parameters
       setFormData(prev => ({
         ...prev,
         brewer: deviceName,
