@@ -167,7 +167,28 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
     website: ''
   });
 
+  // Device category helpers
   const isPodMachine = deviceCategory === 'pod';
+  const isEspressoMachine = deviceCategory === 'espresso';
+  const isPourover = deviceCategory === 'pourover';
+  const isImmersion = deviceCategory === 'immersion';
+  const isAutomatic = deviceCategory === 'automatic';
+  const isCombo = deviceCategory === 'combo';
+  const isStovetop = deviceCategory === 'stovetop';
+  const isSiphon = deviceCategory === 'siphon';
+  const isColdBrew = deviceCategory === 'cold-brew';
+
+  // Show detailed bean info (roaster, origin, varietal, process, etc.)
+  const showDetailedBeanInfo = !isPodMachine && !isAutomatic && !isCombo;
+
+  // Show simplified bean info (just roaster & origin, no toggles)
+  const showSimplifiedBeanInfo = (isAutomatic || isCombo) && !isPodMachine;
+
+  // Show full brew parameters (dose, water, temp, ratio, time)
+  const showFullBrewParameters = !isPodMachine && !isAutomatic && !isCombo && !isColdBrew;
+
+  // Show pod-specific fields
+  const showPodFields = isPodMachine;
 
   // Load roasters and cafes from database
   useEffect(() => {
@@ -1021,8 +1042,8 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
             </section>
           )}
 
-          {/* Bean Information - Hidden for Pod Machines and shown conditionally for Cafe Visits */}
-          {!isPodMachine && !formData.isCafeVisit && (
+          {/* Detailed Bean Information - For specialty devices (espresso, pourover, immersion, etc.) */}
+          {showDetailedBeanInfo && !formData.isCafeVisit && (
             <section className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-3 relative">
@@ -1118,6 +1139,51 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                       <input type="text" value={formData.process} onChange={e => handleInputChange('process', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50" placeholder="WASHED, NATURAL, ETC" />
                     </div>
                   )}
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* Simplified Bean Information - For automatic/combo machines (no detailed toggles) */}
+          {showSimplifiedBeanInfo && !formData.isCafeVisit && (
+            <section className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-3 relative">
+                  <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Roaster (Optional)</label>
+                  <input
+                    type="text"
+                    value={formData.roaster}
+                    onChange={e => handleInputChange('roaster', e.target.value)}
+                    onFocus={() => {
+                      if (formData.roaster && roasterSuggestions.length > 0) {
+                        setShowRoasterDropdown(true);
+                      }
+                    }}
+                    disabled={uploading}
+                    className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50"
+                    placeholder="SEY / ONYX / ETC"
+                  />
+                  {showRoasterDropdown && roasterSuggestions.length > 0 && (
+                    <div className="absolute z-50 w-full mt-1 bg-white border-2 border-black rounded-xl overflow-hidden shadow-xl">
+                      {roasterSuggestions.map((suggestion, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => {
+                            setFormData(p => ({ ...p, roaster: suggestion }));
+                            setShowRoasterDropdown(false);
+                          }}
+                          className="w-full text-left px-6 py-4 text-black font-black text-sm uppercase hover:bg-zinc-50 transition-colors"
+                        >
+                          {suggestion}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <div className="space-y-3">
+                  <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Origin (Optional)</label>
+                  <input type="text" value={formData.origin} onChange={e => handleInputChange('origin', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50" placeholder="ETHIOPIA / KENYA" />
                 </div>
               </div>
             </section>
@@ -1225,8 +1291,8 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
             </section>
           )}
 
-          {/* Brew Parameters - Hidden for Cafe Visits */}
-          {!formData.isCafeVisit && (
+          {/* Brew Parameters - For specialty devices only (not pods, not automatic) */}
+          {showFullBrewParameters && !formData.isCafeVisit && (
             <section className="space-y-6">
               <div className="flex justify-between items-center border-b-2 border-black pb-2">
                 <h3 className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Settings2 className="w-4 h-4" /> Brew Parameters</h3>
@@ -1291,34 +1357,34 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                   )}
                 </div>
               )}
+            </section>
+          )}
 
-              {/* Pod Machine Section */}
-              {isPodMachine && (
-                <div className="space-y-6 animate-in fade-in duration-300">
-                  <div className="grid grid-cols-1 gap-4">
-                    <div className="space-y-3">
-                      <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Pod Name</label>
-                      <input type="text" value={formData.podName} onChange={e => handleInputChange('podName', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50" placeholder="STARBUCKS PIKE PLACE" />
-                    </div>
-                    <div className="space-y-3">
-                      <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Cup Size</label>
-                      <div className="grid grid-cols-3 gap-3">
-                        {(['small', 'medium', 'large'] as const).map(size => (
-                          <button
-                            key={size}
-                            type="button"
-                            onClick={() => setFormData(p => ({ ...p, podSize: size }))}
-                            disabled={uploading}
-                            className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.podSize === size ? 'bg-white text-black border-black' : 'bg-white text-black border-black hover:border-black'}`}
-                          >
-                            {size}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
+          {/* Pod Machine Section - For Keurig, Nespresso, etc. */}
+          {showPodFields && !formData.isCafeVisit && (
+            <section className="space-y-6">
+              <div className="grid grid-cols-1 gap-4">
+                <div className="space-y-3">
+                  <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Pod Name</label>
+                  <input type="text" value={formData.podName} onChange={e => handleInputChange('podName', e.target.value)} disabled={uploading} className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-black font-black text-sm outline-none focus:border-black uppercase disabled:opacity-50" placeholder="STARBUCKS PIKE PLACE" />
+                </div>
+                <div className="space-y-3">
+                  <label className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Cup Size</label>
+                  <div className="grid grid-cols-3 gap-3">
+                    {(['small', 'medium', 'large'] as const).map(size => (
+                      <button
+                        key={size}
+                        type="button"
+                        onClick={() => setFormData(p => ({ ...p, podSize: size }))}
+                        disabled={uploading}
+                        className={`px-4 py-4 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.podSize === size ? 'bg-white text-black border-black' : 'bg-white text-black border-black hover:border-black'}`}
+                      >
+                        {size}
+                      </button>
+                    ))}
                   </div>
                 </div>
-              )}
+              </div>
             </section>
           )}
 

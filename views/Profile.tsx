@@ -272,10 +272,10 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-300">
+    <div className="fixed inset-0 z-[2000] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-300">
       <div className="absolute inset-0 bg-zinc-50/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative bg-white w-full max-w-2xl h-full sm:h-auto sm:rounded-[3.5rem] shadow-2xl shadow-black/5 border-2 border-black overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95">
-        <div className="px-8 py-6 border-b-2 border-black flex justify-between items-center bg-white">
+      <div className="relative bg-white w-full max-w-2xl h-full sm:h-auto sm:rounded-[3.5rem] shadow-2xl shadow-black/5 sm:border-2 border-black overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95">
+        <div className="px-6 sm:px-8 pt-16 sm:pt-6 pb-6 border-b-2 border-black flex justify-between items-center bg-white">
           <h2 className="text-xl font-black text-black tracking-tighter uppercase">EDIT PROFILE</h2>
           <button onClick={onClose} className="text-black hover:text-black transition-all"><X className="w-6 h-6" /></button>
         </div>
@@ -353,7 +353,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
             </div>
           </section>
         </div>
-        <div className="px-6 sm:px-10 py-6 border-t-2 border-black shrink-0 bg-white">
+        <div className="px-6 sm:px-10 pt-6 pb-12 sm:pb-6 border-t-2 border-black shrink-0 bg-white">
           <button type="button" onClick={handleSave} className="w-full bg-white text-black font-black text-sm uppercase tracking-[0.4em] py-7 rounded-[2rem] sm:rounded-[2.5rem] transition-all active:scale-[0.98] shadow-xl border-2 border-black">SAVE CHANGES</button>
         </div>
       </div>
