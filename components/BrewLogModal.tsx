@@ -1093,7 +1093,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           )}
 
           {/* Detailed Bean Information - For specialty devices (espresso, pourover, immersion, etc.) */}
-          {showDetailedBeanInfo && !formData.isCafeVisit && (
+          {formData.brewer && showDetailedBeanInfo && !formData.isCafeVisit && (
             <section className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-3 relative">
@@ -1195,7 +1195,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           )}
 
           {/* Simplified Bean Information - For automatic/combo machines (no detailed toggles) */}
-          {showSimplifiedBeanInfo && !formData.isCafeVisit && (
+          {formData.brewer && showSimplifiedBeanInfo && !formData.isCafeVisit && (
             <section className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-3 relative">
@@ -1342,7 +1342,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           )}
 
           {/* Brew Parameters - For specialty devices only (not pods, not automatic) */}
-          {showFullBrewParameters && !formData.isCafeVisit && (
+          {formData.brewer && showFullBrewParameters && !formData.isCafeVisit && (
             <section className="space-y-6">
               <div className="flex justify-between items-center border-b-2 border-black pb-2">
                 <h3 className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Settings2 className="w-4 h-4" /> Brew Parameters</h3>
@@ -1411,7 +1411,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           )}
 
           {/* Pod Machine Section - For Keurig, Nespresso, etc. */}
-          {showPodFields && !formData.isCafeVisit && (
+          {formData.brewer && showPodFields && !formData.isCafeVisit && (
             <section className="space-y-6">
               <div className="grid grid-cols-1 gap-4">
                 <div className="space-y-3">
@@ -1439,6 +1439,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           )}
 
           {/* Milk Section */}
+          {(formData.isCafeVisit || formData.brewer) && (
           <section className="space-y-6">
             <div className="flex justify-between items-center border-b-2 border-black pb-2">
               <h3 className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Coffee className="w-4 h-4" /> Milk</h3>
@@ -1549,6 +1550,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
               </div>
             )}
           </section>
+          )}
 
           {formData.showRating && (
             <section className="space-y-3">
