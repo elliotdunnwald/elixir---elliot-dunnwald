@@ -147,10 +147,18 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
                 {userGear.map(item => {
                   const deviceName = `${item.brand} ${item.name}`.trim();
                   const isSelected = currentDevice === deviceName;
+
+                  // Look up correct category from device database instead of using old notes
+                  const deviceInDb = allDevices.find(d =>
+                    d.brand.toUpperCase() === item.brand.toUpperCase() &&
+                    d.name.toUpperCase() === item.name.toUpperCase()
+                  );
+                  const correctCategory = deviceInDb?.category || item.notes || 'pourover';
+
                   return (
                     <button
                       key={item.id}
-                      onClick={() => handleSelectDevice(item.name, item.brand, item.notes || 'pourover')}
+                      onClick={() => handleSelectDevice(item.name, item.brand, correctCategory)}
                       className={`p-4 rounded-xl border-2 text-left transition-all ${
                         isSelected
                           ? 'bg-white text-black border-black'

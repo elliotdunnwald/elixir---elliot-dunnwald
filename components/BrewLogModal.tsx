@@ -412,6 +412,12 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
 
   const handleDeviceSelect = (deviceName: string, category: string) => {
     console.log('🔧 Device selected:', deviceName, '| Category:', category);
+
+    // CRITICAL: Clear localStorage draft immediately to prevent old category from persisting
+    console.log('🗑️ Clearing localStorage draft to prevent old category');
+    localStorage.removeItem('elixr_brew_log_draft');
+
+    // Set the new category
     setDeviceCategory(category);
 
     // Auto-detect brew type based on category
@@ -428,7 +434,18 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
         brewType: 'filter',
         showParameters: false,
         roaster: '',
-        origin: ''
+        origin: '',
+        // Clear bean info fields
+        estate: '',
+        producer: '',
+        lot: '',
+        varietal: '',
+        process: '',
+        showEstate: false,
+        showProducer: false,
+        showLot: false,
+        showVarietal: false,
+        showProcess: false
       }));
     } else if (isAutoOrCombo) {
       // Automatic/combo machines: simplified, no detailed parameters
@@ -441,7 +458,18 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
         gramsOut: '225.0',
         ratio: '1:15',
         temp: '94',
-        brewTime: '02:30'
+        brewTime: '02:30',
+        // Clear detailed bean fields
+        estate: '',
+        producer: '',
+        lot: '',
+        varietal: '',
+        process: '',
+        showEstate: false,
+        showProducer: false,
+        showLot: false,
+        showVarietal: false,
+        showProcess: false
       }));
     } else if (brewType === 'espresso') {
       // Espresso machines: full parameters
