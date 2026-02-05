@@ -666,10 +666,10 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
 
   return (
     <div className="fixed inset-0 z-[2000] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-300 pointer-events-none">
-      <div className="absolute inset-0 bg-white/60 backdrop-blur-sm pointer-events-auto" onClick={onClose} />
-      <div className="relative bg-zinc-50 w-full max-w-2xl h-full sm:h-auto sm:rounded-xl shadow-2xl sm:border-4 border-black overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95 pointer-events-auto">
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm pointer-events-auto" onClick={onClose} />
+      <div className="relative bg-white w-full max-w-2xl h-full sm:h-auto sm:rounded-[2.5rem] shadow-2xl border border-black overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95 pointer-events-auto">
 
-        <div className="px-6 sm:px-8 pt-16 sm:pt-6 pb-6 border-b-2 border-black bg-white sticky top-0 z-20">
+        <div className="px-6 sm:px-8 pt-16 sm:pt-6 pb-6 border-b border-black bg-white sticky top-0 z-20">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-black text-black uppercase tracking-wider">{editActivity ? 'Edit Brew' : 'Log Brew'}</h2>
             <button onClick={onClose} className="text-black hover:text-black transition-all" disabled={uploading}><X className="w-6 h-6" /></button>
@@ -1683,8 +1683,8 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
 
       {/* New Roaster Details Modal */}
       {showNewRoasterPrompt && (
-        <div className="fixed inset-0 bg-white/90 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className="bg-white border-2 border-black rounded-3xl p-8 max-w-md w-full">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+          <div className="bg-white border border-black rounded-[2.5rem] shadow-2xl p-8 max-w-md w-full">
             <div className="space-y-6">
               <div>
                 <h3 className="text-2xl font-black uppercase tracking-tight text-black">Add Roaster Details</h3>

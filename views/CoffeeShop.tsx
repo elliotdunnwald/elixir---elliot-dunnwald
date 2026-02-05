@@ -626,12 +626,12 @@ const CoffeeDetailModal: React.FC<{
 
   return (
     <div
-      className="fixed inset-0 z-[60] bg-zinc-50/80 backdrop-blur-sm overflow-y-auto p-4 sm:p-6"
+      className="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm overflow-y-auto p-4 sm:p-6"
       onClick={onClose}
     >
       <div className="min-h-full flex items-center justify-center py-6">
         <div
-          className="max-w-3xl w-full bg-zinc-50 border-2 border-black rounded-2xl p-5 sm:p-6 space-y-4"
+          className="max-w-3xl w-full bg-white border border-black rounded-[2.5rem] p-6 sm:p-8 space-y-6 shadow-2xl"
           onClick={(e) => e.stopPropagation()}
         >
         {/* Header */}
