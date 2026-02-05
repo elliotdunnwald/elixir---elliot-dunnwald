@@ -54,15 +54,18 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
   };
 
   const handleSelectDevice = (name: string, brand: string, category: string) => {
+    console.log('🎯 handleSelectDevice called:', { name, brand, category });
     // Check if device is already in user's gear
     const isInGear = userGear.some(g => g.brand === brand && g.name === name);
 
     if (!isInGear && profile) {
       // Show prompt to add to gear
+      console.log('📦 Device not in gear, showing prompt with category:', category);
       setPendingDevice({ name, brand, type: 'brewer', category });
       setShowAddPrompt(true);
     } else {
       // Device is in gear or no profile, just select it
+      console.log('✅ Device in gear or no profile, selecting with category:', category);
       const deviceName = `${brand} ${name}`.trim();
       onSelect(deviceName, category);
       onClose();
@@ -71,7 +74,9 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
 
   const handleUseWithoutAdding = () => {
     if (pendingDevice) {
+      console.log('🚫 Use without adding, pending device:', pendingDevice);
       const deviceName = `${pendingDevice.brand} ${pendingDevice.name}`.trim();
+      console.log('🚫 Calling onSelect with category:', pendingDevice.category);
       onSelect(deviceName, pendingDevice.category);
       setShowAddPrompt(false);
       setPendingDevice(null);
@@ -81,6 +86,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
 
   const handleAddAndUse = async () => {
     if (pendingDevice && profile) {
+      console.log('➕ Add and use, pending device:', pendingDevice);
       await handleAddToGear(pendingDevice);
       setShowAddPrompt(false);
       setPendingDevice(null);
@@ -90,6 +96,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
   const handleAddToGear = async (device: Device) => {
     if (!profile) return;
 
+    console.log('💾 Adding to gear, device:', device);
     const deviceName = `${device.brand} ${device.name}`.trim();
     const newGear = await addGearItem(profile.id, {
       name: device.name,
@@ -99,6 +106,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
     });
 
     if (newGear) {
+      console.log('✅ Gear added, calling onSelect with category:', device.category);
       setUserGear([newGear, ...userGear]);
       onSelect(deviceName, device.category);
       onClose();
