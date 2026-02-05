@@ -273,13 +273,13 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
 
   return (
     <div className="fixed inset-0 z-[2000] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-300">
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative bg-white w-full max-w-2xl h-full sm:h-auto sm:rounded-[2.5rem] shadow-2xl border border-black overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95">
-        <div className="px-6 sm:px-8 pt-16 sm:pt-6 pb-6 border-b border-black flex justify-between items-center bg-white">
-          <h2 className="text-xl font-black text-black tracking-wider uppercase">Edit Profile</h2>
+      <div className="absolute inset-0 bg-zinc-50/60 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative bg-white w-full max-w-2xl h-full sm:h-auto sm:rounded-xl shadow-2xl shadow-black/5 sm:border-2 border-black overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95">
+        <div className="px-6 sm:px-8 pt-16 sm:pt-6 pb-6 border-b-2 border-black flex justify-between items-center bg-white">
+          <h2 className="text-xl font-black text-black tracking-tighter uppercase">EDIT PROFILE</h2>
           <button onClick={onClose} className="text-black hover:text-black transition-all"><X className="w-6 h-6" /></button>
         </div>
-        <div className="overflow-y-auto px-6 sm:px-8 py-8 sm:py-8 space-y-8 custom-scrollbar flex-1">
+        <div className="overflow-y-auto px-6 sm:px-10 py-10 space-y-12 custom-scrollbar flex-1">
           <section className="flex flex-col items-center gap-6">
             <div onClick={() => !uploading && mediaInputRef.current?.click()} className={`w-32 h-32 rounded-3xl border-4 border-black bg-white flex items-center justify-center overflow-hidden shadow-2xl shadow-black/10 ${uploading ? 'cursor-wait' : 'cursor-pointer hover:shadow-black/20'} transition-all group relative`}>
               {formData.avatar ? <img src={formData.avatar} className="w-full h-full object-cover" alt="" /> : <UserIcon className="w-12 h-12 text-black" />}

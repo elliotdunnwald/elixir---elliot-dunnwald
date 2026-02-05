@@ -622,11 +622,11 @@ const AddOfferingModal: React.FC<{
 
   return (
     <div
-      className="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+      className="fixed inset-0 z-[60] bg-zinc-50/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
       onClick={onClose}
     >
       <div
-        className="max-w-2xl w-full bg-white border border-black rounded-[2.5rem] p-6 sm:p-8 space-y-6 my-10 shadow-2xl"
+        className="max-w-2xl w-full bg-white border-2 border-black rounded-xl p-6 sm:p-8 space-y-6 my-10 shadow-2xl shadow-black/5"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">

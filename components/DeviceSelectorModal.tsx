@@ -127,7 +127,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 animate-in fade-in duration-300 pointer-events-auto">
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm pointer-events-auto" onClick={onClose} />
-      <div className="relative bg-white w-full max-w-2xl max-h-[80vh] rounded-[2.5rem] shadow-2xl border border-black overflow-hidden flex flex-col pointer-events-auto">
+      <div className="relative bg-white w-full max-w-2xl max-h-[80vh] rounded-xl shadow-2xl border border-black overflow-hidden flex flex-col pointer-events-auto">
 
         {/* Header */}
         <div className="px-8 py-6 border-b border-black flex justify-between items-center bg-white">
@@ -256,8 +256,8 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
 
       {/* Add to Gear Prompt */}
       {showAddPrompt && pendingDevice && (
-        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-10 animate-in fade-in duration-200">
-          <div className="bg-white rounded-[2.5rem] border border-black shadow-2xl p-8 max-w-md w-full space-y-6 animate-in zoom-in-95 duration-200">
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-10 animate-in fade-in duration-200">
+          <div className="bg-white rounded-xl border-2 border-black p-8 max-w-md w-full space-y-6 animate-in zoom-in-95 duration-200">
             <div className="text-center space-y-2">
               <Coffee className="w-12 h-12 text-black mx-auto" />
               <h3 className="text-xl font-black text-black uppercase tracking-tight">Add to Your Gear?</h3>
