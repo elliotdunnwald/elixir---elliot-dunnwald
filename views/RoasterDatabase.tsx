@@ -156,56 +156,56 @@ const RoasterDatabase: React.FC = () => {
 
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 sm:space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-black tracking-tighter">ROASTER DATABASE</h1>
-          <p className="text-xs text-zinc-900 mt-2 tracking-wider">{roasters.length} ROASTERS • {roasters.reduce((sum, r) => sum + r.offerings.length, 0)} OFFERINGS</p>
+          <h1 className="text-2xl sm:text-4xl font-black tracking-tighter">ROASTER DATABASE</h1>
+          <p className="text-[10px] sm:text-xs text-zinc-900 mt-1 sm:mt-2 tracking-wider">{roasters.length} ROASTERS • {roasters.reduce((sum, r) => sum + r.offerings.length, 0)} OFFERINGS</p>
         </div>
         <button
           onClick={() => setIsAddingRoaster(true)}
-          className="bg-white text-black px-6 py-3 rounded-2xl flex items-center gap-2 font-black text-xs uppercase tracking-wider active:scale-95 transition-all shadow-xl border-2 border-black"
+          className="bg-white text-black px-4 sm:px-6 py-2 sm:py-3 rounded-2xl flex items-center gap-2 font-black text-[10px] sm:text-xs uppercase tracking-wider active:scale-95 transition-all shadow-xl border-2 border-black"
         >
-          <Plus className="w-4 h-4" /> ADD ROASTER
+          <Plus className="w-3 sm:w-4 h-3 sm:h-4" /> <span className="hidden sm:inline">ADD ROASTER</span><span className="sm:hidden">ADD</span>
         </button>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-black" />
+          <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 sm:w-5 h-4 sm:h-5 text-black" />
           <input
             type="text"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="SEARCH BY ROASTER, ORIGIN, VARIETAL, PROCESS, OR ESTATE..."
-            className="w-full bg-zinc-50 border-2 border-black rounded-2xl py-4 pl-12 pr-12 text-sm font-black text-black outline-none focus:border-black uppercase placeholder:text-black"
+            className="w-full bg-zinc-50 border-2 border-black rounded-2xl py-3 sm:py-4 pl-10 sm:pl-12 pr-10 sm:pr-12 text-xs sm:text-sm font-black text-black outline-none focus:border-black uppercase placeholder:text-black"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-black hover:text-black active:text-black transition-colors border-2 border-black hover:border-black rounded-lg p-1"
+              className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-black hover:text-black active:text-black transition-colors border-2 border-black hover:border-black rounded-lg p-1"
             >
-              <X className="w-4 h-4" />
+              <X className="w-3 sm:w-4 h-3 sm:h-4" />
             </button>
           )}
         </div>
 
         {/* Quick Filters */}
-        <div className="flex flex-wrap gap-2">
-          <span className="text-[10px] font-black text-black uppercase tracking-widest flex items-center px-2">
-            Quick Search:
+        <div className="flex flex-wrap gap-1.5 sm:gap-2">
+          <span className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest flex items-center px-1 sm:px-2">
+            Quick:
           </span>
           {quickFilters.map((filter) => (
             <button
               key={filter.label}
               onClick={() => handleQuickFilter(filter.label)}
-              className={`px-3 py-1.5 rounded-xl border-2 text-[10px] font-black uppercase tracking-wider transition-all ${
+              className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl border-2 text-[9px] sm:text-[10px] font-black uppercase tracking-wider transition-all ${
                 searchQuery.toLowerCase() === filter.label.toLowerCase()
                   ? 'bg-white text-black border-black'
                   : 'bg-transparent border-black text-black hover:border-black'
               }`}
             >
-              <span className="mr-1">{filter.icon}</span>
+              <span className="mr-0.5 sm:mr-1">{filter.icon}</span>
               {filter.label}
             </button>
           ))}
@@ -213,41 +213,41 @@ const RoasterDatabase: React.FC = () => {
       </div>
 
       {searchQuery && searchResults.length > 0 && (
-        <div className="flex items-center gap-3 text-sm">
+        <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm">
           <span className="text-black font-black uppercase tracking-wider">
-            {searchResults.length} roaster{searchResults.length !== 1 ? 's' : ''} found
+            {searchResults.length} roaster{searchResults.length !== 1 ? 's' : ''}
           </span>
           <span className="text-black">•</span>
           <span className="text-black font-black uppercase tracking-wider">
-            {searchResults.reduce((sum, r) => sum + r.offerings.length, 0)} total offerings
+            {searchResults.reduce((sum, r) => sum + r.offerings.length, 0)} offering{searchResults.reduce((sum, r) => sum + r.offerings.length, 0) !== 1 ? 's' : ''}
           </span>
         </div>
       )}
 
       {/* Compact list view */}
-      <div className="space-y-3">
+      <div className="space-y-2 sm:space-y-3">
         {searchResults.map(roaster => (
           <div
             key={roaster.id}
             onClick={() => setSelectedRoaster(roaster)}
-            className="bg-white border-2 border-black rounded-2xl p-5 hover:border-black active:border-black transition-all cursor-pointer group flex items-center justify-between gap-4 shadow-2xl shadow-black/5"
+            className="bg-white border-2 border-black rounded-2xl p-3 sm:p-4 hover:border-black active:border-black transition-all cursor-pointer group flex items-center justify-between gap-2 sm:gap-4 shadow-2xl shadow-black/5"
           >
-            <div className="flex items-center gap-4 flex-1 min-w-0">
-              <h3 className="text-sm font-black tracking-tight uppercase group-hover:text-black active:text-black transition-colors truncate">
+            <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
+              <h3 className="text-xs sm:text-sm font-black tracking-tight uppercase group-hover:text-black active:text-black transition-colors truncate">
                 {roaster.name}
               </h3>
-              <div className="flex items-center gap-1 text-[10px] text-black">
-                <MapPin className="w-2.5 h-2.5" />
+              <div className="flex items-center gap-0.5 sm:gap-1 text-[9px] sm:text-[10px] text-black">
+                <MapPin className="w-2 sm:w-2.5 h-2 sm:h-2.5" />
                 <span className="font-bold uppercase tracking-wide whitespace-nowrap">{roaster.city}, {roaster.country}</span>
               </div>
             </div>
-            <div className="flex items-center gap-3 text-[10px] text-black font-bold uppercase whitespace-nowrap">
+            <div className="flex items-center gap-2 sm:gap-3 text-[9px] sm:text-[10px] text-black font-bold uppercase whitespace-nowrap">
               {roaster.foundedYear && (
-                <span>EST. {roaster.foundedYear}</span>
+                <span className="hidden sm:inline">EST. {roaster.foundedYear}</span>
               )}
-              <div className="flex items-center gap-1">
-                <Coffee className="w-2.5 h-2.5" />
-                <span>{roaster.offerings.length}</span>
+              <div className="flex items-center gap-0.5 sm:gap-1">
+                <Coffee className="w-2 sm:w-2.5 h-2 sm:h-2.5" />
+                <span>{roaster.offerings.length} <span className="hidden sm:inline">OFFERING{roaster.offerings.length !== 1 ? 'S' : ''}</span></span>
               </div>
             </div>
           </div>
