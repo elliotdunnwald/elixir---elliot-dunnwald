@@ -87,7 +87,7 @@ const INITIAL_FORM_DATA = {
   showCoffeeDetails: false,
   showDescription: false,
   showWhen: false,
-  showRating: true,
+  showRating: false,
 
   // Existing fields
   title: '',
@@ -1552,7 +1552,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           </section>
           )}
 
-          {formData.showRating && (
+          {(formData.isCafeVisit || formData.brewer) && formData.showRating && (
             <section className="space-y-3">
               <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Overall Score (0-10)</p>
               <input
@@ -1575,6 +1575,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           )}
 
           {/* Optional Sections - Toggles */}
+          {(formData.isCafeVisit || formData.brewer) && (
           <div className="flex gap-3 flex-wrap">
             <button
               type="button"
@@ -1613,9 +1614,10 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
               {formData.showWhen ? '✓ ' : ''}When
             </button>
           </div>
+          )}
 
           {/* Description */}
-          {formData.showDescription && (
+          {(formData.isCafeVisit || formData.brewer) && formData.showDescription && (
             <section className="space-y-3 animate-in slide-in-from-top-1">
               <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Notes & Thoughts</p>
               <textarea value={formData.description} onChange={e => handleInputChange('description', e.target.value)} disabled={uploading} placeholder="CUPS NOTES, TEXTURE, PHILOSOPHY..." className="w-full bg-white border-2 border-black rounded-xl p-6 text-sm text-black font-black focus:border-black outline-none min-h-[140px] resize-none uppercase disabled:opacity-50" />
@@ -1623,7 +1625,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           )}
 
           {/* Photo Preview */}
-          {mediaPreview && (
+          {(formData.isCafeVisit || formData.brewer) && mediaPreview && (
             <section className="space-y-3 animate-in slide-in-from-top-1">
               <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Photo</p>
               <div
@@ -1642,7 +1644,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           <input type="file" ref={mediaInputRef} onChange={handleMediaUpload} className="hidden" accept="image/*" disabled={uploading} />
 
           {/* When/Datetime */}
-          {formData.showWhen && (
+          {(formData.isCafeVisit || formData.brewer) && formData.showWhen && (
             <section className="space-y-3 animate-in slide-in-from-top-1">
               <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">When</p>
               <input
