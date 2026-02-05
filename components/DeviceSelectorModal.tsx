@@ -149,23 +149,38 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
                   const isSelected = currentDevice === deviceName;
 
                   // Look up correct category from device database with flexible matching
-                  // Try exact match first
+                  // Normalize function: remove periods, extra spaces, make uppercase
+                  const normalize = (str: string) => str.toUpperCase().replace(/\./g, '').replace(/\s+/g, ' ').trim();
+
+                  // Try exact match first (with normalization)
                   let deviceInDb = allDevices.find(d =>
-                    d.brand.toUpperCase() === item.brand.toUpperCase() &&
-                    d.name.toUpperCase() === item.name.toUpperCase()
+                    normalize(d.brand) === normalize(item.brand) &&
+                    normalize(d.name) === normalize(item.name)
                   );
 
                   // If no exact match, try matching the full device name
                   if (!deviceInDb) {
-                    const fullName = deviceName.toUpperCase();
+                    const fullNameNormalized = normalize(deviceName);
                     deviceInDb = allDevices.find(d => {
-                      const dbFullName = `${d.brand} ${d.name}`.toUpperCase();
-                      return dbFullName === fullName;
+                      const dbFullNameNormalized = normalize(`${d.brand} ${d.name}`);
+                      return dbFullNameNormalized === fullNameNormalized;
+                    });
+                  }
+
+                  // If still no match, try partial matching (brand contains or name contains)
+                  if (!deviceInDb) {
+                    const brandNorm = normalize(item.brand);
+                    const nameNorm = normalize(item.name);
+                    deviceInDb = allDevices.find(d => {
+                      const dbBrandNorm = normalize(d.brand);
+                      const dbNameNorm = normalize(d.name);
+                      return (dbBrandNorm.includes(brandNorm) || brandNorm.includes(dbBrandNorm)) &&
+                             (dbNameNorm.includes(nameNorm) || nameNorm.includes(dbNameNorm));
                     });
                   }
 
                   const correctCategory = deviceInDb?.category || item.notes || 'pourover';
-                  console.log(`🔍 Gear item: "${item.brand}" "${item.name}" → Found in DB:`, deviceInDb ? `${deviceInDb.brand} ${deviceInDb.name} (${deviceInDb.category})` : 'NOT FOUND, using fallback');
+                  console.log(`🔍 Gear item: "${item.brand}" "${item.name}" → Found in DB:`, deviceInDb ? `${deviceInDb.brand} ${deviceInDb.name} (${deviceInDb.category})` : 'NOT FOUND, using fallback:', item.notes || 'pourover');
 
                   return (
                     <button
