@@ -148,12 +148,24 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
                   const deviceName = `${item.brand} ${item.name}`.trim();
                   const isSelected = currentDevice === deviceName;
 
-                  // Look up correct category from device database instead of using old notes
-                  const deviceInDb = allDevices.find(d =>
+                  // Look up correct category from device database with flexible matching
+                  // Try exact match first
+                  let deviceInDb = allDevices.find(d =>
                     d.brand.toUpperCase() === item.brand.toUpperCase() &&
                     d.name.toUpperCase() === item.name.toUpperCase()
                   );
+
+                  // If no exact match, try matching the full device name
+                  if (!deviceInDb) {
+                    const fullName = deviceName.toUpperCase();
+                    deviceInDb = allDevices.find(d => {
+                      const dbFullName = `${d.brand} ${d.name}`.toUpperCase();
+                      return dbFullName === fullName;
+                    });
+                  }
+
                   const correctCategory = deviceInDb?.category || item.notes || 'pourover';
+                  console.log(`🔍 Gear item: "${item.brand}" "${item.name}" → Found in DB:`, deviceInDb ? `${deviceInDb.brand} ${deviceInDb.name} (${deviceInDb.category})` : 'NOT FOUND, using fallback');
 
                   return (
                     <button
