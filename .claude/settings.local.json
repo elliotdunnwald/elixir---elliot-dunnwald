@@ -33,7 +33,9 @@
       "Bash(pbcopy)",
       "Bash(git pull:*)",
       "Bash(git merge:*)",
-      "Bash(git config:*)"
+      "Bash(git config:*)",
+      "Bash(npx cap sync ios)",
+      "Bash(npx cap open ios)"
     ]
   }
 }
