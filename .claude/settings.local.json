@@ -35,7 +35,9 @@
       "Bash(git merge:*)",
       "Bash(git config:*)",
       "Bash(npx cap sync ios)",
-      "Bash(npx cap open ios)"
+      "Bash(npx cap open ios)",
+      "Bash(npx cap add ios)",
+      "Bash(open:*)"
     ]
   }
 }
