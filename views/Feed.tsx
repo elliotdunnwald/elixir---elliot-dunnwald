@@ -77,19 +77,19 @@ const FeedView: React.FC = () => {
           <div className="flex gap-2">
             <button
               onClick={() => setFeedFilter('all')}
-              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${feedFilter === 'all' ? 'bg-white text-black border-black' : 'bg-zinc-100 text-black border-black hover:border-black active:border-black'}`}
+              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${feedFilter === 'all' ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-zinc-50 active:bg-black active:text-white'}`}
             >
               All
             </button>
             <button
               onClick={() => setFeedFilter('brews')}
-              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${feedFilter === 'brews' ? 'bg-white text-black border-black' : 'bg-zinc-100 text-black border-black hover:border-black active:border-black'}`}
+              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${feedFilter === 'brews' ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-zinc-50 active:bg-black active:text-white'}`}
             >
               Home Brews
             </button>
             <button
               onClick={() => setFeedFilter('cafes')}
-              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${feedFilter === 'cafes' ? 'bg-white text-black border-black' : 'bg-zinc-100 text-black border-black hover:border-black active:border-black'}`}
+              className={`px-4 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${feedFilter === 'cafes' ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-zinc-50 active:bg-black active:text-white'}`}
             >
               Cafes
             </button>

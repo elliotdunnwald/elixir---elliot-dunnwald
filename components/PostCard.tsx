@@ -100,8 +100,8 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
       className="bg-white rounded-[2rem] sm:rounded-[3.5rem] border-2 border-black transition-all hover:border-black overflow-hidden shadow-2xl shadow-black/5 animate-in fade-in duration-500 cursor-pointer"
       onClick={onClick}
     >
-      <div className="p-5 sm:p-10 flex justify-between items-start gap-3">
-        <div className="flex gap-3 sm:gap-5 items-start flex-1 min-w-0">
+      <div className="p-5 sm:p-10 flex justify-between items-start gap-4 sm:gap-6">
+        <div className="flex gap-3 sm:gap-5 items-start flex-1 min-w-0 pr-2">
           <Link to={`/profile/${activity.userUsername || activity.userId}`} className="block shrink-0" onClick={(e) => e.stopPropagation()}>
             <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl border-2 transition-all hover:border-black overflow-hidden ${isDefaultWhite ? 'bg-white text-black border-black' : 'bg-zinc-50 border-black'}`}>
               <div className="w-full h-full flex items-center justify-center">

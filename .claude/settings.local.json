@@ -37,7 +37,8 @@
       "Bash(npx cap sync ios)",
       "Bash(npx cap open ios)",
       "Bash(npx cap add ios)",
-      "Bash(open:*)"
+      "Bash(open:*)",
+      "Bash(grep:*)"
     ]
   }
 }
