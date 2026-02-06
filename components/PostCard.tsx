@@ -121,10 +121,10 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
               )}
             </div>
             <div className="flex flex-col gap-0.5 sm:gap-1 mt-1">
-              <p className="text-[10px] sm:text-[11px] text-black uppercase font-black tracking-widest flex items-center gap-1.5">
+              <p className="text-[9px] sm:text-[10px] text-black uppercase font-black tracking-widest flex items-center gap-1.5">
                 <MapPin className="w-3 h-3 sm:w-4 sm:h-4" /> {activity.locationName}
               </p>
-              <p className="text-[9px] sm:text-[10px] text-black uppercase font-black tracking-[0.25em]">
+              <p className="text-[8px] sm:text-[9px] text-black uppercase font-black tracking-[0.25em]">
                 {formatTimestamp(activity.timestamp)}
               </p>
             </div>
@@ -157,7 +157,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
               {activity.isCafeLog && (
                 <div>
                   <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest mb-0.5 sm:mb-1">Brewer</p>
-                  <p className="text-xs sm:text-sm font-black text-black uppercase">{activity.brewer}</p>
+                  <p className="text-[10px] sm:text-xs font-black text-black uppercase">{activity.brewer}</p>
                 </div>
               )}
 
@@ -167,7 +167,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
                 (activity.roaster.trim().toUpperCase() !== activity.title.trim().toUpperCase() && activity.roaster !== 'CAFE')) && (
                 <div>
                   <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest mb-0.5 sm:mb-1">Roaster</p>
-                  <p className="text-xs sm:text-sm font-black text-black uppercase">{activity.roaster}</p>
+                  <p className="text-[10px] sm:text-xs font-black text-black uppercase">{activity.roaster}</p>
                 </div>
               )}
 
@@ -175,7 +175,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
               {activity.beanOrigin && activity.beanOrigin !== 'UNKNOWN' && (
                 <div>
                   <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest mb-0.5 sm:mb-1">Origin</p>
-                  <p className="text-xs sm:text-sm font-black text-black uppercase">{activity.beanOrigin}</p>
+                  <p className="text-[10px] sm:text-xs font-black text-black uppercase">{activity.beanOrigin}</p>
                 </div>
               )}
 
@@ -183,7 +183,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
               {activity.estate && (
                 <div>
                   <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest mb-0.5 sm:mb-1">Estate</p>
-                  <p className="text-xs sm:text-sm font-black text-black uppercase">{activity.estate}</p>
+                  <p className="text-[10px] sm:text-xs font-black text-black uppercase">{activity.estate}</p>
                 </div>
               )}
 
@@ -191,7 +191,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
               {activity.producer && (
                 <div>
                   <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest mb-0.5 sm:mb-1">Producer</p>
-                  <p className="text-xs sm:text-sm font-black text-black uppercase">{activity.producer}</p>
+                  <p className="text-[10px] sm:text-xs font-black text-black uppercase">{activity.producer}</p>
                 </div>
               )}
 
@@ -199,7 +199,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
               {activity.varietal && (
                 <div>
                   <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest mb-0.5 sm:mb-1">Varietal</p>
-                  <p className="text-xs sm:text-sm font-black text-black uppercase">{activity.varietal}</p>
+                  <p className="text-[10px] sm:text-xs font-black text-black uppercase">{activity.varietal}</p>
                 </div>
               )}
 
@@ -207,7 +207,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
               {activity.process && (
                 <div>
                   <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest mb-0.5 sm:mb-1">Process</p>
-                  <p className="text-xs sm:text-sm font-black text-black uppercase">{activity.process}</p>
+                  <p className="text-[10px] sm:text-xs font-black text-black uppercase">{activity.process}</p>
                 </div>
               )}
             </div>
@@ -218,19 +218,19 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8 bg-zinc-50 border-2 border-black p-4 sm:p-8 rounded-2xl sm:rounded-[2.5rem]">
             <div className="space-y-1 sm:space-y-2">
               <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-1.5"><FlaskConical className="w-3 h-3 sm:w-4 sm:h-4" /> RECIPE</p>
-              <p className="text-xs sm:text-sm font-black text-black">{activity.gramsIn}G / {activity.gramsOut}G</p>
+              <p className="text-[10px] sm:text-xs font-black text-black">{activity.gramsIn}G / {activity.gramsOut}G</p>
             </div>
             <div className="space-y-1 sm:space-y-2">
               <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-1.5">RATIO</p>
-              <p className="text-xs sm:text-sm font-black text-black">{activity.ratio}</p>
+              <p className="text-[10px] sm:text-xs font-black text-black">{activity.ratio}</p>
             </div>
             <div className="space-y-1 sm:space-y-2">
               <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-1.5"><Timer className="w-3 h-3 sm:w-4 sm:h-4" /> TIME</p>
-              <p className="text-xs sm:text-sm font-black text-black">{activity.brewTime}</p>
+              <p className="text-[10px] sm:text-xs font-black text-black">{activity.brewTime}</p>
             </div>
             <div className="space-y-1 sm:space-y-2">
               <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-1.5"><Thermometer className="w-3 h-3 sm:w-4 sm:h-4" /> TEMP</p>
-              <p className="text-xs sm:text-sm font-black text-black whitespace-nowrap">{activity.temperature}°{activity.tempUnit || 'C'}</p>
+              <p className="text-[10px] sm:text-xs font-black text-black whitespace-nowrap">{activity.temperature}°{activity.tempUnit || 'C'}</p>
             </div>
           </div>
         )}
@@ -259,18 +259,18 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
             className={`flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 transition-all ${isMe ? 'text-black border-black cursor-not-allowed opacity-50' : (hasLiked ? 'text-black border-black bg-black/10' : 'text-black border-black hover:border-black active:border-black')}`}
           >
             <Heart className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform ${hasLiked ? 'fill-black scale-110' : ''}`} />
-            <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest">{likes}</span>
+            <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest">{likes}</span>
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); setShowComments(!showComments); }}
             className={`flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 transition-all ${showComments ? 'text-black border-black bg-black/10' : 'text-black border-black hover:border-black active:border-black'}`}
           >
             <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest">{activity.comments.length}</span>
+            <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest">{activity.comments.length}</span>
           </button>
           <button onClick={(e) => e.stopPropagation()} className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-black border-black hover:border-black active:border-black transition-all ml-auto">
             <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest hidden sm:inline">SHARE</span>
+            <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest hidden sm:inline">SHARE</span>
           </button>
           {isMe && onEdit && (
             <button
@@ -279,7 +279,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
               title="Edit this post"
             >
               <Edit3 className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-[10px] sm:text-[12px] font-black uppercase tracking-widest hidden sm:inline">EDIT</span>
+              <span className="text-[9px] sm:text-[11px] font-black uppercase tracking-widest hidden sm:inline">EDIT</span>
             </button>
           )}
           {isMe && onDelete && (
@@ -289,7 +289,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
               title="Delete this post"
             >
               <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-[10px] sm:text-[12px] font-black uppercase tracking-widest hidden sm:inline">DELETE</span>
+              <span className="text-[9px] sm:text-[11px] font-black uppercase tracking-widest hidden sm:inline">DELETE</span>
             </button>
           )}
         </div>

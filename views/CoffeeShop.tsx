@@ -219,8 +219,8 @@ const CoffeeShopView: React.FC = () => {
       {activeView === 'main' && (
         <div className="max-w-7xl mx-auto space-y-8 pb-28 sm:pb-0">
           {/* Header */}
-          <div>
-            <h1 className="text-5xl font-black tracking-tighter uppercase">MARKETPLACE</h1>
+          <div className="mt-4">
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tighter uppercase">MARKETPLACE</h1>
             <p className="text-xs text-black mt-2 tracking-wider uppercase">
               EXPLORE ROASTERS & EQUIPMENT
             </p>
@@ -235,7 +235,7 @@ const CoffeeShopView: React.FC = () => {
             >
               <div className="space-y-6 text-center">
                 <div>
-                  <h2 className="text-5xl font-black tracking-tighter uppercase mb-3 group-hover:text-black transition-colors">ROASTERS</h2>
+                  <h2 className="text-3xl sm:text-4xl font-black tracking-tighter uppercase mb-3 group-hover:text-black transition-colors">ROASTERS</h2>
                   <p className="text-lg text-black uppercase tracking-wider font-black">
                     {roastersWithOfferings.length} ROASTERS • {totalOfferings} OFFERINGS
                   </p>
@@ -250,7 +250,7 @@ const CoffeeShopView: React.FC = () => {
             >
               <div className="space-y-6 text-center">
                 <div>
-                  <h2 className="text-5xl font-black tracking-tighter uppercase mb-3 group-hover:text-black transition-colors">EQUIPMENT</h2>
+                  <h2 className="text-3xl sm:text-4xl font-black tracking-tighter uppercase mb-3 group-hover:text-black transition-colors">EQUIPMENT</h2>
                   <p className="text-lg text-black uppercase tracking-wider font-black">
                     BREWERS • GRINDERS • ACCESSORIES
                   </p>
@@ -276,7 +276,7 @@ const CoffeeShopView: React.FC = () => {
             ← BACK
           </button>
           <div className="flex-1">
-            <h1 className="text-5xl font-black tracking-tighter uppercase">ROASTERS</h1>
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tighter uppercase">ROASTERS</h1>
             <p className="text-xs text-black mt-2 tracking-wider uppercase">
               {roastersWithOfferings.length} ROASTERS • {totalOfferings} OFFERINGS
             </p>
@@ -392,7 +392,7 @@ const CoffeeShopView: React.FC = () => {
             ← BACK
           </button>
           <div className="flex-1">
-            <h1 className="text-5xl font-black tracking-tighter uppercase">EQUIPMENT</h1>
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tighter uppercase">EQUIPMENT</h1>
             <p className="text-xs text-black mt-2 tracking-wider uppercase">
               BREWERS • GRINDERS • ACCESSORIES
             </p>

@@ -111,9 +111,9 @@ const AdminEquipment: React.FC = () => {
         <span className="text-sm font-black uppercase tracking-wider">Back</span>
       </button>
 
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mt-4">
         <div>
-          <h1 className="text-5xl font-black tracking-tighter uppercase">EQUIPMENT SUBMISSIONS</h1>
+          <h1 className="text-3xl sm:text-4xl font-black tracking-tighter uppercase">EQUIPMENT SUBMISSIONS</h1>
           <p className="text-xs text-zinc-900 mt-2 tracking-wider uppercase">
             {pendingEquipment.length} PENDING APPROVAL
           </p>
