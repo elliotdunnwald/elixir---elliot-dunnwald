@@ -231,6 +231,16 @@
         button::-moz-focus-inner {
             border: 0;
         }
+        /* Leaflet map controls z-index fix */
+        .leaflet-control-container,
+        .leaflet-control,
+        .leaflet-control-zoom,
+        .leaflet-control-attribution {
+            z-index: 2 !important;
+        }
+        .leaflet-pane {
+            z-index: 1 !important;
+        }
 
     </style>
 </head>

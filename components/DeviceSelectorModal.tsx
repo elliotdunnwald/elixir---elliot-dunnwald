@@ -26,6 +26,17 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
   const [pendingDevice, setPendingDevice] = useState<Device | null>(null);
   const [showAddPrompt, setShowAddPrompt] = useState(false);
 
+  // Helper to combine brand and name without duplication
+  const getDeviceName = (brand: string, name: string): string => {
+    const brandUpper = brand.toUpperCase().trim();
+    const nameUpper = name.toUpperCase().trim();
+    // If name already starts with brand, just use name
+    if (nameUpper.startsWith(brandUpper)) {
+      return name.trim();
+    }
+    return `${brand} ${name}`.trim();
+  };
+
   useEffect(() => {
     if (isOpen && profile) {
       loadData();
@@ -66,7 +77,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
     } else {
       // Device is in gear or no profile, just select it
       console.log('✅ Device in gear or no profile, selecting with category:', category);
-      const deviceName = `${brand} ${name}`.trim();
+      const deviceName = getDeviceName(brand, name);
       onSelect(deviceName, category);
       onClose();
     }
@@ -145,7 +156,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
               <h3 className="text-[10px] font-black text-black uppercase tracking-[0.3em]">Your Gear</h3>
               <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-3">
                 {userGear.map(item => {
-                  const deviceName = `${item.brand} ${item.name}`.trim();
+                  const deviceName = getDeviceName(item.brand, item.name);
                   const isSelected = currentDevice === deviceName;
 
                   // Look up correct category from device database with flexible matching
@@ -162,7 +173,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
                   if (!deviceInDb) {
                     const fullNameNormalized = normalize(deviceName);
                     deviceInDb = allDevices.find(d => {
-                      const dbFullNameNormalized = normalize(`${d.brand} ${d.name}`);
+                      const dbFullNameNormalized = normalize(getDeviceName(d.brand, d.name));
                       return dbFullNameNormalized === fullNameNormalized;
                     });
                   }
@@ -186,14 +197,14 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
                     <button
                       key={item.id}
                       onClick={() => handleSelectDevice(item.name, item.brand, correctCategory)}
-                      className={`p-4 rounded-xl border-2 text-left transition-all ${
+                      className={`p-3 rounded-xl border-2 text-left transition-all ${
                         isSelected
                           ? 'bg-white text-black border-black'
                           : 'bg-white text-black border-black hover:border-black'
                       }`}
                     >
-                      <p className="font-black text-sm uppercase tracking-tight">{item.brand}</p>
-                      <p className="text-xs uppercase tracking-wider mt-1 opacity-70">{item.name}</p>
+                      <p className="font-black text-xs uppercase tracking-tight">{item.brand}</p>
+                      <p className="text-[10px] uppercase tracking-wider mt-1 opacity-70">{item.name}</p>
                     </button>
                   );
                 })}
@@ -227,7 +238,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
               ) : (
               <div className="grid grid-cols-1 gap-2">
                 {filteredDevices.slice(0, 50).map((device, idx) => {
-                  const deviceName = `${device.brand} ${device.name}`.trim();
+                  const deviceName = getDeviceName(device.brand, device.name);
                   const isInGear = userGear.some(g => g.brand === device.brand && g.name === device.name);
                   const isSelected = currentDevice === deviceName;
 
@@ -235,14 +246,14 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
                     <button
                       key={idx}
                       onClick={() => handleSelectDevice(device.name, device.brand, device.category)}
-                      className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
+                      className={`w-full p-3 rounded-xl border-2 transition-all text-left ${
                         isSelected
                           ? 'bg-white text-black border-black'
                           : 'bg-white border-black hover:border-black'
                       }`}
                     >
-                      <p className="font-black text-sm uppercase tracking-tight">{device.brand}</p>
-                      <p className="text-xs uppercase tracking-wider mt-1 opacity-70">{device.name}</p>
+                      <p className="font-black text-xs uppercase tracking-tight">{device.brand}</p>
+                      <p className="text-[10px] uppercase tracking-wider mt-1 opacity-70">{device.name}</p>
                       <p className="text-[8px] uppercase tracking-widest mt-1 opacity-50">{device.category}</p>
                     </button>
                   );

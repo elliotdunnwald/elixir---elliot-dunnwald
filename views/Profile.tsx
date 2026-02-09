@@ -275,20 +275,20 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
     <div className="fixed inset-0 z-[2000] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-300">
       <div className="absolute inset-0 bg-zinc-50/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative bg-white w-full max-w-2xl h-full sm:h-auto sm:rounded-xl shadow-2xl shadow-black/5 sm:border-2 border-black overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95">
-        <div className="px-6 sm:px-8 pt-16 sm:pt-6 pb-6 border-b-2 border-black flex justify-between items-center bg-white">
+        <div className="px-6 sm:px-8 pb-6 border-b-2 border-black flex justify-between items-center bg-white sticky top-0 z-20" style={{ paddingTop: 'max(1.5rem, env(safe-area-inset-top))' }}>
           <h2 className="text-xl font-black text-black tracking-tighter uppercase">EDIT PROFILE</h2>
           <button onClick={onClose} className="text-black hover:text-black transition-all"><X className="w-6 h-6" /></button>
         </div>
         <div className="overflow-y-auto px-6 sm:px-10 py-10 space-y-12 custom-scrollbar flex-1">
           <section className="flex flex-col items-center gap-6">
             <div onClick={() => !uploading && mediaInputRef.current?.click()} className={`w-32 h-32 rounded-3xl border-4 border-black bg-white flex items-center justify-center overflow-hidden shadow-2xl shadow-black/10 ${uploading ? 'cursor-wait' : 'cursor-pointer hover:shadow-black/20'} transition-all group relative`}>
-              {formData.avatar ? <img src={formData.avatar} className="w-full h-full object-cover" alt="" /> : <UserIcon className="w-12 h-12 text-black" />}
+              {formData.avatar ? <img src={formData.avatar} className="w-full h-full object-cover rounded-2xl" alt="" /> : <UserIcon className="w-12 h-12 text-black" />}
               {uploading ? (
-                <div className="absolute inset-0 bg-zinc-50/80 flex items-center justify-center">
+                <div className="absolute inset-0 bg-zinc-50/80 flex items-center justify-center rounded-2xl">
                   <Loader2 className="w-8 h-8 text-black animate-spin" />
                 </div>
               ) : (
-                <div className="absolute inset-0 bg-zinc-50/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                <div className="absolute inset-0 bg-zinc-50/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-2xl">
                   <ImageIcon className="w-8 h-8 text-black" />
                 </div>
               )}
@@ -658,7 +658,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
         <div className="px-5 sm:px-10 pb-5 sm:pb-10">
           <div className="flex flex-col sm:flex-row items-center sm:items-end -mt-12 sm:-mt-16 mb-6 sm:mb-8 gap-4 sm:gap-8">
             <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl sm:rounded-3xl border-4 border-black bg-white flex items-center justify-center overflow-hidden shadow-2xl shadow-black/10 shrink-0">
-              {displayUser.avatar ? <img src={displayUser.avatar} className="w-full h-full object-cover" alt="" /> : <UserIcon className="w-10 h-10 sm:w-14 sm:h-14 text-black" />}
+              {displayUser.avatar ? <img src={displayUser.avatar} className="w-full h-full object-cover rounded-xl sm:rounded-2xl" alt="" /> : <UserIcon className="w-10 h-10 sm:w-14 sm:h-14 text-black" />}
             </div>
             <div className="sm:pb-2 flex-grow text-center sm:text-left">
               <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">

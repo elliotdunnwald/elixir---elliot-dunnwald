@@ -71,7 +71,7 @@ function GeolocationButton() {
     <button
       onClick={handleLocate}
       disabled={locating}
-      className="absolute top-4 right-4 z-10 bg-white text-black p-3 rounded-xl border-2 border-black hover:bg-zinc-100 active:bg-zinc-200 transition-all shadow-lg disabled:opacity-50"
+      className="absolute top-4 right-4 z-[2] bg-white text-black p-3 rounded-xl border-2 border-black hover:bg-zinc-100 active:bg-zinc-200 transition-all shadow-lg disabled:opacity-50"
       title="Find my location"
     >
       <Navigation className={`w-5 h-5 ${locating ? 'animate-pulse' : ''}`} />
@@ -114,7 +114,7 @@ const CafeMap: React.FC<CafeMapProps> = ({ cafes, center, onCafeClick }) => {
   }
 
   return (
-    <div className="relative w-full h-[400px] sm:h-[600px] rounded-[2rem] overflow-hidden border-2 border-black shadow-lg">
+    <div className="relative w-full h-[400px] sm:h-[600px] rounded-[2rem] overflow-hidden border-2 border-black shadow-lg" style={{ zIndex: 1 }}>
       <MapContainer
         center={initialCenter}
         zoom={12}

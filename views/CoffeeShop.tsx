@@ -326,7 +326,7 @@ const CoffeeShopView: React.FC = () => {
         )}
 
         {/* Roasters Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6">
           {searchResults.map(roaster => {
             // Show matching offerings preview if searching
             const matchingOfferings = searchQuery
