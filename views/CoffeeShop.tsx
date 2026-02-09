@@ -227,16 +227,16 @@ const CoffeeShopView: React.FC = () => {
           </div>
 
           {/* Placards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6 pt-4 sm:pt-8">
             {/* Roasters Placard */}
             <div
               onClick={() => setActiveView('roasters')}
-              className="bg-zinc-50 border-2 border-zinc-900 rounded-3xl p-16 hover:border-black transition-all cursor-pointer group"
+              className="bg-zinc-50 border-2 border-zinc-900 rounded-2xl sm:rounded-3xl p-6 sm:p-12 hover:border-black transition-all cursor-pointer group"
             >
-              <div className="space-y-6 text-center">
+              <div className="space-y-2 sm:space-y-4 text-center">
                 <div>
-                  <h2 className="text-3xl sm:text-4xl font-black tracking-tighter uppercase mb-3 group-hover:text-black transition-colors">ROASTERS</h2>
-                  <p className="text-lg text-black uppercase tracking-wider font-black">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tighter uppercase mb-2 group-hover:text-black transition-colors">ROASTERS</h2>
+                  <p className="text-xs sm:text-sm md:text-base text-black uppercase tracking-wider font-black">
                     {roastersWithOfferings.length} ROASTERS • {totalOfferings} OFFERINGS
                   </p>
                 </div>
@@ -246,12 +246,12 @@ const CoffeeShopView: React.FC = () => {
             {/* Equipment Placard */}
             <div
               onClick={() => setActiveView('equipment')}
-              className="bg-zinc-50 border-2 border-zinc-900 rounded-3xl p-16 hover:border-black transition-all cursor-pointer group"
+              className="bg-zinc-50 border-2 border-zinc-900 rounded-2xl sm:rounded-3xl p-6 sm:p-12 hover:border-black transition-all cursor-pointer group"
             >
-              <div className="space-y-6 text-center">
+              <div className="space-y-2 sm:space-y-4 text-center">
                 <div>
-                  <h2 className="text-3xl sm:text-4xl font-black tracking-tighter uppercase mb-3 group-hover:text-black transition-colors">EQUIPMENT</h2>
-                  <p className="text-lg text-black uppercase tracking-wider font-black">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tighter uppercase mb-2 group-hover:text-black transition-colors">EQUIPMENT</h2>
+                  <p className="text-xs sm:text-sm md:text-base text-black uppercase tracking-wider font-black">
                     BREWERS • GRINDERS • ACCESSORIES
                   </p>
                 </div>

@@ -200,14 +200,14 @@ const ExploreView: React.FC = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6">
         {activeTab === 'people' ? (
           searchResults.length > 0 ? (
             searchResults.map(person => (
               <Link
                 key={person.id}
                 to={`/profile/${person.username}`}
-                className="bg-white border-2 border-black p-8 rounded-[2.5rem] hover:border-black hover:bg-zinc-50 active:bg-zinc-700/50 transition-all flex items-center gap-6 group shadow-lg shadow-black/5"
+                className="bg-white border-2 border-black p-4 sm:p-6 rounded-[1.5rem] sm:rounded-[2.5rem] hover:border-black hover:bg-zinc-50 active:bg-zinc-700/50 transition-all flex items-center gap-4 sm:gap-6 group shadow-lg shadow-black/5"
               >
                 <div className="w-16 h-16 rounded-2xl border-2 border-black group-hover:border-black active:border-black flex items-center justify-center overflow-hidden transition-all bg-white text-black shadow-lg">
                   {person.avatar_url ? (
@@ -239,12 +239,12 @@ const ExploreView: React.FC = () => {
               <Link
                 key={cafe.id}
                 to={`/cafe/${cafe.id}`}
-                className="bg-white border-2 border-black p-8 rounded-[2.5rem] hover:border-black hover:bg-zinc-50 active:bg-zinc-700/50 transition-all group shadow-lg shadow-black/5"
+                className="bg-white border-2 border-black p-4 sm:p-6 rounded-[1.5rem] sm:rounded-[2.5rem] hover:border-black hover:bg-zinc-50 active:bg-zinc-700/50 transition-all group shadow-lg shadow-black/5"
               >
-                <div className="space-y-4">
+                <div className="space-y-2 sm:space-y-3">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <h4 className="font-black text-black text-xl tracking-tighter uppercase leading-tight">
+                      <h4 className="font-black text-black text-lg sm:text-xl tracking-tighter uppercase leading-tight">
                         {cafe.name}
                       </h4>
                       <div className="flex items-center gap-2 text-black mt-2">

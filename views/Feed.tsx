@@ -71,8 +71,8 @@ const FeedView: React.FC = () => {
 
   return (
     <div className="max-w-3xl mx-auto pb-28 sm:pb-0">
-      <div className="mb-12">
-        <div className="flex justify-between items-center mb-8">
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-4">
           <h2 className="text-[11px] font-black text-zinc-900 uppercase tracking-[0.4em]">GLOBAL FEED</h2>
           <div className="flex gap-2">
             <button

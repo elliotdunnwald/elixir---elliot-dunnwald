@@ -11,7 +11,7 @@ const config: CapacitorConfig = {
   plugins: {
     StatusBar: {
       style: 'Light',
-      backgroundColor: '#f4f4f5', // zinc-100
+      backgroundColor: '#ffffff', // white
       overlaysWebView: false
     },
     Keyboard: {
@@ -20,7 +20,7 @@ const config: CapacitorConfig = {
     },
     SplashScreen: {
       launchShowDuration: 2000,
-      backgroundColor: '#f4f4f5',
+      backgroundColor: '#ffffff',
       androidScaleType: 'CENTER_CROP',
       showSpinner: false
     }
