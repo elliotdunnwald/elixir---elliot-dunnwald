@@ -22,7 +22,10 @@ import {
   createFollowRequest,
   getExistingFollowRequest,
   checkUsernameAvailability,
-  type ProfileWithStats
+  getBrewPreferences,
+  updateBrewPreferences,
+  type ProfileWithStats,
+  type BrewPreferences
 } from '../lib/database';
 import PostCard from '../components/PostCard';
 import BrewLogModal from '../components/BrewLogModal';
@@ -170,6 +173,10 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   const [checkingUsername, setCheckingUsername] = useState(false);
   const mediaInputRef = useRef<HTMLInputElement>(null);
 
+  // Brew preferences state
+  const [brewPreferences, setBrewPreferences] = useState<BrewPreferences | null>(null);
+  const [preferencesLoading, setPreferencesLoading] = useState(true);
+
   const handleAvatarSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -229,6 +236,40 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
     }
   };
 
+  // Load brew preferences
+  useEffect(() => {
+    if (!isOpen || !userData.id) return;
+
+    const loadPrefs = async () => {
+      setPreferencesLoading(true);
+      const prefs = await getBrewPreferences(userData.id);
+      if (prefs) {
+        setBrewPreferences(prefs);
+      } else {
+        // Set default preferences
+        setBrewPreferences({
+          brewsAtHome: true,
+          visitsCafes: true,
+          detailLevel: 'balanced',
+          customFields: {
+            temperature: true,
+            brewTime: true,
+            grindSize: true,
+            coffeeDose: true,
+            waterAmount: true,
+            tds: false,
+            extractionYield: false,
+            description: true,
+            rating: true,
+          },
+        });
+      }
+      setPreferencesLoading(false);
+    };
+
+    loadPrefs();
+  }, [isOpen, userData.id]);
+
   // Check username availability with debouncing
   useEffect(() => {
     const checkUsername = async () => {
@@ -256,15 +297,78 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
     return () => clearTimeout(timeoutId);
   }, [formData.username, userData.username, userData.id]);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     // Don't save if username is taken
     if (usernameAvailable === false) {
       alert('Username is already taken. Please choose another.');
       return;
     }
 
+    // Save brew preferences first
+    if (brewPreferences && userData.id) {
+      await updateBrewPreferences(userData.id, brewPreferences);
+    }
+
     onSave(formData);
     onClose();
+  };
+
+  const handleDetailLevelChange = (level: 'simplified' | 'balanced' | 'detailed') => {
+    if (!brewPreferences) return;
+
+    const presets = {
+      simplified: {
+        temperature: false,
+        brewTime: false,
+        grindSize: false,
+        coffeeDose: false,
+        waterAmount: false,
+        tds: false,
+        extractionYield: false,
+        description: true,
+        rating: true,
+      },
+      balanced: {
+        temperature: true,
+        brewTime: true,
+        grindSize: true,
+        coffeeDose: true,
+        waterAmount: true,
+        tds: false,
+        extractionYield: false,
+        description: true,
+        rating: true,
+      },
+      detailed: {
+        temperature: true,
+        brewTime: true,
+        grindSize: true,
+        coffeeDose: true,
+        waterAmount: true,
+        tds: true,
+        extractionYield: true,
+        description: true,
+        rating: true,
+      },
+    };
+
+    setBrewPreferences({
+      ...brewPreferences,
+      detailLevel: level,
+      customFields: presets[level],
+    });
+  };
+
+  const handleFieldToggle = (field: keyof BrewPreferences['customFields']) => {
+    if (!brewPreferences) return;
+
+    setBrewPreferences({
+      ...brewPreferences,
+      customFields: {
+        ...brewPreferences.customFields,
+        [field]: !brewPreferences.customFields[field],
+      },
+    });
   };
 
   const filteredDevices = BREWING_DEVICES.filter(d => d.name.toUpperCase().includes(searchQuery.toUpperCase()) || d.brand.toUpperCase().includes(searchQuery.toUpperCase()));
