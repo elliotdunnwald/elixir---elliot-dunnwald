@@ -136,7 +136,7 @@ const DeviceSelectorModal: React.FC<DeviceSelectorModalProps> = ({ isOpen, onClo
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 animate-in fade-in duration-300 pointer-events-auto">
+    <div className="fixed inset-0 z-[2100] flex items-center justify-center p-4 animate-in fade-in duration-300 pointer-events-auto">
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm pointer-events-auto" onClick={onClose} />
       <div className="relative bg-white w-full max-w-2xl max-h-[80vh] rounded-xl shadow-2xl border border-black overflow-hidden flex flex-col pointer-events-auto">
 

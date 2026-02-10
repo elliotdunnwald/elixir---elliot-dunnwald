@@ -137,37 +137,54 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
   const getNotificationIcon = (type: string) => {
     switch (type) {
       case 'like':
-        return <Heart className="w-5 h-5 text-red-500" fill="currentColor" />;
+        return <Heart className="w-4 h-4 text-black" fill="currentColor" />;
       case 'comment':
-        return <MessageCircle className="w-5 h-5 text-blue-500" />;
+        return <MessageCircle className="w-4 h-4 text-black" />;
       case 'follow_request':
-        return <UserPlus className="w-5 h-5 text-yellow-500" />;
+        return <UserPlus className="w-4 h-4 text-black" />;
       case 'follow_accepted':
-        return <UserCheck className="w-5 h-5 text-green-500" />;
+        return <UserCheck className="w-4 h-4 text-black" />;
       case 'follow':
-        return <UserPlus className="w-5 h-5 text-black" />;
+        return <UserPlus className="w-4 h-4 text-black" />;
       default:
-        return <Bell className="w-5 h-5" />;
+        return <Bell className="w-4 h-4 text-black" />;
     }
   };
 
   const getNotificationText = (notif: Notification) => {
-    const name = `${notif.from_profile?.first_name} ${notif.from_profile?.last_name}`;
+    const firstName = notif.from_profile?.first_name || '';
+    const lastName = notif.from_profile?.last_name || '';
 
     switch (notif.type) {
       case 'like':
-        return `${name} liked your brew`;
+        return { name: `${firstName} ${lastName}`, action: 'liked your brew' };
       case 'comment':
-        return `${name} commented: "${notif.comment_text?.substring(0, 50)}${(notif.comment_text?.length || 0) > 50 ? '...' : ''}"`;
+        return { name: `${firstName} ${lastName}`, action: `commented: "${notif.comment_text?.substring(0, 40)}${(notif.comment_text?.length || 0) > 40 ? '...' : ''}"` };
       case 'follow_request':
-        return `${name} wants to follow you`;
+        return { name: `${firstName} ${lastName}`, action: 'wants to follow you' };
       case 'follow_accepted':
-        return `${name} accepted your follow request`;
+        return { name: `${firstName} ${lastName}`, action: 'accepted your follow request' };
       case 'follow':
-        return `${name} started following you`;
+        return { name: `${firstName} ${lastName}`, action: 'started following you' };
       default:
-        return 'New notification';
+        return { name: 'Someone', action: 'sent you a notification' };
     }
+  };
+
+  const formatTimestamp = (date: Date) => {
+    const now = new Date();
+    const diff = now.getTime() - date.getTime();
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(diff / 3600000);
+    const days = Math.floor(diff / 86400000);
+
+    if (minutes < 1) return 'just now';
+    if (minutes < 60) return `${minutes}m ago`;
+    if (hours < 24) return `${hours}h ago`;
+    if (days < 7) return `${days}d ago`;
+
+    // For older notifications, show compact date
+    return date.toLocaleDateString([], { month: 'numeric', day: 'numeric' });
   };
 
   if (!isOpen) return null;
@@ -183,16 +200,16 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
       {/* Panel */}
       <div className="fixed right-0 top-0 bottom-0 w-full sm:w-96 bg-white border-l-2 border-black z-50 flex flex-col">
         {/* Header */}
-        <div className="border-b-2 border-black p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-black text-black uppercase tracking-tighter">
+        <div className="border-b-2 border-black p-4">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-xl font-black text-black uppercase tracking-tighter">
               Notifications
             </h2>
             <button
               onClick={onClose}
               className="text-black hover:text-black active:text-black transition-colors"
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5" />
             </button>
           </div>
 
@@ -200,10 +217,10 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
           <div className="flex gap-2">
             <button
               onClick={() => setActiveTab('all')}
-              className={`flex-1 py-2 px-4 rounded-xl font-black text-[10px] uppercase tracking-wider transition-all ${
+              className={`flex-1 py-2 px-3 rounded-lg font-black text-[9px] uppercase tracking-wider transition-all border-2 ${
                 activeTab === 'all'
-                  ? 'bg-white text-black'
-                  : 'bg-white text-black hover:text-black'
+                  ? 'bg-black text-white border-black'
+                  : 'bg-white text-black border-black hover:bg-zinc-50'
               }`}
             >
               All {notifications.filter(n => !n.read).length > 0 && (
@@ -212,10 +229,10 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
             </button>
             <button
               onClick={() => setActiveTab('requests')}
-              className={`flex-1 py-2 px-4 rounded-xl font-black text-[10px] uppercase tracking-wider transition-all ${
+              className={`flex-1 py-2 px-3 rounded-lg font-black text-[9px] uppercase tracking-wider transition-all border-2 ${
                 activeTab === 'requests'
-                  ? 'bg-white text-black'
-                  : 'bg-white text-black hover:text-black'
+                  ? 'bg-black text-white border-black'
+                  : 'bg-white text-black border-black hover:bg-zinc-50'
               }`}
             >
               Requests {followRequests.length > 0 && (
@@ -226,7 +243,7 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-2">
+        <div className="flex-1 overflow-y-auto p-3 space-y-1.5">
           {loading ? (
             <div className="text-center text-black text-sm uppercase tracking-wider py-10">
               Loading...
@@ -244,25 +261,25 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
                     followRequests.map(request => (
                       <div
                         key={request.id}
-                        className="bg-white border-2 border-black rounded-xl p-4 space-y-3"
+                        className="bg-white border-2 border-black rounded-lg p-3 space-y-2"
                       >
                         <div className="flex items-center gap-3">
                           {request.requester?.avatar_url ? (
                             <img
                               src={request.requester.avatar_url}
                               alt="Avatar"
-                              className="w-10 h-10 rounded-full object-cover"
+                              className="w-9 h-9 rounded-lg object-cover border border-black"
                             />
                           ) : (
-                            <div className="w-10 h-10 rounded-full bg-zinc-50 flex items-center justify-center">
-                              <UserPlus className="w-5 h-5 text-black" />
+                            <div className="w-9 h-9 rounded-lg bg-zinc-50 border border-black flex items-center justify-center">
+                              <UserPlus className="w-4 h-4 text-black" />
                             </div>
                           )}
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-black text-black uppercase truncate">
+                            <p className="text-xs font-black text-black uppercase truncate">
                               {request.requester?.first_name} {request.requester?.last_name}
                             </p>
-                            <p className="text-[10px] font-black text-black uppercase">
+                            <p className="text-[9px] font-black text-zinc-600 uppercase">
                               Wants to follow you
                             </p>
                           </div>
@@ -270,13 +287,13 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleAcceptRequest(request.id)}
-                            className="flex-1 bg-white text-black py-2 px-4 rounded-xl font-black text-[10px] uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all"
+                            className="flex-1 bg-black text-white py-2 px-3 rounded-lg font-black text-[9px] uppercase tracking-wider hover:bg-zinc-800 active:scale-95 transition-all"
                           >
                             Accept
                           </button>
                           <button
                             onClick={() => handleRejectRequest(request.id)}
-                            className="flex-1 bg-zinc-50 text-black py-2 px-4 rounded-xl font-black text-[10px] uppercase tracking-wider hover:text-black hover:bg-zinc-700 active:scale-95 transition-all"
+                            className="flex-1 bg-white text-black border-2 border-black py-2 px-3 rounded-lg font-black text-[9px] uppercase tracking-wider hover:bg-zinc-50 active:scale-95 transition-all"
                           >
                             Decline
                           </button>
@@ -299,41 +316,38 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ isOpen, onClose
                       {notifications.filter(n => !n.read).length > 0 && (
                         <button
                           onClick={handleMarkAllAsRead}
-                          className="w-full text-center text-[10px] font-black uppercase tracking-wider text-black hover:text-black py-2"
+                          className="w-full text-center text-[9px] font-black uppercase tracking-wider text-zinc-600 hover:text-black py-2 transition-colors"
                         >
                           Mark all as read
                         </button>
                       )}
-                      {notifications.map(notif => (
-                        <div
-                          key={notif.id}
-                          onClick={() => handleNotificationClick(notif)}
-                          className={`border-2 rounded-xl p-4 cursor-pointer transition-all ${
-                            notif.read
-                              ? 'bg-white border-zinc-900 hover:border-black'
-                              : 'bg-white border-black hover:border-black'
-                          }`}
-                        >
-                          <div className="flex items-start gap-3">
-                            <div className="mt-0.5">{getNotificationIcon(notif.type)}</div>
+                      {notifications.map(notif => {
+                        const { name, action } = getNotificationText(notif);
+                        return (
+                          <div
+                            key={notif.id}
+                            onClick={() => handleNotificationClick(notif)}
+                            className={`border-2 rounded-lg p-3 cursor-pointer transition-all flex items-start gap-3 ${
+                              notif.read
+                                ? 'bg-white border-zinc-200 hover:border-black'
+                                : 'bg-white border-black hover:bg-zinc-50'
+                            }`}
+                          >
+                            <div className="mt-0.5 shrink-0">{getNotificationIcon(notif.type)}</div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm font-black text-black">
-                                {getNotificationText(notif)}
+                              <p className="text-xs font-black text-black leading-tight">
+                                <span className="uppercase">{name}</span> {action}
                               </p>
-                              <p className="text-[10px] font-black text-black uppercase mt-1">
-                                {new Date(notif.created_at).toLocaleDateString()} at{' '}
-                                {new Date(notif.created_at).toLocaleTimeString([], {
-                                  hour: '2-digit',
-                                  minute: '2-digit'
-                                })}
+                              <p className="text-[9px] font-black text-zinc-600 uppercase mt-1">
+                                {formatTimestamp(new Date(notif.created_at))}
                               </p>
                             </div>
                             {!notif.read && (
-                              <div className="w-2 h-2 rounded-full bg-white mt-2" />
+                              <div className="w-2 h-2 rounded-full bg-black mt-1 shrink-0" />
                             )}
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </>
                   )}
                 </>

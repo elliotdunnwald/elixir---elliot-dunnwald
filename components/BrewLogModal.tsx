@@ -1680,7 +1680,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
 
       {/* New Roaster Details Modal */}
       {showNewRoasterPrompt && (
-        <div className="fixed inset-0 bg-white/90 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-white/90 backdrop-blur-sm z-[2100] flex items-center justify-center p-4 pointer-events-auto">
           <div className="bg-white border-2 border-black rounded-xl p-8 max-w-md w-full">
             <div className="space-y-6">
               <div>
