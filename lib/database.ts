@@ -2332,3 +2332,71 @@ export async function getActivitiesByCafeFiltered(
 
   return activities;
 }
+
+// =====================================================
+// BREW PREFERENCES
+// =====================================================
+
+export interface BrewPreferences {
+  brewsAtHome: boolean;
+  visitsCafes: boolean;
+  detailLevel: 'simplified' | 'balanced' | 'detailed';
+  customFields: {
+    temperature: boolean;
+    brewTime: boolean;
+    grindSize: boolean;
+    coffeeDose: boolean;
+    waterAmount: boolean;
+    tds: boolean;
+    extractionYield: boolean;
+    description: boolean;
+    rating: boolean;
+  };
+}
+
+export async function updateBrewPreferences(profileId: string, preferences: BrewPreferences): Promise<boolean> {
+  const { error } = await supabase
+    .from('profiles')
+    .update({
+      brew_preferences: preferences,
+      onboarding_completed: true,
+    })
+    .eq('id', profileId);
+
+  if (error) {
+    console.error('Error updating brew preferences:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function getBrewPreferences(profileId: string): Promise<BrewPreferences | null> {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('brew_preferences')
+    .eq('id', profileId)
+    .single();
+
+  if (error) {
+    console.error('Error fetching brew preferences:', error);
+    return null;
+  }
+
+  return data?.brew_preferences as BrewPreferences || null;
+}
+
+export async function hasCompletedOnboarding(profileId: string): Promise<boolean> {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('onboarding_completed')
+    .eq('id', profileId)
+    .single();
+
+  if (error) {
+    console.error('Error checking onboarding status:', error);
+    return false;
+  }
+
+  return data?.onboarding_completed || false;
+}

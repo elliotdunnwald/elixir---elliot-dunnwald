@@ -14,11 +14,12 @@ import CafeProfile from './views/CafeProfile';
 import BrewLogModal from './components/BrewLogModal';
 import BrewLogDetailModal from './components/BrewLogDetailModal';
 import NotificationsPanel from './components/NotificationsPanel';
+import OnboardingFlow, { BrewPreferences } from './components/OnboardingFlow';
 import { BrewActivity } from './types';
 import { SettingsProvider } from './context/SettingsContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
-import { createProfile, createActivity, deleteActivity, getUnreadNotificationCount, getPendingFollowRequestCount } from './lib/database';
+import { createProfile, createActivity, deleteActivity, getUnreadNotificationCount, getPendingFollowRequestCount, hasCompletedOnboarding, updateBrewPreferences } from './lib/database';
 import { BREWING_DEVICES } from './data/database';
 import { supabase } from './lib/supabase';
 // Migration utility removed - not needed for new installations
@@ -434,6 +435,8 @@ const AppContent: React.FC = () => {
   const [notificationCount, setNotificationCount] = useState(0);
   const [selectedActivityId, setSelectedActivityId] = useState<string | null>(null);
   const [todayCaffeine, setTodayCaffeine] = useState(0);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [onboardingChecked, setOnboardingChecked] = useState(false);
 
   // Load notification count
   useEffect(() => {
@@ -528,6 +531,30 @@ const AppContent: React.FC = () => {
     };
   }, [profile]);
 
+  // Check onboarding status
+  useEffect(() => {
+    if (!profile || onboardingChecked) return;
+
+    const checkOnboarding = async () => {
+      const completed = await hasCompletedOnboarding(profile.id);
+      setShowOnboarding(!completed);
+      setOnboardingChecked(true);
+    };
+
+    checkOnboarding();
+  }, [profile, onboardingChecked]);
+
+  // Handle onboarding completion
+  const handleOnboardingComplete = async (preferences: BrewPreferences) => {
+    if (!profile) return;
+
+    const success = await updateBrewPreferences(profile.id, preferences);
+    if (success) {
+      setShowOnboarding(false);
+      await refreshProfile();
+    }
+  };
+
   // Debug logging
   console.log('AppContent state:', { loading, hasUser: !!user, hasProfile: !!profile });
 
@@ -552,6 +579,11 @@ const AppContent: React.FC = () => {
   // Show profile setup if no profile
   if (!profile) {
     return <ProfileSetupView onComplete={() => {}} />;
+  }
+
+  // Show onboarding if not completed
+  if (showOnboarding) {
+    return <OnboardingFlow isOpen={true} onComplete={handleOnboardingComplete} />;
   }
 
   // Show main app

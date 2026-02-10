@@ -3,7 +3,7 @@ import { X, MapPin, Coffee, Award, Eye, EyeOff, Settings2, Calculator, Plus, Ima
 import { BrewActivity } from '../types';
 import { useSettings } from '../context/SettingsContext';
 import { useAuth } from '../hooks/useAuth';
-import { createActivity, uploadBrewImage, updateActivity, getRoasters, getCafes, trackCafeFromVisit, trackRoasterSubmission } from '../lib/database';
+import { createActivity, uploadBrewImage, updateActivity, getRoasters, getCafes, trackCafeFromVisit, trackRoasterSubmission, getBrewPreferences, type BrewPreferences } from '../lib/database';
 import DeviceSelectorModal from './DeviceSelectorModal';
 
 // Predefined drink options organized by category
@@ -175,6 +175,17 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
     website: ''
   });
 
+  // Brew preferences
+  const [brewPreferences, setBrewPreferences] = useState<BrewPreferences | null>(null);
+  const [showAllFields, setShowAllFields] = useState(false);
+
+  // Helper to check if field should be shown
+  const shouldShowField = (fieldName: keyof BrewPreferences['customFields']): boolean => {
+    if (showAllFields) return true; // Override: show all when toggle is on
+    if (!brewPreferences) return true; // Default: show all if no preferences loaded
+    return brewPreferences.customFields[fieldName];
+  };
+
   // Device category helpers
   const isPodMachine = deviceCategory === 'pod';
   const isEspressoMachine = deviceCategory === 'espresso';
@@ -224,6 +235,20 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
       });
     }
   }, [isOpen]);
+
+  // Load brew preferences
+  useEffect(() => {
+    if (!profile || !isOpen) return;
+
+    const loadPreferences = async () => {
+      const prefs = await getBrewPreferences(profile.id);
+      if (prefs) {
+        setBrewPreferences(prefs);
+      }
+    };
+
+    loadPreferences();
+  }, [profile, isOpen]);
 
   // Update roaster suggestions when typing
   useEffect(() => {
@@ -1350,45 +1375,71 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
 
               {formData.showParameters && (
                 <div className="space-y-6 animate-in fade-in duration-300">
+                  {/* Show more details toggle */}
+                  {brewPreferences && (
+                    <div className="flex justify-end">
+                      <button
+                        type="button"
+                        onClick={() => setShowAllFields(!showAllFields)}
+                        className="text-[9px] font-black text-zinc-600 hover:text-black uppercase tracking-wider transition-colors flex items-center gap-2"
+                      >
+                        <Settings2 className="w-3 h-3" />
+                        {showAllFields ? 'Hide Extra Fields' : 'Show All Fields'}
+                      </button>
+                    </div>
+                  )}
+
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 bg-white border-2 border-black p-6 rounded-xl">
-                    <div className="flex flex-col items-center">
-                      <p className="text-[9px] font-black text-zinc-900 uppercase tracking-widest mb-3">DOSE (G)</p>
-                      <input type="number" step="0.1" value={formData.gramsIn} onChange={e => setFormData({...formData, gramsIn: e.target.value})} onFocus={handleInputFocus} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-black disabled:opacity-50" />
-                    </div>
-                    <div className="flex flex-col items-center">
-                      <p className="text-[9px] font-black text-zinc-900 uppercase tracking-widest mb-3">WATER (G)</p>
-                      <input type="number" step="1" value={formData.gramsOut} onChange={e => setFormData({...formData, gramsOut: e.target.value})} onFocus={handleInputFocus} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-black disabled:opacity-50" />
-                    </div>
-                    <div className="flex flex-col items-center">
-                      <div className="flex items-center gap-2 mb-3">
-                        <p className="text-[9px] font-black text-zinc-900 uppercase tracking-widest">TEMP</p>
-                        <div className="flex bg-zinc-50 rounded p-0.5 border-2 border-black">
-                          <button type="button" onClick={() => handleTempUnitToggle('C')} disabled={uploading} className={`px-2 py-1 rounded text-[10px] font-black transition-all disabled:opacity-50 ${tempUnit === 'C' ? 'bg-white text-black' : 'text-black'}`}>°C</button>
-                          <button type="button" onClick={() => handleTempUnitToggle('F')} disabled={uploading} className={`px-2 py-1 rounded text-[10px] font-black transition-all disabled:opacity-50 ${tempUnit === 'F' ? 'bg-white text-black' : 'text-black'}`}>°F</button>
-                        </div>
+                    {shouldShowField('coffeeDose') && (
+                      <div className="flex flex-col items-center">
+                        <p className="text-[9px] font-black text-zinc-900 uppercase tracking-widest mb-3">DOSE (G)</p>
+                        <input type="number" step="0.1" value={formData.gramsIn} onChange={e => setFormData({...formData, gramsIn: e.target.value})} onFocus={handleInputFocus} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-black disabled:opacity-50" />
                       </div>
-                      <input type="number" value={formData.temp} onChange={e => setFormData({...formData, temp: e.target.value})} onFocus={handleInputFocus} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-black disabled:opacity-50" />
-                    </div>
-                    <div className="flex flex-col items-center">
-                      <p className="text-[9px] font-black text-zinc-900 uppercase tracking-widest mb-3">RATIO</p>
-                      <div className="w-full py-2 text-black font-black text-center text-sm border-b-2 border-transparent">{formData.ratio}</div>
-                    </div>
-                    <div className="flex flex-col items-center col-span-2 sm:col-span-4">
-                      <p className="text-[9px] font-black text-zinc-900 uppercase tracking-widest mb-3">TBT (MM:SS)</p>
-                      <input
-                        type="text"
-                        value={formData.brewTime}
-                        onChange={e => setFormData({...formData, brewTime: e.target.value})}
-                        disabled={uploading}
-                        placeholder="02:30"
-                        className="w-full sm:w-32 bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-black disabled:opacity-50"
-                      />
-                    </div>
+                    )}
+                    {shouldShowField('waterAmount') && (
+                      <div className="flex flex-col items-center">
+                        <p className="text-[9px] font-black text-zinc-900 uppercase tracking-widest mb-3">WATER (G)</p>
+                        <input type="number" step="1" value={formData.gramsOut} onChange={e => setFormData({...formData, gramsOut: e.target.value})} onFocus={handleInputFocus} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-black disabled:opacity-50" />
+                      </div>
+                    )}
+                    {shouldShowField('temperature') && (
+                      <div className="flex flex-col items-center">
+                        <div className="flex items-center gap-2 mb-3">
+                          <p className="text-[9px] font-black text-zinc-900 uppercase tracking-widest">TEMP</p>
+                          <div className="flex bg-zinc-50 rounded p-0.5 border-2 border-black">
+                            <button type="button" onClick={() => handleTempUnitToggle('C')} disabled={uploading} className={`px-2 py-1 rounded text-[10px] font-black transition-all disabled:opacity-50 ${tempUnit === 'C' ? 'bg-white text-black' : 'text-black'}`}>°C</button>
+                            <button type="button" onClick={() => handleTempUnitToggle('F')} disabled={uploading} className={`px-2 py-1 rounded text-[10px] font-black transition-all disabled:opacity-50 ${tempUnit === 'F' ? 'bg-white text-black' : 'text-black'}`}>°F</button>
+                          </div>
+                        </div>
+                        <input type="number" value={formData.temp} onChange={e => setFormData({...formData, temp: e.target.value})} onFocus={handleInputFocus} disabled={uploading} className="w-full bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-black disabled:opacity-50" />
+                      </div>
+                    )}
+                    {(shouldShowField('coffeeDose') && shouldShowField('waterAmount')) && (
+                      <div className="flex flex-col items-center">
+                        <p className="text-[9px] font-black text-zinc-900 uppercase tracking-widest mb-3">RATIO</p>
+                        <div className="w-full py-2 text-black font-black text-center text-sm border-b-2 border-transparent">{formData.ratio}</div>
+                      </div>
+                    )}
+                    {shouldShowField('brewTime') && (
+                      <div className="flex flex-col items-center col-span-2 sm:col-span-4">
+                        <p className="text-[9px] font-black text-zinc-900 uppercase tracking-widest mb-3">TBT (MM:SS)</p>
+                        <input
+                          type="text"
+                          value={formData.brewTime}
+                          onChange={e => setFormData({...formData, brewTime: e.target.value})}
+                          disabled={uploading}
+                          placeholder="02:30"
+                          className="w-full sm:w-32 bg-transparent border-b-2 border-black py-2 text-black font-black text-center text-sm outline-none focus:border-black disabled:opacity-50"
+                        />
+                      </div>
+                    )}
                   </div>
 
-                  <div className="flex gap-2">
-                    <ToggleBtn label="EY% Analytics" active={formData.showEY} onClick={() => setFormData(p => ({...p, showEY: !p.showEY}))} />
-                  </div>
+                  {(shouldShowField('tds') || shouldShowField('extractionYield')) && (
+                    <div className="flex gap-2">
+                      <ToggleBtn label="EY% Analytics" active={formData.showEY} onClick={() => setFormData(p => ({...p, showEY: !p.showEY}))} />
+                    </div>
+                  )}
 
                   {formData.showEY && (
                     <div className="space-y-4 animate-in slide-in-from-top-1">
@@ -1614,7 +1665,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           )}
 
           {/* Description */}
-          {(formData.isCafeVisit || formData.brewer) && formData.showDescription && (
+          {(formData.isCafeVisit || formData.brewer) && formData.showDescription && shouldShowField('description') && (
             <section className="space-y-3 animate-in slide-in-from-top-1">
               <p className="text-[9px] font-black text-zinc-900 uppercase tracking-widest">Notes & Thoughts</p>
               <textarea value={formData.description} onChange={e => handleInputChange('description', e.target.value)} onFocus={handleInputFocus} disabled={uploading} placeholder="CUPS NOTES, TEXTURE, PHILOSOPHY..." className="w-full bg-white border-2 border-black rounded-xl p-6 text-sm text-black font-black focus:border-black outline-none min-h-[140px] resize-none uppercase disabled:opacity-50" />
