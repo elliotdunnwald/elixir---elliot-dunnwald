@@ -6,7 +6,7 @@
 CREATE TABLE IF NOT EXISTS saved_recipes (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
-  original_activity_id UUID REFERENCES activities(id) ON DELETE CASCADE,
+  original_activity_id UUID,
   original_user_username TEXT NOT NULL,
   selected_fields JSONB NOT NULL,
   recipe_data JSONB NOT NULL,

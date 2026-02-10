@@ -273,7 +273,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onSaveR
             <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
             <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest hidden sm:inline">SHARE</span>
           </button>
-          {!isMe && onSaveRecipe && (
+          {onSaveRecipe && (
             <button
               onClick={(e) => { e.stopPropagation(); onSaveRecipe(activity); }}
               className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-black border-black hover:border-black active:border-black transition-all"

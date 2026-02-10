@@ -413,19 +413,19 @@ const MobileNav: React.FC = () => {
     { path: '/profile/me', label: 'PROFILE', icon: <User className="w-5 h-5" /> },
   ];
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-black sm:hidden flex justify-around items-center px-3 py-3 shadow-2xl shadow-black/5 z-[1000]" style={{ paddingBottom: 'calc(0.75rem + env(safe-area-inset-bottom))' }}>
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-black sm:hidden flex justify-around items-center px-2 py-3 shadow-2xl shadow-black/5 z-[1000]" style={{ paddingBottom: 'calc(0.75rem + env(safe-area-inset-bottom))' }}>
       {navItems.map((item) => (
         <Link
           key={item.label}
           to={item.path}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-full border-2 transition-all min-h-[44px] ${
+          className={`flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-2xl border-2 transition-all min-h-[44px] min-w-[60px] ${
             location.pathname === item.path
               ? 'text-white border-black bg-black'
               : 'text-black border-black bg-white hover:bg-zinc-50 active:scale-95'
           }`}
         >
           {item.icon}
-          <span className="text-xs font-black tracking-wider">{item.label}</span>
+          <span className="text-[8px] font-black tracking-widest">{item.label}</span>
         </Link>
       ))}
     </nav>
