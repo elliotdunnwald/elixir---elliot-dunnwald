@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MessageCircle, Share2, MapPin, Award, FlaskConical, Timer, Thermometer, Zap, Lock, Calculator, Heart, Beaker, Trash2, Send, X, Edit3 } from 'lucide-react';
+import { MessageCircle, Share2, MapPin, Award, FlaskConical, Timer, Thermometer, Zap, Lock, Calculator, Heart, Beaker, Trash2, Send, X, Edit3, Bookmark } from 'lucide-react';
 import { BrewActivity } from '../types';
 import { useAuth } from '../hooks/useAuth';
 import { toggleLike, addComment } from '../lib/database';
@@ -9,6 +9,7 @@ interface PostCardProps {
   activity: BrewActivity;
   onDelete?: (activityId: string) => void;
   onEdit?: (activity: BrewActivity) => void;
+  onSaveRecipe?: (activity: BrewActivity) => void;
   onClick?: () => void;
 }
 
@@ -35,7 +36,7 @@ const formatTimestamp = (timestamp: string) => {
   return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
 };
 
-const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick }) => {
+const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onSaveRecipe, onClick }) => {
   const { profile } = useAuth();
   const isMe = profile?.id === activity.userId;
   const isDefaultWhite = !activity.userAvatar;
@@ -272,6 +273,16 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
             <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
             <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest hidden sm:inline">SHARE</span>
           </button>
+          {!isMe && onSaveRecipe && (
+            <button
+              onClick={(e) => { e.stopPropagation(); onSaveRecipe(activity); }}
+              className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-black border-black hover:border-black active:border-black transition-all"
+              title="Save this recipe"
+            >
+              <Bookmark className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest hidden sm:inline">SAVE</span>
+            </button>
+          )}
           {isMe && onEdit && (
             <button
               onClick={(e) => { e.stopPropagation(); onEdit(activity); }}

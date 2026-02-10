@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import PostCard from '../components/PostCard';
 import BrewLogModal from '../components/BrewLogModal';
 import BrewLogDetailModal from '../components/BrewLogDetailModal';
+import SaveRecipeModal from '../components/SaveRecipeModal';
 import { useActivities } from '../hooks/useActivities';
 import { useAuth } from '../hooks/useAuth';
-import { deleteActivity } from '../lib/database';
+import { deleteActivity, saveRecipe } from '../lib/database';
 import { Users, ArrowRight, Loader2 } from 'lucide-react';
 import type { BrewActivity } from '../types';
 
@@ -15,6 +16,7 @@ const FeedView: React.FC = () => {
   const [editActivity, setEditActivity] = useState<BrewActivity | null>(null);
   const [selectedActivityId, setSelectedActivityId] = useState<string | null>(null);
   const [feedFilter, setFeedFilter] = useState<'all' | 'brews' | 'cafes'>('all');
+  const [saveRecipeActivity, setSaveRecipeActivity] = useState<BrewActivity | null>(null);
 
   console.log('FeedView render:', { profile, activitiesCount: activities.length, loading, error });
 
@@ -30,6 +32,26 @@ const FeedView: React.FC = () => {
     const success = await deleteActivity(activityId);
     if (success) {
       removeActivity(activityId);
+    }
+  };
+
+  const handleSaveRecipe = async (selectedFields: string[], notes?: string) => {
+    if (!profile || !saveRecipeActivity) return;
+
+    const success = await saveRecipe(
+      profile.id,
+      saveRecipeActivity.id,
+      saveRecipeActivity.username,
+      selectedFields,
+      saveRecipeActivity,
+      notes
+    );
+
+    if (success) {
+      alert('Recipe saved successfully!');
+      setSaveRecipeActivity(null);
+    } else {
+      alert('Failed to save recipe. Please try again.');
     }
   };
 
@@ -116,6 +138,7 @@ const FeedView: React.FC = () => {
                 activity={activity}
                 onEdit={setEditActivity}
                 onDelete={handleDelete}
+                onSaveRecipe={setSaveRecipeActivity}
                 onClick={() => setSelectedActivityId(activity.id)}
               />
             ))}
@@ -142,6 +165,12 @@ const FeedView: React.FC = () => {
           onDelete={handleDelete}
         />
       )}
+      <SaveRecipeModal
+        isOpen={!!saveRecipeActivity}
+        activity={saveRecipeActivity}
+        onClose={() => setSaveRecipeActivity(null)}
+        onSave={handleSaveRecipe}
+      />
     </div>
   );
 };

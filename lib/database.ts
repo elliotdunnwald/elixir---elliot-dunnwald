@@ -2400,3 +2400,91 @@ export async function hasCompletedOnboarding(profileId: string): Promise<boolean
 
   return data?.onboarding_completed || false;
 }
+
+// =====================================================
+// SAVED RECIPES
+// =====================================================
+
+export interface SavedRecipe {
+  id: string;
+  user_id: string;
+  original_activity_id: string | null;
+  original_user_username: string;
+  selected_fields: string[];
+  recipe_data: Record<string, any>;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export async function saveRecipe(
+  userId: string,
+  originalActivityId: string,
+  originalUsername: string,
+  selectedFields: string[],
+  recipeData: Record<string, any>,
+  notes?: string
+): Promise<SavedRecipe | null> {
+  const { data, error } = await supabase
+    .from('saved_recipes')
+    .insert({
+      user_id: userId,
+      original_activity_id: originalActivityId,
+      original_user_username: originalUsername,
+      selected_fields: selectedFields,
+      recipe_data: recipeData,
+      notes: notes || null,
+    })
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error saving recipe:', error);
+    return null;
+  }
+
+  return data as SavedRecipe;
+}
+
+export async function getSavedRecipes(userId: string): Promise<SavedRecipe[]> {
+  const { data, error } = await supabase
+    .from('saved_recipes')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching saved recipes:', error);
+    return [];
+  }
+
+  return data as SavedRecipe[];
+}
+
+export async function deleteSavedRecipe(recipeId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('saved_recipes')
+    .delete()
+    .eq('id', recipeId);
+
+  if (error) {
+    console.error('Error deleting saved recipe:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function updateSavedRecipeNotes(recipeId: string, notes: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('saved_recipes')
+    .update({ notes, updated_at: new Date().toISOString() })
+    .eq('id', recipeId);
+
+  if (error) {
+    console.error('Error updating recipe notes:', error);
+    return false;
+  }
+
+  return true;
+}

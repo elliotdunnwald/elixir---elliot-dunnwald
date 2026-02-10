@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Bookmark, LayoutGrid, BarChart3, User as UserIcon, Settings2, X, Plus, Image as ImageIcon, Search, Lock, Eye, EyeOff, Share2, Check, Trash2, Loader2, ZoomIn, ZoomOut, Shield, ArrowLeft, Coffee } from 'lucide-react';
+import { Bookmark, LayoutGrid, BarChart3, User as UserIcon, Settings2, X, Plus, Image as ImageIcon, Search, Lock, Eye, EyeOff, Share2, Check, Trash2, Loader2, ZoomIn, ZoomOut, Shield, ArrowLeft, Coffee, ChefHat } from 'lucide-react';
 import Cropper from 'react-easy-crop';
 import { Area } from 'react-easy-crop';
 import { BREWING_DEVICES } from '../data/database';
@@ -24,8 +24,11 @@ import {
   checkUsernameAvailability,
   getBrewPreferences,
   updateBrewPreferences,
+  getSavedRecipes,
+  deleteSavedRecipe,
   type ProfileWithStats,
-  type BrewPreferences
+  type BrewPreferences,
+  type SavedRecipe
 } from '../lib/database';
 import PostCard from '../components/PostCard';
 import BrewLogModal from '../components/BrewLogModal';
@@ -593,6 +596,8 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
   const [gear, setGear] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [following, setFollowing] = useState(false);
+  const [savedRecipes, setSavedRecipes] = useState<SavedRecipe[]>([]);
+  const [savedRecipesLoading, setSavedRecipesLoading] = useState(false);
   const [followLoading, setFollowLoading] = useState(false);
   const [hasPendingRequest, setHasPendingRequest] = useState(false);
   const [isAddingGear, setIsAddingGear] = useState(false);
@@ -669,6 +674,22 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
       setProfileData(prev => prev ? { ...prev, brew_count: activities.length } : null);
     }
   }, [activities.length]);
+
+  // Load saved recipes when analytics tab is active
+  useEffect(() => {
+    async function loadSavedRecipes() {
+      const viewingOwnProfile = isMe || (userId && currentProfile && userId === currentProfile.username);
+
+      if (activeTab === 'analytics' && viewingOwnProfile && currentProfile) {
+        setSavedRecipesLoading(true);
+        const recipes = await getSavedRecipes(currentProfile.id);
+        setSavedRecipes(recipes);
+        setSavedRecipesLoading(false);
+      }
+    }
+
+    loadSavedRecipes();
+  }, [activeTab, isMe, userId, currentProfile]);
 
   const handleUpdateProfile = async (updates: any) => {
     if (!user || !currentProfile) return;
@@ -1057,11 +1078,131 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
           </div>
         )}
         {activeTab === 'analytics' && (
-          <div className="animate-in fade-in duration-500">
-            <div className="py-20 sm:py-24 text-center border-2 border-black bg-white rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6 shadow-2xl shadow-black/5">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-zinc-50 rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center"><BarChart3 className="w-8 h-8 sm:w-10 sm:h-10 text-black" /></div>
-              <h3 className="text-black font-black uppercase text-xs sm:text-base tracking-[0.4em]">COMING SOON</h3>
+          <div className="animate-in fade-in duration-500 space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-black text-black uppercase tracking-wider">Saved Recipes</h2>
+              <p className="text-xs text-zinc-600 font-black uppercase tracking-wider">
+                {savedRecipes.length} recipe{savedRecipes.length !== 1 ? 's' : ''}
+              </p>
             </div>
+
+            {savedRecipesLoading ? (
+              <div className="flex items-center justify-center py-24">
+                <Loader2 className="w-8 h-8 text-black animate-spin" />
+              </div>
+            ) : savedRecipes.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {savedRecipes.map((recipe) => (
+                  <div
+                    key={recipe.id}
+                    className="bg-white border-2 border-black rounded-2xl p-5 space-y-4 shadow-lg hover:shadow-xl transition-all"
+                  >
+                    {/* Attribution */}
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-2">
+                        <Bookmark className="w-4 h-4 text-black" />
+                        <Link
+                          to={`/profile/${recipe.original_user_username}`}
+                          className="text-xs font-black text-black hover:underline uppercase tracking-wider"
+                        >
+                          @{recipe.original_user_username}
+                        </Link>
+                      </div>
+                      <button
+                        onClick={async () => {
+                          if (confirm('Delete this saved recipe?')) {
+                            const success = await deleteSavedRecipe(recipe.id);
+                            if (success) {
+                              setSavedRecipes(prev => prev.filter(r => r.id !== recipe.id));
+                            }
+                          }
+                        }}
+                        className="p-1.5 hover:bg-red-50 rounded-lg transition-all"
+                        title="Delete saved recipe"
+                      >
+                        <Trash2 className="w-4 h-4 text-zinc-600 hover:text-red-600" />
+                      </button>
+                    </div>
+
+                    {/* Coffee & Roaster */}
+                    <div>
+                      <p className="text-lg font-black text-black">{recipe.recipe_data.coffee_name}</p>
+                      <p className="text-xs text-zinc-600 font-bold uppercase tracking-wider">
+                        {recipe.recipe_data.roaster_name}
+                      </p>
+                    </div>
+
+                    {/* Saved Fields */}
+                    <div className="grid grid-cols-2 gap-2">
+                      {recipe.selected_fields.map((field) => {
+                        const fieldLabels: Record<string, string> = {
+                          brewer: 'Method',
+                          temperature_c: 'Temp',
+                          brew_time_seconds: 'Time',
+                          grind_size: 'Grind',
+                          grams_in: 'Dose',
+                          grams_out: 'Water',
+                          tds: 'TDS',
+                          extraction_yield: 'Extraction',
+                          rating: 'Rating',
+                        };
+
+                        const label = fieldLabels[field] || field;
+                        let value = recipe.recipe_data[field];
+
+                        // Format values
+                        if (field === 'temperature_c' && value !== undefined) value = `${value}°C`;
+                        if (field === 'brew_time_seconds' && value) value = `${Math.floor(value / 60)}:${(value % 60).toString().padStart(2, '0')}`;
+                        if (field === 'grams_in' && value) value = `${value}g`;
+                        if (field === 'grams_out' && value) value = `${value}g`;
+                        if (field === 'tds' && value !== undefined) value = `${value}%`;
+                        if (field === 'extraction_yield' && value !== undefined) value = `${value}%`;
+                        if (field === 'rating' && value) value = `${value}/5`;
+
+                        if (!value || field === 'coffee_name' || field === 'roaster_name' || field === 'description') return null;
+
+                        return (
+                          <div key={field} className="bg-zinc-50 border border-black rounded-lg px-2 py-1.5">
+                            <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">{label}</p>
+                            <p className="text-xs font-black text-black">{value}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Notes */}
+                    {recipe.notes && (
+                      <div className="bg-amber-50 border border-amber-300 rounded-lg p-3">
+                        <p className="text-[9px] font-black text-amber-900 uppercase tracking-wider mb-1">My Notes</p>
+                        <p className="text-xs text-amber-900">{recipe.notes}</p>
+                      </div>
+                    )}
+
+                    {/* Description */}
+                    {recipe.selected_fields.includes('description') && recipe.recipe_data.description && (
+                      <p className="text-xs text-black leading-relaxed">{recipe.recipe_data.description}</p>
+                    )}
+
+                    {/* Date Saved */}
+                    <p className="text-[9px] text-zinc-400 font-black uppercase tracking-wider">
+                      Saved {new Date(recipe.created_at).toLocaleDateString()}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-20 sm:py-24 text-center border-2 border-dashed border-black bg-white rounded-[2rem] sm:rounded-[3.5rem] space-y-4 sm:space-y-6">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-zinc-50 rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center">
+                  <Bookmark className="w-8 h-8 sm:w-10 sm:h-10 text-black" />
+                </div>
+                <div>
+                  <h3 className="text-black font-black uppercase text-xs sm:text-base tracking-[0.4em]">No Saved Recipes</h3>
+                  <p className="text-zinc-600 text-xs uppercase tracking-wider mt-2">
+                    Save recipes from the feed to see them here
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         )}
         {activeTab === 'admin' && viewingOwnProfile && currentProfile?.is_admin && (
