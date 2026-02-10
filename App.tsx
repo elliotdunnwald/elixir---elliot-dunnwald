@@ -397,25 +397,25 @@ const MobileHeader: React.FC<{ onOpenNotifications: () => void; notificationCoun
 const MobileNav: React.FC = () => {
   const location = useLocation();
   const navItems = [
-    { path: '/', label: 'FEED', icon: <Home className="w-6 h-6" /> },
-    { path: '/explore', label: 'EXPLORE', icon: <Search className="w-6 h-6" /> },
-    { path: '/coffee-shop', label: 'MARKET', icon: <ShoppingBag className="w-6 h-6" /> },
-    { path: '/profile/me', label: 'PROFILE', icon: <User className="w-6 h-6" /> },
+    { path: '/', label: 'FEED', icon: <Home className="w-5 h-5" /> },
+    { path: '/explore', label: 'EXPLORE', icon: <Search className="w-5 h-5" /> },
+    { path: '/coffee-shop', label: 'MARKET', icon: <ShoppingBag className="w-5 h-5" /> },
+    { path: '/profile/me', label: 'PROFILE', icon: <User className="w-5 h-5" /> },
   ];
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-zinc-100 border-t-2 border-black sm:hidden flex justify-around items-center px-2 shadow-2xl shadow-black/5 z-[1000]" style={{ height: 'calc(5rem + env(safe-area-inset-bottom))', paddingBottom: 'env(safe-area-inset-bottom)' }}>
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-black sm:hidden flex justify-around items-center px-3 py-3 shadow-2xl shadow-black/5 z-[1000]" style={{ paddingBottom: 'calc(0.75rem + env(safe-area-inset-bottom))' }}>
       {navItems.map((item) => (
         <Link
           key={item.label}
           to={item.path}
-          className={`flex flex-col items-center gap-1 px-4 py-3 rounded-xl border-2 transition-all min-h-[44px] min-w-[44px] ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-full border-2 transition-all min-h-[44px] ${
             location.pathname === item.path
-              ? 'text-black border-black bg-black/10'
-              : 'text-zinc-600 border-transparent active:text-black active:border-black'
+              ? 'text-white border-black bg-black'
+              : 'text-black border-black bg-white hover:bg-zinc-50 active:scale-95'
           }`}
         >
           {item.icon}
-          <span className="text-[8px] font-black tracking-widest">{item.label}</span>
+          <span className="text-xs font-black tracking-wider">{item.label}</span>
         </Link>
       ))}
     </nav>
