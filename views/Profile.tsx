@@ -456,6 +456,113 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
               </button>
             </div>
           </section>
+
+          {/* Brew Preferences Section */}
+          {!preferencesLoading && brewPreferences && (
+            <section className="space-y-6">
+              <div className="flex items-center gap-2 border-b-2 border-black pb-2">
+                <Coffee className="w-5 h-5 text-black" />
+                <h3 className="text-sm font-black text-black uppercase tracking-wider">Brew Logging Preferences</h3>
+              </div>
+
+              {/* Coffee Habits */}
+              <div className="space-y-3">
+                <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">How I Enjoy Coffee</p>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setBrewPreferences({ ...brewPreferences, brewsAtHome: !brewPreferences.brewsAtHome })}
+                    className={`py-4 rounded-xl border-2 font-black text-[10px] uppercase tracking-wider transition-all ${
+                      brewPreferences.brewsAtHome
+                        ? 'bg-black text-white border-black'
+                        : 'bg-white text-black border-black'
+                    }`}
+                  >
+                    Brew at Home
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setBrewPreferences({ ...brewPreferences, visitsCafes: !brewPreferences.visitsCafes })}
+                    className={`py-4 rounded-xl border-2 font-black text-[10px] uppercase tracking-wider transition-all ${
+                      brewPreferences.visitsCafes
+                        ? 'bg-black text-white border-black'
+                        : 'bg-white text-black border-black'
+                    }`}
+                  >
+                    Visit Cafes
+                  </button>
+                </div>
+              </div>
+
+              {/* Detail Level Presets */}
+              <div className="space-y-3">
+                <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">Detail Level</p>
+                <div className="space-y-2">
+                  {['simplified', 'balanced', 'detailed'].map((level) => (
+                    <button
+                      key={level}
+                      type="button"
+                      onClick={() => handleDetailLevelChange(level as any)}
+                      className={`w-full py-4 px-4 rounded-xl border-2 font-black text-[10px] uppercase tracking-wider transition-all text-left flex items-center justify-between ${
+                        brewPreferences.detailLevel === level
+                          ? 'bg-black text-white border-black'
+                          : 'bg-white text-black border-black'
+                      }`}
+                    >
+                      <span>{level}</span>
+                      {brewPreferences.detailLevel === level && <Check className="w-4 h-4" />}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Individual Field Toggles */}
+              <div className="space-y-3">
+                <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">Custom Fields</p>
+                <div className="bg-zinc-50 border-2 border-black rounded-xl p-4 max-h-60 overflow-y-auto custom-scrollbar">
+                  <div className="space-y-2">
+                    {Object.entries({
+                      temperature: 'Temperature',
+                      brewTime: 'Brew Time',
+                      grindSize: 'Grind Size',
+                      coffeeDose: 'Coffee Dose',
+                      waterAmount: 'Water Amount',
+                      tds: 'TDS',
+                      extractionYield: 'Extraction Yield %',
+                      description: 'Notes',
+                      rating: 'Rating',
+                    }).map(([field, label]) => (
+                      <button
+                        key={field}
+                        type="button"
+                        onClick={() => handleFieldToggle(field as keyof BrewPreferences['customFields'])}
+                        className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-white transition-all border-2 border-transparent hover:border-black"
+                      >
+                        <span className="text-[10px] font-black text-black uppercase tracking-wide">
+                          {label}
+                        </span>
+                        <div
+                          className={`w-11 h-6 rounded-full transition-all relative ${
+                            brewPreferences.customFields[field as keyof BrewPreferences['customFields']]
+                              ? 'bg-black'
+                              : 'bg-zinc-300'
+                          }`}
+                        >
+                          <div
+                            className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all ${
+                              brewPreferences.customFields[field as keyof BrewPreferences['customFields']]
+                                ? 'right-1'
+                                : 'left-1'
+                            }`}
+                          />
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
         </div>
         <div className="px-6 sm:px-10 pt-6 pb-12 sm:pb-6 border-t-2 border-black shrink-0 bg-white">
           <button type="button" onClick={handleSave} className="w-full bg-white text-black font-black text-sm uppercase tracking-[0.4em] py-7 rounded-[2rem] sm:rounded-[2.5rem] transition-all active:scale-[0.98] shadow-xl border-2 border-black">SAVE CHANGES</button>
