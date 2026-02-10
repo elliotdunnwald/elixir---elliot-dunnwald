@@ -897,14 +897,14 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
           </div>
         </div>
       </div>
-      <div className="flex bg-zinc-50 p-1 sm:p-2 rounded-xl sm:rounded-2xl border-2 border-black sticky top-16 sm:top-24 z-40 backdrop-blur-xl shadow-lg">
+      <div className="flex bg-white p-2 sm:p-3 rounded-[2rem] border-2 border-black sticky top-16 sm:top-24 z-40 backdrop-blur-xl shadow-lg gap-2">
         {[
           { id: 'activity', label: 'HISTORY', icon: <LayoutGrid className="w-4 h-4" /> },
           { id: 'locker', label: 'GEAR', icon: <Settings2 className="w-4 h-4" /> },
           { id: 'analytics', label: 'STATS', icon: <BarChart3 className="w-4 h-4" /> },
           ...(viewingOwnProfile && currentProfile?.is_admin ? [{ id: 'admin', label: 'ADMIN', icon: <Shield className="w-4 h-4" /> }] : [])
         ].map((tab) => (
-          <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 py-4 sm:py-5 px-1 sm:px-2 rounded-xl sm:rounded-2xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] transition-all flex items-center justify-center gap-2 sm:gap-3 ${activeTab === tab.id ? 'bg-white text-black shadow-xl' : 'text-black hover:text-black'}`}>
+          <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`flex-1 py-3 sm:py-4 px-1 sm:px-2 rounded-full text-[9px] sm:text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${activeTab === tab.id ? 'bg-black text-white border-2 border-black' : 'text-black bg-white border-2 border-black hover:bg-zinc-50 active:scale-95'}`}>
             {tab.icon} <span className="hidden xs:inline sm:inline">{tab.label}</span>
           </button>
         ))}

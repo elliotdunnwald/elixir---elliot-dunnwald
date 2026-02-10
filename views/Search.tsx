@@ -158,16 +158,16 @@ const ExploreView: React.FC = () => {
         <div className="flex gap-3">
           <button
             onClick={() => setActiveTab('people')}
-            className={`px-6 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'people' ? 'bg-white text-black border-black' : 'bg-zinc-50 text-black border-black hover:border-black'}`}
+            className={`px-6 py-3 rounded-full border-2 text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 ${activeTab === 'people' ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-zinc-50 active:scale-95'}`}
           >
-            <Users className="inline w-4 h-4 mr-2" />
+            <Users className="w-4 h-4" />
             People
           </button>
           <button
             onClick={() => setActiveTab('cafes')}
-            className={`px-6 py-3 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'cafes' ? 'bg-white text-black border-black' : 'bg-zinc-50 text-black border-black hover:border-black'}`}
+            className={`px-6 py-3 rounded-full border-2 text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2 ${activeTab === 'cafes' ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-zinc-50 active:scale-95'}`}
           >
-            <MapPin className="inline w-4 h-4 mr-2" />
+            <MapPin className="w-4 h-4" />
             Cafes
           </button>
         </div>

@@ -220,7 +220,7 @@ const CoffeeShopView: React.FC = () => {
         <div className="max-w-7xl mx-auto space-y-8 pb-28 sm:pb-0">
           {/* Header */}
           <div className="mt-4">
-            <h1 className="text-3xl sm:text-4xl font-black tracking-tighter uppercase">MARKETPLACE</h1>
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tighter uppercase">MARKET</h1>
             <p className="text-xs text-black mt-2 tracking-wider uppercase">
               EXPLORE ROASTERS & EQUIPMENT
             </p>
@@ -601,7 +601,7 @@ const RoasterOfferingsModal: React.FC<{
               onClick={onClose}
               className="w-full bg-white text-black px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all border-2 border-black"
             >
-              BACK TO MARKETPLACE
+              BACK TO MARKET
             </button>
           </div>
         </div>

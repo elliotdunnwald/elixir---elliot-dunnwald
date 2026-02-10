@@ -322,7 +322,7 @@ const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void;
   const navItems = [
     { path: '/', label: 'FEED' },
     { path: '/explore', label: 'EXPLORE' },
-    { path: '/coffee-shop', label: 'MARKETPLACE' },
+    { path: '/coffee-shop', label: 'MARKET' },
     { path: '/profile/me', label: 'PROFILE' },
   ];
 
