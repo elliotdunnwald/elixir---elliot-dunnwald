@@ -343,9 +343,19 @@ const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void;
             )}
           </div>
           <div className="flex items-center space-x-8">
-            <div className="flex space-x-8">
+            <div className="flex space-x-3">
               {navItems.map((item) => (
-                <Link key={item.label} to={item.path} className={`text-[11px] font-black uppercase tracking-[0.2em] transition-all ${location.pathname === item.path ? 'text-black underline underline-offset-8 decoration-4' : 'text-zinc-600 hover:text-black active:text-black'}`}>{item.label}</Link>
+                <Link
+                  key={item.label}
+                  to={item.path}
+                  className={`px-6 py-2.5 rounded-full border-2 text-xs font-black uppercase tracking-wider transition-all ${
+                    location.pathname === item.path
+                      ? 'text-white bg-black border-black'
+                      : 'text-black bg-white border-black hover:bg-zinc-50 active:scale-95'
+                  }`}
+                >
+                  {item.label}
+                </Link>
               ))}
             </div>
             <button onClick={onOpenNotifications} className="relative p-3 rounded-xl border-2 border-black text-zinc-600 hover:text-black hover:border-black active:border-black transition-all">
