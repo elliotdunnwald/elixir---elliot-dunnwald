@@ -374,7 +374,18 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
     });
   };
 
-  const filteredDevices = BREWING_DEVICES.filter(d => d.name.toUpperCase().includes(searchQuery.toUpperCase()) || d.brand.toUpperCase().includes(searchQuery.toUpperCase()));
+  const filteredDevices = BREWING_DEVICES
+    .filter(d =>
+      d.name.toUpperCase().includes(searchQuery.toUpperCase()) ||
+      d.brand.toUpperCase().includes(searchQuery.toUpperCase())
+    )
+    .sort((a, b) => {
+      // Sort by brand first
+      const brandCompare = a.brand.localeCompare(b.brand);
+      if (brandCompare !== 0) return brandCompare;
+      // Then by name
+      return a.name.localeCompare(b.name);
+    });
 
   if (!isOpen) return null;
 
@@ -1007,6 +1018,13 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
                             d.name.toUpperCase().includes(newGearSearch.toUpperCase()) ||
                             d.brand.toUpperCase().includes(newGearSearch.toUpperCase())
                           )
+                          .sort((a, b) => {
+                            // Sort by brand first
+                            const brandCompare = a.brand.localeCompare(b.brand);
+                            if (brandCompare !== 0) return brandCompare;
+                            // Then by name
+                            return a.name.localeCompare(b.name);
+                          })
                           .slice(0, 5)
                           .map(d => {
                             const fullName = `${d.brand} ${d.name}`.toUpperCase();

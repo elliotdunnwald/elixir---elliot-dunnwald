@@ -87,10 +87,18 @@ const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
   });
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredDevices = BREWING_DEVICES.filter(d =>
-    d.name.toUpperCase().includes(searchQuery.toUpperCase()) ||
-    d.brand.toUpperCase().includes(searchQuery.toUpperCase())
-  );
+  const filteredDevices = BREWING_DEVICES
+    .filter(d =>
+      d.name.toUpperCase().includes(searchQuery.toUpperCase()) ||
+      d.brand.toUpperCase().includes(searchQuery.toUpperCase())
+    )
+    .sort((a, b) => {
+      // Sort by brand first
+      const brandCompare = a.brand.localeCompare(b.brand);
+      if (brandCompare !== 0) return brandCompare;
+      // Then by name
+      return a.name.localeCompare(b.name);
+    });
 
   const isStepValid = () => {
     if (step === 1) {

@@ -163,6 +163,72 @@
       "category": "pourover"
     },
     {
+      "name": "FLOWER DRIPPER PLASTIC CUP 1",
+      "brand": "CAFEC",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "FLOWER DRIPPER PLASTIC CUP 4",
+      "brand": "CAFEC",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "FLOWER DRIPPER CERAMIC CUP 1",
+      "brand": "CAFEC",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "FLOWER DRIPPER CERAMIC CUP 4",
+      "brand": "CAFEC",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "FLOWER DRIPPER TRITAN CUP 1",
+      "brand": "CAFEC",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "FLOWER DRIPPER TRITAN CUP 4",
+      "brand": "CAFEC",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "FLOWER DRIPPER DEEP 27",
+      "brand": "CAFEC",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "FLOWER DRIPPER DEEP 45",
+      "brand": "CAFEC",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "FLOWER OVAL DRIPPER 101",
+      "brand": "CAFEC",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "FLOWER OVAL DRIPPER 102",
+      "brand": "CAFEC",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
+      "name": "TRAPEZOID DRIPPER",
+      "brand": "CAFEC",
+      "type": "DRIPPER",
+      "category": "pourover"
+    },
+    {
       "name": "CLASSIC 3 CUP",
       "brand": "CHEMEX",
       "type": "DRIPPER",
@@ -187,19 +253,19 @@
       "category": "pourover"
     },
     {
-      "name": "AEROPRESS",
+      "name": "ORIGINAL",
       "brand": "AEROPRESS",
       "type": "IMMERSION",
       "category": "immersion"
     },
     {
-      "name": "AEROPRESS GO",
+      "name": "GO",
       "brand": "AEROPRESS",
       "type": "IMMERSION",
       "category": "immersion"
     },
     {
-      "name": "AEROPRESS CLEAR",
+      "name": "CLEAR",
       "brand": "AEROPRESS",
       "type": "IMMERSION",
       "category": "immersion"

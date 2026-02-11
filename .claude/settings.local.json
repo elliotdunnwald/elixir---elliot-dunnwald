@@ -39,7 +39,8 @@
       "Bash(npx cap add ios)",
       "Bash(open:*)",
       "Bash(grep:*)",
-      "Bash(npx cap sync)"
+      "Bash(npx cap sync)",
+      "WebFetch(domain:cafecusa.com)"
     ]
   }
 }
