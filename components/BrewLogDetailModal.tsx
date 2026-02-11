@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, MapPin, Award, FlaskConical, Timer, Thermometer, Zap, Heart, MessageCircle, Share2, Lock, Edit3, Trash2, Send, Calendar } from 'lucide-react';
+import { X, MapPin, Award, FlaskConical, Timer, Thermometer, Zap, Heart, MessageCircle, Share2, Lock, Edit3, Trash2, Send, Calendar, Bookmark } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { BrewActivity } from '../types';
 import { useAuth } from '../hooks/useAuth';
@@ -10,6 +10,7 @@ interface BrewLogDetailModalProps {
   onClose: () => void;
   onDelete?: (activityId: string) => void;
   onEdit?: (activity: BrewActivity) => void;
+  onSaveRecipe?: (activity: BrewActivity) => void;
 }
 
 const formatTimestamp = (timestamp: string) => {
@@ -35,7 +36,7 @@ const formatTimestamp = (timestamp: string) => {
   return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
 };
 
-const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onClose, onDelete, onEdit }) => {
+const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onClose, onDelete, onEdit, onSaveRecipe }) => {
   const { profile } = useAuth();
   const navigate = useNavigate();
   const [activity, setActivity] = useState<BrewActivity | null>(null);
@@ -378,6 +379,18 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                 <Share2 className="w-5 h-5" />
                 <span className="text-[11px] font-black uppercase tracking-widest hidden sm:inline">SHARE</span>
               </button>
+              {onSaveRecipe && (
+                <button
+                  onClick={() => {
+                    onSaveRecipe(activity);
+                  }}
+                  className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-900 border-black hover:text-black active:text-black hover:border-zinc-600 transition-all"
+                  title="Save this recipe"
+                >
+                  <Bookmark className="w-5 h-5" />
+                  <span className="text-[12px] font-black uppercase tracking-widest">SAVE</span>
+                </button>
+              )}
               {isMe && onEdit && (
                 <button
                   onClick={() => {

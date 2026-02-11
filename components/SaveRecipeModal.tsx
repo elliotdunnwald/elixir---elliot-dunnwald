@@ -21,11 +21,14 @@ const SaveRecipeModal: React.FC<SaveRecipeModalProps> = ({ isOpen, activity, onC
 
   if (!isOpen || !activity) return null;
 
-  // Build available fields from the activity
+  // Build available fields from the activity - ONLY brewing parameters
   const availableFields: FieldOption[] = [];
 
+  // Always included (required)
   if (activity.coffee_name) availableFields.push({ key: 'coffee_name', label: 'Coffee', value: activity.coffee_name });
   if (activity.roaster_name) availableFields.push({ key: 'roaster_name', label: 'Roaster', value: activity.roaster_name });
+
+  // Brewing parameters (optional to save)
   if (activity.brewer) availableFields.push({ key: 'brewer', label: 'Brewing Method', value: activity.brewer });
   if (activity.temperature_c !== undefined && activity.temperature_c !== null) availableFields.push({ key: 'temperature_c', label: 'Temperature', value: `${activity.temperature_c}°C` });
   if (activity.brew_time_seconds) availableFields.push({ key: 'brew_time_seconds', label: 'Brew Time', value: `${Math.floor(activity.brew_time_seconds / 60)}:${(activity.brew_time_seconds % 60).toString().padStart(2, '0')}` });
@@ -34,8 +37,6 @@ const SaveRecipeModal: React.FC<SaveRecipeModalProps> = ({ isOpen, activity, onC
   if (activity.grams_out) availableFields.push({ key: 'grams_out', label: 'Water Amount', value: `${activity.grams_out}g` });
   if (activity.tds !== undefined && activity.tds !== null) availableFields.push({ key: 'tds', label: 'TDS', value: `${activity.tds}%` });
   if (activity.extraction_yield !== undefined && activity.extraction_yield !== null) availableFields.push({ key: 'extraction_yield', label: 'Extraction Yield', value: `${activity.extraction_yield}%` });
-  if (activity.rating) availableFields.push({ key: 'rating', label: 'Rating', value: `${activity.rating}/5` });
-  if (activity.description) availableFields.push({ key: 'description', label: 'Notes/Description', value: activity.description });
 
   const toggleField = (fieldKey: string) => {
     const newSelected = new Set(selectedFields);
@@ -83,7 +84,7 @@ const SaveRecipeModal: React.FC<SaveRecipeModalProps> = ({ isOpen, activity, onC
           {/* Field Selection */}
           <div>
             <p className="text-xs font-black text-black uppercase tracking-wider mb-3">
-              Select Fields to Save
+              Select Brewing Parameters
             </p>
             <div className="space-y-2 bg-zinc-50 border-2 border-black rounded-xl p-4 max-h-[300px] overflow-y-auto">
               {availableFields.map((field) => {

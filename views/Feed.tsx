@@ -138,7 +138,6 @@ const FeedView: React.FC = () => {
                 activity={activity}
                 onEdit={setEditActivity}
                 onDelete={handleDelete}
-                onSaveRecipe={setSaveRecipeActivity}
                 onClick={() => setSelectedActivityId(activity.id)}
               />
             ))}
@@ -163,6 +162,7 @@ const FeedView: React.FC = () => {
           onClose={() => setSelectedActivityId(null)}
           onEdit={setEditActivity}
           onDelete={handleDelete}
+          onSaveRecipe={setSaveRecipeActivity}
         />
       )}
       <SaveRecipeModal
