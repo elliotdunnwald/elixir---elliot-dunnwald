@@ -36,6 +36,19 @@ const formatTimestamp = (timestamp: string) => {
   return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
 };
 
+// Helper to clean up duplicate brand names in brewer string
+const cleanBrewerName = (brewer: string): string => {
+  if (!brewer) return brewer;
+
+  const parts = brewer.split(' ');
+  // Check if first word is repeated (e.g., "AEROPRESS AEROPRESS CLEAR" -> "AEROPRESS CLEAR")
+  if (parts.length >= 2 && parts[0] === parts[1]) {
+    return parts.slice(1).join(' ');
+  }
+
+  return brewer;
+};
+
 const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onClose, onDelete, onEdit, onSaveRecipe }) => {
   const { profile } = useAuth();
   const navigate = useNavigate();
@@ -251,7 +264,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                   {activity.isCafeLog && (
                     <div>
                       <p className="text-[10px] font-black text-black uppercase tracking-widest mb-1">Brewer</p>
-                      <p className="text-sm font-black text-black uppercase">{activity.brewer}</p>
+                      <p className="text-sm font-black text-black uppercase">{cleanBrewerName(activity.brewer)}</p>
                     </div>
                   )}
 
@@ -338,7 +351,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                   </div>
                   <div className="space-y-2">
                     <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Zap className="w-4 h-4" /> GEAR</p>
-                    <p className="text-sm font-black text-black uppercase break-words">{activity.brewer}</p>
+                    <p className="text-sm font-black text-black uppercase break-words">{cleanBrewerName(activity.brewer)}</p>
                   </div>
                   <div className="space-y-2">
                     <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Timer className="w-4 h-4" /> TIME</p>

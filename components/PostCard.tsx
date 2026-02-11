@@ -35,6 +35,19 @@ const formatTimestamp = (timestamp: string) => {
   return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
 };
 
+// Helper to clean up duplicate brand names in brewer string
+const cleanBrewerName = (brewer: string): string => {
+  if (!brewer) return brewer;
+
+  const parts = brewer.split(' ');
+  // Check if first word is repeated (e.g., "AEROPRESS AEROPRESS CLEAR" -> "AEROPRESS CLEAR")
+  if (parts.length >= 2 && parts[0] === parts[1]) {
+    return parts.slice(1).join(' ');
+  }
+
+  return brewer;
+};
+
 const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick }) => {
   const { profile } = useAuth();
   const isMe = profile?.id === activity.userId;
@@ -185,7 +198,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onClick
               {activity.isCafeLog && (
                 <div>
                   <p className="text-[9px] sm:text-[10px] font-black text-black uppercase tracking-widest mb-0.5 sm:mb-1">Brewer</p>
-                  <p className="text-[10px] sm:text-xs font-black text-black uppercase">{activity.brewer}</p>
+                  <p className="text-[10px] sm:text-xs font-black text-black uppercase">{cleanBrewerName(activity.brewer)}</p>
                 </div>
               )}
 

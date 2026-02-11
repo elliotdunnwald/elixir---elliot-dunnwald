@@ -15,6 +15,19 @@ interface FieldOption {
   value: any;
 }
 
+// Helper to clean up duplicate brand names in brewer string
+const cleanBrewerName = (brewer: string): string => {
+  if (!brewer) return brewer;
+
+  const parts = brewer.split(' ');
+  // Check if first word is repeated (e.g., "AEROPRESS AEROPRESS CLEAR" -> "AEROPRESS CLEAR")
+  if (parts.length >= 2 && parts[0] === parts[1]) {
+    return parts.slice(1).join(' ');
+  }
+
+  return brewer;
+};
+
 const SaveRecipeModal: React.FC<SaveRecipeModalProps> = ({ isOpen, activity, onClose, onSave }) => {
   const [notes, setNotes] = useState('');
 
@@ -80,7 +93,7 @@ const SaveRecipeModal: React.FC<SaveRecipeModalProps> = ({ isOpen, activity, onC
                 {activity.brewer && (
                   <div>
                     <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">Method</p>
-                    <p className="text-xs font-black text-black">{activity.brewer}</p>
+                    <p className="text-xs font-black text-black">{cleanBrewerName(activity.brewer)}</p>
                   </div>
                 )}
                 {activity.temperature_c !== undefined && activity.temperature_c !== null && (
@@ -154,7 +167,7 @@ const SaveRecipeModal: React.FC<SaveRecipeModalProps> = ({ isOpen, activity, onC
           </button>
           <button
             onClick={handleSave}
-            disabled={selectedFields.size === 0}
+            disabled={parametersToSave.length === 0}
             className="flex-1 bg-black text-white border-2 border-black py-3 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-800 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             <Bookmark className="w-4 h-4" />
