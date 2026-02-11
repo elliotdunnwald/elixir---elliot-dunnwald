@@ -315,26 +315,39 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
 
             {/* Parameters */}
             {activity.showParameters && (
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-8 bg-zinc-50 border-2 border-black p-8 rounded-[2.5rem]">
-                <div className="space-y-2">
-                  <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><FlaskConical className="w-4 h-4" /> RECIPE</p>
-                  <p className="text-sm font-black text-black">{activity.gramsIn}G / {activity.gramsOut}G</p>
-                </div>
-                <div className="space-y-2">
-                  <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2">RATIO</p>
-                  <p className="text-sm font-black text-black">{activity.ratio}</p>
-                </div>
-                <div className="space-y-2">
-                  <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Zap className="w-4 h-4" /> GEAR</p>
-                  <p className="text-sm font-black text-black uppercase break-words">{activity.brewer}</p>
-                </div>
-                <div className="space-y-2">
-                  <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Timer className="w-4 h-4" /> TIME</p>
-                  <p className="text-sm font-black text-black">{activity.brewTime}</p>
-                </div>
-                <div className="space-y-2">
-                  <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Thermometer className="w-4 h-4" /> TEMP</p>
-                  <p className="text-sm font-black text-black whitespace-nowrap">{activity.temperature}°{activity.tempUnit || 'C'}</p>
+              <div className="relative mb-8 bg-zinc-50 border-2 border-black p-8 rounded-[2.5rem]">
+                {/* Save Recipe Button */}
+                {onSaveRecipe && (
+                  <button
+                    onClick={() => onSaveRecipe(activity)}
+                    className="absolute top-4 right-4 flex items-center gap-2 px-4 py-2 bg-black text-white rounded-full border-2 border-black hover:bg-zinc-800 active:scale-95 transition-all text-[10px] font-black uppercase tracking-wider"
+                  >
+                    <Bookmark className="w-3.5 h-3.5" />
+                    Save Recipe
+                  </button>
+                )}
+
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+                  <div className="space-y-2">
+                    <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><FlaskConical className="w-4 h-4" /> RECIPE</p>
+                    <p className="text-sm font-black text-black">{activity.gramsIn}G / {activity.gramsOut}G</p>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2">RATIO</p>
+                    <p className="text-sm font-black text-black">{activity.ratio}</p>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Zap className="w-4 h-4" /> GEAR</p>
+                    <p className="text-sm font-black text-black uppercase break-words">{activity.brewer}</p>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Timer className="w-4 h-4" /> TIME</p>
+                    <p className="text-sm font-black text-black">{activity.brewTime}</p>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Thermometer className="w-4 h-4" /> TEMP</p>
+                    <p className="text-sm font-black text-black whitespace-nowrap">{activity.temperature}°{activity.tempUnit || 'C'}</p>
+                  </div>
                 </div>
               </div>
             )}
@@ -379,18 +392,6 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                 <Share2 className="w-5 h-5" />
                 <span className="text-[11px] font-black uppercase tracking-widest hidden sm:inline">SHARE</span>
               </button>
-              {onSaveRecipe && (
-                <button
-                  onClick={() => {
-                    onSaveRecipe(activity);
-                  }}
-                  className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-900 border-black hover:text-black active:text-black hover:border-zinc-600 transition-all"
-                  title="Save this recipe"
-                >
-                  <Bookmark className="w-5 h-5" />
-                  <span className="text-[12px] font-black uppercase tracking-widest">SAVE</span>
-                </button>
-              )}
               {isMe && onEdit && (
                 <button
                   onClick={() => {
