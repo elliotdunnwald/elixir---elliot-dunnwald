@@ -38,12 +38,33 @@ const FeedView: React.FC = () => {
   const handleSaveRecipe = async (selectedFields: string[], notes?: string) => {
     if (!profile || !saveRecipeActivity) return;
 
+    // Convert brewTime from "MM:SS" format to seconds
+    const brewTimeInSeconds = saveRecipeActivity.brewTime ?
+      parseInt(saveRecipeActivity.brewTime.split(':')[0]) * 60 + parseInt(saveRecipeActivity.brewTime.split(':')[1]) :
+      undefined;
+
+    // Map BrewActivity properties to database column names
+    const recipeData: Record<string, any> = {
+      coffee_name: saveRecipeActivity.title,
+      roaster_name: saveRecipeActivity.roaster,
+      brewer: saveRecipeActivity.brewer,
+      temperature_c: saveRecipeActivity.temperature,
+      brew_time_seconds: brewTimeInSeconds,
+      grind_size: saveRecipeActivity.grindSetting,
+      grams_in: saveRecipeActivity.gramsIn,
+      grams_out: saveRecipeActivity.gramsOut,
+      tds: saveRecipeActivity.tds,
+      extraction_yield: saveRecipeActivity.eyPercentage,
+      rating: saveRecipeActivity.rating,
+      description: saveRecipeActivity.description,
+    };
+
     const success = await saveRecipe(
       profile.id,
       saveRecipeActivity.id,
-      saveRecipeActivity.username,
+      saveRecipeActivity.userUsername || saveRecipeActivity.userName,
       selectedFields,
-      saveRecipeActivity,
+      recipeData,
       notes
     );
 

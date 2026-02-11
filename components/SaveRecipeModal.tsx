@@ -37,13 +37,13 @@ const SaveRecipeModal: React.FC<SaveRecipeModalProps> = ({ isOpen, activity, onC
   const parametersToSave: string[] = ['coffee_name', 'roaster_name'];
 
   if (activity.brewer) parametersToSave.push('brewer');
-  if (activity.temperature_c !== undefined && activity.temperature_c !== null) parametersToSave.push('temperature_c');
-  if (activity.brew_time_seconds) parametersToSave.push('brew_time_seconds');
-  if (activity.grind_size) parametersToSave.push('grind_size');
-  if (activity.grams_in) parametersToSave.push('grams_in');
-  if (activity.grams_out) parametersToSave.push('grams_out');
+  if (activity.temperature !== undefined && activity.temperature !== null) parametersToSave.push('temperature_c');
+  if (activity.brewTime) parametersToSave.push('brew_time_seconds');
+  if (activity.grindSetting) parametersToSave.push('grind_size');
+  if (activity.gramsIn) parametersToSave.push('grams_in');
+  if (activity.gramsOut) parametersToSave.push('grams_out');
   if (activity.tds !== undefined && activity.tds !== null) parametersToSave.push('tds');
-  if (activity.extraction_yield !== undefined && activity.extraction_yield !== null) parametersToSave.push('extraction_yield');
+  if (activity.eyPercentage !== undefined && activity.eyPercentage !== null) parametersToSave.push('extraction_yield');
 
   const handleSave = () => {
     onSave(parametersToSave, notes.trim() || undefined);
@@ -69,9 +69,9 @@ const SaveRecipeModal: React.FC<SaveRecipeModalProps> = ({ isOpen, activity, onC
           {/* Attribution */}
           <div className="bg-zinc-50 border-2 border-black rounded-xl p-4">
             <p className="text-xs font-black text-black uppercase tracking-wider mb-1">Recipe By</p>
-            <p className="text-lg font-black text-black">@{activity.username}</p>
+            <p className="text-lg font-black text-black">@{activity.userUsername || activity.userName}</p>
             <p className="text-xs text-zinc-600 mt-2">
-              {activity.coffee_name} • {activity.roaster_name}
+              {activity.title} • {activity.roaster}
             </p>
           </div>
 
@@ -84,11 +84,11 @@ const SaveRecipeModal: React.FC<SaveRecipeModalProps> = ({ isOpen, activity, onC
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">Coffee</p>
-                  <p className="text-xs font-black text-black">{activity.coffee_name}</p>
+                  <p className="text-xs font-black text-black">{activity.title}</p>
                 </div>
                 <div>
                   <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">Roaster</p>
-                  <p className="text-xs font-black text-black">{activity.roaster_name}</p>
+                  <p className="text-xs font-black text-black">{activity.roaster}</p>
                 </div>
                 {activity.brewer && (
                   <div>
@@ -96,34 +96,34 @@ const SaveRecipeModal: React.FC<SaveRecipeModalProps> = ({ isOpen, activity, onC
                     <p className="text-xs font-black text-black">{cleanBrewerName(activity.brewer)}</p>
                   </div>
                 )}
-                {activity.temperature_c !== undefined && activity.temperature_c !== null && (
+                {activity.temperature !== undefined && activity.temperature !== null && (
                   <div>
                     <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">Temp</p>
-                    <p className="text-xs font-black text-black">{activity.temperature_c}°C</p>
+                    <p className="text-xs font-black text-black">{activity.temperature}°{activity.tempUnit}</p>
                   </div>
                 )}
-                {activity.brew_time_seconds && (
+                {activity.brewTime && (
                   <div>
                     <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">Time</p>
-                    <p className="text-xs font-black text-black">{Math.floor(activity.brew_time_seconds / 60)}:{(activity.brew_time_seconds % 60).toString().padStart(2, '0')}</p>
+                    <p className="text-xs font-black text-black">{activity.brewTime}</p>
                   </div>
                 )}
-                {activity.grind_size && (
+                {activity.grindSetting && (
                   <div>
                     <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">Grind</p>
-                    <p className="text-xs font-black text-black">{activity.grind_size}</p>
+                    <p className="text-xs font-black text-black">{activity.grindSetting}</p>
                   </div>
                 )}
-                {activity.grams_in && (
+                {activity.gramsIn && (
                   <div>
                     <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">Dose</p>
-                    <p className="text-xs font-black text-black">{activity.grams_in}g</p>
+                    <p className="text-xs font-black text-black">{activity.gramsIn}g</p>
                   </div>
                 )}
-                {activity.grams_out && (
+                {activity.gramsOut && (
                   <div>
                     <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">Water</p>
-                    <p className="text-xs font-black text-black">{activity.grams_out}g</p>
+                    <p className="text-xs font-black text-black">{activity.gramsOut}g</p>
                   </div>
                 )}
                 {activity.tds !== undefined && activity.tds !== null && (
@@ -132,10 +132,10 @@ const SaveRecipeModal: React.FC<SaveRecipeModalProps> = ({ isOpen, activity, onC
                     <p className="text-xs font-black text-black">{activity.tds}%</p>
                   </div>
                 )}
-                {activity.extraction_yield !== undefined && activity.extraction_yield !== null && (
+                {activity.eyPercentage !== undefined && activity.eyPercentage !== null && (
                   <div>
                     <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">Extraction</p>
-                    <p className="text-xs font-black text-black">{activity.extraction_yield}%</p>
+                    <p className="text-xs font-black text-black">{activity.eyPercentage}%</p>
                   </div>
                 )}
               </div>
