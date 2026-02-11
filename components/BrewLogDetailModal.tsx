@@ -130,7 +130,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
   if (loading || !activity) {
     return (
       <div
-        className="fixed inset-0 z-50 bg-zinc-50/80 backdrop-blur-sm flex items-center justify-center"
+        className="fixed inset-0 z-[2000] bg-zinc-50/80 backdrop-blur-sm flex items-center justify-center"
         onClick={onClose}
       >
         <div className="text-black text-sm uppercase tracking-wider">Loading...</div>
@@ -143,12 +143,12 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-zinc-50/80 backdrop-blur-sm overflow-y-auto p-4 sm:p-6"
+      className="fixed inset-0 z-[2000] bg-zinc-50/80 backdrop-blur-sm overflow-y-auto"
       onClick={onClose}
     >
-      <div className="min-h-full flex items-center justify-center py-10">
+      <div className="min-h-full flex items-start justify-center py-24 px-4 sm:items-center sm:py-10 sm:px-6">
         <div
-          className="max-w-4xl w-full bg-white rounded-xl border-2 border-black shadow-2xl shadow-black/5 animate-in fade-in duration-300"
+          className="max-w-4xl w-full bg-white rounded-2xl border-2 border-black shadow-2xl shadow-black/5 animate-in fade-in duration-300"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="px-5 sm:px-10 pt-5 sm:pt-10 pb-5 sm:pb-10">
