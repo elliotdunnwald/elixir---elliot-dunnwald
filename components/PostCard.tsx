@@ -47,6 +47,34 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onSaveR
   const [commentText, setCommentText] = useState('');
   const [submittingComment, setSubmittingComment] = useState(false);
 
+  const handleShare = async () => {
+    const shareUrl = `${window.location.origin}/#/profile/${activity.username}`;
+    const shareText = `Check out this brew by @${activity.username}: ${activity.coffee_name} from ${activity.roaster_name}`;
+
+    // Try Web Share API (works on mobile)
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `${activity.coffee_name} - ELIXR`,
+          text: shareText,
+          url: shareUrl,
+        });
+      } catch (err) {
+        // User cancelled or error occurred
+        console.log('Share cancelled or failed:', err);
+      }
+    } else {
+      // Fallback: Copy to clipboard
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        alert('Link copied to clipboard!');
+      } catch (err) {
+        console.error('Failed to copy:', err);
+        alert('Failed to copy link');
+      }
+    }
+  };
+
   const handleLike = async () => {
     if (isMe || !profile) return;
 
@@ -269,7 +297,7 @@ const PostCard: React.FC<PostCardProps> = ({ activity, onDelete, onEdit, onSaveR
             <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
             <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest">{activity.comments.length}</span>
           </button>
-          <button onClick={(e) => e.stopPropagation()} className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-black border-black hover:border-black active:border-black transition-all ml-auto">
+          <button onClick={(e) => { e.stopPropagation(); handleShare(); }} className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg sm:rounded-xl border-2 text-black border-black hover:border-black active:border-black transition-all ml-auto">
             <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
             <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest hidden sm:inline">SHARE</span>
           </button>

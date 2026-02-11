@@ -86,6 +86,35 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
     }
   };
 
+  const handleShare = async () => {
+    if (!activity) return;
+    const shareUrl = `${window.location.origin}/#/profile/${activity.username}`;
+    const shareText = `Check out this brew by @${activity.username}: ${activity.coffee_name} from ${activity.roaster_name}`;
+
+    // Try Web Share API (works on mobile)
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `${activity.coffee_name} - ELIXR`,
+          text: shareText,
+          url: shareUrl,
+        });
+      } catch (err) {
+        // User cancelled or error occurred
+        console.log('Share cancelled or failed:', err);
+      }
+    } else {
+      // Fallback: Copy to clipboard
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        alert('Link copied to clipboard!');
+      } catch (err) {
+        console.error('Failed to copy:', err);
+        alert('Failed to copy link');
+      }
+    }
+  };
+
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!commentText.trim() || !profile || !activity) return;
@@ -345,7 +374,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
                 <MessageCircle className="w-5 h-5" />
                 <span className="text-[11px] font-black uppercase tracking-widest">{activity.comments.length}</span>
               </button>
-              <button className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-900 border-black hover:text-black active:text-black hover:border-zinc-600 transition-all ml-auto">
+              <button onClick={handleShare} className="flex items-center gap-2 px-4 py-3 rounded-xl border-2 text-zinc-900 border-black hover:text-black active:text-black hover:border-zinc-600 transition-all ml-auto">
                 <Share2 className="w-5 h-5" />
                 <span className="text-[11px] font-black uppercase tracking-widest hidden sm:inline">SHARE</span>
               </button>
