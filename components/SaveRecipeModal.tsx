@@ -13,6 +13,7 @@ interface FieldOption {
   key: string;
   label: string;
   value: any;
+  category: 'coffee' | 'brewing';
 }
 
 // Helper to clean up duplicate brand names in brewer string
@@ -30,24 +31,58 @@ const cleanBrewerName = (brewer: string): string => {
 
 const SaveRecipeModal: React.FC<SaveRecipeModalProps> = ({ isOpen, activity, onClose, onSave }) => {
   const [notes, setNotes] = useState('');
+  const [selectedFields, setSelectedFields] = useState<Set<string>>(new Set(['coffee_name', 'roaster_name']));
 
   if (!isOpen || !activity) return null;
 
-  // Automatically include all available brewing parameters
-  const parametersToSave: string[] = ['coffee_name', 'roaster_name'];
+  // Build available fields
+  const availableFields: FieldOption[] = [
+    { key: 'coffee_name', label: 'Coffee Name', value: activity.title, category: 'coffee' },
+    { key: 'roaster_name', label: 'Roaster', value: activity.roaster, category: 'coffee' },
+  ];
 
-  if (activity.brewer) parametersToSave.push('brewer');
-  if (activity.temperature !== undefined && activity.temperature !== null) parametersToSave.push('temperature_c');
-  if (activity.brewTime) parametersToSave.push('brew_time_seconds');
-  if (activity.grindSetting) parametersToSave.push('grind_size');
-  if (activity.gramsIn) parametersToSave.push('grams_in');
-  if (activity.gramsOut) parametersToSave.push('grams_out');
-  if (activity.tds !== undefined && activity.tds !== null) parametersToSave.push('tds');
-  if (activity.eyPercentage !== undefined && activity.eyPercentage !== null) parametersToSave.push('extraction_yield');
+  if (activity.brewer) {
+    availableFields.push({ key: 'brewer', label: 'Brewing Method', value: cleanBrewerName(activity.brewer), category: 'brewing' });
+  }
+  if (activity.temperature !== undefined && activity.temperature !== null) {
+    availableFields.push({ key: 'temperature_c', label: 'Temperature', value: `${activity.temperature}°${activity.tempUnit}`, category: 'brewing' });
+  }
+  if (activity.brewTime) {
+    availableFields.push({ key: 'brew_time_seconds', label: 'Brew Time', value: activity.brewTime, category: 'brewing' });
+  }
+  if (activity.grindSetting) {
+    availableFields.push({ key: 'grind_size', label: 'Grind Size', value: activity.grindSetting, category: 'brewing' });
+  }
+  if (activity.gramsIn) {
+    availableFields.push({ key: 'grams_in', label: 'Coffee Dose', value: `${activity.gramsIn}g`, category: 'brewing' });
+  }
+  if (activity.gramsOut) {
+    availableFields.push({ key: 'grams_out', label: 'Water Amount', value: `${activity.gramsOut}g`, category: 'brewing' });
+  }
+  if (activity.tds !== undefined && activity.tds !== null) {
+    availableFields.push({ key: 'tds', label: 'TDS', value: `${activity.tds}%`, category: 'brewing' });
+  }
+  if (activity.eyPercentage !== undefined && activity.eyPercentage !== null) {
+    availableFields.push({ key: 'extraction_yield', label: 'Extraction Yield', value: `${activity.eyPercentage}%`, category: 'brewing' });
+  }
+
+  const coffeeFields = availableFields.filter(f => f.category === 'coffee');
+  const brewingFields = availableFields.filter(f => f.category === 'brewing');
+
+  const toggleField = (fieldKey: string) => {
+    const newSelected = new Set(selectedFields);
+    if (newSelected.has(fieldKey)) {
+      newSelected.delete(fieldKey);
+    } else {
+      newSelected.add(fieldKey);
+    }
+    setSelectedFields(newSelected);
+  };
 
   const handleSave = () => {
-    onSave(parametersToSave, notes.trim() || undefined);
+    onSave(Array.from(selectedFields), notes.trim() || undefined);
     setNotes('');
+    setSelectedFields(new Set(['coffee_name', 'roaster_name']));
   };
 
   return (
@@ -70,77 +105,73 @@ const SaveRecipeModal: React.FC<SaveRecipeModalProps> = ({ isOpen, activity, onC
           <div className="bg-zinc-50 border-2 border-black rounded-xl p-4">
             <p className="text-xs font-black text-black uppercase tracking-wider mb-1">Recipe By</p>
             <p className="text-lg font-black text-black">@{activity.userUsername || activity.userName}</p>
-            <p className="text-xs text-zinc-600 mt-2">
-              {activity.title} • {activity.roaster}
-            </p>
           </div>
 
-          {/* What will be saved */}
+          {/* Coffee Details Section */}
           <div>
             <p className="text-xs font-black text-black uppercase tracking-wider mb-3">
-              This recipe includes:
+              Coffee Details
             </p>
-            <div className="bg-zinc-50 border-2 border-black rounded-xl p-4">
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">Coffee</p>
-                  <p className="text-xs font-black text-black">{activity.title}</p>
-                </div>
-                <div>
-                  <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">Roaster</p>
-                  <p className="text-xs font-black text-black">{activity.roaster}</p>
-                </div>
-                {activity.brewer && (
-                  <div>
-                    <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">Method</p>
-                    <p className="text-xs font-black text-black">{cleanBrewerName(activity.brewer)}</p>
+            <div className="space-y-2">
+              {coffeeFields.map(field => (
+                <button
+                  key={field.key}
+                  onClick={() => toggleField(field.key)}
+                  className={`w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all ${
+                    selectedFields.has(field.key)
+                      ? 'bg-black text-white border-black'
+                      : 'bg-white text-black border-black hover:bg-zinc-50'
+                  }`}
+                >
+                  <div className="text-left">
+                    <p className="text-xs font-black uppercase tracking-wider opacity-70">{field.label}</p>
+                    <p className="text-sm font-black mt-1">{field.value}</p>
                   </div>
-                )}
-                {activity.temperature !== undefined && activity.temperature !== null && (
-                  <div>
-                    <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">Temp</p>
-                    <p className="text-xs font-black text-black">{activity.temperature}°{activity.tempUnit}</p>
+                  <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+                    selectedFields.has(field.key)
+                      ? 'bg-white border-white'
+                      : 'bg-white border-black'
+                  }`}>
+                    {selectedFields.has(field.key) && <Check className="w-4 h-4 text-black" />}
                   </div>
-                )}
-                {activity.brewTime && (
-                  <div>
-                    <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">Time</p>
-                    <p className="text-xs font-black text-black">{activity.brewTime}</p>
-                  </div>
-                )}
-                {activity.grindSetting && (
-                  <div>
-                    <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">Grind</p>
-                    <p className="text-xs font-black text-black">{activity.grindSetting}</p>
-                  </div>
-                )}
-                {activity.gramsIn && (
-                  <div>
-                    <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">Dose</p>
-                    <p className="text-xs font-black text-black">{activity.gramsIn}g</p>
-                  </div>
-                )}
-                {activity.gramsOut && (
-                  <div>
-                    <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">Water</p>
-                    <p className="text-xs font-black text-black">{activity.gramsOut}g</p>
-                  </div>
-                )}
-                {activity.tds !== undefined && activity.tds !== null && (
-                  <div>
-                    <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">TDS</p>
-                    <p className="text-xs font-black text-black">{activity.tds}%</p>
-                  </div>
-                )}
-                {activity.eyPercentage !== undefined && activity.eyPercentage !== null && (
-                  <div>
-                    <p className="text-[9px] font-black text-zinc-600 uppercase tracking-wider">Extraction</p>
-                    <p className="text-xs font-black text-black">{activity.eyPercentage}%</p>
-                  </div>
-                )}
-              </div>
+                </button>
+              ))}
             </div>
           </div>
+
+          {/* Brewing Parameters Section */}
+          {brewingFields.length > 0 && (
+            <div>
+              <p className="text-xs font-black text-black uppercase tracking-wider mb-3">
+                Brewing Parameters
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                {brewingFields.map(field => (
+                  <button
+                    key={field.key}
+                    onClick={() => toggleField(field.key)}
+                    className={`flex items-center justify-between p-3 rounded-xl border-2 transition-all ${
+                      selectedFields.has(field.key)
+                        ? 'bg-black text-white border-black'
+                        : 'bg-white text-black border-black hover:bg-zinc-50'
+                    }`}
+                  >
+                    <div className="text-left">
+                      <p className="text-[9px] font-black uppercase tracking-wider opacity-70">{field.label}</p>
+                      <p className="text-xs font-black mt-0.5">{field.value}</p>
+                    </div>
+                    <div className={`w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 ${
+                      selectedFields.has(field.key)
+                        ? 'bg-white border-white'
+                        : 'bg-white border-black'
+                    }`}>
+                      {selectedFields.has(field.key) && <Check className="w-3 h-3 text-black" />}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Optional Notes */}
           <div>
@@ -167,7 +198,7 @@ const SaveRecipeModal: React.FC<SaveRecipeModalProps> = ({ isOpen, activity, onC
           </button>
           <button
             onClick={handleSave}
-            disabled={parametersToSave.length === 0}
+            disabled={selectedFields.size === 0}
             className="flex-1 bg-black text-white border-2 border-black py-3 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-800 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             <Bookmark className="w-4 h-4" />
