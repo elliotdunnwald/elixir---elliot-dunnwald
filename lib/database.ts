@@ -102,6 +102,7 @@ export interface Profile {
   bio?: string;
   is_private: boolean;
   is_admin: boolean;
+  brew_preferences?: any;
   created_at: string;
   updated_at: string;
 }

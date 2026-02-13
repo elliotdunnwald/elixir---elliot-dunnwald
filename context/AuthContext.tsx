@@ -8,6 +8,7 @@ interface AuthContextType {
   profile: Profile | null;
   session: Session | null;
   loading: boolean;
+  userType: 'coffee' | 'caffeine';
   signUp: (email: string, password: string) => Promise<{ user: SupabaseUser | null; error: any }>;
   signIn: (email: string, password: string) => Promise<{ user: SupabaseUser | null; error: any }>;
   signOut: () => Promise<void>;
@@ -21,6 +22,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [userType, setUserType] = useState<'coffee' | 'caffeine'>('coffee');
 
   useEffect(() => {
     // Get initial session
@@ -57,6 +59,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const profileData = await getProfile(userId);
       console.log('Profile loaded:', profileData);
       setProfile(profileData);
+      // Extract userType from brew_preferences
+      if (profileData?.brew_preferences?.userType) {
+        setUserType(profileData.brew_preferences.userType);
+      }
     } catch (error) {
       console.error('Error loading profile:', error);
       setProfile(null);
@@ -117,6 +123,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     profile,
     session,
     loading,
+    userType,
     signUp,
     signIn,
     signOut,
