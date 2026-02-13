@@ -5,7 +5,6 @@ import FeedView from './views/Feed';
 import ProfileView from './views/Profile';
 import ExploreView from './views/Search';
 import CoffeeShopView from './views/CoffeeShop';
-import MapView from './views/MapView';
 import AuthView from './views/AuthView';
 import AdminRoasters from './views/AdminRoasters';
 import AdminEquipment from './views/AdminEquipment';
@@ -428,7 +427,6 @@ const MobileNav: React.FC = () => {
   const navItems = [
     { path: '/', label: 'FEED', icon: <Home className="w-5 h-5" /> },
     { path: '/explore', label: 'EXPLORE', icon: <Search className="w-5 h-5" /> },
-    { path: '/map', label: 'MAP', icon: <MapPin className="w-5 h-5" /> },
     ...(!isCaffeineUser ? [{ path: '/coffee-shop', label: 'MARKET', icon: <ShoppingBag className="w-5 h-5" /> }] : []),
     { path: '/profile/me', label: 'PROFILE', icon: <User className="w-5 h-5" /> },
   ];
@@ -635,11 +633,10 @@ const AppContent: React.FC = () => {
             todayCaffeine={todayCaffeine}
           />
         )}
-        <main className="flex-grow max-w-6xl mx-auto w-full px-4 sm:pt-28 sm:pb-12" style={{ paddingTop: 'calc(4rem + env(safe-area-inset-top))', paddingBottom: 'calc(7rem + env(safe-area-inset-bottom))' }}>
+        <main className="flex-grow max-w-6xl mx-auto w-full px-4 sm:pt-28 sm:pb-12" style={{ paddingTop: 'calc(4.5rem + env(safe-area-inset-top))', paddingBottom: 'calc(7rem + env(safe-area-inset-bottom))' }}>
           <Routes>
             <Route path="/" element={<FeedView />} />
             <Route path="/explore" element={<ExploreView />} />
-            <Route path="/map" element={<MapView />} />
             <Route path="/coffee-shop" element={<CoffeeShopView />} />
             <Route path="/admin/roasters" element={<AdminRoasters />} />
             <Route path="/admin/equipment" element={<AdminEquipment />} />

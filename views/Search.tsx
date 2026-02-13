@@ -178,7 +178,7 @@ const ExploreView: React.FC = () => {
             type="text"
             value={query}
             onChange={e => setQuery(e.target.value)}
-            placeholder={activeTab === 'people' ? "SEARCH THE NETWORK..." : "SEARCH CAFES OR LOCATIONS..."}
+            placeholder={activeTab === 'people' ? "SEARCH FOR PEOPLE" : "SEARCH CAFES OR LOCATIONS..."}
             className="w-full bg-white border-2 border-black rounded-3xl py-7 pl-16 pr-8 text-sm font-black text-black outline-none focus:border-black transition-all uppercase placeholder:text-black"
           />
           {loading && (
@@ -226,13 +226,13 @@ const ExploreView: React.FC = () => {
                 </div>
               </Link>
             ))
-          ) : (
-            <div className="col-span-full py-24 text-center border-2 border-dashed border-black rounded-[3rem]">
+          ) : query.trim() ? (
+            <div className="col-span-full py-24 text-center">
               <p className="text-black font-black uppercase text-sm tracking-[0.3em]">
-                {query.trim() ? (loading ? "SEARCHING..." : "NO USERS FOUND") : "SEARCH FOR PEOPLE"}
+                {loading ? "SEARCHING..." : "NO USERS FOUND"}
               </p>
             </div>
-          )
+          ) : null
         ) : (
           cafeResults.length > 0 ? (
             cafeResults.map(cafe => (

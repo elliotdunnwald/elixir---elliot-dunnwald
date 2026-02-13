@@ -116,7 +116,7 @@ const FeedView: React.FC = () => {
     <div className="max-w-3xl mx-auto pb-28 sm:pb-0">
       <div className="mb-6">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-[11px] font-black text-zinc-900 uppercase tracking-[0.4em]">GLOBAL FEED</h2>
+          <h2 className="text-lg font-black text-black uppercase tracking-tighter">GLOBAL FEED</h2>
           <div className="flex gap-2">
             <button
               onClick={() => setFeedFilter('all')}
