@@ -39,7 +39,7 @@ const DEFAULT_FIELDS = {
   balanced: {
     temperature: true,
     brewTime: true,
-    grindSize: true,
+    grindSize: false,
     coffeeDose: true,
     waterAmount: true,
     tds: false,
@@ -50,7 +50,7 @@ const DEFAULT_FIELDS = {
   detailed: {
     temperature: true,
     brewTime: true,
-    grindSize: true,
+    grindSize: false,
     coffeeDose: true,
     waterAmount: true,
     tds: true,
@@ -60,10 +60,9 @@ const DEFAULT_FIELDS = {
   },
 };
 
-const FIELD_LABELS: Record<keyof BrewPreferences['customFields'], string> = {
+const FIELD_LABELS: Partial<Record<keyof BrewPreferences['customFields'], string>> = {
   temperature: 'Temperature',
   brewTime: 'Brew Time',
-  grindSize: 'Grind Size',
   coffeeDose: 'Coffee Dose',
   waterAmount: 'Water Amount',
   tds: 'TDS (Total Dissolved Solids)',

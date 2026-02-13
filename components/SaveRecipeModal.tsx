@@ -50,9 +50,6 @@ const SaveRecipeModal: React.FC<SaveRecipeModalProps> = ({ isOpen, activity, onC
   if (activity.brewTime) {
     availableFields.push({ key: 'brew_time_seconds', label: 'Brew Time', value: activity.brewTime, category: 'brewing' });
   }
-  if (activity.grindSetting) {
-    availableFields.push({ key: 'grind_size', label: 'Grind Size', value: activity.grindSetting, category: 'brewing' });
-  }
   if (activity.gramsIn) {
     availableFields.push({ key: 'grams_in', label: 'Coffee Dose', value: `${activity.gramsIn}g`, category: 'brewing' });
   }

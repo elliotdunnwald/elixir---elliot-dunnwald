@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Bookmark, LayoutGrid, BarChart3, User as UserIcon, Settings2, X, Plus, Image as ImageIcon, Search, Lock, Eye, EyeOff, Share2, Check, Trash2, Loader2, ZoomIn, ZoomOut, Shield, ArrowLeft, Coffee, ChefHat } from 'lucide-react';
+import { Bookmark, LayoutGrid, BarChart3, User as UserIcon, Settings2, X, Plus, Image as ImageIcon, Search, Lock, Eye, EyeOff, Share2, Check, Trash2, Loader2, ZoomIn, ZoomOut, Shield, ArrowLeft, Coffee, ChefHat, Sliders } from 'lucide-react';
+import BrewPreferencesModal from '../components/BrewPreferencesModal';
 import Cropper from 'react-easy-crop';
 import { Area } from 'react-easy-crop';
 import { BREWING_DEVICES } from '../data/database';
@@ -176,10 +177,6 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   const [checkingUsername, setCheckingUsername] = useState(false);
   const mediaInputRef = useRef<HTMLInputElement>(null);
 
-  // Brew preferences state
-  const [brewPreferences, setBrewPreferences] = useState<BrewPreferences | null>(null);
-  const [preferencesLoading, setPreferencesLoading] = useState(true);
-
   const handleAvatarSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -239,40 +236,6 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
     }
   };
 
-  // Load brew preferences
-  useEffect(() => {
-    if (!isOpen || !userData.id) return;
-
-    const loadPrefs = async () => {
-      setPreferencesLoading(true);
-      const prefs = await getBrewPreferences(userData.id);
-      if (prefs) {
-        setBrewPreferences(prefs);
-      } else {
-        // Set default preferences
-        setBrewPreferences({
-          brewsAtHome: true,
-          visitsCafes: true,
-          detailLevel: 'balanced',
-          customFields: {
-            temperature: true,
-            brewTime: true,
-            grindSize: true,
-            coffeeDose: true,
-            waterAmount: true,
-            tds: false,
-            extractionYield: false,
-            description: true,
-            rating: true,
-          },
-        });
-      }
-      setPreferencesLoading(false);
-    };
-
-    loadPrefs();
-  }, [isOpen, userData.id]);
-
   // Check username availability with debouncing
   useEffect(() => {
     const checkUsername = async () => {
@@ -307,71 +270,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
       return;
     }
 
-    // Save brew preferences first
-    if (brewPreferences && userData.id) {
-      await updateBrewPreferences(userData.id, brewPreferences);
-    }
-
     onSave(formData);
     onClose();
-  };
-
-  const handleDetailLevelChange = (level: 'simplified' | 'balanced' | 'detailed') => {
-    if (!brewPreferences) return;
-
-    const presets = {
-      simplified: {
-        temperature: false,
-        brewTime: false,
-        grindSize: false,
-        coffeeDose: false,
-        waterAmount: false,
-        tds: false,
-        extractionYield: false,
-        description: true,
-        rating: true,
-      },
-      balanced: {
-        temperature: true,
-        brewTime: true,
-        grindSize: true,
-        coffeeDose: true,
-        waterAmount: true,
-        tds: false,
-        extractionYield: false,
-        description: true,
-        rating: true,
-      },
-      detailed: {
-        temperature: true,
-        brewTime: true,
-        grindSize: true,
-        coffeeDose: true,
-        waterAmount: true,
-        tds: true,
-        extractionYield: true,
-        description: true,
-        rating: true,
-      },
-    };
-
-    setBrewPreferences({
-      ...brewPreferences,
-      detailLevel: level,
-      customFields: presets[level],
-    });
-  };
-
-  const handleFieldToggle = (field: keyof BrewPreferences['customFields']) => {
-    if (!brewPreferences) return;
-
-    setBrewPreferences({
-      ...brewPreferences,
-      customFields: {
-        ...brewPreferences.customFields,
-        [field]: !brewPreferences.customFields[field],
-      },
-    });
   };
 
   const filteredDevices = BREWING_DEVICES
@@ -470,113 +370,6 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
               </button>
             </div>
           </section>
-
-          {/* Brew Preferences Section */}
-          {!preferencesLoading && brewPreferences && (
-            <section className="space-y-6">
-              <div className="flex items-center gap-2 border-b-2 border-black pb-2">
-                <Coffee className="w-5 h-5 text-black" />
-                <h3 className="text-sm font-black text-black uppercase tracking-wider">Brew Logging Preferences</h3>
-              </div>
-
-              {/* Coffee Habits */}
-              <div className="space-y-3">
-                <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">How I Enjoy Coffee</p>
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setBrewPreferences({ ...brewPreferences, brewsAtHome: !brewPreferences.brewsAtHome })}
-                    className={`py-4 rounded-xl border-2 font-black text-[10px] uppercase tracking-wider transition-all ${
-                      brewPreferences.brewsAtHome
-                        ? 'bg-black text-white border-black'
-                        : 'bg-white text-black border-black'
-                    }`}
-                  >
-                    Brew at Home
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setBrewPreferences({ ...brewPreferences, visitsCafes: !brewPreferences.visitsCafes })}
-                    className={`py-4 rounded-xl border-2 font-black text-[10px] uppercase tracking-wider transition-all ${
-                      brewPreferences.visitsCafes
-                        ? 'bg-black text-white border-black'
-                        : 'bg-white text-black border-black'
-                    }`}
-                  >
-                    Visit Cafes
-                  </button>
-                </div>
-              </div>
-
-              {/* Detail Level Presets */}
-              <div className="space-y-3">
-                <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">Detail Level</p>
-                <div className="space-y-2">
-                  {['simplified', 'balanced', 'detailed'].map((level) => (
-                    <button
-                      key={level}
-                      type="button"
-                      onClick={() => handleDetailLevelChange(level as any)}
-                      className={`w-full py-4 px-4 rounded-xl border-2 font-black text-[10px] uppercase tracking-wider transition-all text-left flex items-center justify-between ${
-                        brewPreferences.detailLevel === level
-                          ? 'bg-black text-white border-black'
-                          : 'bg-white text-black border-black'
-                      }`}
-                    >
-                      <span>{level}</span>
-                      {brewPreferences.detailLevel === level && <Check className="w-4 h-4" />}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Individual Field Toggles */}
-              <div className="space-y-3">
-                <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">Custom Fields</p>
-                <div className="bg-zinc-50 border-2 border-black rounded-xl p-4 max-h-60 overflow-y-auto custom-scrollbar">
-                  <div className="space-y-2">
-                    {Object.entries({
-                      temperature: 'Temperature',
-                      brewTime: 'Brew Time',
-                      grindSize: 'Grind Size',
-                      coffeeDose: 'Coffee Dose',
-                      waterAmount: 'Water Amount',
-                      tds: 'TDS',
-                      extractionYield: 'Extraction Yield %',
-                      description: 'Notes',
-                      rating: 'Rating',
-                    }).map(([field, label]) => (
-                      <button
-                        key={field}
-                        type="button"
-                        onClick={() => handleFieldToggle(field as keyof BrewPreferences['customFields'])}
-                        className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-white transition-all border-2 border-transparent hover:border-black"
-                      >
-                        <span className="text-[10px] font-black text-black uppercase tracking-wide">
-                          {label}
-                        </span>
-                        <div
-                          className={`w-11 h-6 rounded-full transition-all relative ${
-                            brewPreferences.customFields[field as keyof BrewPreferences['customFields']]
-                              ? 'bg-black'
-                              : 'bg-zinc-300'
-                          }`}
-                        >
-                          <div
-                            className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all ${
-                              brewPreferences.customFields[field as keyof BrewPreferences['customFields']]
-                                ? 'right-1'
-                                : 'left-1'
-                            }`}
-                          />
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </section>
-          )}
         </div>
         <div className="px-6 sm:px-10 pt-6 pb-12 sm:pb-6 border-t-2 border-black shrink-0 bg-white">
           <button type="button" onClick={handleSave} className="w-full bg-white text-black font-black text-sm uppercase tracking-[0.4em] py-7 rounded-[2rem] sm:rounded-[2.5rem] transition-all active:scale-[0.98] shadow-xl border-2 border-black">SAVE CHANGES</button>
@@ -602,6 +395,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
   const { user, profile: currentProfile, refreshProfile } = useAuth();
   const [activeTab, setActiveTab] = useState<'activity' | 'locker' | 'analytics' | 'admin'>('activity');
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isPreferencesModalOpen, setIsPreferencesModalOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [profileData, setProfileData] = useState<ProfileWithStats | null>(null);
   const [gear, setGear] = useState<any[]>([]);
@@ -878,7 +672,12 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
               {copied ? <Check className="w-4 h-4 sm:w-5 sm:h-5 text-black" /> : <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />}
               <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest hidden sm:inline">{copied ? 'LINK COPIED' : 'SHARE PROFILE'}</span>
             </button>
-            <button onClick={() => setIsEditModalOpen(true)} className="p-2.5 sm:p-4 rounded-lg sm:rounded-2xl bg-zinc-50 border-2 border-black text-zinc-900 hover:text-black hover:border-black active:border-black transition-all shadow-xl z-10"><Settings2 className="w-4 h-4 sm:w-5 sm:h-5" /></button>
+            <button onClick={() => setIsPreferencesModalOpen(true)} className="p-2.5 sm:p-4 rounded-lg sm:rounded-2xl bg-zinc-50 border-2 border-black text-zinc-900 hover:text-black hover:border-black active:border-black transition-all shadow-xl z-10" title="Brew Preferences">
+              <Sliders className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+            <button onClick={() => setIsEditModalOpen(true)} className="p-2.5 sm:p-4 rounded-lg sm:rounded-2xl bg-zinc-50 border-2 border-black text-zinc-900 hover:text-black hover:border-black active:border-black transition-all shadow-xl z-10" title="Edit Profile">
+              <Settings2 className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
           </div>
         )}
         {!viewingOwnProfile && currentProfile && (
@@ -1282,6 +1081,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
         editActivity={editActivity}
       />
       {viewingOwnProfile && <EditProfileModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} userData={profileData} onSave={handleUpdateProfile} />}
+      {viewingOwnProfile && <BrewPreferencesModal isOpen={isPreferencesModalOpen} onClose={() => setIsPreferencesModalOpen(false)} />}
     </div>
   );
 };

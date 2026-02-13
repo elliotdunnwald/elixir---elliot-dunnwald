@@ -1622,45 +1622,48 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
             </section>
           )}
 
-          {/* Optional Sections - Toggles */}
+          {/* Simplified Optional Sections */}
           {(formData.isCafeVisit || formData.brewer) && (
-          <div className="flex gap-3 flex-wrap">
-            <button
-              type="button"
-              onClick={() => setFormData(p => ({ ...p, showRating: !p.showRating }))}
-              disabled={uploading}
-              className={`flex-1 sm:flex-none px-6 py-4 rounded-xl border-2 text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showRating ? 'bg-black text-white border-black shadow-lg' : 'bg-white border-black text-black hover:bg-zinc-100'}`}
-            >
-              <Star className="inline w-4 h-4 mr-2" />
-              {formData.showRating ? '✓ ' : ''}Rate
-            </button>
-            <button
-              type="button"
-              onClick={() => setFormData(p => ({ ...p, showDescription: !p.showDescription }))}
-              disabled={uploading}
-              className={`flex-1 sm:flex-none px-6 py-4 rounded-xl border-2 text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showDescription ? 'bg-black text-white border-black shadow-lg' : 'bg-white border-black text-black hover:bg-zinc-100'}`}
-            >
-              <MessageSquare className="inline w-4 h-4 mr-2" />
-              {formData.showDescription ? '✓ ' : ''}Notes
-            </button>
-            <button
-              type="button"
-              onClick={() => !uploading && mediaInputRef.current?.click()}
-              disabled={uploading}
-              className={`flex-1 sm:flex-none px-6 py-4 rounded-xl border-2 text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50 ${mediaPreview ? 'bg-white text-black border-black shadow-lg' : 'bg-zinc-100 border-black text-black hover:border-black hover:bg-zinc-200'}`}
-            >
-              <ImageIcon className="inline w-4 h-4 mr-2" />
-              {mediaPreview ? '✓ ' : ''}Photo
-            </button>
-            <button
-              type="button"
-              onClick={() => setFormData(p => ({ ...p, showWhen: !p.showWhen }))}
-              disabled={uploading}
-              className={`flex-1 sm:flex-none px-6 py-4 rounded-xl border-2 text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showWhen ? 'bg-black text-white border-black shadow-lg' : 'bg-white border-black text-black hover:bg-zinc-100'}`}
-            >
-              <ArrowRight className="inline w-4 h-4 mr-2" />
-              {formData.showWhen ? '✓ ' : ''}When
-            </button>
+          <div className="space-y-4">
+            {/* Quick action buttons in a cleaner layout */}
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setFormData(p => ({ ...p, showRating: !p.showRating }))}
+                disabled={uploading}
+                className={`px-5 py-3.5 rounded-xl border-2 text-xs font-black uppercase tracking-wider transition-all disabled:opacity-50 flex items-center justify-center gap-2 ${formData.showRating ? 'bg-black text-white border-black' : 'bg-white border-black text-black hover:bg-zinc-50'}`}
+              >
+                <Star className="w-4 h-4" />
+                {formData.showRating ? '✓ ' : ''}Rating
+              </button>
+              <button
+                type="button"
+                onClick={() => setFormData(p => ({ ...p, showDescription: !p.showDescription }))}
+                disabled={uploading}
+                className={`px-5 py-3.5 rounded-xl border-2 text-xs font-black uppercase tracking-wider transition-all disabled:opacity-50 flex items-center justify-center gap-2 ${formData.showDescription ? 'bg-black text-white border-black' : 'bg-white border-black text-black hover:bg-zinc-50'}`}
+              >
+                <MessageSquare className="w-4 h-4" />
+                {formData.showDescription ? '✓ ' : ''}Notes
+              </button>
+              <button
+                type="button"
+                onClick={() => !uploading && mediaInputRef.current?.click()}
+                disabled={uploading}
+                className={`px-5 py-3.5 rounded-xl border-2 text-xs font-black uppercase tracking-wider transition-all disabled:opacity-50 flex items-center justify-center gap-2 ${mediaPreview ? 'bg-black text-white border-black' : 'bg-white border-black text-black hover:bg-zinc-50'}`}
+              >
+                <ImageIcon className="w-4 h-4" />
+                {mediaPreview ? '✓ ' : ''}Photo
+              </button>
+              <button
+                type="button"
+                onClick={() => setFormData(p => ({ ...p, showWhen: !p.showWhen }))}
+                disabled={uploading}
+                className={`px-5 py-3.5 rounded-xl border-2 text-xs font-black uppercase tracking-wider transition-all disabled:opacity-50 flex items-center justify-center gap-2 ${formData.showWhen ? 'bg-black text-white border-black' : 'bg-white border-black text-black hover:bg-zinc-50'}`}
+              >
+                <ArrowRight className="w-4 h-4" />
+                {formData.showWhen ? '✓ ' : ''}When
+              </button>
+            </div>
           </div>
           )}
 
