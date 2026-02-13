@@ -775,6 +775,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           {/* Cafe Visit Fields */}
           {formData.isCafeVisit && (
             <>
+              {/* Step 1: Cafe Name (always shown) */}
               <section className="space-y-3 relative">
                 <p className="text-[9px] font-black text-zinc-900 uppercase tracking-widest">Cafe Name</p>
                 <input
@@ -811,7 +812,9 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                 )}
               </section>
 
-              <section className="space-y-3">
+              {/* Step 2: Location (appears after cafe name is filled) */}
+              {formData.cafeName && (
+              <section className="space-y-3 animate-in slide-in-from-top-2 duration-300">
                 <p className="text-[9px] font-black text-zinc-900 uppercase tracking-widest">Location</p>
                 <div className="grid grid-cols-2 gap-4">
                   <input
@@ -855,8 +858,11 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                   />
                 )}
               </section>
+              )}
 
-              <section className="space-y-3">
+              {/* Step 3: Drinks Ordered (appears after location is filled) */}
+              {formData.cafeName && formData.cafeCity && formData.cafeCountry && (
+              <section className="space-y-3 animate-in slide-in-from-top-2 duration-300">
                 <div className="flex items-center justify-between">
                   <p className="text-[9px] font-black text-zinc-900 uppercase tracking-widest">Drinks Ordered</p>
                   {formData.drinksOrdered.length > 0 && (
@@ -1074,16 +1080,22 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                     </button>
                   </div>
                 )}
-
-                <button
-                  type="button"
-                  onClick={() => setFormData(p => ({ ...p, showCoffeeDetails: !p.showCoffeeDetails }))}
-                  disabled={uploading}
-                  className={`w-full px-4 py-3 rounded-xl border-2 text-[9px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showCoffeeDetails ? 'bg-black text-white border-black' : 'bg-white border-black text-black hover:bg-zinc-100'}`}
-                >
-                  {formData.showCoffeeDetails ? '✓ ' : ''}Include Coffee Details (Optional)
-                </button>
               </section>
+              )}
+
+              {/* Step 4: Optional - Include Coffee Details (appears after at least one drink is ordered) */}
+              {formData.cafeName && formData.cafeCity && formData.cafeCountry && formData.drinksOrdered.length > 0 && (
+                <section className="animate-in slide-in-from-top-2 duration-300">
+                  <button
+                    type="button"
+                    onClick={() => setFormData(p => ({ ...p, showCoffeeDetails: !p.showCoffeeDetails }))}
+                    disabled={uploading}
+                    className={`w-full px-4 py-3 rounded-xl border-2 text-[9px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.showCoffeeDetails ? 'bg-black text-white border-black' : 'bg-white border-black text-black hover:bg-zinc-100'}`}
+                  >
+                    {formData.showCoffeeDetails ? '✓ ' : ''}Include Coffee Details (Optional)
+                  </button>
+                </section>
+              )}
             </>
           )}
 
@@ -1600,7 +1612,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           </section>
           )}
 
-          {(formData.isCafeVisit || formData.brewer) && formData.showRating && (
+          {((formData.isCafeVisit && formData.drinksOrdered.length > 0) || formData.brewer) && formData.showRating && (
             <section className="space-y-3">
               <p className="text-[9px] font-black text-zinc-900 uppercase tracking-widest">Overall Score (0-10)</p>
               <input
@@ -1623,7 +1635,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           )}
 
           {/* Simplified Optional Sections */}
-          {(formData.isCafeVisit || formData.brewer) && (
+          {((formData.isCafeVisit && formData.drinksOrdered.length > 0) || formData.brewer) && (
           <div className="space-y-4">
             {/* Quick action buttons in a cleaner layout */}
             <div className="grid grid-cols-2 gap-3">
@@ -1668,7 +1680,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
           )}
 
           {/* Description */}
-          {(formData.isCafeVisit || formData.brewer) && formData.showDescription && shouldShowField('description') && (
+          {((formData.isCafeVisit && formData.drinksOrdered.length > 0) || formData.brewer) && formData.showDescription && shouldShowField('description') && (
             <section className="space-y-3 animate-in slide-in-from-top-1">
               <p className="text-[9px] font-black text-zinc-900 uppercase tracking-widest">Notes & Thoughts</p>
               <textarea value={formData.description} onChange={e => handleInputChange('description', e.target.value)} onFocus={handleInputFocus} disabled={uploading} placeholder="CUPS NOTES, TEXTURE, PHILOSOPHY..." className="w-full bg-white border-2 border-black rounded-xl p-6 text-sm text-black font-black focus:border-black outline-none min-h-[140px] resize-none uppercase disabled:opacity-50" />
