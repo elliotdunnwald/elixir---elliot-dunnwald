@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Coffee, Home, MapPin, Sliders, ChevronRight, Check } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Coffee, Sliders, ChevronRight, Check } from 'lucide-react';
 
 interface OnboardingFlowProps {
   isOpen: boolean;
@@ -8,8 +8,6 @@ interface OnboardingFlowProps {
 
 export interface BrewPreferences {
   userType: 'coffee' | 'caffeine';
-  brewsAtHome: boolean;
-  visitsCafes: boolean;
   detailLevel: 'simplified' | 'balanced' | 'detailed';
   customFields: {
     temperature: boolean;
@@ -75,11 +73,16 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ isOpen, onComplete }) =
   const [step, setStep] = useState(1);
   const [preferences, setPreferences] = useState<BrewPreferences>({
     userType: 'coffee',
-    brewsAtHome: false,
-    visitsCafes: false,
     detailLevel: 'balanced',
     customFields: DEFAULT_FIELDS.balanced,
   });
+
+  // Auto-skip step 2 for coffee users (since we removed brewing habits)
+  useEffect(() => {
+    if (step === 2 && preferences.userType === 'coffee') {
+      setStep(3);
+    }
+  }, [step, preferences.userType]);
 
   if (!isOpen) return null;
 
@@ -110,7 +113,7 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ isOpen, onComplete }) =
       <div className="w-full max-w-2xl">
         {/* Progress Indicator */}
         <div className="flex items-center justify-center gap-2 mb-8">
-          {(preferences.userType === 'caffeine' ? [1, 2] : [1, 2, 3, 4]).map(num => (
+          {(preferences.userType === 'caffeine' ? [1, 2] : [1, 3, 4]).map(num => (
             <div
               key={num}
               className={`h-2 rounded-full transition-all ${
@@ -179,65 +182,6 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ isOpen, onComplete }) =
           </div>
         )}
 
-        {/* Step 2: Coffee Habits (Coffee users only) */}
-        {step === 2 && preferences.userType === 'coffee' && (
-          <div className="space-y-8 animate-in fade-in duration-500">
-            <div className="text-center space-y-3">
-              <h1 className="text-4xl font-black text-black uppercase tracking-tighter">
-                Welcome to ELIXR
-              </h1>
-              <p className="text-sm font-black text-zinc-600 uppercase tracking-wider">
-                Let's personalize your experience
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <p className="text-center text-xs font-black text-black uppercase tracking-wider">
-                How do you make and enjoy coffee?
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <button
-                  onClick={() => setPreferences(p => ({ ...p, brewsAtHome: !p.brewsAtHome }))}
-                  className={`border-2 rounded-xl p-6 transition-all ${
-                    preferences.brewsAtHome
-                      ? 'bg-black text-white border-black'
-                      : 'bg-white text-black border-black hover:bg-zinc-50'
-                  }`}
-                >
-                  <Home className="w-8 h-8 mx-auto mb-3" />
-                  <p className="text-sm font-black uppercase tracking-wider">I Brew at Home</p>
-                  <p className="text-[9px] font-bold uppercase tracking-wider mt-2 opacity-70">
-                    Track my home brewing
-                  </p>
-                </button>
-
-                <button
-                  onClick={() => setPreferences(p => ({ ...p, visitsCafes: !p.visitsCafes }))}
-                  className={`border-2 rounded-xl p-6 transition-all ${
-                    preferences.visitsCafes
-                      ? 'bg-black text-white border-black'
-                      : 'bg-white text-black border-black hover:bg-zinc-50'
-                  }`}
-                >
-                  <MapPin className="w-8 h-8 mx-auto mb-3" />
-                  <p className="text-sm font-black uppercase tracking-wider">I Visit Cafes</p>
-                  <p className="text-[9px] font-bold uppercase tracking-wider mt-2 opacity-70">
-                    Discover & review cafes
-                  </p>
-                </button>
-              </div>
-            </div>
-
-            <button
-              onClick={() => setStep(3)}
-              disabled={!preferences.brewsAtHome && !preferences.visitsCafes}
-              className="w-full bg-black text-white py-4 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-800 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              Continue <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-        )}
 
         {/* Step 2: Caffeine User Completion */}
         {step === 2 && preferences.userType === 'caffeine' && (

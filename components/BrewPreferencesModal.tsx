@@ -26,8 +26,6 @@ const BrewPreferencesModal: React.FC<BrewPreferencesModalProps> = ({ isOpen, onC
         // Set defaults
         setBrewPreferences({
           userType: 'coffee',
-          brewsAtHome: true,
-          visitsCafes: true,
           detailLevel: 'balanced',
           customFields: {
             temperature: true,
@@ -123,8 +121,8 @@ const BrewPreferencesModal: React.FC<BrewPreferencesModalProps> = ({ isOpen, onC
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[2000] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-300">
-      <div className="absolute inset-0 bg-zinc-50/60 backdrop-blur-sm" onClick={onClose} />
+    <div className="fixed inset-0 z-[2000] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-300" style={{ top: 0, left: 0, right: 0, bottom: 0 }}>
+      <div className="absolute inset-0 bg-white/80 backdrop-blur-sm" onClick={onClose} style={{ top: 0, left: 0, right: 0, bottom: 0 }} />
       <div className="relative bg-white w-full max-w-2xl h-full sm:h-auto sm:rounded-xl shadow-2xl shadow-black/5 sm:border-2 border-black overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95">
         {/* Header */}
         <div className="px-6 sm:px-8 pb-6 border-b-2 border-black flex justify-between items-center bg-white sticky top-0 z-20" style={{ paddingTop: 'calc(1.5rem + env(safe-area-inset-top))' }}>
@@ -145,35 +143,6 @@ const BrewPreferencesModal: React.FC<BrewPreferencesModalProps> = ({ isOpen, onC
             </div>
           ) : brewPreferences ? (
             <>
-              {/* Coffee Habits */}
-              <section className="space-y-3">
-                <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">How I Enjoy Coffee</p>
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setBrewPreferences({ ...brewPreferences, brewsAtHome: !brewPreferences.brewsAtHome })}
-                    className={`py-4 rounded-xl border-2 font-black text-[10px] uppercase tracking-wider transition-all ${
-                      brewPreferences.brewsAtHome
-                        ? 'bg-black text-white border-black'
-                        : 'bg-white text-black border-black'
-                    }`}
-                  >
-                    Brew at Home
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setBrewPreferences({ ...brewPreferences, visitsCafes: !brewPreferences.visitsCafes })}
-                    className={`py-4 rounded-xl border-2 font-black text-[10px] uppercase tracking-wider transition-all ${
-                      brewPreferences.visitsCafes
-                        ? 'bg-black text-white border-black'
-                        : 'bg-white text-black border-black'
-                    }`}
-                  >
-                    Visit Cafes
-                  </button>
-                </div>
-              </section>
-
               {/* Detail Level Presets */}
               <section className="space-y-3">
                 <p className="text-[10px] font-black text-zinc-900 uppercase tracking-widest px-1">Detail Level</p>

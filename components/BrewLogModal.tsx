@@ -687,8 +687,8 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[2000] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-300 pointer-events-none">
-      <div className="absolute inset-0 bg-white/60 backdrop-blur-sm pointer-events-auto" onClick={onClose} />
+    <div className="fixed inset-0 z-[2000] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-300 pointer-events-none" style={{ top: 0, left: 0, right: 0, bottom: 0 }}>
+      <div className="absolute inset-0 bg-white/80 backdrop-blur-sm pointer-events-auto" onClick={onClose} style={{ top: 0, left: 0, right: 0, bottom: 0 }} />
       <div className="relative bg-zinc-50 w-full max-w-2xl h-full sm:h-auto sm:rounded-xl shadow-2xl sm:border-4 border-black overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95 pointer-events-auto">
 
         <div className="px-6 sm:px-8 pb-6 border-b-2 border-black bg-white sticky top-0 z-20" style={{ paddingTop: 'max(1.5rem, env(safe-area-inset-top))' }}>

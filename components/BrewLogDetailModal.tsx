@@ -186,7 +186,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
 
   return (
     <div
-      className="fixed z-[2000] bg-zinc-50/80 backdrop-blur-sm overflow-y-auto"
+      className="fixed z-[2000] bg-white/80 backdrop-blur-md overflow-y-auto"
       onClick={onClose}
       style={{
         top: 0,
