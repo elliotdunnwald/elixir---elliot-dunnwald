@@ -1629,7 +1629,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                 }}
                 disabled={uploading}
                 placeholder="8.0"
-                className="w-full bg-white border-2 border-black rounded-xl px-6 py-4 text-center text-3xl font-black text-black outline-none focus:border-black transition-all disabled:opacity-50"
+                className="w-32 mx-auto bg-white border-2 border-black rounded-xl px-6 py-4 text-center text-3xl font-black text-black outline-none focus:border-black transition-all disabled:opacity-50"
               />
             </section>
           )}
