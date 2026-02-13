@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Coffee, Check } from 'lucide-react';
 import { getBrewPreferences, updateBrewPreferences, BrewPreferences } from '../lib/database';
 import { useAuth } from '../hooks/useAuth';
@@ -120,7 +121,7 @@ const BrewPreferencesModal: React.FC<BrewPreferencesModalProps> = ({ isOpen, onC
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-[2000] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-300" style={{ top: 0, left: 0, right: 0, bottom: 0 }}>
       <div className="absolute inset-0 bg-white/80 backdrop-blur-sm" onClick={onClose} style={{ top: 0, left: 0, right: 0, bottom: 0 }} />
       <div className="relative bg-white w-full max-w-2xl h-full sm:h-auto sm:rounded-xl shadow-2xl shadow-black/5 sm:border-2 border-black overflow-hidden flex flex-col sm:max-h-[90vh] animate-in zoom-in-95">
@@ -230,7 +231,8 @@ const BrewPreferencesModal: React.FC<BrewPreferencesModalProps> = ({ isOpen, onC
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
