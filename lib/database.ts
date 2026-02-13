@@ -2338,6 +2338,7 @@ export async function getActivitiesByCafeFiltered(
 // =====================================================
 
 export interface BrewPreferences {
+  userType: 'coffee' | 'caffeine';
   brewsAtHome: boolean;
   visitsCafes: boolean;
   detailLevel: 'simplified' | 'balanced' | 'detailed';

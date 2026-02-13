@@ -5,6 +5,7 @@ import FeedView from './views/Feed';
 import ProfileView from './views/Profile';
 import ExploreView from './views/Search';
 import CoffeeShopView from './views/CoffeeShop';
+import MapView from './views/MapView';
 import AuthView from './views/AuthView';
 import AdminRoasters from './views/AdminRoasters';
 import AdminEquipment from './views/AdminEquipment';
@@ -12,6 +13,7 @@ import AdminCoffees from './views/AdminCoffees';
 import AdminCafes from './views/AdminCafes';
 import CafeProfile from './views/CafeProfile';
 import BrewLogModal from './components/BrewLogModal';
+import CaffeineLogModal from './components/CaffeineLogModal';
 import BrewLogDetailModal from './components/BrewLogDetailModal';
 import NotificationsPanel from './components/NotificationsPanel';
 import OnboardingFlow, { BrewPreferences } from './components/OnboardingFlow';
@@ -19,6 +21,7 @@ import { BrewActivity } from './types';
 import { SettingsProvider } from './context/SettingsContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { useUserType } from './hooks/useUserType';
 import { createProfile, createActivity, deleteActivity, getUnreadNotificationCount, getPendingFollowRequestCount, hasCompletedOnboarding, updateBrewPreferences } from './lib/database';
 import { BREWING_DEVICES } from './data/database';
 import { supabase } from './lib/supabase';
@@ -39,6 +42,8 @@ const PageTitle: React.FC = () => {
       title = 'ELIXR - Profile';
     } else if (path.startsWith('/explore')) {
       title = 'ELIXR - Explore';
+    } else if (path.startsWith('/map')) {
+      title = 'ELIXR - Map';
     } else if (path.startsWith('/roasters')) {
       title = 'ELIXR - Roasters';
     }
@@ -326,11 +331,12 @@ const ProfileSetupView: React.FC<ProfileSetupProps> = ({ onComplete }) => {
 const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void; notificationCount: number; todayCaffeine: number }> = ({ onLogBrew, onOpenNotifications, notificationCount, todayCaffeine }) => {
   const location = useLocation();
   const { signOut } = useAuth();
+  const { isCaffeineUser } = useUserType();
 
   const navItems = [
     { path: '/', label: 'FEED' },
     { path: '/explore', label: 'EXPLORE' },
-    { path: '/coffee-shop', label: 'MARKET' },
+    ...(!isCaffeineUser ? [{ path: '/coffee-shop', label: 'MARKET' }] : []),
     { path: '/profile/me', label: 'PROFILE' },
   ];
 
@@ -374,7 +380,10 @@ const Navbar: React.FC<{ onLogBrew: () => void; onOpenNotifications: () => void;
                 </span>
               )}
             </button>
-            <button onClick={onLogBrew} className="bg-white text-black px-8 py-3 rounded-2xl flex items-center gap-2 font-black text-[11px] uppercase tracking-[0.2em] active:scale-95 transition-all shadow-xl border-2 border-black hover:bg-zinc-50"><Plus className="w-4 h-4" /> <span>LOG BREW</span></button>
+            <button onClick={onLogBrew} className="bg-white text-black px-8 py-3 rounded-2xl flex items-center gap-2 font-black text-[11px] uppercase tracking-[0.2em] active:scale-95 transition-all shadow-xl border-2 border-black hover:bg-zinc-50">
+              <Plus className="w-4 h-4" />
+              <span>{isCaffeineUser ? 'LOG CAFFEINE' : 'LOG BREW'}</span>
+            </button>
             <button onClick={signOut} className="px-5 py-2 rounded-xl border-2 border-black text-[11px] font-black uppercase tracking-[0.2em] text-zinc-600 hover:text-black hover:border-black active:border-black transition-all">SIGN OUT</button>
           </div>
         </div>
@@ -414,10 +423,13 @@ const MobileHeader: React.FC<{ onOpenNotifications: () => void; notificationCoun
 
 const MobileNav: React.FC = () => {
   const location = useLocation();
+  const { isCaffeineUser } = useUserType();
+
   const navItems = [
     { path: '/', label: 'FEED', icon: <Home className="w-5 h-5" /> },
     { path: '/explore', label: 'EXPLORE', icon: <Search className="w-5 h-5" /> },
-    { path: '/coffee-shop', label: 'MARKET', icon: <ShoppingBag className="w-5 h-5" /> },
+    { path: '/map', label: 'MAP', icon: <MapPin className="w-5 h-5" /> },
+    ...(!isCaffeineUser ? [{ path: '/coffee-shop', label: 'MARKET', icon: <ShoppingBag className="w-5 h-5" /> }] : []),
     { path: '/profile/me', label: 'PROFILE', icon: <User className="w-5 h-5" /> },
   ];
   return (
@@ -448,6 +460,7 @@ const calculateCaffeine = (gramsIn: number, brewType?: 'espresso' | 'filter'): n
 
 const AppContent: React.FC = () => {
   const { user, profile, loading, refreshProfile } = useAuth();
+  const { isCaffeineUser } = useUserType();
   const [isLogModalOpen, setIsLogModalOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [notificationCount, setNotificationCount] = useState(0);
@@ -626,6 +639,7 @@ const AppContent: React.FC = () => {
           <Routes>
             <Route path="/" element={<FeedView />} />
             <Route path="/explore" element={<ExploreView />} />
+            <Route path="/map" element={<MapView />} />
             <Route path="/coffee-shop" element={<CoffeeShopView />} />
             <Route path="/admin/roasters" element={<AdminRoasters />} />
             <Route path="/admin/equipment" element={<AdminEquipment />} />
@@ -642,7 +656,17 @@ const AppContent: React.FC = () => {
             <Plus className="w-8 h-8" />
           </button>
         )}
-        <BrewLogModal isOpen={isLogModalOpen} onClose={() => setIsLogModalOpen(false)} />
+        {isCaffeineUser ? (
+          <CaffeineLogModal
+            isOpen={isLogModalOpen}
+            onClose={() => setIsLogModalOpen(false)}
+          />
+        ) : (
+          <BrewLogModal
+            isOpen={isLogModalOpen}
+            onClose={() => setIsLogModalOpen(false)}
+          />
+        )}
         <NotificationsPanel
           isOpen={isNotificationsOpen}
           onClose={() => setIsNotificationsOpen(false)}

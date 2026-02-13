@@ -7,6 +7,7 @@ interface OnboardingFlowProps {
 }
 
 export interface BrewPreferences {
+  userType: 'coffee' | 'caffeine';
   brewsAtHome: boolean;
   visitsCafes: boolean;
   detailLevel: 'simplified' | 'balanced' | 'detailed';
@@ -74,6 +75,7 @@ const FIELD_LABELS: Record<keyof BrewPreferences['customFields'], string> = {
 const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ isOpen, onComplete }) => {
   const [step, setStep] = useState(1);
   const [preferences, setPreferences] = useState<BrewPreferences>({
+    userType: 'coffee',
     brewsAtHome: false,
     visitsCafes: false,
     detailLevel: 'balanced',
@@ -109,7 +111,7 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ isOpen, onComplete }) =
       <div className="w-full max-w-2xl">
         {/* Progress Indicator */}
         <div className="flex items-center justify-center gap-2 mb-8">
-          {[1, 2, 3].map(num => (
+          {(preferences.userType === 'caffeine' ? [1, 2] : [1, 2, 3, 4]).map(num => (
             <div
               key={num}
               className={`h-2 rounded-full transition-all ${
@@ -119,8 +121,67 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ isOpen, onComplete }) =
           ))}
         </div>
 
-        {/* Step 1: Coffee Habits */}
+        {/* Step 1: User Type Selection */}
         {step === 1 && (
+          <div className="space-y-8 animate-in fade-in duration-500">
+            <div className="text-center space-y-3">
+              <h1 className="text-4xl font-black text-black uppercase tracking-tighter">
+                Welcome to ELIXR
+              </h1>
+              <p className="text-sm font-black text-zinc-600 uppercase tracking-wider">
+                Let's personalize your experience
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <p className="text-center text-xs font-black text-black uppercase tracking-wider">
+                What brings you to ELIXR?
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <button
+                  onClick={() => setPreferences(p => ({ ...p, userType: 'coffee' }))}
+                  className={`border-2 rounded-xl p-8 transition-all ${
+                    preferences.userType === 'coffee'
+                      ? 'bg-black text-white border-black'
+                      : 'bg-white text-black border-black hover:bg-zinc-50'
+                  }`}
+                >
+                  <Coffee className="w-12 h-12 mx-auto mb-4" />
+                  <p className="text-base font-black uppercase tracking-wider">I Brew Coffee</p>
+                  <p className="text-[9px] font-bold uppercase tracking-wider mt-3 opacity-70">
+                    Track recipes, parameters, and brewing methods
+                  </p>
+                </button>
+
+                <button
+                  onClick={() => setPreferences(p => ({ ...p, userType: 'caffeine' }))}
+                  className={`border-2 rounded-xl p-8 transition-all ${
+                    preferences.userType === 'caffeine'
+                      ? 'bg-black text-white border-black'
+                      : 'bg-white text-black border-black hover:bg-zinc-50'
+                  }`}
+                >
+                  <div className="text-4xl mx-auto mb-4">⚡</div>
+                  <p className="text-base font-black uppercase tracking-wider">I Track Caffeine</p>
+                  <p className="text-[9px] font-bold uppercase tracking-wider mt-3 opacity-70">
+                    Log matcha, energy drinks, and caffeine intake
+                  </p>
+                </button>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setStep(2)}
+              className="w-full bg-black text-white py-4 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-800 active:scale-95 transition-all flex items-center justify-center gap-2"
+            >
+              Continue <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+
+        {/* Step 2: Coffee Habits (Coffee users only) */}
+        {step === 2 && preferences.userType === 'coffee' && (
           <div className="space-y-8 animate-in fade-in duration-500">
             <div className="text-center space-y-3">
               <h1 className="text-4xl font-black text-black uppercase tracking-tighter">
@@ -170,7 +231,7 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ isOpen, onComplete }) =
             </div>
 
             <button
-              onClick={() => setStep(2)}
+              onClick={() => setStep(3)}
               disabled={!preferences.brewsAtHome && !preferences.visitsCafes}
               className="w-full bg-black text-white py-4 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-800 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
@@ -179,8 +240,56 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ isOpen, onComplete }) =
           </div>
         )}
 
-        {/* Step 2: Detail Level */}
-        {step === 2 && (
+        {/* Step 2: Caffeine User Completion */}
+        {step === 2 && preferences.userType === 'caffeine' && (
+          <div className="space-y-8 animate-in fade-in duration-500">
+            <div className="text-center space-y-4">
+              <div className="text-6xl mb-4">⚡✨</div>
+              <h2 className="text-3xl font-black text-black uppercase tracking-tighter">
+                You're All Set!
+              </h2>
+              <p className="text-xs font-black text-zinc-600 uppercase tracking-wider max-w-md mx-auto">
+                ELIXR will help you track your caffeine intake from matcha, energy drinks, and more
+              </p>
+            </div>
+
+            <div className="bg-zinc-50 border-2 border-black rounded-xl p-6 space-y-4">
+              <p className="text-xs font-black text-black uppercase tracking-wider">Your Experience:</p>
+              <div className="space-y-2">
+                <div className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-black shrink-0 mt-0.5" />
+                  <p className="text-xs text-black">Simple logging: just drink name & caffeine amount</p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-black shrink-0 mt-0.5" />
+                  <p className="text-xs text-black">Track your daily caffeine intake</p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-black shrink-0 mt-0.5" />
+                  <p className="text-xs text-black">Discover cafes and explore the community</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setStep(1)}
+                className="flex-1 bg-zinc-50 border-2 border-black text-black py-4 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all"
+              >
+                Back
+              </button>
+              <button
+                onClick={handleComplete}
+                className="flex-1 bg-black text-white py-4 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-800 active:scale-95 transition-all flex items-center justify-center gap-2"
+              >
+                Get Started <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Step 3: Detail Level (Coffee users only) */}
+        {step === 3 && preferences.userType === 'coffee' && (
           <div className="space-y-8 animate-in fade-in duration-500">
             <div className="text-center space-y-3">
               <Sliders className="w-12 h-12 mx-auto text-black" />
@@ -247,13 +356,13 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ isOpen, onComplete }) =
 
             <div className="flex gap-3">
               <button
-                onClick={() => setStep(1)}
+                onClick={() => setStep(2)}
                 className="flex-1 bg-zinc-50 border-2 border-black text-black py-4 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all"
               >
                 Back
               </button>
               <button
-                onClick={() => setStep(3)}
+                onClick={() => setStep(4)}
                 className="flex-1 bg-black text-white py-4 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-800 active:scale-95 transition-all flex items-center justify-center gap-2"
               >
                 Continue <ChevronRight className="w-4 h-4" />
@@ -262,8 +371,8 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ isOpen, onComplete }) =
           </div>
         )}
 
-        {/* Step 3: Customize Individual Fields */}
-        {step === 3 && (
+        {/* Step 4: Customize Individual Fields (Coffee users only) */}
+        {step === 4 && preferences.userType === 'coffee' && (
           <div className="space-y-6 animate-in fade-in duration-500">
             <div className="text-center space-y-3">
               <Coffee className="w-12 h-12 mx-auto text-black" />
@@ -308,7 +417,7 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ isOpen, onComplete }) =
 
             <div className="flex gap-3">
               <button
-                onClick={() => setStep(2)}
+                onClick={() => setStep(3)}
                 className="flex-1 bg-zinc-50 border-2 border-black text-black py-4 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-zinc-100 active:scale-95 transition-all"
               >
                 Back
