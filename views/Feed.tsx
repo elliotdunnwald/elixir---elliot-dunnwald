@@ -113,7 +113,7 @@ const FeedView: React.FC = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto pb-28 sm:pb-0">
+    <div className="max-w-3xl mx-auto pb-28 sm:pb-0 -mt-2">
       <div className="mb-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-black text-black uppercase tracking-tighter">GLOBAL FEED</h2>

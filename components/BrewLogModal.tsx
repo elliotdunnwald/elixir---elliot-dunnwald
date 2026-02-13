@@ -1487,7 +1487,7 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
                         type="button"
                         onClick={() => setFormData(p => ({ ...p, podSize: size }))}
                         disabled={uploading}
-                        className={`px-4 py-4 rounded-xl border-2 text-[9px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.podSize === size ? 'bg-white text-black border-black' : 'bg-white text-black border-black hover:border-black'}`}
+                        className={`px-4 py-4 rounded-xl border-2 text-[9px] font-black uppercase tracking-widest transition-all disabled:opacity-50 ${formData.podSize === size ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-zinc-50'}`}
                       >
                         {size}
                       </button>

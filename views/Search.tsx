@@ -144,7 +144,7 @@ const ExploreView: React.FC = () => {
   }, [query, currentProfile, activeTab, allCafes]);
 
   return (
-    <div className="max-w-4xl mx-auto space-y-12 pb-28 sm:pb-24 animate-in fade-in duration-500">
+    <div className="max-w-4xl mx-auto space-y-12 pb-28 sm:pb-24 -mt-2 animate-in fade-in duration-500">
       <div className="space-y-8">
         <div className="flex justify-between items-end">
           <h1 className="text-5xl font-black text-black tracking-tighter uppercase leading-none">EXPLORE</h1>

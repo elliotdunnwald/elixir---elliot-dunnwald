@@ -655,7 +655,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ isMe }) => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-10 pb-28 sm:pb-0">
+    <div className="max-w-4xl mx-auto space-y-10 pb-28 sm:pb-0 -mt-2">
       {!viewingOwnProfile && (
         <button
           onClick={() => navigate(-1)}
