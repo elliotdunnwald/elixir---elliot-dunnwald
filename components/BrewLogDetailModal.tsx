@@ -189,7 +189,7 @@ const BrewLogDetailModal: React.FC<BrewLogDetailModalProps> = ({ activityId, onC
       className="fixed inset-0 z-[2000] bg-zinc-50/80 backdrop-blur-sm overflow-y-auto"
       onClick={onClose}
     >
-      <div className="min-h-full flex items-start justify-center py-24 px-4 sm:items-center sm:py-10 sm:px-6">
+      <div className="min-h-full flex items-start justify-center px-4 sm:items-center sm:py-10 sm:px-6" style={{ paddingTop: 'calc(4rem + env(safe-area-inset-top))', paddingBottom: 'calc(4rem + env(safe-area-inset-bottom))' }}>
         <div
           className="max-w-4xl w-full bg-white rounded-2xl border-2 border-black shadow-2xl shadow-black/5 animate-in fade-in duration-300"
           onClick={(e) => e.stopPropagation()}

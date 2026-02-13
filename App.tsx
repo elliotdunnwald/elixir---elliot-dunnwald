@@ -635,7 +635,7 @@ const AppContent: React.FC = () => {
             todayCaffeine={todayCaffeine}
           />
         )}
-        <main className="flex-grow max-w-6xl mx-auto w-full px-4 sm:pt-28 sm:pb-12" style={{ paddingTop: 'calc(4.5rem + env(safe-area-inset-top))', paddingBottom: 'calc(7rem + env(safe-area-inset-bottom))' }}>
+        <main className="flex-grow max-w-6xl mx-auto w-full px-4 sm:pt-28 sm:pb-12" style={{ paddingTop: 'calc(4rem + env(safe-area-inset-top))', paddingBottom: 'calc(7rem + env(safe-area-inset-bottom))' }}>
           <Routes>
             <Route path="/" element={<FeedView />} />
             <Route path="/explore" element={<ExploreView />} />
