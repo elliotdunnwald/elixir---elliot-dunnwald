@@ -1498,9 +1498,9 @@ const BrewLogModal: React.FC<BrewLogModalProps> = ({ isOpen, onClose, editActivi
             </section>
           )}
 
-          {/* Milk Section */}
-          {(formData.isCafeVisit || formData.brewer) && (
-          <section className="space-y-6">
+          {/* Milk Section - appears after roaster is filled for home brews */}
+          {!formData.isCafeVisit && formData.brewer && formData.roaster && (
+          <section className="space-y-6 animate-in slide-in-from-top-2 duration-300">
             <div className="flex justify-between items-center border-b-2 border-black pb-2">
               <h3 className="text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2"><Coffee className="w-4 h-4" /> Milk</h3>
               <div onClick={() => setFormData(p => ({...p, showMilk: !p.showMilk}))} className={`w-10 h-5 rounded-full relative cursor-pointer transition-all border-2 ${formData.showMilk ? 'bg-black border-black' : 'bg-white border-black'}`}>
